@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.1054545454545455,
+        "y": 4.857627840909092
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.249307004470939,
+        "y": 5.133345054023845
+      },
+      "isLocked": false,
+      "linkedName": "ReefTag20Algae"
+    },
+    {
+      "anchor": {
+        "x": 5.3348011363636365,
+        "y": 5.253
+      },
+      "prevControl": {
+        "x": 5.192149046557625,
+        "y": 5.009492476284928
+      },
+      "nextControl": {
+        "x": 5.8333806818181815,
+        "y": 6.104076704545455
+      },
+      "isLocked": false,
+      "linkedName": "intoReefTag20"
+    },
+    {
+      "anchor": {
+        "x": 7.9,
+        "y": 5.253499999999999
+      },
+      "prevControl": {
+        "x": 7.254000000000001,
+        "y": 5.4777499999999995
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "secondNet"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 61.587208221648815
+    },
+    {
+      "waypointRelativePos": 1.5,
+      "rotationDegrees": 26.42773464515745
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "useDefaultConstraints": true
+}
