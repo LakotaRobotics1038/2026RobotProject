@@ -36,8 +36,8 @@ public class Dashboard extends SubsystemBase {
     private Dashboard() {
         super();
 
-        SmartDashboard.putData(DashboardConstants.kAutonChoices, autoChooser);
-        SmartDashboard.putData(DashboardConstants.kDelayChoices, delayChooser);
+        SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
+        SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
 
         SmartDashboard.putData(field);
 
@@ -53,9 +53,9 @@ public class Dashboard extends SubsystemBase {
     @Override
     public void periodic() {
         // Controls Tab
-        SmartDashboard.putNumber(DashboardConstants.kRobotX, driveTrain.getX());
-        SmartDashboard.putNumber(DashboardConstants.kRobotY, driveTrain.getY());
-        SmartDashboard.putNumber(DashboardConstants.kRobotRot, driveTrain.getRotation());
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
 
         field.setRobotPose(driveTrain.getState().Pose);
     }

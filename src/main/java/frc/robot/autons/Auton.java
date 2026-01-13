@@ -40,7 +40,7 @@ public abstract class Auton extends SequentialCommandGroup {
         // We need to invert the starting pose for the red alliance.
         if (alliance == Alliance.Red) {
             Translation2d transformedTranslation = new Translation2d(
-                    FieldConstants.kFieldLength - this.initialPose.getX(),
+                    FieldConstants.FIELD_LENGTH - this.initialPose.getX(),
                     this.initialPose.getY());
             Rotation2d transformedHeading = this.initialPose.getRotation().plus(new Rotation2d(Math.PI));
 
@@ -63,9 +63,6 @@ public abstract class Auton extends SequentialCommandGroup {
 
     public Command followPathCommand(PathPlannerPath path) {
         try {
-            if (!AutoConstants.kRobotConfig.isPresent()) {
-                throw new Error("PP Robot Config is Missing");
-            }
             return new FollowPathCommand(
                     path,
                     // Robot pose supplier
@@ -79,10 +76,10 @@ public abstract class Auton extends SequentialCommandGroup {
                                     .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())),
                     new PPHolonomicDriveController(
                             // Translation PIDconstants
-                            new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController, 0.0),
+                            new PIDConstants(AutoConstants.P_X_CONTROLLER, AutoConstants.I_X_CONTROLLER, 0.0),
                             // Rotation PID constants
-                            new PIDConstants(AutoConstants.kPThetaController, AutoConstants.kIThetaController, 0.0)),
-                    AutoConstants.kRobotConfig.get(),
+                            new PIDConstants(AutoConstants.P_THETA_CONTROLLER, AutoConstants.I_THETA_CONTROLLER, 0.0)),
+                    AutoConstants.ROBOT_CONFIG,
                     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                     this.driveTrain // Reference to this subsystem to set requirements
             );

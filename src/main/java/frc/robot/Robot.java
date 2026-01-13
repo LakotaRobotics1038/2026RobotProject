@@ -94,7 +94,7 @@ public class Robot extends TimedRobot {
             if (initialPose != null) {
                 driveTrain.resetPose(initialPose);
             }
-            driveTrain.configNeutralMode(SwerveConstants.kAutonDrivingMotorNeutralMode);
+            driveTrain.configNeutralMode(SwerveConstants.AUTON_DRIVING_MOTOR_NEUTRAL_MODE);
             CommandScheduler.getInstance().schedule(autonomousCommand);
         }
     }
@@ -113,7 +113,7 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() {
         Dashboard.getInstance().clearTrajectory();
-        driveTrain.configNeutralMode(SwerveConstants.kTeleopDrivingMotorNeutralMode);
+        driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
     }
 
     @Override

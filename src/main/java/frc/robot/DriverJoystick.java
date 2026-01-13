@@ -17,7 +17,7 @@ public class DriverJoystick extends XboxController1038 {
     // NONE
 
     // Instance Variables
-    private double maxPower = DriveConstants.defaultMaxPower;
+    private double maxPower = DriveConstants.DEFAULT_MAX_POWER;
 
     // Previous Status
     private double prevSideways = 0;
@@ -32,7 +32,7 @@ public class DriverJoystick extends XboxController1038 {
     LinearFilter forwardFilter = LinearFilter.movingAverage(5);
     LinearFilter sidewaysFilter = LinearFilter.movingAverage(5);
 
-    private final Telemetry logger = new Telemetry(DriveConstants.MaxSpeed);
+    private final Telemetry logger = new Telemetry(DriveConstants.MAX_SPEED);
 
     // Singleton Setup
     private static DriverJoystick instance;
@@ -46,7 +46,7 @@ public class DriverJoystick extends XboxController1038 {
     }
 
     private DriverJoystick() {
-        super(IOConstants.kDriverControllerPort);
+        super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             double sideways = this.getSidewaysValue();
@@ -63,23 +63,23 @@ public class DriverJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(DriveConstants.kFineAdjustmentPercent, 0, 0, false)));
+                        .applyRequest(() -> driveTrain.drive(DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(-DriveConstants.kFineAdjustmentPercent, 0, 0, false)));
+                        .applyRequest(() -> driveTrain.drive(-DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
                 .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, DriveConstants.kFineAdjustmentPercent, 0, false)));
+                        .applyRequest(() -> driveTrain.drive(0, DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, -DriveConstants.kFineAdjustmentPercent, 0, false)));
+                        .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
 
         this.rightBumper()
-                .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.overdrivePower))
-                .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.defaultMaxPower));
+                .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
+                .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
 
         // Lock the wheels into an X formation
         this.x().whileTrue(this.driveTrain.setX());
