@@ -124,7 +124,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return rotate value
      */
     private double getRotateValue() {
-        double z = this.getRightX() * 0.75;
+        double z = this.getRightX() * maxPower;
 
         double rotate = limitRate(z, prevRotate, rotateLimiter);
         prevRotate = rotate;

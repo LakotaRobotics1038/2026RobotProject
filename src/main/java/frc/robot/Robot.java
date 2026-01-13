@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -33,6 +34,11 @@ public class Robot extends TimedRobot {
     private Vision vision = Vision.getInstance();
 
     // Human Interface Devices
+
+
+    public Robot() {
+
+    }
 
     @Override
     public void robotInit() {
