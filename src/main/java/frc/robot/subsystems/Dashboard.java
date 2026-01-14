@@ -32,8 +32,6 @@ public class Dashboard extends SubsystemBase {
     }
 
     private Dashboard() {
-        super();
-
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
 
         SmartDashboard.putData(field);

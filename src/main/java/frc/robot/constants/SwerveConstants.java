@@ -93,7 +93,7 @@ public class SwerveConstants {
     // This needs to be tuned to your individual robot
     public static final LinearVelocity SPEED_AT_12_VOLTS = MetersPerSecond.of(4.58);
 
-    // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
+    // Every 1 rotation of the azimuth results in COUPLE_RATIO drive motor turns;
     // This may need to be tuned to your individual robot
     private static final double COUPLE_RATIO = 4.909090909090909;
 
@@ -187,12 +187,14 @@ public class SwerveConstants {
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FRONT_LEFT = CONSTANT_CREATOR
             .createModuleConstants(
-                    FRONT_LEFT_STEER_MOTOR_ID, FRONT_LEFT_DRIVE_MOTOR_ID, FRONT_LEFT_ENCODER_ID, FRONT_LEFt_ENCODER_OFFSET,
+                    FRONT_LEFT_STEER_MOTOR_ID, FRONT_LEFT_DRIVE_MOTOR_ID, FRONT_LEFT_ENCODER_ID,
+                    FRONT_LEFt_ENCODER_OFFSET,
                     FRONT_LEFT_X_POS, FRONT_LEFT_Y_POS, INVERT_LEFT_SIDE, FRONT_LEFT_STEER_MOTOR_INVERTED,
                     FRONT_LEFT_ENCODER_INVERTED);
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FRONT_RIGHT = CONSTANT_CREATOR
             .createModuleConstants(
-                    FRONT_RIGHT_STEER_MOTOR_ID, FRONT_RIGHT_DRIVE_MOTOR_ID, FRONT_RIGHT_ENCODER_ID, FRONT_RIGHT_ENCODER_OFFSET,
+                    FRONT_RIGHT_STEER_MOTOR_ID, FRONT_RIGHT_DRIVE_MOTOR_ID, FRONT_RIGHT_ENCODER_ID,
+                    FRONT_RIGHT_ENCODER_OFFSET,
                     FRONT_RIGHT_X_POS, FRONT_RIGHT_Y_POS, INVERT_RIGHT_SIDE, FRONT_RIGHT_STEER_MOTOR_INVERTED,
                     FRONT_RIGHT_ENCODER_INVERTED);
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BACK_LEFT = CONSTANT_CREATOR
@@ -202,7 +204,8 @@ public class SwerveConstants {
                     BACK_LEFT_ENCODER_INVERTED);
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BACK_RIGHT = CONSTANT_CREATOR
             .createModuleConstants(
-                    BACK_RIGHT_STEER_MOTOR_ID, BACK_RIGHT_DRIVE_MOTOR_ID, BACK_RIGHT_ENCODER_ID, BACK_RIGHT_ENCODER_OFFSET,
+                    BACK_RIGHT_STEER_MOTOR_ID, BACK_RIGHT_DRIVE_MOTOR_ID, BACK_RIGHT_ENCODER_ID,
+                    BACK_RIGHT_ENCODER_OFFSET,
                     BACK_RIGHT_X_POS, BACK_RIGHT_Y_POS, INVERT_RIGHT_SIDE, BACK_RIGHT_STEER_MOTOR_INVERTED,
                     BACK_RIGHT_ENCODER_INVERTED);
 }

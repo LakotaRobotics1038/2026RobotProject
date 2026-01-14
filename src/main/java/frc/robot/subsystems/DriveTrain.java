@@ -39,11 +39,11 @@ import static edu.wpi.first.units.Units.Volts;
  */
 public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements Subsystem {
     // Simulation Setup
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
+    private static final double SIM_LOOP_PERIOD = 0.005; // 5 ms
     /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
-    private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
+    private static final Rotation2d BLUE_ALLIANCE_PERSPECTIVE_ROTATION = Rotation2d.kZero;
     /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
+    private static final Rotation2d RED_ALLIANCE_PERSPECTIVE_ROTATION = Rotation2d.k180deg;
     // Singleton Setup
     private static DriveTrain instance;
     private final SwerveRequest.FieldCentric fieldCentricDriveRequest = new SwerveRequest.FieldCentric()
@@ -241,8 +241,8 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 setOperatorPerspectiveForward(
                         allianceColor == Alliance.Red
-                                ? kRedAlliancePerspectiveRotation
-                                : kBlueAlliancePerspectiveRotation);
+                                ? RED_ALLIANCE_PERSPECTIVE_ROTATION
+                                : BLUE_ALLIANCE_PERSPECTIVE_ROTATION);
                 hasAppliedOperatorPerspective = true;
             });
         }
@@ -263,7 +263,7 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
             /* use the measured time delta, get battery voltage from WPILib */
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
-        simNotifier.startPeriodic(kSimLoopPeriod);
+        simNotifier.startPeriodic(SIM_LOOP_PERIOD);
     }
 
     /**
