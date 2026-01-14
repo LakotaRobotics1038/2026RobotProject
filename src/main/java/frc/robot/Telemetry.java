@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class Telemetry {
-    private final double MaxSpeed;
+    private final double MAX_SPEED;
 
     /**
      * Construct a telemetry object, with the specified max speed of the robot
@@ -29,7 +29,7 @@ public class Telemetry {
      * @param maxSpeed Maximum speed in meters per second
      */
     public Telemetry(double maxSpeed) {
-        MaxSpeed = maxSpeed;
+        MAX_SPEED = maxSpeed;
         SignalLogger.start();
     }
 
@@ -124,7 +124,7 @@ public class Telemetry {
         for (int i = 0; i < 4; ++i) {
             moduleSpeeds[i].setAngle(state.ModuleStates[i].angle);
             moduleDirections[i].setAngle(state.ModuleStates[i].angle);
-            moduleSpeeds[i].setLength(state.ModuleStates[i].speedMetersPerSecond / (2 * MaxSpeed));
+            moduleSpeeds[i].setLength(state.ModuleStates[i].speedMetersPerSecond / (2 * MAX_SPEED));
 
             SmartDashboard.putData("Module " + i, moduleMechanisms[i]);
         }
