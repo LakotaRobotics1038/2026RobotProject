@@ -8,14 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.autons.AutonSelector;
 import frc.robot.constants.DashboardConstants;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
-    private DriveTrain driveTrain = DriveTrain.getInstance();
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
 
     // Choosers
-    private SendableChooser<Double> delayChooser = new SendableChooser<>();
+    private final SendableChooser<AutonSelector.AutonChoices> autoChooser = new SendableChooser<>();
+    private final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Variables
     private final Field2d field = new Field2d();
@@ -32,22 +34,24 @@ public class Dashboard extends SubsystemBase {
     }
 
     private Dashboard() {
+        SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
 
         SmartDashboard.putData(field);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-            field.getObject("target pose").setPose(pose);
-        });
+        PathPlannerLogging.setLogTargetPoseCallback((pose) ->
+            field.getObject("target pose").setPose(pose)
+        );
 
-        PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            field.getObject("poses").setPoses(poses);
-        });
+        PathPlannerLogging.setLogActivePathCallback((poses) ->
+            field.getObject("poses").setPoses(poses)
+        );
     }
 
     @Override
     public void periodic() {
         // Controls Tab
+
         SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
@@ -60,6 +64,15 @@ public class Dashboard extends SubsystemBase {
      */
     public void clearTrajectory() {
         this.field.getObject("traj").setPoses(new ArrayList<>());
+    }
+
+    /**
+     * Gets the sendable chooser for Auton Modes
+     *
+     * @return The sendable chooser
+     */
+    public SendableChooser<AutonSelector.AutonChoices> getAutoChooser() {
+        return autoChooser;
     }
 
     public SendableChooser<Double> getDelayChooser() {

@@ -81,7 +81,6 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
                 .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
 
-        // Lock the wheels into an X formation
         this.x().whileTrue(this.driveTrain.setX());
     }
 

@@ -4,18 +4,15 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.constants.DashboardConstants;
+import frc.robot.autons.Auton;
+import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -24,11 +21,11 @@ import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
-    private final SendableChooser<Command> autoChooser;
+    private final AutonSelector autonSelector = AutonSelector.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
 
     // Variables
-    private Command autonomousCommand;
+    private Auton autonomousCommand;
     private final ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
@@ -37,19 +34,11 @@ public class Robot extends TimedRobot {
 
     // Human Interface Devices
 
-    public Robot() {
-        // Named Commands Here:
-
-        autoChooser = AutoBuilder.buildAutoChooser();
-    }
-
     @Override
     public void robotInit() {
         // Singleton instances that need to be created but not referenced
         DriverJoystick.getInstance();
         Dashboard.getInstance();
-
-        SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
@@ -94,9 +83,13 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autonomousCommand = autoChooser.getSelected();
+        autonomousCommand = autonSelector.chooseAuton();
 
         if (autonomousCommand != null) {
+            Pose2d initialPose = autonomousCommand.getInitialPose();
+            if (initialPose != null) {
+                driveTrain.resetPose(initialPose);
+            }
             driveTrain.configNeutralMode(SwerveConstants.AUTON_DRIVING_MOTOR_NEUTRAL_MODE);
             CommandScheduler.getInstance().schedule(autonomousCommand);
         }
