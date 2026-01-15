@@ -24,7 +24,7 @@ public class Telemetry {
     private final double MAX_SPEED;
 
     /**
-     * Construct a telemetry object, with the specified max speed of the robot
+     * Construct a telemetry object with the specified max speed of the robot
      *
      * @param maxSpeed Maximum speed in meters per second
      */
@@ -100,14 +100,14 @@ public class Telemetry {
         driveTimestamp.set(state.Timestamp);
         driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
 
-        /* Also write to log file */
+        /* Also write to a log file */
         poseArray[0] = state.Pose.getX();
         poseArray[1] = state.Pose.getY();
         poseArray[2] = state.Pose.getRotation().getDegrees();
         for (int i = 0; i < 4; ++i) {
-            moduleStatesArray[i * 2 + 0] = state.ModuleStates[i].angle.getRadians();
+            moduleStatesArray[i * 2] = state.ModuleStates[i].angle.getRadians();
             moduleStatesArray[i * 2 + 1] = state.ModuleStates[i].speedMetersPerSecond;
-            moduleTargetsArray[i * 2 + 0] = state.ModuleTargets[i].angle.getRadians();
+            moduleTargetsArray[i * 2] = state.ModuleTargets[i].angle.getRadians();
             moduleTargetsArray[i * 2 + 1] = state.ModuleTargets[i].speedMetersPerSecond;
         }
 

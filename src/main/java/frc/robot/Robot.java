@@ -24,16 +24,16 @@ import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
-    private SendableChooser<Command> autoChooser;
-    private SwagLights swagLights = SwagLights.getInstance();
+    private final SendableChooser<Command> autoChooser;
+    private final SwagLights swagLights = SwagLights.getInstance();
 
     // Variables
     private Command autonomousCommand;
-    private ControlWord controlWordCache = new ControlWord();
+    private final ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
-    private DriveTrain driveTrain = DriveTrain.getInstance();
-    private Vision vision = Vision.getInstance();
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Vision vision = Vision.getInstance();
 
     // Human Interface Devices
 
@@ -60,17 +60,16 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
 
-        vision.frontCamGetEstimatedGlobalPose().ifPresent(estimatedPose -> {
+        vision.frontCamGetEstimatedGlobalPose().ifPresent(estimatedPose ->
             driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                     estimatedPose.timestampSeconds,
-                    vision.getEstimationStdDevs());
-        });
+                    vision.getEstimationStdDevs()));
 
-        vision.backCamGetEstimatedGlobalPose().ifPresent(estimatedPose -> {
+        vision.backCamGetEstimatedGlobalPose().ifPresent(estimatedPose ->
             driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                     estimatedPose.timestampSeconds,
-                    vision.getEstimationStdDevs());
-        });
+                    vision.getEstimationStdDevs())
+        );
     }
 
     @Override
@@ -96,9 +95,6 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = autoChooser.getSelected();
-        // if (DriverStation.isFMSAttached()) {
-        // vision.startRecording();
-        // }
 
         if (autonomousCommand != null) {
             driveTrain.configNeutralMode(SwerveConstants.AUTON_DRIVING_MOTOR_NEUTRAL_MODE);
