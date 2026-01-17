@@ -165,9 +165,8 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                     this);
         }
-        if (Utils.isSimulation())
 
-        {
+        if (Utils.isSimulation()) {
             startSimThread();
         }
     }
