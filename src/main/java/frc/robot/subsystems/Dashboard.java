@@ -34,7 +34,7 @@ public class Dashboard extends SubsystemBase {
 
     private Dashboard() {
         SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
-        SmartDashboard.putNumber(DashboardConstants.DELAY_CHOICES, 0);
+        SmartDashboard.putNumber(DashboardConstants.DELAY_CHOICES, DashboardConstants.DEFAULT_DELAY);
 
         SmartDashboard.putData(field);
 
@@ -71,6 +71,6 @@ public class Dashboard extends SubsystemBase {
     }
 
     public double getDelay() {
-        return SmartDashboard.getNumber(DashboardConstants.DELAY_CHOICES, 0);
+        return SmartDashboard.getNumber(DashboardConstants.DELAY_CHOICES, DashboardConstants.DEFAULT_DELAY);
     }
 }
