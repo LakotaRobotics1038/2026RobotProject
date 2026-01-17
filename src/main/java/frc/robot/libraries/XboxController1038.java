@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class XboxController1038 extends CommandXboxController {
-    private XboxController controller;
+    private final XboxController controller;
 
     // Enums
     public enum PovPositions {
@@ -91,7 +91,6 @@ public class XboxController1038 extends CommandXboxController {
      * Sets the left rumble speed
      *
      * @param speed the rumble speed between 0.0 and 1.0
-     * @return the new speed
      */
     public void setLeftRumble(double speed) {
         controller.setRumble(RumbleType.kLeftRumble, speed);
@@ -101,7 +100,6 @@ public class XboxController1038 extends CommandXboxController {
      * Sets the right rumble speed
      *
      * @param speed the rumble speed between 0.0 and 1.0
-     * @return the new speed
      */
     public void setRightRumble(double speed) {
         controller.setRumble(RumbleType.kRightRumble, speed);

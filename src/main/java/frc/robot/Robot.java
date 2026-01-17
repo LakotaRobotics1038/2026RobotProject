@@ -21,16 +21,16 @@ import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
-    private AutonSelector autonSelector = AutonSelector.getInstance();
-    private SwagLights swagLights = SwagLights.getInstance();
+    private final AutonSelector autonSelector = AutonSelector.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
 
     // Variables
     private Auton autonomousCommand;
-    private ControlWord controlWordCache = new ControlWord();
+    private final ControlWord controlWordCache = new ControlWord();
 
     // Subsystems
-    private DriveTrain driveTrain = DriveTrain.getInstance();
-    private Vision vision = Vision.getInstance();
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Vision vision = Vision.getInstance();
 
     // Human Interface Devices
 
@@ -49,17 +49,16 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
 
-        vision.frontCamGetEstimatedGlobalPose().ifPresent(estimatedPose -> {
+        vision.frontCamGetEstimatedGlobalPose().ifPresent(estimatedPose ->
             driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                     estimatedPose.timestampSeconds,
-                    vision.getEstimationStdDevs());
-        });
+                    vision.getEstimationStdDevs()));
 
-        vision.backCamGetEstimatedGlobalPose().ifPresent(estimatedPose -> {
+        vision.backCamGetEstimatedGlobalPose().ifPresent(estimatedPose ->
             driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                     estimatedPose.timestampSeconds,
-                    vision.getEstimationStdDevs());
-        });
+                    vision.getEstimationStdDevs())
+        );
     }
 
     @Override
@@ -85,16 +84,13 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         autonomousCommand = autonSelector.chooseAuton();
-        // if (DriverStation.isFMSAttached()) {
-        // vision.startRecording();
-        // }
 
         if (autonomousCommand != null) {
             Pose2d initialPose = autonomousCommand.getInitialPose();
             if (initialPose != null) {
                 driveTrain.resetPose(initialPose);
             }
-            driveTrain.configNeutralMode(SwerveConstants.kAutonDrivingMotorNeutralMode);
+            driveTrain.configNeutralMode(SwerveConstants.AUTON_DRIVING_MOTOR_NEUTRAL_MODE);
             CommandScheduler.getInstance().schedule(autonomousCommand);
         }
     }
@@ -106,14 +102,14 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousExit() {
         if (autonomousCommand != null) {
-            autonomousCommand.cancel();
+            CommandScheduler.getInstance().cancel(autonomousCommand);
         }
     }
 
     @Override
     public void teleopInit() {
         Dashboard.getInstance().clearTrajectory();
-        driveTrain.configNeutralMode(SwerveConstants.kTeleopDrivingMotorNeutralMode);
+        driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
     }
 
     @Override

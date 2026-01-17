@@ -21,15 +21,15 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class Telemetry {
-    private final double MaxSpeed;
+    private final double MAX_SPEED;
 
     /**
-     * Construct a telemetry object, with the specified max speed of the robot
+     * Construct a telemetry object with the specified max speed of the robot
      *
      * @param maxSpeed Maximum speed in meters per second
      */
     public Telemetry(double maxSpeed) {
-        MaxSpeed = maxSpeed;
+        MAX_SPEED = maxSpeed;
         SignalLogger.start();
     }
 
@@ -100,14 +100,14 @@ public class Telemetry {
         driveTimestamp.set(state.Timestamp);
         driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
 
-        /* Also write to log file */
+        /* Also write to a log file */
         poseArray[0] = state.Pose.getX();
         poseArray[1] = state.Pose.getY();
         poseArray[2] = state.Pose.getRotation().getDegrees();
         for (int i = 0; i < 4; ++i) {
-            moduleStatesArray[i * 2 + 0] = state.ModuleStates[i].angle.getRadians();
+            moduleStatesArray[i * 2] = state.ModuleStates[i].angle.getRadians();
             moduleStatesArray[i * 2 + 1] = state.ModuleStates[i].speedMetersPerSecond;
-            moduleTargetsArray[i * 2 + 0] = state.ModuleTargets[i].angle.getRadians();
+            moduleTargetsArray[i * 2] = state.ModuleTargets[i].angle.getRadians();
             moduleTargetsArray[i * 2 + 1] = state.ModuleTargets[i].speedMetersPerSecond;
         }
 
@@ -124,7 +124,7 @@ public class Telemetry {
         for (int i = 0; i < 4; ++i) {
             moduleSpeeds[i].setAngle(state.ModuleStates[i].angle);
             moduleDirections[i].setAngle(state.ModuleStates[i].angle);
-            moduleSpeeds[i].setLength(state.ModuleStates[i].speedMetersPerSecond / (2 * MaxSpeed));
+            moduleSpeeds[i].setLength(state.ModuleStates[i].speedMetersPerSecond / (2 * MAX_SPEED));
 
             SmartDashboard.putData("Module " + i, moduleMechanisms[i]);
         }

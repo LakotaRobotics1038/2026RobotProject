@@ -1,10 +1,5 @@
 package frc.robot.subsystems;
 
-import static edu.wpi.first.units.Units.Second;
-import static edu.wpi.first.units.Units.Volts;
-
-import java.util.function.Supplier;
-
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.hardware.CANcoder;
@@ -16,7 +11,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.DriveFeedforwards;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -34,45 +28,33 @@ import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.SwerveConstants;
 
+import java.util.function.Supplier;
+
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Volts;
+
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements
  * Subsystem so it can easily be used in command-based projects.
  */
 public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> implements Subsystem {
     // Simulation Setup
-    private static final double kSimLoopPeriod = 0.005; // 5 ms
-    private Notifier simNotifier = null;
-    private double lastSimTime;
-
+    private static final double SIM_LOOP_PERIOD = 0.005; // 5 ms
+    /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
+    private static final Rotation2d BLUE_ALLIANCE_PERSPECTIVE_ROTATION = Rotation2d.kZero;
+    /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
+    private static final Rotation2d RED_ALLIANCE_PERSPECTIVE_ROTATION = Rotation2d.k180deg;
     // Singleton Setup
     private static DriveTrain instance;
-
-    public static DriveTrain getInstance() {
-        if (instance == null) {
-            System.out.println("Creating a new DriveTrain");
-            instance = new DriveTrain();
-        }
-        return instance;
-    }
-
-    /* Blue alliance sees forward as 0 degrees (toward red alliance wall) */
-    private static final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
-    /* Red alliance sees forward as 180 degrees (toward blue alliance wall) */
-    private static final Rotation2d kRedAlliancePerspectiveRotation = Rotation2d.k180deg;
-    /* Keep track if we've ever applied the operator perspective before or not */
-    private boolean hasAppliedOperatorPerspective = false;
-
     private final SwerveRequest.FieldCentric fieldCentricDriveRequest = new SwerveRequest.FieldCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.RobotCentric robotCentricDriveRequest = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     private final SwerveRequest.SwerveDriveBrake brakeRequest = new SwerveRequest.SwerveDriveBrake();
-
     /* Swerve requests to apply during SysId characterization */
     private final SwerveRequest.SysIdSwerveTranslation translationCharacterization = new SwerveRequest.SysIdSwerveTranslation();
     private final SwerveRequest.SysIdSwerveSteerGains steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
-
     /*
      * SysId routine for characterizing translation. This is used to find PID gains
      * for the drive motors.
@@ -88,7 +70,8 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                     output -> setControl(translationCharacterization.withVolts(output)),
                     null,
                     this));
-
+    /* The SysId routine to test */
+    private final SysIdRoutine sysIdRoutineToApply = sysIdRoutineTranslation;
     /*
      * SysId routine for characterizing steer. This is used to find PID gains for
      * the steer motors.
@@ -104,7 +87,6 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                     volts -> setControl(steerCharacterization.withVolts(volts)),
                     null,
                     this));
-
     /*
      * SysId routine for characterizing rotation.
      * This is used to find PID gains for the FieldCentricFacingAngle
@@ -130,21 +112,22 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                     },
                     null,
                     this));
-
-    /* The SysId routine to test */
-    private SysIdRoutine sysIdRoutineToApply = sysIdRoutineTranslation;
+    private Notifier simNotifier = null;
+    private double lastSimTime;
+    /* Keep track if we've ever applied the operator perspective before or not */
+    private boolean hasAppliedOperatorPerspective = false;
 
     private DriveTrain() {
         super(
                 TalonFX::new,
                 TalonFX::new,
                 CANcoder::new,
-                SwerveConstants.DrivetrainConstants,
-                SwerveConstants.FrontLeft,
-                SwerveConstants.FrontRight,
-                SwerveConstants.BackLeft,
-                SwerveConstants.BackRight);
-        if (AutoConstants.kRobotConfig.isPresent()) {
+                SwerveConstants.DRIVETRAIN_CONSTANTS,
+                SwerveConstants.FRONT_LEFT,
+                SwerveConstants.FRONT_RIGHT,
+                SwerveConstants.BACK_LEFT,
+                SwerveConstants.BACK_RIGHT);
+        if (AutoConstants.ROBOT_CONFIG.isPresent()) {
             AutoBuilder.configure(
                     () -> this.getState().Pose,
                     this::resetPose,
@@ -156,19 +139,26 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                                         .withWheelForceFeedforwardsY(feedForwards.robotRelativeForcesYNewtons()));
                     },
                     new PPHolonomicDriveController(
-                            new PIDConstants(AutoConstants.kPXController, AutoConstants.kIXController,
-                                    AutoConstants.kDController),
-                            new PIDConstants(AutoConstants.kPThetaController,
-                                    AutoConstants.kIThetaController,
-                                    AutoConstants.kDThetaController)),
-                    AutoConstants.kRobotConfig.get(),
+                            new PIDConstants(AutoConstants.P_X_CONTROLLER, AutoConstants.I_X_CONTROLLER,
+                                    AutoConstants.D_CONTROLLER),
+                            new PIDConstants(AutoConstants.P_THETA_CONTROLLER,
+                                    AutoConstants.I_THETA_CONTROLLER,
+                                    AutoConstants.D_THETA_CONTROLLER)),
+                    AutoConstants.ROBOT_CONFIG.get(),
                     () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
                     this);
         }
-
         if (Utils.isSimulation()) {
             startSimThread();
         }
+    }
+
+    public static DriveTrain getInstance() {
+        if (instance == null) {
+            System.out.println("Creating a new DriveTrain");
+            instance = new DriveTrain();
+        }
+        return instance;
     }
 
     /**
@@ -181,19 +171,19 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
     public SwerveRequest drive(double xSpeed, double ySpeed, double rot, boolean fieldCentric) {
         if (fieldCentric) {
             // Drive forward with negative Y (forward)
-            return fieldCentricDriveRequest.withVelocityX(xSpeed * DriveConstants.MaxSpeed)
+            return fieldCentricDriveRequest.withVelocityX(xSpeed * DriveConstants.MAX_SPEED)
                     // Drive left with negative X (left)
-                    .withVelocityY(ySpeed * DriveConstants.MaxSpeed)
+                    .withVelocityY(ySpeed * DriveConstants.MAX_SPEED)
                     // Drive counterclockwise with negative X (left)
-                    .withRotationalRate(rot * DriveConstants.MaxAngularRate);
+                    .withRotationalRate(rot * DriveConstants.MAX_ANGULAR_RATE);
         }
 
         // Drive forward with negative Y (forward)
-        return robotCentricDriveRequest.withVelocityX(xSpeed * DriveConstants.MaxSpeed)
+        return robotCentricDriveRequest.withVelocityX(xSpeed * DriveConstants.MAX_SPEED)
                 // Drive left with negative X (left)
-                .withVelocityY(ySpeed * DriveConstants.MaxSpeed)
+                .withVelocityY(ySpeed * DriveConstants.MAX_SPEED)
                 // Drive counterclockwise with negative X (left)
-                .withRotationalRate(rot * DriveConstants.MaxAngularRate);
+                .withRotationalRate(rot * DriveConstants.MAX_ANGULAR_RATE);
     }
 
     /**
@@ -207,7 +197,7 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
      * Returns a command that applies the specified control request to this swerve
      * drivetrain.
      *
-     * @param request Function returning the request to apply
+     * @param requestSupplier Function returning the request to apply
      * @return Command to run
      */
     public Command applyRequest(Supplier<SwerveRequest> requestSupplier) {
@@ -253,8 +243,8 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
             DriverStation.getAlliance().ifPresent(allianceColor -> {
                 setOperatorPerspectiveForward(
                         allianceColor == Alliance.Red
-                                ? kRedAlliancePerspectiveRotation
-                                : kBlueAlliancePerspectiveRotation);
+                                ? RED_ALLIANCE_PERSPECTIVE_ROTATION
+                                : BLUE_ALLIANCE_PERSPECTIVE_ROTATION);
                 hasAppliedOperatorPerspective = true;
             });
         }
@@ -275,7 +265,7 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
             /* use the measured time delta, get battery voltage from WPILib */
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
-        simNotifier.startPeriodic(kSimLoopPeriod);
+        simNotifier.startPeriodic(SIM_LOOP_PERIOD);
     }
 
     /**
