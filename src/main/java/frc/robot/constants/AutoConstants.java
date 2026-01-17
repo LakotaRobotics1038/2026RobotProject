@@ -3,10 +3,13 @@ package frc.robot.constants;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import com.pathplanner.lib.config.RobotConfig;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
+
 import org.json.simple.parser.ParseException;
 
 public final class AutoConstants {
@@ -26,13 +29,16 @@ public final class AutoConstants {
     public static final TrapezoidProfile.Constraints THETA_CONTROLLER_CONSTRAINTS = new TrapezoidProfile.Constraints(
             MAX_ANGULAR_SPEED_RADIANS_PER_SECOND, MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED);
 
-    public static final RobotConfig ROBOT_CONFIG;
+    public static final Optional<RobotConfig> ROBOT_CONFIG;
 
     static {
+        RobotConfig robotConfig;
         try {
-            ROBOT_CONFIG = RobotConfig.fromGUISettings();
+            robotConfig = RobotConfig.fromGUISettings();
         } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+            DriverStation.reportError("Failed to load PathPlanner robot config!", e.getStackTrace());
+            robotConfig = null;
         }
+        ROBOT_CONFIG = Optional.ofNullable(robotConfig);
     }
 }
