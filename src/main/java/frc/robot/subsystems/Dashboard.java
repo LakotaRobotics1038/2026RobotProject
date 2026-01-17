@@ -17,7 +17,6 @@ public class Dashboard extends SubsystemBase {
 
     // Choosers
     private final SendableChooser<AutonSelector.AutonChoices> autoChooser = new SendableChooser<>();
-    private final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Variables
     private final Field2d field = new Field2d();
@@ -35,17 +34,13 @@ public class Dashboard extends SubsystemBase {
 
     private Dashboard() {
         SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
-        SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
+        SmartDashboard.putNumber(DashboardConstants.DELAY_CHOICES, 0);
 
         SmartDashboard.putData(field);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) ->
-            field.getObject("target pose").setPose(pose)
-        );
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
 
-        PathPlannerLogging.setLogActivePathCallback((poses) ->
-            field.getObject("poses").setPoses(poses)
-        );
+        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("poses").setPoses(poses));
     }
 
     @Override
@@ -75,7 +70,7 @@ public class Dashboard extends SubsystemBase {
         return autoChooser;
     }
 
-    public SendableChooser<Double> getDelayChooser() {
-        return delayChooser;
+    public double getDelay() {
+        return SmartDashboard.getNumber(DashboardConstants.DELAY_CHOICES, 0);
     }
 }
