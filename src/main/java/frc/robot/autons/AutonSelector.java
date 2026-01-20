@@ -5,14 +5,14 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import frc.robot.constants.AutoConstants;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftTaxi,
-        RightTaxi;
+        RightTaxi
     }
 
     // Choosers

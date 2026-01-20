@@ -12,44 +12,44 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 
 public final class VisionConstants {
-    public static final String kTableName = "Vision";
-    public static final String kValuesTopic = "values";
-    public static final String kRecordingTopic = "recording";
-    public static final String kStreamCam0 = "shouldStream0";
-    public static final String kEnabled0Topic = "enable0";
-    public static final String kEnabled1Topic = "enable1";
+    public static final String TABLE_NAME = "Vision";
+    public static final String VALUES_TOPIC = "values";
+    public static final String RECORDING_TOPIC = "recording";
+    public static final String STREAM_CAM_0 = "shouldStream0";
+    public static final String ENABLED_0_TOPIC = "enable0";
+    public static final String ENABLED_1_TOPIC = "enable1";
 
-    public static final double kWidth = 800;
-    public static final double kHeight = 600;
-    public static final double kFov = 100;
+    public static final double WIDTH = 800;
+    public static final double HEIGHT = 600;
+    public static final double FOV = 100;
 
-    public static final double kDriveP = 0.005;
-    public static final double kDriveI = 0;
-    public static final double kDriveD = 0.0002;
-    public static final double kSpinP = 0.005;
-    public static final double kSpinI = 0;
-    public static final double kSpinD = 0.0002;
-    public static final double kSpinSetpoint = 0.0;
-    public static final double kAprilTagArea = 28908;
+    public static final double DRIVE_P = 0.005;
+    public static final double DRIVE_I = 0;
+    public static final double DRIVE_D = 0.0002;
+    public static final double SPIN_P = 0.005;
+    public static final double SPIN_I = 0;
+    public static final double SPIN_D = 0.0002;
+    public static final double SPIN_SETPOINT = 0.0;
+    public static final double APRIL_TAG_AREA = 28908;
 
-    public static final AprilTagFieldLayout kTagLayout = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+    public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-    private static final double kFrontCameraXOffset = Units.inchesToMeters(13.730);
-    private static final double kFrontCameraYOffset = Units.inchesToMeters(-11.995);
-    private static final double kFrontCameraZOffset = Units.inchesToMeters(7.35);
-    public static final Transform3d kRobotToFrontCam = new Transform3d(
-            new Translation3d(kFrontCameraXOffset, kFrontCameraYOffset, kFrontCameraZOffset),
+    private static final double FRONT_CAMERA_X_OFFSET = Units.inchesToMeters(13.730);
+    private static final double FRONT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.995);
+    private static final double FRONT_CAMERA_Z_OFFSET = Units.inchesToMeters(7.35);
+    public static final Transform3d ROBOT_TO_FRONT_CAM = new Transform3d(
+            new Translation3d(FRONT_CAMERA_X_OFFSET, FRONT_CAMERA_Y_OFFSET, FRONT_CAMERA_Z_OFFSET),
             new Rotation3d(0, 0, 0));
-    public static final String kRobotToFrontCamName = "frontCamera";
+    public static final String ROBOT_TO_FRONT_CAM_NAME = "frontCamera";
 
-    private static final double kBackCameraXOffset = Units.inchesToMeters(-10.5277);
-    private static final double kBackCameraYOffset = Units.inchesToMeters(-11.391);
-    private static final double kBackCameraZOffset = Units.inchesToMeters(7.6);
-    public static final Transform3d kRobotToBackCam = new Transform3d(
-            new Translation3d(kBackCameraXOffset, kBackCameraYOffset, kBackCameraZOffset),
+    private static final double BACK_CAMERA_X_OFFSET = Units.inchesToMeters(-10.5277);
+    private static final double BACK_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.391);
+    private static final double BACK_CAMERA_Z_OFFSET = Units.inchesToMeters(7.6);
+    public static final Transform3d ROBOT_TO_BACK_CAM = new Transform3d(
+            new Translation3d(BACK_CAMERA_X_OFFSET, BACK_CAMERA_Y_OFFSET, BACK_CAMERA_Z_OFFSET),
             new Rotation3d(0, 0, Math.toRadians(180 - 45)));
-    public static final String kRobotToBackCamName = "backCamera";
+    public static final String ROBOT_TO_BACK_CAM_NAME = "backCamera";
 
-    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
-    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+    public static final Matrix<N3, N1> SINGLE_TAG_STD_DEVS = VecBuilder.fill(4, 4, 8);
+    public static final Matrix<N3, N1> MULTI_TAG_STD_DEVS = VecBuilder.fill(0.5, 0.5, 1);
 }

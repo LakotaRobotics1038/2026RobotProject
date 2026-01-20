@@ -43,14 +43,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
-    private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.kRobotToFrontCamName);
-    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.kRobotToBackCamName);
-    private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.kTagLayout,
+    private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_FRONT_CAM_NAME);
+    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
+    private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            VisionConstants.kRobotToFrontCam);
-    private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.kTagLayout,
+            VisionConstants.ROBOT_TO_FRONT_CAM);
+    private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-            VisionConstants.kRobotToBackCam);
+            VisionConstants.ROBOT_TO_BACK_CAM);
     private Matrix<N3, N1> curStdDevs;
 
     private static Vision instance;
@@ -109,11 +109,11 @@ public class Vision extends SubsystemBase {
             Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
         if (estimatedPose.isEmpty()) {
             // No pose input. Default to single-tag std devs
-            curStdDevs = VisionConstants.kSingleTagStdDevs;
+            curStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
 
         } else {
             // Pose present. Start running Heuristic
-            Matrix<N3, N1> estStdDevs = VisionConstants.kSingleTagStdDevs;
+            Matrix<N3, N1> estStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
             int numTags = 0;
             double avgDist = 0;
 
@@ -133,13 +133,13 @@ public class Vision extends SubsystemBase {
 
             if (numTags == 0) {
                 // No tags visible. Default to single-tag std devs
-                curStdDevs = VisionConstants.kSingleTagStdDevs;
+                curStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
             } else {
                 // One or more tags visible, run the full heuristic.
                 avgDist /= numTags;
                 // Decrease std devs if multiple targets are visible
                 if (numTags > 1)
-                    estStdDevs = VisionConstants.kMultiTagStdDevs;
+                    estStdDevs = VisionConstants.MULTI_TAG_STD_DEVS;
                 // Increase std devs based on (average) distance
                 if (numTags == 1 && avgDist > 4)
                     estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
@@ -159,11 +159,11 @@ public class Vision extends SubsystemBase {
     }
 
     /**
-     * Returns the latest standard deviations of the estimated pose from {@link
-     * #getEstimatedGlobalPose()}, for use with {@link
-     * edu.wpi.first.math.estimator.SwerveDrivePoseEstimator
-     * SwerveDrivePoseEstimator}. This should
-     * only be used when there are targets visible.
+     * Returns the latest standard deviations of the estimated pose from
+     * {@link #frontCamGetEstimatedGlobalPose} and
+     * {@link #backCamGetEstimatedGlobalPose}.
+     * For use with {@link edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}.
+     * This should only be used when there are targets visible.
      */
     public Matrix<N3, N1> getEstimationStdDevs() {
         return curStdDevs;

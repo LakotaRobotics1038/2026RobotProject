@@ -13,11 +13,11 @@ import frc.robot.constants.DashboardConstants;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
-    private DriveTrain driveTrain = DriveTrain.getInstance();
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
 
     // Choosers
-    private SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
-    private SendableChooser<Double> delayChooser = new SendableChooser<>();
+    private final SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
+    private final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Variables
     private final Field2d field = new Field2d();
@@ -34,28 +34,27 @@ public class Dashboard extends SubsystemBase {
     }
 
     private Dashboard() {
-        super();
-
-        SmartDashboard.putData(DashboardConstants.kAutonChoices, autoChooser);
-        SmartDashboard.putData(DashboardConstants.kDelayChoices, delayChooser);
+        SmartDashboard.putData(DashboardConstants.AUTON_CHOICES, autoChooser);
+        SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
 
         SmartDashboard.putData(field);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-            field.getObject("target pose").setPose(pose);
-        });
+        PathPlannerLogging.setLogTargetPoseCallback((pose) ->
+            field.getObject("target pose").setPose(pose)
+        );
 
-        PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            field.getObject("poses").setPoses(poses);
-        });
+        PathPlannerLogging.setLogActivePathCallback((poses) ->
+            field.getObject("poses").setPoses(poses)
+        );
     }
 
     @Override
     public void periodic() {
         // Controls Tab
-        SmartDashboard.putNumber(DashboardConstants.kRobotX, driveTrain.getX());
-        SmartDashboard.putNumber(DashboardConstants.kRobotY, driveTrain.getY());
-        SmartDashboard.putNumber(DashboardConstants.kRobotRot, driveTrain.getRotation());
+
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
+        SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
 
         field.setRobotPose(driveTrain.getState().Pose);
     }
@@ -70,7 +69,7 @@ public class Dashboard extends SubsystemBase {
     /**
      * Gets the sendable chooser for Auton Modes
      *
-     * @return
+     * @return The sendable chooser
      */
     public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
