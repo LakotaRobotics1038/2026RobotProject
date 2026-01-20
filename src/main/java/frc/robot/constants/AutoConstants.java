@@ -31,6 +31,8 @@ public final class AutoConstants {
 
     public static final Optional<RobotConfig> ROBOT_CONFIG;
 
+    // This static block attempts to load the PathPlanner robot configuration from the GUI settings.
+    // It runs once when the class is first loaded.
     static {
         RobotConfig robotConfig;
         try {
