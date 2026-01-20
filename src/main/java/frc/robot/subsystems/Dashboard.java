@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.autons.AutonSelector;
+import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.DashboardConstants;
 
 public class Dashboard extends SubsystemBase {
@@ -16,7 +16,7 @@ public class Dashboard extends SubsystemBase {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
 
     // Choosers
-    private final SendableChooser<AutonSelector.AutonChoices> autoChooser = new SendableChooser<>();
+    private final SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
     private final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Variables
@@ -71,7 +71,7 @@ public class Dashboard extends SubsystemBase {
      *
      * @return The sendable chooser
      */
-    public SendableChooser<AutonSelector.AutonChoices> getAutoChooser() {
+    public SendableChooser<AutonChoices> getAutoChooser() {
         return autoChooser;
     }
 
