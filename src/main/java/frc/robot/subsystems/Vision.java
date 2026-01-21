@@ -30,7 +30,6 @@ import java.util.Optional;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -46,10 +45,8 @@ public class Vision extends SubsystemBase {
     private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_FRONT_CAM_NAME);
     private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
     private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
             VisionConstants.ROBOT_TO_FRONT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
             VisionConstants.ROBOT_TO_BACK_CAM);
     private Matrix<N3, N1> curStdDevs;
 
@@ -63,8 +60,6 @@ public class Vision extends SubsystemBase {
     }
 
     private Vision() {
-        frontCamPhotonEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-        backCamPhotonEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     }
 
     /**
@@ -80,7 +75,7 @@ public class Vision extends SubsystemBase {
         Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
         for (PhotonPipelineResult change : frontCam.getAllUnreadResults()) {
-            visionEst = frontCamPhotonEstimator.update(change);
+            visionEst = frontCamPhotonEstimator.estimateLowestAmbiguityPose(change);
             updateEstimationStdDevs(visionEst, change.getTargets());
         }
         return visionEst;
@@ -90,7 +85,7 @@ public class Vision extends SubsystemBase {
         Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
         for (PhotonPipelineResult change : backCam.getAllUnreadResults()) {
-            visionEst = backCamPhotonEstimator.update(change);
+            visionEst = backCamPhotonEstimator.estimateLowestAmbiguityPose(change);
             updateEstimationStdDevs(visionEst, change.getTargets());
         }
         return visionEst;
@@ -148,14 +143,6 @@ public class Vision extends SubsystemBase {
                 curStdDevs = estStdDevs;
             }
         }
-    }
-
-    public List<PhotonPipelineResult> getResultsFrontCam() {
-        return frontCam.getAllUnreadResults();
-    }
-
-    public List<PhotonPipelineResult> getResultsBackCam() {
-        return backCam.getAllUnreadResults();
     }
 
     /**
