@@ -48,7 +48,8 @@ public class Vision extends SubsystemBase {
             VisionConstants.ROBOT_TO_FRONT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_BACK_CAM);
-    private Matrix<N3, N1> curStdDevs;
+    private Matrix<N3, N1> frontCurStdDevs;
+    private Matrix<N3, N1> backCurStdDevs;
 
     private static Vision instance;
 
@@ -62,6 +63,22 @@ public class Vision extends SubsystemBase {
     private Vision() {
     }
 
+    private Optional<EstimatedRobotPose> estimateCameraPose(
+            PhotonCamera camera,
+            PhotonPoseEstimator estimator,
+            Matrix<N3, N1> curStdDevs) {
+        Optional<EstimatedRobotPose> visionEst = Optional.empty();
+
+        for (PhotonPipelineResult change : camera.getAllUnreadResults()) {
+            visionEst = estimator.estimateCoprocMultiTagPose(change);
+            if (visionEst.isEmpty()) {
+                visionEst = estimator.estimateLowestAmbiguityPose(change);
+            }
+            updateEstimationStdDevs(estimator, visionEst, change.getTargets(), curStdDevs);
+        }
+        return visionEst;
+    }
+
     /**
      * The latest estimated robot pose on the field from vision data. This may be
      * empty. This should
@@ -72,23 +89,20 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> frontCamGetEstimatedGlobalPose() {
-        Optional<EstimatedRobotPose> visionEst = Optional.empty();
-
-        for (PhotonPipelineResult change : frontCam.getAllUnreadResults()) {
-            visionEst = frontCamPhotonEstimator.estimateLowestAmbiguityPose(change);
-            updateEstimationStdDevs(visionEst, change.getTargets());
-        }
-        return visionEst;
+        return estimateCameraPose(frontCam, frontCamPhotonEstimator, frontCurStdDevs);
     }
 
+    /**
+     * The latest estimated robot pose on the field from vision data. This may be
+     * empty. This should
+     * only be called once per loop.
+     *
+     * @return An {@link EstimatedRobotPose} with an estimated pose, estimate
+     *         timestamp, and targets
+     *         used for estimation.
+     */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
-        Optional<EstimatedRobotPose> visionEst = Optional.empty();
-
-        for (PhotonPipelineResult change : backCam.getAllUnreadResults()) {
-            visionEst = backCamPhotonEstimator.estimateLowestAmbiguityPose(change);
-            updateEstimationStdDevs(visionEst, change.getTargets());
-        }
-        return visionEst;
+        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs);
     }
 
     /**
@@ -101,7 +115,10 @@ public class Vision extends SubsystemBase {
      * @param targets       All targets in this camera frame
      */
     private void updateEstimationStdDevs(
-            Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) {
+            PhotonPoseEstimator estimator,
+            Optional<EstimatedRobotPose> estimatedPose,
+            List<PhotonTrackedTarget> targets,
+            Matrix<N3, N1> curStdDevs) {
         if (estimatedPose.isEmpty()) {
             // No pose input. Default to single-tag std devs
             curStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
@@ -115,7 +132,7 @@ public class Vision extends SubsystemBase {
             // Precalculation - see how many tags we found, and calculate an
             // average-distance metric
             for (PhotonTrackedTarget tgt : targets) {
-                Optional<Pose3d> tagPose = frontCamPhotonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
+                Optional<Pose3d> tagPose = estimator.getFieldTags().getTagPose(tgt.getFiducialId());
                 if (tagPose.isEmpty())
                     continue;
                 numTags++;
@@ -147,13 +164,22 @@ public class Vision extends SubsystemBase {
 
     /**
      * Returns the latest standard deviations of the estimated pose from
-     * {@link #frontCamGetEstimatedGlobalPose} and
+     * {@link #frontCamGetEstimatedGlobalPose}.
+     * For use with {@link edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}.
+     * This should only be used when there are targets visible.
+     */
+    public Matrix<N3, N1> getFrontEstimationStdDevs() {
+        return frontCurStdDevs;
+    }
+
+    /**
+     * Returns the latest standard deviations of the estimated pose from
      * {@link #backCamGetEstimatedGlobalPose}.
      * For use with {@link edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}.
      * This should only be used when there are targets visible.
      */
-    public Matrix<N3, N1> getEstimationStdDevs() {
-        return curStdDevs;
+    public Matrix<N3, N1> getBackEstimationStdDevs() {
+        return backCurStdDevs;
     }
 
     public void setAlgaeMode() {
