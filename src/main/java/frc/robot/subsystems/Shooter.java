@@ -38,4 +38,24 @@ public class Shooter extends SubsystemBase {
         }
         return instance;
     }
+
+    public void runFirstShooter() {
+        firstTopShooter.set(ShooterConstants.FIRST_SHOOTER_SPEED);
+        firstBottomShooter.set(ShooterConstants.FIRST_SHOOTER_SPEED);
+    }
+
+    public void runSecondShooter() {
+        secondTopShooter.set(ShooterConstants.SECOND_SHOOTER_SPEED);
+        secondBottomShooter.set(ShooterConstants.SECOND_SHOOTER_SPEED);
+    }
+
+    public void stopFirstShooter() {
+        firstTopShooter.stopMotor();
+        firstBottomShooter.stopMotor();
+    }
+
+    public void stopSecondShooter() {
+        secondTopShooter.stopMotor();
+        secondBottomShooter.stopMotor();
+    }
 }
