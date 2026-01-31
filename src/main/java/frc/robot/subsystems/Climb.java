@@ -27,12 +27,12 @@ public class Climb extends SubsystemBase {
         return instance;
     }
 
-    public void climbUp(double speed) {
-        climbMotor.set(speed);
+    public void climbUp() {
+        climbMotor.set(ClimbConstants.CLIMB_MOTOR_SPEED);
     }
 
-    public void climbDown(double speed) {
-        climbMotor.set(-(speed));
+    public void climbDown() {
+        climbMotor.set(-(ClimbConstants.CLIMB_MOTOR_SPEED));
     }
 
     public void stopClimb() {
