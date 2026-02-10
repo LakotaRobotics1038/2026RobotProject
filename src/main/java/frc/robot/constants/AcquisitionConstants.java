@@ -1,0 +1,14 @@
+package frc.robot.constants;
+
+public class AcquisitionConstants {
+    public static final int PIVOT_CAN_ID = 0;
+    public static final int INTAKE_CAN_ID = 0;
+
+    public static final double INTAKE_P = 0.0;
+    public static final double INTAKE_I = 0.0;
+    public static final double INTAKE_D = 0.0;
+
+    public static final double INTAKE_S = 0.0;
+    public static final double INTAKE_V = 0.0;
+    public static final double INTAKE_A = 0.0;
+}
