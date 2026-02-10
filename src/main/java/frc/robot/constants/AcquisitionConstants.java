@@ -11,4 +11,9 @@ public class AcquisitionConstants {
     public static final double INTAKE_S = 0.0;
     public static final double INTAKE_V = 0.0;
     public static final double INTAKE_A = 0.0;
+
+    public static final double RAISED_DEGREES = 0;
+    public static final double LOWERED_DEGREES = 90;
+
+    public static final double INTAKE_RPM = 4000;
 }

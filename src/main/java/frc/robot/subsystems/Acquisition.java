@@ -1,11 +1,10 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -18,9 +17,6 @@ public class Acquisition {
 
     private final SparkClosedLoopController pivotController = pivot.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intake.getClosedLoopController();
-
-    private final AbsoluteEncoder pivotEncoder = pivot.getAbsoluteEncoder();
-    private final RelativeEncoder intakeEncoder = intake.getEncoder();
 
     private static Acquisition instance = null;
 
@@ -46,5 +42,21 @@ public class Acquisition {
             instance = new Acquisition();
         }
         return instance;
+    }
+
+    public void raise() {
+        pivotController.setSetpoint(AcquisitionConstants.RAISED_DEGREES, ControlType.kPosition);
+    }
+
+    public void lower() {
+        pivotController.setSetpoint(AcquisitionConstants.LOWERED_DEGREES, ControlType.kPosition);
+    }
+
+    public boolean atSetpoint() {
+        return pivotController.isAtSetpoint();
+    }
+
+    public void run() {
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
     }
 }
