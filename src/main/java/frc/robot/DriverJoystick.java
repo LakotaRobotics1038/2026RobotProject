@@ -4,6 +4,7 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.HubAlign;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
@@ -82,6 +83,10 @@ public class DriverJoystick extends XboxController1038 {
                 .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
 
         this.x().whileTrue(this.driveTrain.setX());
+
+        this.a().whileTrue(new HubAlign(
+                this::getForwardValue,
+                this::getSidewaysValue));
     }
 
     /**
