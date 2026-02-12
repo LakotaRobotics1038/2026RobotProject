@@ -6,12 +6,15 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.AutoConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class HubAlign extends Command {
+    private static final double P = 0.0;
+    private static final double I = 0.0;
+    private static final double D = 0.0;
+
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final DoubleSupplier xSpeedSupplier;
     private final DoubleSupplier ySpeedSupplier;
@@ -22,10 +25,7 @@ public class HubAlign extends Command {
         this.xSpeedSupplier = xSpeed;
         this.ySpeedSupplier = ySpeed;
 
-        this.rotationController = new PIDController(
-                AutoConstants.P_THETA_CONTROLLER,
-                AutoConstants.I_THETA_CONTROLLER,
-                AutoConstants.D_THETA_CONTROLLER);
+        this.rotationController = new PIDController(P, I, D);
 
         this.rotationController.enableContinuousInput(-Math.PI, Math.PI);
 
