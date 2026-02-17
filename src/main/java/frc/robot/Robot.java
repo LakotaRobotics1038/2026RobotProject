@@ -14,10 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveConstants;
-import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.SwagLights;
-import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.*;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
@@ -30,6 +27,9 @@ public class Robot extends TimedRobot {
 
     // Subsystems
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+
+    private final LeftShooter leftShooter = LeftShooter.getInstance();
+    private final RightShooter rightShooter = RightShooter.getInstance();
     private final Vision vision = Vision.getInstance();
 
     // Human Interface Devices
