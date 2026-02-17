@@ -13,7 +13,7 @@ import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition {
     private final SparkMax pivot = new SparkMax(AcquisitionConstants.PIVOT_CAN_ID, MotorType.kBrushless);
-    private final SparkMax intake = new SparkMax(0, MotorType.kBrushless);
+    private final SparkMax intake = new SparkMax(AcquisitionConstants.INTAKE_CAN_ID, MotorType.kBrushless);
 
     private final SparkClosedLoopController pivotController = pivot.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intake.getClosedLoopController();
