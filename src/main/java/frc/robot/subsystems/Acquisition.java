@@ -11,6 +11,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.NeoMotorConstants;
+import frc.robot.constants.AcquisitionConstants.Setpoint;
 
 public class Acquisition extends SubsystemBase {
     private final SparkMax pivot = new SparkMax(AcquisitionConstants.PIVOT_CAN_ID, MotorType.kBrushless);
@@ -19,15 +20,19 @@ public class Acquisition extends SubsystemBase {
     private final SparkClosedLoopController pivotController = pivot.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intake.getClosedLoopController();
 
+    private Setpoint setpoint = Setpoint.RAISED;
+
     private static Acquisition instance = null;
 
     private Acquisition() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();
-        baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
-                .outputRange(NeoMotorConstants.MIN_POWER, NeoMotorConstants.MAX_POWER);
+        baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
-        pivotConfig.apply(baseConfig);
+        pivotConfig.apply(baseConfig).closedLoop
+                .pid(AcquisitionConstants.PIVOT_P, AcquisitionConstants.PIVOT_I,
+                        AcquisitionConstants.PIVOT_D).feedForward
+                .sva(AcquisitionConstants.PIVOT_S, AcquisitionConstants.PIVOT_V, AcquisitionConstants.PIVOT_A);
         pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
@@ -47,25 +52,35 @@ public class Acquisition extends SubsystemBase {
 
     public void raise() {
         pivotController.setSetpoint(AcquisitionConstants.RAISED_DEGREES, ControlType.kPosition);
+        setpoint = Setpoint.RAISED;
     }
 
     public void lower() {
         pivotController.setSetpoint(AcquisitionConstants.LOWERED_DEGREES, ControlType.kPosition);
+        setpoint = Setpoint.LOWERED;
+    }
+
+    public void acquire() {
+        if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
+            intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        }
+    }
+
+    public void dispose() {
+        if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
+            intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        }
+    }
+
+    public void stopIntake() {
+        intake.stopMotor();
     }
 
     public boolean atSetpoint() {
         return pivotController.isAtSetpoint();
     }
 
-    public void acquire() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
-    }
-
-    public void dispose() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
-    }
-
-    public void stop() {
-        intake.stopMotor();
+    public Setpoint getSetpoint() {
+        return setpoint;
     }
 }
