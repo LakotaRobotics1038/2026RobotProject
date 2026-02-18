@@ -1,14 +1,5 @@
 classDiagram
   direction BT
-  class AlignToPoint {
-    + AlignToPoint(Supplier~Translation2d~, DoubleSupplier, DoubleSupplier)
-    + AlignToPoint(Supplier~Translation2d~)
-    - DoubleSupplier xSpeedSupplier
-    - PIDController rotationController
-    - DriveTrain driveTrain
-    - DoubleSupplier ySpeedSupplier
-    - Supplier~Translation2d~ targetPointSupplier
-  }
   class AutoConstants {
     + AutoConstants()
     + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND
