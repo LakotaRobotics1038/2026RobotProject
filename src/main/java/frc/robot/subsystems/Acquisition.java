@@ -57,8 +57,12 @@ public class Acquisition extends SubsystemBase {
         return pivotController.isAtSetpoint();
     }
 
-    public void start() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
+    public void acquire() {
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+    }
+
+    public void dispose() {
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {

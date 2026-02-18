@@ -1,6 +1,9 @@
 package frc.robot.constants;
 
 public class AcquisitionConstants {
+    private AcquisitionConstants() {
+    }
+
     public static final int PIVOT_CAN_ID = 0;
     public static final int INTAKE_CAN_ID = 0;
 
@@ -15,5 +18,6 @@ public class AcquisitionConstants {
     public static final double RAISED_DEGREES = 0;
     public static final double LOWERED_DEGREES = 90;
 
-    public static final double INTAKE_RPM = 4000;
+    public static final double INTAKE_ACQUIRE_RPM = 4000;
+    public static final double INTAKE_DISPOSE_RPM = 1000;
 }
