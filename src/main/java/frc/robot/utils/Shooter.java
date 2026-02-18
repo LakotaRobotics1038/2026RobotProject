@@ -40,7 +40,7 @@ public abstract class Shooter extends SubsystemBase {
         encoder = leftMotor.getEncoder();
     }
 
-    protected void run(double rpm) {
+    protected void start(double rpm) {
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
