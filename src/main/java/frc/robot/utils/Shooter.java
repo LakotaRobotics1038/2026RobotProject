@@ -52,4 +52,8 @@ public abstract class Shooter extends SubsystemBase {
     protected double getRPM() {
         return encoder.getVelocity();
     }
+
+    protected boolean isAtTargetRPM() {
+        return controller.isAtSetpoint();
+    }
 }
