@@ -63,12 +63,16 @@ public class Acquisition extends SubsystemBase {
     public void acquire() {
         if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        } else {
+            stopIntake();
         }
     }
 
     public void dispose() {
         if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        } else {
+            stopIntake();
         }
     }
 
