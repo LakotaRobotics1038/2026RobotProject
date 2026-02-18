@@ -28,8 +28,6 @@ public class Robot extends TimedRobot {
     // Subsystems
     private final DriveTrain driveTrain = DriveTrain.getInstance();
 
-    private final LeftShooter leftShooter = LeftShooter.getInstance();
-    private final RightShooter rightShooter = RightShooter.getInstance();
     private final Vision vision = Vision.getInstance();
 
     // Human Interface Devices
