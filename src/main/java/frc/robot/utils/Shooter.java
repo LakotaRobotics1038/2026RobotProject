@@ -40,20 +40,20 @@ public abstract class Shooter extends SubsystemBase {
         encoder = leftMotor.getEncoder();
     }
 
-    protected void start(double rpm) {
+    public void start(double rpm) {
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
-    protected void stop() {
+    public void stop() {
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
 
-    protected double getRPM() {
+    public double getRPM() {
         return encoder.getVelocity();
     }
 
-    protected boolean isAtTargetRPM() {
+    public boolean isAtTargetRPM() {
         return controller.isAtSetpoint();
     }
 }
