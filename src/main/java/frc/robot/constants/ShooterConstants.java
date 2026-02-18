@@ -14,6 +14,8 @@ public final class ShooterConstants {
         public static final int RIGHT_SHOOTER_CAN_ID = 0;
     }
 
+    public static final double RPM_TOLERANCE = 25.0;
+
     public static final double P = 0.0;
     public static final double I = 0.0;
     public static final double D = 0.0;
