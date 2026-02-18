@@ -50,6 +50,13 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
+    @Override
+    public void periodic() {
+        if (getSetpoint() != Setpoint.LOWERED || !atSetpoint()) {
+            stopIntake();
+        }
+    }
+
     public void raise() {
         pivotController.setSetpoint(AcquisitionConstants.RAISED_DEGREES, ControlType.kPosition);
         setpoint = Setpoint.RAISED;
@@ -61,19 +68,11 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void acquire() {
-        if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
-            intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
-        } else {
-            stopIntake();
-        }
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     public void dispose() {
-        if (getSetpoint() == Setpoint.LOWERED && atSetpoint()) {
-            intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
-        } else {
-            stopIntake();
-        }
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
     }
 
     public void stopIntake() {
