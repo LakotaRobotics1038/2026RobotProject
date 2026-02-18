@@ -8,10 +8,11 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.NeoMotorConstants;
 
-public class Acquisition {
+public class Acquisition extends SubsystemBase {
     private final SparkMax pivot = new SparkMax(AcquisitionConstants.PIVOT_CAN_ID, MotorType.kBrushless);
     private final SparkMax intake = new SparkMax(AcquisitionConstants.INTAKE_CAN_ID, MotorType.kBrushless);
 
@@ -56,7 +57,11 @@ public class Acquisition {
         return pivotController.isAtSetpoint();
     }
 
-    public void run() {
+    public void start() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
+    }
+
+    public void stop() {
+        intake.stopMotor();
     }
 }
