@@ -52,7 +52,7 @@ public class Acquisition extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (getSetpoint() != Setpoint.LOWERED || !atSetpoint()) {
+        if (!intakeRequirements()) {
             stopIntake();
         }
     }
@@ -68,11 +68,15 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void acquire() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        if (intakeRequirements()) {
+            intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        }
     }
 
     public void dispose() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        if (intakeRequirements()) {
+            intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        }
     }
 
     public void stopIntake() {
@@ -85,5 +89,9 @@ public class Acquisition extends SubsystemBase {
 
     public Setpoint getSetpoint() {
         return setpoint;
+    }
+
+    private boolean intakeRequirements() {
+        return getSetpoint() == Setpoint.LOWERED && atSetpoint();
     }
 }
