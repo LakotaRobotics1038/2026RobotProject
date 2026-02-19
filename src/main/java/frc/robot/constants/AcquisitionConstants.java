@@ -29,10 +29,13 @@ public class AcquisitionConstants {
     public enum Setpoint {
         RAISED(0),
         LOWERED(90);
+
         private final double degrees;
+
         Setpoint(double degrees) {
             this.degrees = degrees;
         }
+
         public double getDegrees() {
             return degrees;
         }
