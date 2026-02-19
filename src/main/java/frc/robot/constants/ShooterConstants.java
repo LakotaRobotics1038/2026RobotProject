@@ -6,19 +6,13 @@ public final class ShooterConstants {
     private ShooterConstants() {
     }
 
-    public static final class LeftShooter {
-        private LeftShooter() {}
-        public static final int LEFT_MOTOR_CAN_ID = 0;
-        public static final int RIGHT_MOTOR_CAN_ID = 0;
-        public static final Translation2d TRANSLATION = new Translation2d();
-    }
+    public static final int NEAR_LEFT_MOTOR_CAN_ID = 0;
+    public static final int NEAR_RIGHT_MOTOR_CAN_ID = 0;
+    public static final Translation2d NEAR_TRANSLATION = new Translation2d();
 
-    public static final class RightShooter {
-        private RightShooter() {}
-        public static final int LEFT_MOTOR_CAN_ID = 0;
-        public static final int RIGHT_MOTOR_CAN_ID = 0;
-        public static final Translation2d TRANSLATION = new Translation2d();
-    }
+    public static final int FAR_LEFT_MOTOR_CAN_ID = 0;
+    public static final int FAR_RIGHT_MOTOR_CAN_ID = 0;
+    public static final Translation2d FAR_TRANSLATION = new Translation2d();
 
     public static final double RPM_TOLERANCE = 25.0;
 
