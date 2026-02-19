@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 public final class ShooterConstants {
     private ShooterConstants() {
     }
@@ -8,12 +10,14 @@ public final class ShooterConstants {
         private LeftShooter() {}
         public static final int LEFT_MOTOR_CAN_ID = 0;
         public static final int RIGHT_MOTOR_CAN_ID = 0;
+        public static final Translation2d TRANSLATION = new Translation2d();
     }
 
     public static final class RightShooter {
         private RightShooter() {}
         public static final int LEFT_MOTOR_CAN_ID = 0;
         public static final int RIGHT_MOTOR_CAN_ID = 0;
+        public static final Translation2d TRANSLATION = new Translation2d();
     }
 
     public static final double RPM_TOLERANCE = 25.0;

@@ -1,13 +1,12 @@
 package frc.robot.subsystems;
 
 import frc.robot.constants.ShooterConstants;
-import frc.robot.utils.Shooter;
 
 public class RightShooter extends Shooter {
     private static RightShooter instance;
 
     private RightShooter() {
-        super(ShooterConstants.RightShooter.LEFT_MOTOR_CAN_ID, ShooterConstants.RightShooter.RIGHT_MOTOR_CAN_ID);
+        super(ShooterConstants.RightShooter.LEFT_MOTOR_CAN_ID, ShooterConstants.RightShooter.RIGHT_MOTOR_CAN_ID, ShooterConstants.RightShooter.TRANSLATION);
     }
 
     public static RightShooter getInstance() {
