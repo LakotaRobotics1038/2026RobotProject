@@ -1,8 +1,11 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
@@ -11,8 +14,10 @@ import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
 
 public class Kicker extends SubsystemBase {
-    private SparkMax motor = new SparkMax(KickerConstants.CAN_ID, MotorType.kBrushless);
-
+    private final SparkMax motor = new SparkMax(KickerConstants.CAN_ID, MotorType.kBrushless);
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
+    private final RelativeEncoder encoder = motor.getEncoder();
+    private double rpm;
     private static Kicker instance = null;
 
     private Kicker() {
@@ -28,5 +33,27 @@ public class Kicker extends SubsystemBase {
             instance = new Kicker();
         }
         return instance;
+    }
+
+    public void start(double rpm) {
+        this.rpm = rpm;
+        controller.setSetpoint(rpm, ControlType.kVelocity);
+    }
+
+    public void stop() {
+        this.rpm = 0;
+        motor.stopMotor();
+    }
+
+    public double getRPM() {
+        return encoder.getVelocity();
+    }
+
+    public double getTargetRPM() {
+        return rpm;
+    }
+
+    public boolean isAtTargetRPM() {
+        return controller.isAtSetpoint();
     }
 }
