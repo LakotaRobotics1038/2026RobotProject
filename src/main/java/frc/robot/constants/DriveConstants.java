@@ -4,11 +4,14 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 
+import com.pathplanner.lib.util.FlippingUtil;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 
 public final class DriveConstants {
     public static final Matrix<N3, N1> ODOMETRY_STD_DEV = VecBuilder.fill(0.1, 0.1, 0.1);
@@ -27,8 +30,15 @@ public final class DriveConstants {
 
     public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond); // SPEED_AT_12_VOLTS
                                                                                                   // desired top speed
+
+    // angular velocity
+    // per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation
-                                                                                                    // per second max
-                                                                                                    // angular velocity
-    public static final Translation2d HUB_POSITION = new Translation2d();
+
+    private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = 4.033;
+    private static final double HUB_LENGTH = 1.19;
+    private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
+    private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
+
+    public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 }
