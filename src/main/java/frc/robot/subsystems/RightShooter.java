@@ -7,7 +7,7 @@ public class RightShooter extends Shooter {
     private static RightShooter instance;
 
     private RightShooter() {
-        super(ShooterConstants.RightShooter.LEFT_SHOOTER_CAN_ID, ShooterConstants.RightShooter.RIGHT_SHOOTER_CAN_ID);
+        super(ShooterConstants.RightShooter.LEFT_MOTOR_CAN_ID, ShooterConstants.RightShooter.RIGHT_MOTOR_CAN_ID);
     }
 
     public static RightShooter getInstance() {
