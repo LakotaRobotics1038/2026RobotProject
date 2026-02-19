@@ -14,12 +14,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ShooterConstants;
 
+/**
+ * Base shooter subsystem.
+ */
 public abstract class Shooter extends SubsystemBase {
     private final SparkFlex leftMotor;
     private final SparkFlex rightMotor;
     private final SparkClosedLoopController controller;
     private final RelativeEncoder encoder;
 
+    /**
+     * Creates a shooter with the specified motor controller CAN IDs.
+     *
+     * @param leftMotorCanId  CAN ID of the left shooter motor controller.
+     * @param rightMotorCanId CAN ID of the right shooter motor controller.
+     */
     protected Shooter(int leftMotorCanId, int rightMotorCanId) {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
@@ -42,19 +51,37 @@ public abstract class Shooter extends SubsystemBase {
         encoder = leftMotor.getEncoder();
     }
 
+    /**
+     * Starts the shooter at an RPM.
+     *
+     * @param rpm Target shooter speed in RPM.
+     */
     public void start(double rpm) {
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
+    /**
+     * Stops the shooter.
+     */
     public void stop() {
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
 
+    /**
+     * Returns the current shooter speed.
+     *
+     * @return Current shooter speed in RPM.
+     */
     public double getRPM() {
         return encoder.getVelocity();
     }
 
+    /**
+     * Indicates whether the shooter at its target RPM.
+     *
+     * @return Whether the shooter is at the target RPM.
+     */
     public boolean isAtTargetRPM() {
         return controller.isAtSetpoint();
     }
