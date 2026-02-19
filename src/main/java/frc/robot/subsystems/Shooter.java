@@ -70,6 +70,7 @@ public abstract class Shooter extends SubsystemBase {
      * Stops the shooter.
      */
     public void stop() {
+        this.rpm = 0;
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
