@@ -123,17 +123,12 @@ public class Vision extends SubsystemBase {
             Optional<EstimatedRobotPose> estimatedPose,
             List<PhotonTrackedTarget> targets) {
         if (estimatedPose.isEmpty()) {
-            // No pose input. Default to single-tag std devs
             return VisionConstants.SINGLE_TAG_STD_DEVS;
-
         } else {
-            // Pose present. Start running Heuristic
             Matrix<N3, N1> estStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
             int numTags = 0;
             double avgDist = 0;
 
-            // Precalculation - see how many tags we found, and calculate an
-            // average-distance metric
             for (PhotonTrackedTarget tgt : targets) {
                 Optional<Pose3d> tagPose = estimator.getFieldTags().getTagPose(tgt.getFiducialId());
                 if (tagPose.isEmpty()) {
@@ -148,18 +143,15 @@ public class Vision extends SubsystemBase {
             }
 
             if (numTags == 0) {
-                // No tags visible. Default to single-tag std devs
                 return VisionConstants.SINGLE_TAG_STD_DEVS;
             } else {
-                // One or more tags visible, run the full heuristic.
                 avgDist /= numTags;
-                // Decrease std devs if multiple targets are visible
-                if (numTags > 1)
+                if (numTags > 1) {
                     estStdDevs = VisionConstants.MULTI_TAG_STD_DEVS;
-                // Increase std devs based on (average) distance
-                if (numTags == 1 && avgDist > 4)
+                }
+                if (numTags == 1 && avgDist > 4) {
                     estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                else {
+                } else {
                     estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
                 }
                 return estStdDevs;
