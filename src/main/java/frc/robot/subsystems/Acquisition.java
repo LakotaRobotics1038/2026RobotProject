@@ -61,13 +61,13 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void raise() {
-        pivotController.setSetpoint(AcquisitionConstants.RAISED_DEGREES, ControlType.kPosition);
         setpoint = Setpoint.RAISED;
+        pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
     }
 
     public void lower() {
-        pivotController.setSetpoint(AcquisitionConstants.LOWERED_DEGREES, ControlType.kPosition);
         setpoint = Setpoint.LOWERED;
+        pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
     }
 
     public void acquire() {
