@@ -10,7 +10,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ShooterConstants;
@@ -23,7 +23,7 @@ public abstract class Shooter extends SubsystemBase {
     private final SparkFlex rightMotor;
     private final SparkClosedLoopController controller;
     private final RelativeEncoder encoder;
-    private final Translation2d translation;
+    private final Translation3d translation;
     private double rpm;
 
     /**
@@ -32,7 +32,7 @@ public abstract class Shooter extends SubsystemBase {
      * @param leftMotorCanId  CAN ID of the left shooter motor controller.
      * @param rightMotorCanId CAN ID of the right shooter motor controller.
      */
-    protected Shooter(int leftMotorCanId, int rightMotorCanId, Translation2d translation) {
+    protected Shooter(int leftMotorCanId, int rightMotorCanId, Translation3d translation) {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)

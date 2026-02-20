@@ -33,11 +33,4 @@ public final class DriveConstants {
 
     // 3/4 of a rotation angular velocity per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
-
-    private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = 4.033;
-    private static final double HUB_LENGTH = 1.19;
-    private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
-    private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
-
-    public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 }
