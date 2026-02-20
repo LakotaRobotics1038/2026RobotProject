@@ -24,7 +24,6 @@ public abstract class Shooter extends SubsystemBase {
     private final SparkClosedLoopController controller;
     private final RelativeEncoder encoder;
     private final Translation3d translation;
-    private double rpm;
 
     /**
      * Creates a shooter with the specified motor controller CAN IDs.
@@ -62,7 +61,6 @@ public abstract class Shooter extends SubsystemBase {
      * @param rpm Target shooter speed in RPM.
      */
     public void start(double rpm) {
-        this.rpm = rpm;
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
@@ -70,7 +68,6 @@ public abstract class Shooter extends SubsystemBase {
      * Stops the shooter.
      */
     public void stop() {
-        this.rpm = 0;
         leftMotor.stopMotor();
         rightMotor.stopMotor();
     }
@@ -85,7 +82,7 @@ public abstract class Shooter extends SubsystemBase {
     }
 
     public double getTargetRPM() {
-        return rpm;
+        return controller.getSetpoint();
     }
 
     /**
