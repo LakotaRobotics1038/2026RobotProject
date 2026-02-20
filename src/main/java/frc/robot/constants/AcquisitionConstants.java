@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-public class AcquisitionConstants {
+public final class AcquisitionConstants {
     private AcquisitionConstants() {
     }
 
