@@ -17,7 +17,6 @@ public class Kicker extends SubsystemBase {
     private final SparkMax motor = new SparkMax(KickerConstants.CAN_ID, MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
     private final RelativeEncoder encoder = motor.getEncoder();
-    private double rpm;
     private static Kicker instance = null;
 
     private Kicker() {
@@ -36,12 +35,10 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start(double rpm) {
-        this.rpm = rpm;
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
     public void stop() {
-        this.rpm = 0;
         motor.stopMotor();
     }
 
@@ -50,7 +47,7 @@ public class Kicker extends SubsystemBase {
     }
 
     public double getTargetRPM() {
-        return rpm;
+        return controller.getSetpoint();
     }
 
     public boolean isAtTargetRPM() {
