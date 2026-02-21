@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.servohub.ServoChannel;
 import frc.robot.constants.ShooterConstants;
 
 public class NearShooter extends Shooter {

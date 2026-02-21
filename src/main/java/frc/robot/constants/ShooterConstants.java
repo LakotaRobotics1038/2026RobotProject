@@ -1,20 +1,29 @@
 package frc.robot.constants;
 
 import com.pathplanner.lib.util.FlippingUtil;
+import com.revrobotics.servohub.ServoChannel;
+import com.revrobotics.servohub.config.ServoChannelConfig;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.subsystems.Shooter;
 
 public final class ShooterConstants {
     private ShooterConstants() {
     }
 
+    public static final int SERVO_HUB_CAN_ID = 0;
+
     public static final int NEAR_LEFT_MOTOR_CAN_ID = 0;
     public static final int NEAR_RIGHT_MOTOR_CAN_ID = 0;
     public static final Translation3d NEAR_TRANSLATION = new Translation3d();
+    public static final ServoChannel.ChannelId NEAR_SERVO_CHANNEL = ServoChannel.ChannelId.kChannelId0;
+    public static final ServoChannelConfig.PulseRange NEAR_SERVO_PULSE_RANGE = new ServoChannelConfig.PulseRange(1000, 1500, 2000);
 
     public static final int FAR_LEFT_MOTOR_CAN_ID = 0;
     public static final int FAR_RIGHT_MOTOR_CAN_ID = 0;
     public static final Translation3d FAR_TRANSLATION = new Translation3d();
+    public static final ServoChannel.ChannelId FAR_SERVO_CHANNEL = ServoChannel.ChannelId.kChannelId1;
+    public static final ServoChannelConfig.PulseRange FAR_SERVO_PULSE_RANGE = new ServoChannelConfig.PulseRange(1500, 2000, 2500);
 
     public static final double RPM_TOLERANCE = 25.0;
 

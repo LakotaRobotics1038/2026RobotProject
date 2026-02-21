@@ -3,6 +3,10 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
+import com.revrobotics.servohub.ServoChannel;
+import com.revrobotics.servohub.ServoHub;
+import com.revrobotics.servohub.config.ServoChannelConfig;
+import com.revrobotics.servohub.config.ServoHubConfig;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -24,6 +28,7 @@ public abstract class Shooter extends SubsystemBase {
     private final SparkClosedLoopController controller;
     private final RelativeEncoder encoder;
     private final Translation3d translation;
+    private static ServoHub servoHub;
 
     /**
      * Creates a shooter with the specified motor controller CAN IDs.
@@ -32,6 +37,14 @@ public abstract class Shooter extends SubsystemBase {
      * @param rightMotorCanId CAN ID of the right shooter motor controller.
      */
     protected Shooter(int leftMotorCanId, int rightMotorCanId, Translation3d translation) {
+        if (servoHub == null) {
+            servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
+            ServoHubConfig config = new ServoHubConfig();
+            config.apply(ShooterConstants.NEAR_SERVO_CHANNEL, new ServoChannelConfig(ShooterConstants.NEAR_SERVO_CHANNEL).pulseRange(ShooterConstants.NEAR_SERVO_PULSE_RANGE));
+            config.apply(ShooterConstants.FAR_SERVO_CHANNEL, new ServoChannelConfig(ShooterConstants.FAR_SERVO_CHANNEL).pulseRange(ShooterConstants.FAR_SERVO_PULSE_RANGE));
+            servoHub.configure(config, ResetMode.kResetSafeParameters);
+        }
+
         SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
@@ -96,5 +109,9 @@ public abstract class Shooter extends SubsystemBase {
 
     public Translation3d getTranslation() {
         return translation;
+    }
+
+    public ServoHub getServoHub() {
+        return servoHub;
     }
 }
