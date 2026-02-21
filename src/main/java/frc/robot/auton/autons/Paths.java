@@ -1,4 +1,4 @@
-package frc.robot.autons;
+package frc.robot.auton.autons;
 
 import java.io.IOException;
 

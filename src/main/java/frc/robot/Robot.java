@@ -11,8 +11,11 @@ import edu.wpi.first.net.WebServer;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.autons.Auton;
-import frc.robot.autons.AutonSelector;
+import frc.robot.auton.CommandValidator;
+import frc.robot.auton.ValidatedNamedCommand;
+import frc.robot.auton.autons.Auton;
+import frc.robot.auton.autons.AutonSelector;
+import frc.robot.commands.TestCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -39,6 +42,8 @@ public class Robot extends TimedRobot {
         // Singleton instances that need to be created but not referenced
         DriverJoystick.getInstance();
         Dashboard.getInstance();
+        ValidatedNamedCommand.registerCommand(new TestCommand());
+        CommandValidator.validateCommands();
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
 
