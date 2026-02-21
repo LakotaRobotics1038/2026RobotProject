@@ -61,7 +61,7 @@ public class Shooter extends SubsystemBase {
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
         private final Translation3d translation;
-        private final ChannelId servoChannel;
+        private final ChannelId servoChannelID;
 
         /**
          * Creates a shooter with the specified motor controller CAN IDs.
@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase {
          * @param leftMotorCanId  CAN ID of the left shooter motor controller.
          * @param rightMotorCanId CAN ID of the right shooter motor controller.
          */
-        protected ShooterTemplate(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ChannelId servoChannel) {
+        protected ShooterTemplate(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ChannelId servoChannelID) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
@@ -91,7 +91,11 @@ public class Shooter extends SubsystemBase {
             encoder = leftMotor.getEncoder();
 
             this.translation = translation;
-            this.servoChannel = servoChannel;
+            this.servoChannelID = servoChannelID;
+
+            ServoChannel servoChannel = servoHub.getServoChannel(servoChannelID);
+            servoChannel.setEnabled(true);
+            servoChannel.setPowered(true);
         }
 
         /**
@@ -137,8 +141,12 @@ public class Shooter extends SubsystemBase {
             return translation;
         }
 
-        public ServoChannel getServoChannel() {
-            return servoHub.getServoChannel(servoChannel);
+        private ServoChannel getServoChannel() {
+            return servoHub.getServoChannel(servoChannelID);
+        }
+
+        public void setAngle(ShooterConstants.ShooterAngle angle) {
+            getServoChannel().setPulseWidth(angle.getPulseWidth());
         }
     }
 }
