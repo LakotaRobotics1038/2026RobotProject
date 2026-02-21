@@ -93,4 +93,8 @@ public abstract class Shooter extends SubsystemBase {
     public boolean isAtTargetRPM() {
         return controller.isAtSetpoint();
     }
+
+    public Translation3d getTranslation() {
+        return translation;
+    }
 }
