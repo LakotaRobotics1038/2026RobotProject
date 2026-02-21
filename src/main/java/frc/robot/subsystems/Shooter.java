@@ -37,10 +37,22 @@ public class Shooter extends SubsystemBase {
         return instance;
     }
 
+    public ShooterModule getNearShooter() {
+        return nearShooter;
+    }
+
+    public ServoHub getServoHub() {
+        return servoHub;
+    }
+
+    public ShooterModule getFarShooter() {
+        return farShooter;
+    }
+
     /**
      * Base shooter module.
      */
-    private static class ShooterModule {
+    public static class ShooterModule {
         private final ServoHub servoHub;
         private final SparkFlex leftMotor;
         private final SparkFlex rightMotor;
