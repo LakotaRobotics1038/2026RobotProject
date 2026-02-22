@@ -14,9 +14,7 @@ import frc.robot.constants.ClimbConstants;
 public class Climb extends SubsystemBase {
 
     private final SparkMax climbMotor = new SparkMax(ClimbConstants.CLIMB_MOTOR_CAN_ID, MotorType.kBrushless);
-    private AbsoluteEncoder climbEncoder = climbMotor.getAbsoluteEncoder();
-    private SparkLimitSwitch limitSwitchBottom = climbMotor.getReverseLimitSwitch();
-    private SparkLimitSwitch limitSwitchTop = climbMotor.getForwardLimitSwitch();
+    private final AbsoluteEncoder climbEncoder = climbMotor.getAbsoluteEncoder();
     private static Climb instance;
     private double position;
 
@@ -30,15 +28,6 @@ public class Climb extends SubsystemBase {
             instance = new Climb();
         }
         return instance;
-    }
-
-    public void getPosition() {
-        position = this.climbEncoder.getPosition();
-        if (limitSwitchBottom.isPressed()) {
-            position = 0;
-        } else if (limitSwitchTop.isPressed()) {
-            position = ClimbConstants.MAX;
-        }
     }
 
     public void climbUp() {
