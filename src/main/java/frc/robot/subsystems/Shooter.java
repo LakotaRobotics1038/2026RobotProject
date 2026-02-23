@@ -45,12 +45,12 @@ public class Shooter extends SubsystemBase {
         return nearShooter;
     }
 
-    public ServoHub getServoHub() {
-        return servoHub;
-    }
-
     public ShooterModule getFarShooter() {
         return farShooter;
+    }
+
+    public ServoHub getServoHub() {
+        return servoHub;
     }
 
     /**
