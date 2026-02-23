@@ -9,6 +9,7 @@ import com.revrobotics.servohub.config.ServoChannelConfig;
 import com.revrobotics.servohub.config.ServoHubConfig;
 import com.revrobotics.spark.*;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
@@ -63,6 +64,7 @@ public class Shooter extends SubsystemBase {
         private final RelativeEncoder encoder;
         private final Translation3d translation;
         private final ServoChannel servoChannel;
+        private final ServoChannelConfig.PulseRange servoPulseRange;
 
         /**
          * Creates a shooter with the specified motor controller CAN IDs.
@@ -72,7 +74,7 @@ public class Shooter extends SubsystemBase {
          */
         private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ServoHub servoHub,
                 ServoHubConfig servoHubConfig, ServoChannel.ChannelId servoChannelID,
-                ServoChannelConfig.PulseRange servoChannelPulseRange) {
+                ServoChannelConfig.PulseRange servoPulseRange) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
@@ -95,14 +97,15 @@ public class Shooter extends SubsystemBase {
 
             this.translation = translation;
             this.servoChannel = servoHub.getServoChannel(servoChannelID);
+            this.servoPulseRange = servoPulseRange;
 
             switch (servoChannelID) {
-                case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoChannelPulseRange);
-                case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoChannelPulseRange);
-                case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoChannelPulseRange);
-                case kChannelId3 -> servoHubConfig.channel3.pulseRange(servoChannelPulseRange);
-                case kChannelId4 -> servoHubConfig.channel4.pulseRange(servoChannelPulseRange);
-                case kChannelId5 -> servoHubConfig.channel5.pulseRange(servoChannelPulseRange);
+                case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoPulseRange);
+                case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoPulseRange);
+                case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoPulseRange);
+                case kChannelId3 -> servoHubConfig.channel3.pulseRange(servoPulseRange);
+                case kChannelId4 -> servoHubConfig.channel4.pulseRange(servoPulseRange);
+                case kChannelId5 -> servoHubConfig.channel5.pulseRange(servoPulseRange);
             }
 
             servoChannel.setEnabled(true);
@@ -152,8 +155,14 @@ public class Shooter extends SubsystemBase {
             return translation;
         }
 
-        public void setAngle(ShooterConstants.ShooterAngle angle) {
-            servoChannel.setPulseWidth(angle.getPulseWidth());
+        private int getPulseWidth(double angle) {
+            return servoPulseRange.minPulse_us +
+                    (int) (MathUtil.clamp(angle, ShooterConstants.SHOOTER_ANGLE_MIN_DEG, ShooterConstants.SHOOTER_ANGLE_MAX_DEG) /
+                            (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG) * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us));
+        }
+
+        public void setAngle(double angle) {
+            servoChannel.setPulseWidth(getPulseWidth(angle));
         }
     }
 }

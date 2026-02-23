@@ -35,8 +35,8 @@ public final class ShooterConstants {
     public static final double A = 0.0;
 
     public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
-    public static final double SHOOTER_ANGLE_MAX_DEG = 65.0;
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
+    public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
 
     public static final double FUEL_DIAMETER = 0.15;
     public static final double FUEL_WEIGHT_MIN = Units.lbsToKilograms(0.448);
@@ -49,23 +49,4 @@ public final class ShooterConstants {
     private static final double HUB_CENTER_Z = Units.inchesToMeters(72);
 
     public static final Translation3d HUB_POSITION = new Translation3d(HUB_CENTER_X, HUB_CENTER_Y, HUB_CENTER_Z);
-
-    public enum ShooterAngle {
-        LOW(55, -1),
-        HIGH(65, -1);
-        private final double angle;
-        private final int pulseWidth;
-        ShooterAngle(double angle, int pulseWidth) {
-            this.angle = angle;
-            this.pulseWidth = pulseWidth;
-        }
-
-        public double getAngle() {
-            return angle;
-        }
-
-        public int getPulseWidth() {
-            return pulseWidth;
-        }
-    }
 }
