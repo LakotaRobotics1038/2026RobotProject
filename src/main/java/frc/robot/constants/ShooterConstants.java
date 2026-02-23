@@ -41,12 +41,4 @@ public final class ShooterConstants {
     public static final double FUEL_DIAMETER = 0.15;
     public static final double FUEL_WEIGHT_MIN = Units.lbsToKilograms(0.448);
     public static final double FUEL_WEIGHT_MAX_LB = Units.lbsToKilograms(0.5);
-
-    private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = Units.inchesToMeters(158.6);
-    private static final double HUB_LENGTH = Units.inchesToMeters(47);
-    private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
-    private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
-    private static final double HUB_CENTER_Z = Units.inchesToMeters(72);
-
-    public static final Translation3d HUB_POSITION = new Translation3d(HUB_CENTER_X, HUB_CENTER_Y, HUB_CENTER_Z);
 }
