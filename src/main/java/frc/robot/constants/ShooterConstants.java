@@ -5,7 +5,6 @@ import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.subsystems.Shooter;
 
 public final class ShooterConstants {
     private ShooterConstants() {
@@ -47,7 +46,7 @@ public final class ShooterConstants {
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
     private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
-    public static final double HUB_CENTER_Z = Units.inchesToMeters(72);
+    private static final double HUB_CENTER_Z = Units.inchesToMeters(72);
 
     public static final Translation3d HUB_POSITION = new Translation3d(HUB_CENTER_X, HUB_CENTER_Y, HUB_CENTER_Z);
 

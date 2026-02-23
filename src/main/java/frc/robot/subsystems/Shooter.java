@@ -25,8 +25,12 @@ public class Shooter extends SubsystemBase {
     private Shooter() {
         servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
         ServoHubConfig servoHubConfig = new ServoHubConfig();
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_LEFT_MOTOR_CAN_ID, ShooterConstants.NEAR_RIGHT_MOTOR_CAN_ID, ShooterConstants.NEAR_TRANSLATION, servoHub, servoHubConfig, ShooterConstants.NEAR_SERVO_CHANNEL, ShooterConstants.NEAR_SERVO_PULSE_RANGE);
-        farShooter = new ShooterModule(ShooterConstants.FAR_LEFT_MOTOR_CAN_ID, ShooterConstants.FAR_RIGHT_MOTOR_CAN_ID, ShooterConstants.FAR_TRANSLATION, servoHub, servoHubConfig, ShooterConstants.FAR_SERVO_CHANNEL, ShooterConstants.FAR_SERVO_PULSE_RANGE);
+        nearShooter = new ShooterModule(ShooterConstants.NEAR_LEFT_MOTOR_CAN_ID,
+                ShooterConstants.NEAR_RIGHT_MOTOR_CAN_ID, ShooterConstants.NEAR_TRANSLATION, servoHub, servoHubConfig,
+                ShooterConstants.NEAR_SERVO_CHANNEL, ShooterConstants.NEAR_SERVO_PULSE_RANGE);
+        farShooter = new ShooterModule(ShooterConstants.FAR_LEFT_MOTOR_CAN_ID, ShooterConstants.FAR_RIGHT_MOTOR_CAN_ID,
+                ShooterConstants.FAR_TRANSLATION, servoHub, servoHubConfig, ShooterConstants.FAR_SERVO_CHANNEL,
+                ShooterConstants.FAR_SERVO_PULSE_RANGE);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
     }
 
@@ -53,13 +57,12 @@ public class Shooter extends SubsystemBase {
      * Base shooter module.
      */
     public static class ShooterModule {
-        private final ServoHub servoHub;
         private final SparkFlex leftMotor;
         private final SparkFlex rightMotor;
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
         private final Translation3d translation;
-        private final ServoChannel.ChannelId servoChannelID;
+        private final ServoChannel servoChannel;
 
         /**
          * Creates a shooter with the specified motor controller CAN IDs.
@@ -67,9 +70,9 @@ public class Shooter extends SubsystemBase {
          * @param leftMotorCanId  CAN ID of the left shooter motor controller.
          * @param rightMotorCanId CAN ID of the right shooter motor controller.
          */
-        private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ServoHub servoHub, ServoHubConfig servoHubConfig, ServoChannel.ChannelId servoChannelID, ServoChannelConfig.PulseRange servoChannelPulseRange) {
-            this.servoHub = servoHub;
-
+        private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ServoHub servoHub,
+                ServoHubConfig servoHubConfig, ServoChannel.ChannelId servoChannelID,
+                ServoChannelConfig.PulseRange servoChannelPulseRange) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
@@ -91,7 +94,7 @@ public class Shooter extends SubsystemBase {
             encoder = leftMotor.getEncoder();
 
             this.translation = translation;
-            this.servoChannelID = servoChannelID;
+            this.servoChannel = servoHub.getServoChannel(servoChannelID);
 
             switch (servoChannelID) {
                 case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoChannelPulseRange);
@@ -102,8 +105,8 @@ public class Shooter extends SubsystemBase {
                 case kChannelId5 -> servoHubConfig.channel5.pulseRange(servoChannelPulseRange);
             }
 
-            getServoChannel().setEnabled(true);
-            getServoChannel().setPowered(true);
+            servoChannel.setEnabled(true);
+            servoChannel.setPowered(true);
         }
 
         /**
@@ -149,12 +152,8 @@ public class Shooter extends SubsystemBase {
             return translation;
         }
 
-        private ServoChannel getServoChannel() {
-            return servoHub.getServoChannel(servoChannelID);
-        }
-
         public void setAngle(ShooterConstants.ShooterAngle angle) {
-            getServoChannel().setPulseWidth(angle.getPulseWidth());
+            servoChannel.setPulseWidth(angle.getPulseWidth());
         }
     }
 }
