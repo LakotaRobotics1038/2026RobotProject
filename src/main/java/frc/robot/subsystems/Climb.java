@@ -10,17 +10,21 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ClimbConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Climb extends SubsystemBase {
 
-    private final SparkMax motor = new SparkMax(ClimbConstants.CLIMB_MOTOR_CAN_ID,
+    private final SparkMax motor = new SparkMax(ClimbConstants.MOTOR_CAN_ID,
             MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
     private static Climb instance;
 
     private Climb() {
-
-        motor.configure(SparkMaxConfig.Presets.REV_NEO, ResetMode.kResetSafeParameters,
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+                .pid(ClimbConstants.P,  ClimbConstants.I, ClimbConstants.D).feedForward.
+                sva(ClimbConstants.S, ClimbConstants.V, ClimbConstants.A);
+        motor.configure(config, ResetMode.kResetSafeParameters,
                 PersistMode.kNoPersistParameters);
     }
 
