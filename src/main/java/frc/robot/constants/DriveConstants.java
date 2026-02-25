@@ -24,8 +24,8 @@ public final class DriveConstants {
 
     public static final double FINE_ADJUSTMENT_PERCENT = 0.2;
 
-    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond); // SPEED_AT_12_VOLTS
-                                                                                                  // desired top speed
+    // SPEED_AT_12_VOLTS desired top speed
+    public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond);
 
     // 3/4 of a rotation angular velocity per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
