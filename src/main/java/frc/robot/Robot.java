@@ -14,7 +14,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
 import frc.robot.constants.SwerveConstants;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
