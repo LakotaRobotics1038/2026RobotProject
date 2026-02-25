@@ -142,6 +142,11 @@ public class Shooter extends SubsystemBase {
             return encoder.getVelocity();
         }
 
+        /**
+         * Returns the target shooter speed.
+         *
+         * @return Current target speed in RPM.
+         */
         public double getTargetRPM() {
             return controller.getSetpoint();
         }
@@ -155,23 +160,30 @@ public class Shooter extends SubsystemBase {
             return controller.isAtSetpoint();
         }
 
+        /**
+         * Gets the translation of the shooter module relative to the center of the
+         * robot.
+         *
+         * @return The translation of the shooter module.
+         */
         public Translation2d getTranslation() {
             return translation;
         }
 
-        private int getPulseWidth(double angle) {
+        /**
+         * Sets the servo angle by converting the given degrees to pulse width.
+         *
+         * @param angle Angle in degrees.
+         */
+        public void setAngle(double angle) {
             double clampedAngle = MathUtil.clamp(
                     angle,
                     ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
                     ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
             double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
-            return servoPulseRange.minPulse_us
-                    + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us));
-        }
-
-        public void setAngle(double angle) {
-            servoChannel.setPulseWidth(getPulseWidth(angle));
+            servoChannel.setPulseWidth(servoPulseRange.minPulse_us
+                    + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
         }
     }
 }
