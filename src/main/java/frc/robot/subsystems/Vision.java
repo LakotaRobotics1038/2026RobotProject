@@ -62,6 +62,7 @@ public class Vision extends SubsystemBase {
     }
 
     private Vision() {
+        backCam.setPipelineIndex(1);
     }
 
     private Optional<EstimatedRobotPose> estimateCameraPose(
@@ -177,10 +178,6 @@ public class Vision extends SubsystemBase {
      */
     public Matrix<N3, N1> getBackEstimationStdDevs() {
         return backCurStdDevs;
-    }
-
-    public void setAlgaeMode() {
-        backCam.setPipelineIndex(0);
     }
 
     public void setAprilTagMode() {
