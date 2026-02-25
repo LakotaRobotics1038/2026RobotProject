@@ -156,9 +156,14 @@ public class Shooter extends SubsystemBase {
         }
 
         private int getPulseWidth(double angle) {
-            return servoPulseRange.minPulse_us +
-                    (int) (MathUtil.clamp(angle, ShooterConstants.SHOOTER_ANGLE_MIN_DEG, ShooterConstants.SHOOTER_ANGLE_MAX_DEG) /
-                            (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG) * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us));
+            double clampedAngle = MathUtil.clamp(
+                    angle,
+                    ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
+                    ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
+            double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
+                    / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
+            return servoPulseRange.minPulse_us
+                    + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us));
         }
 
         public void setAngle(double angle) {
