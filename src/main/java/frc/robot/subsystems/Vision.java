@@ -179,8 +179,4 @@ public class Vision extends SubsystemBase {
     public Matrix<N3, N1> getBackEstimationStdDevs() {
         return backCurStdDevs;
     }
-
-    public void setAprilTagMode() {
-        backCam.setPipelineIndex(1);
-    }
 }
