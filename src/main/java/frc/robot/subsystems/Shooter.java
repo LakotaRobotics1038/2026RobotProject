@@ -10,7 +10,7 @@ import com.revrobotics.servohub.config.ServoHubConfig;
 import com.revrobotics.spark.*;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ShooterConstants;
@@ -62,7 +62,7 @@ public class Shooter extends SubsystemBase {
         private final SparkFlex rightMotor;
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
-        private final Translation3d translation;
+        private final Translation2d translation;
         private final ServoChannel servoChannel;
         private final ServoChannelConfig.PulseRange servoPulseRange;
 
@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase {
          * @param leftMotorCanId  CAN ID of the left shooter motor controller.
          * @param rightMotorCanId CAN ID of the right shooter motor controller.
          */
-        private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation3d translation, ServoHub servoHub,
+        private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation2d translation, ServoHub servoHub,
                 ServoHubConfig servoHubConfig, ServoChannel.ChannelId servoChannelID,
                 ServoChannelConfig.PulseRange servoPulseRange) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
@@ -151,7 +151,7 @@ public class Shooter extends SubsystemBase {
             return controller.isAtSetpoint();
         }
 
-        public Translation3d getTranslation() {
+        public Translation2d getTranslation() {
             return translation;
         }
 
