@@ -15,6 +15,7 @@ public final class DriveConstants {
 
     public static final double DEFAULT_MAX_POWER = 0.75;
     public static final double OVERDRIVE_POWER = 1.0;
+    public static final double BUMP_SLOWDOWN_POWER = 0.3;
 
     // Chassis configuration
     // Distance between centers of right and left wheels on robot

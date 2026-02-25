@@ -2,9 +2,11 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
@@ -34,6 +36,9 @@ public class DriverJoystick extends XboxController1038 {
 
     private final Telemetry logger = new Telemetry(DriveConstants.MAX_SPEED);
 
+    private boolean toggleBumpSlowdown = true;
+    private double powerMultiplier = maxPower;
+
     // Singleton Setup
     private static DriverJoystick instance;
 
@@ -49,6 +54,16 @@ public class DriverJoystick extends XboxController1038 {
         super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
+            if (toggleBumpSlowdown) {
+                Translation2d translation = new Translation2d(driveTrain.getState().Pose.getX(),
+                        driveTrain.getState().Pose.getY());
+                if (FieldConstants.LEFT_BUMP.contains(translation) || FieldConstants.RIGHT_BUMP.contains(translation)) {
+                    powerMultiplier = DriveConstants.BUMP_SLOWDOWN_POWER;
+                } else {
+                    powerMultiplier = maxPower;
+                }
+            }
+
             double sideways = this.getSidewaysValue();
             double forward = this.getForwardValue();
             double rotate = this.getRotateValue();
@@ -91,7 +106,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return sideways value
      */
     private double getSidewaysValue() {
-        double x = this.getLeftX() * maxPower;
+        double x = this.getLeftX() * powerMultiplier;
 
         double sideways = limitRate(x, prevSideways, sidewaysLimiter);
         prevSideways = sideways;
@@ -106,7 +121,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return forward value
      */
     private double getForwardValue() {
-        double y = this.getLeftY() * maxPower;
+        double y = this.getLeftY() * powerMultiplier;
 
         double forward = limitRate(y, prevForward, forwardLimiter);
         prevForward = forward;
@@ -121,7 +136,7 @@ public class DriverJoystick extends XboxController1038 {
      * @return rotate value
      */
     private double getRotateValue() {
-        double z = this.getRightX() * maxPower;
+        double z = this.getRightX() * powerMultiplier;
 
         double rotate = limitRate(z, prevRotate, rotateLimiter);
         prevRotate = rotate;
