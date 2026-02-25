@@ -30,7 +30,6 @@ public class Robot extends TimedRobot {
 
     // Subsystems
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-
     private final Vision vision = Vision.getInstance();
 
     // Human Interface Devices
