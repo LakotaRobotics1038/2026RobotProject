@@ -13,4 +13,7 @@ public class KickerConstants {
     public static final double S = 0.0;
     public static final double V = 0.0;
     public static final double A = 0.0;
+
+    public static final double MAX_SPEED = 0.0;
+    public static final double MIN_SPEED = 0.0;
 }

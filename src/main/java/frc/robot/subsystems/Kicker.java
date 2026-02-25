@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.lang.Math;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -35,6 +36,7 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start(double rpm) {
+        double clampedValue = clamp(rpm, KickerConstants.MIN_SPEED, KickerConstants.MAX_SPEED);
         controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
@@ -53,4 +55,9 @@ public class Kicker extends SubsystemBase {
     public boolean isAtTargetRPM() {
         return controller.isAtSetpoint();
     }
+
+    public double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
 }
