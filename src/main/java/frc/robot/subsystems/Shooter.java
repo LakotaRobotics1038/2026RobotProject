@@ -185,5 +185,15 @@ public class Shooter extends SubsystemBase {
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
                     + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
         }
+
+        /**
+         * Sets the shooter to a certain speed given the distance to the hub. Assumes
+         * that it is already aligned.
+         *
+         * @param hubDistance The distance from the shooter module to the hub.
+         */
+        public void autoShoot(double hubDistance) {
+            // TODO Implement auto shooting based on distance from hub.
+        }
     }
 }
