@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import java.lang.Math;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -10,6 +9,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -36,8 +36,8 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start(double rpm) {
-        double clampedValue = clamp(rpm, KickerConstants.MIN_SPEED, KickerConstants.MAX_SPEED);
-        controller.setSetpoint(rpm, ControlType.kVelocity);
+        controller.setSetpoint(MathUtil.clamp(rpm, KickerConstants.MIN_SPEED, KickerConstants.MAX_SPEED),
+                ControlType.kVelocity);
     }
 
     public void stop() {
@@ -55,9 +55,4 @@ public class Kicker extends SubsystemBase {
     public boolean isAtTargetRPM() {
         return controller.isAtSetpoint();
     }
-
-    public double clamp(double value, double min, double max) {
-        return Math.max(min, Math.min(max, value));
-    }
-
 }
