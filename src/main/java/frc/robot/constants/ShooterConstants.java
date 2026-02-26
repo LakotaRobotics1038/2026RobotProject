@@ -44,4 +44,7 @@ public final class ShooterConstants {
     public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
+
+    public static final double AUTO_SHOOT_SLOPE = 12.384;
+    public static final double AUTO_SHOOT_Y_INTERCEPT = 2135.3;
 }
