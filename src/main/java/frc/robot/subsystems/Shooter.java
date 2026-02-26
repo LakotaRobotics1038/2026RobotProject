@@ -30,12 +30,8 @@ public class Shooter extends SubsystemBase {
     private Shooter() {
         servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
         ServoHubConfig servoHubConfig = new ServoHubConfig();
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_LEFT_MOTOR_CAN_ID,
-                ShooterConstants.NEAR_RIGHT_MOTOR_CAN_ID, ShooterConstants.NEAR_TRANSLATION, servoHub, servoHubConfig,
-                ShooterConstants.NEAR_SERVO_CHANNEL, ShooterConstants.NEAR_SERVO_PULSE_RANGE);
-        farShooter = new ShooterModule(ShooterConstants.FAR_LEFT_MOTOR_CAN_ID, ShooterConstants.FAR_RIGHT_MOTOR_CAN_ID,
-                ShooterConstants.FAR_TRANSLATION, servoHub, servoHubConfig, ShooterConstants.FAR_SERVO_CHANNEL,
-                ShooterConstants.FAR_SERVO_PULSE_RANGE);
+        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_OPTIONS, servoHub, servoHubConfig);
+        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_OPTIONS, servoHub, servoHubConfig);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
     }
 
@@ -76,9 +72,8 @@ public class Shooter extends SubsystemBase {
          * @param leftMotorCanId  CAN ID of the left shooter motor controller.
          * @param rightMotorCanId CAN ID of the right shooter motor controller.
          */
-        private ShooterModule(int leftMotorCanId, int rightMotorCanId, Translation2d translation, ServoHub servoHub,
-                ServoHubConfig servoHubConfig, ServoChannel.ChannelId servoChannelID,
-                ServoChannelConfig.PulseRange servoPulseRange) {
+        private ShooterModule(ShooterConstants.ShooterModuleOptions options, ServoHub servoHub,
+                ServoHubConfig servoHubConfig) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
@@ -88,22 +83,22 @@ public class Shooter extends SubsystemBase {
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
             leftMotorConfig.apply(baseConfig);
-            leftMotor = new SparkFlex(leftMotorCanId, SparkLowLevel.MotorType.kBrushless);
+            leftMotor = new SparkFlex(options.leftMotorCanId(), SparkLowLevel.MotorType.kBrushless);
             leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
             SparkFlexConfig rightMotorConfig = new SparkFlexConfig();
             rightMotorConfig.apply(baseConfig).follow(leftMotor, true);
-            rightMotor = new SparkFlex(rightMotorCanId, SparkLowLevel.MotorType.kBrushless);
+            rightMotor = new SparkFlex(options.rightMotorCanId(), SparkLowLevel.MotorType.kBrushless);
             rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
             controller = leftMotor.getClosedLoopController();
             encoder = leftMotor.getEncoder();
 
-            this.translation = translation;
-            this.servoChannel = servoHub.getServoChannel(servoChannelID);
-            this.servoPulseRange = servoPulseRange;
+            translation = options.translation();
+            servoChannel = servoHub.getServoChannel(options.servoChannelID());
+            servoPulseRange = options.servoPulseRange();
 
-            switch (servoChannelID) {
+            switch (options.servoChannelID()) {
                 case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoPulseRange);
                 case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoPulseRange);
                 case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoPulseRange);

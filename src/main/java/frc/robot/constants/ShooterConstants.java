@@ -7,24 +7,31 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public final class ShooterConstants {
+    public static record ShooterModuleOptions(
+            int leftMotorCanId,
+            int rightMotorCanId,
+            Translation2d translation,
+            ServoChannel.ChannelId servoChannelID,
+            ServoChannelConfig.PulseRange servoPulseRange) {
+    }
+
+    public static final ShooterModuleOptions NEAR_SHOOTER_MODULE_OPTIONS = new ShooterModuleOptions(
+            0,
+            0,
+            new Translation2d(),
+            ServoChannel.ChannelId.kChannelId0,
+            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
+
+    public static final ShooterModuleOptions FAR_SHOOTER_MODULE_OPTIONS = new ShooterModuleOptions(
+            0,
+            0,
+            new Translation2d(),
+            ServoChannel.ChannelId.kChannelId0,
+            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final int SERVO_HUB_CAN_ID = 0;
 
-    public static final int NEAR_LEFT_MOTOR_CAN_ID = 0;
-    public static final int NEAR_RIGHT_MOTOR_CAN_ID = 0;
-    public static final Translation2d NEAR_TRANSLATION = new Translation2d();
-    public static final ServoChannel.ChannelId NEAR_SERVO_CHANNEL = ServoChannel.ChannelId.kChannelId0;
-    public static final ServoChannelConfig.PulseRange NEAR_SERVO_PULSE_RANGE = new ServoChannelConfig.PulseRange(1000,
-            1500, 2000);
-
-    public static final int FAR_LEFT_MOTOR_CAN_ID = 0;
-    public static final int FAR_RIGHT_MOTOR_CAN_ID = 0;
-    public static final Translation2d FAR_TRANSLATION = new Translation2d();
-    public static final ServoChannel.ChannelId FAR_SERVO_CHANNEL = ServoChannel.ChannelId.kChannelId1;
-    public static final ServoChannelConfig.PulseRange FAR_SERVO_PULSE_RANGE = new ServoChannelConfig.PulseRange(1500,
-            2000, 2500);
-
-    public static final double RPM_TOLERANCE = 25.0;
+    public static final double RPM_TOLERANCE = 25;
 
     public static final double P = 0.0;
     public static final double I = 0.0;
