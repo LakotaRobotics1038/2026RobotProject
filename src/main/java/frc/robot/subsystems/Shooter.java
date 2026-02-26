@@ -188,7 +188,6 @@ public class Shooter extends SubsystemBase {
          * @param hubDistance The distance from the shooter module to the hub.
          */
         public void autoShoot(double hubDistance) {
-            start(ShooterConstants.AUTO_SHOOT_SLOPE * hubDistance + ShooterConstants.AUTO_SHOOT_Y_INTERCEPT);
         }
     }
 }
