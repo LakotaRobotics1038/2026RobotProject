@@ -26,13 +26,13 @@ public final class AcquisitionConstants {
     public static final double INTAKE_ACQUIRE_RPM = 4000;
     public static final double INTAKE_DISPOSE_RPM = -1000;
 
-    public enum Setpoint {
+    public enum AcquisitionSetpoint {
         RAISED(0),
         LOWERED(90);
 
         private final double degrees;
 
-        Setpoint(double degrees) {
+        AcquisitionSetpoint(double degrees) {
             this.degrees = degrees;
         }
 
