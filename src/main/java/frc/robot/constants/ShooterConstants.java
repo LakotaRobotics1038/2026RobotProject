@@ -48,15 +48,14 @@ public final class ShooterConstants {
     public static record ShooterFormula(double slope, double yIntercept, double min, double max) {
     }
 
-    // TODO Convert to meters. Slope and y intercept was given in inches.
     public static final ShooterFormula ANGLE_55 = new ShooterFormula(
-            12.384,
-            2135.3,
+            454.97,
+            2033.9,
             Units.inchesToMeters(120),
             Units.inchesToMeters(200));
     public static final ShooterFormula ANGLE_65 = new ShooterFormula(
-            11.556,
-            862.02,
+            448.4,
+            2056.9,
             Units.inchesToMeters(120),
             Units.inchesToMeters(200));
 }
