@@ -144,17 +144,17 @@ public class Vision extends SubsystemBase {
             }
 
             if (numTags == 0) {
-                return VisionConstants.SINGLE_TAG_STD_DEVS;
+                return estStdDevs;
             } else {
-                avgDist /= numTags;
                 if (numTags > 1) {
+                    avgDist /= numTags;
                     estStdDevs = VisionConstants.MULTI_TAG_STD_DEVS;
+                } else if (numTags == 1 && avgDist > 4) {
+                    return estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
                 }
-                if (numTags == 1 && avgDist > 4) {
-                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                } else {
-                    estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
-                }
+
+                estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+
                 return estStdDevs;
             }
         }
