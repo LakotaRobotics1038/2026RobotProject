@@ -47,7 +47,30 @@ public final class ShooterConstants {
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
 
-    public static record ShooterFormula(double slope, double yIntercept, double min, double max) {
+    public static class ShooterFormula {
+        private final double slope;
+        private final double yIntercept;
+        private final double min;
+        private final double max;
+
+        private ShooterFormula(double slope, double yIntercept, double min, double max) {
+            this.slope = slope;
+            this.yIntercept = yIntercept;
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public double getRPM(double distance) {
+            return slope * distance + yIntercept;
+        }
     }
 
     public static final Map<Double, ShooterFormula> ANGLE_MAP = Map.of(
