@@ -4,8 +4,8 @@ public final class AcquisitionConstants {
     private AcquisitionConstants() {
     }
 
-    public static final int PIVOT_CAN_ID = 0;
-    public static final int INTAKE_CAN_ID = 0;
+    public static final int PIVOT_MOTOR_CAN_ID = 4;
+    public static final int INTAKE_MOTOR_CAN_ID = 3;
 
     public static final double PIVOT_P = 0;
     public static final double PIVOT_I = 0;
@@ -14,6 +14,7 @@ public final class AcquisitionConstants {
     public static final double PIVOT_S = 0;
     public static final double PIVOT_V = 0;
     public static final double PIVOT_A = 0;
+    public static final double PIVOT_ENCODER_CONVERSION_FACTOR = 360;
     public static final double PIVOT_ALLOWED_ERROR_DEGREES = 2.0;
 
     public static final double INTAKE_P = 0.0;

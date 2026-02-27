@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -7,6 +8,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.ClosedLoopSlot;
+import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,8 +17,10 @@ import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
 public class Acquisition extends SubsystemBase {
-    private final SparkMax pivotMotor = new SparkMax(AcquisitionConstants.PIVOT_CAN_ID, MotorType.kBrushless);
-    private final SparkMax intakeMotor = new SparkMax(AcquisitionConstants.INTAKE_CAN_ID, MotorType.kBrushless);
+    private final SparkMax pivotMotor = new SparkMax(AcquisitionConstants.PIVOT_MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkMax intakeMotor = new SparkMax(AcquisitionConstants.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
+
+    private final AbsoluteEncoder pivotEncoder = pivotMotor.getAbsoluteEncoder();
 
     private final SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intakeMotor.getClosedLoopController();
@@ -36,6 +40,8 @@ public class Acquisition extends SubsystemBase {
                 .allowedClosedLoopError(AcquisitionConstants.PIVOT_ALLOWED_ERROR_DEGREES,
                         ClosedLoopSlot.kSlot0).feedForward
                 .sva(AcquisitionConstants.PIVOT_S, AcquisitionConstants.PIVOT_V, AcquisitionConstants.PIVOT_A);
+        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_CONVERSION_FACTOR);
+
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
@@ -46,18 +52,14 @@ public class Acquisition extends SubsystemBase {
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
+    /**
+     * Gets the instance of Acquisition, instantiates Acquisition if null
+     */
     public static Acquisition getInstance() {
         if (instance == null) {
             instance = new Acquisition();
         }
         return instance;
-    }
-
-    @Override
-    public void periodic() {
-        if (!readyToIntake()) {
-            stopIntake();
-        }
     }
 
     /**
@@ -83,6 +85,8 @@ public class Acquisition extends SubsystemBase {
     public void acquire() {
         if (readyToIntake()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        } else {
+            stopIntake();
         }
     }
 
@@ -93,6 +97,8 @@ public class Acquisition extends SubsystemBase {
     public void dispose() {
         if (readyToIntake()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        } else {
+            stopIntake();
         }
     }
 
@@ -110,11 +116,24 @@ public class Acquisition extends SubsystemBase {
         return pivotController.isAtSetpoint();
     }
 
+    /**
+     * Gets the if the Acquisition's pivotMotor's setpoint
+     */
     public AcquisitionSetpoint getSetpoint() {
         return setpoint;
     }
 
-    private boolean readyToIntake() {
-        return getSetpoint() == AcquisitionSetpoint.LOWERED && atSetpoint();
+    /**
+     * Gets the if the Acquisition's pivotMotor's position
+     */
+    public double getPosition() {
+        return pivotEncoder.getPosition();
+    }
+
+    /**
+     * Gets the if the Acquisition's pivotMotor is at readyToIntake
+     */
+    public boolean readyToIntake() {
+        return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
     }
 }
