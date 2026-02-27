@@ -61,10 +61,6 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
-    private Vision() {
-        backCam.setPipelineIndex(1);
-    }
-
     private Optional<EstimatedRobotPose> estimateCameraPose(
             PhotonCamera camera,
             PhotonPoseEstimator estimator,
