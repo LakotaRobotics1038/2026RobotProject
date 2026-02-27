@@ -146,7 +146,8 @@ public class Vision extends SubsystemBase {
                     avgDist /= numTags;
                     estStdDevs = VisionConstants.MULTI_TAG_STD_DEVS;
                 } else if (numTags == 1 && avgDist > 4) {
-                    return estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+                    return estStdDevs;
                 }
 
                 estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
