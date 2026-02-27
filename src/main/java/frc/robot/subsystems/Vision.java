@@ -103,7 +103,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs, stdDevs -> backCurStdDevs = stdDevs);
+        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs,
+                stdDevs -> backCurStdDevs = stdDevs);
     }
 
     /**
