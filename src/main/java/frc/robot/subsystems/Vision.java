@@ -54,6 +54,11 @@ public class Vision extends SubsystemBase {
 
     private static Vision instance;
 
+    /**
+     * Gets the singleton instance of vision.
+     *
+     * @return The instance of vision.
+     */
     public static Vision getInstance() {
         if (instance == null) {
             instance = new Vision();
