@@ -113,8 +113,11 @@ public class Vision extends SubsystemBase {
      * deviations based on number of tags, estimation strategy, and distance from
      * the tags.
      *
-     * @param estimatedPose The estimated pose to guess standard deviations for.
+     * @param estimator     The pose estimator
+     * @param estimatedPose The estimated pose to guess standard deviations for
      * @param targets       All targets in this camera frame
+     *
+     * @return Estimated standard deviations
      */
     private Matrix<N3, N1> updateEstimationStdDevs(
             PhotonPoseEstimator estimator,
