@@ -46,4 +46,9 @@ public class HubAlign extends Command {
                 MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -1.0, 1.0),
                 true));
     }
+
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }
