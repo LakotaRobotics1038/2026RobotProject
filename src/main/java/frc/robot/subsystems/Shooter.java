@@ -192,7 +192,7 @@ public class Shooter extends SubsystemBase {
         public void autoShoot(double hubDistance) {
             for (Map.Entry<Double, ShooterConstants.ShooterFormula> entry : ShooterConstants.ANGLE_MAP.entrySet()) {
                 ShooterConstants.ShooterFormula formula = entry.getValue();
-                if (formula.getMin() >= hubDistance && formula.getMax() <= hubDistance) {
+                if (formula.getMin() <= hubDistance && formula.getMax() >= hubDistance) {
                     start(formula.getRPM(hubDistance));
                     break;
                 }
