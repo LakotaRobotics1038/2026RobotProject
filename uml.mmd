@@ -1,353 +1,516 @@
 classDiagram
-direction BT
-class AlignToPoint {
-  + AlignToPoint(Supplier~Translation2d~, DoubleSupplier, DoubleSupplier) 
-  + AlignToPoint(Supplier~Translation2d~) 
-  - DoubleSupplier ySpeedSupplier
-  - DriveTrain driveTrain
-  - DoubleSupplier xSpeedSupplier
-  - Supplier~Translation2d~ targetPointSupplier
-  - PIDController rotationController
-}
-class AutoConstants {
-  + AutoConstants() 
-  + double I_THETA_CONTROLLER
-  + double MAX_SPEED
-  + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND
-  + double P_X_CONTROLLER
-  + double I_X_CONTROLLER
-  + Constraints THETA_CONTROLLER_CONSTRAINTS
-  + double D_CONTROLLER
-  + double D_THETA_CONTROLLER
-  + double P_THETA_CONTROLLER
-  + Optional~RobotConfig~ ROBOT_CONFIG
-  + double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED
-  + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED
-}
-class Auton {
-  + Auton(Optional~Alliance~) 
-  # Alliance alliance
-  - Pose2d initialPose
-  # DriveTrain driveTrain
-}
-class AutonChoices {
-<<enumeration>>
-  - AutonChoices() 
-  +  RightTaxi
-  +  NoAuto
-  +  LeftTaxi
-}
-class AutonSelector {
-  - AutonSelector() 
-  ~ SendableChooser~AutonChoices~ autoChooser
-  - AutonSelector instance
-  ~ SendableChooser~Double~ delayChooser
-}
-class Dashboard {
-  - Dashboard() 
-  - SendableChooser~Double~ delayChooser
-  - Dashboard instance
-  - DriveTrain driveTrain
-  - Field2d field
-  - SendableChooser~AutonChoices~ autoChooser
-}
-class DashboardConstants {
-  + DashboardConstants() 
-  + String AUTON_CHOICES
-  + String ROBOT_Y
-  + String DELAY_CHOICES
-  + String ROBOT_X
-  + String ROBOT_ROT
-}
-class DriveConstants {
-  + DriveConstants() 
-  + double MAX_ANGULAR_RATE
-  + double OVERDRIVE_POWER
-  + double FINE_ADJUSTMENT_PERCENT
-  + double MAX_SPEED
-  + double WHEEL_BASE
-  + double TRACK_WIDTH
-  + Matrix~N3, N1~ ODOMETRY_STD_DEV
-  + double DEFAULT_MAX_POWER
-  + Matrix~N3, N1~ VISION_STD_DEVS
-}
-class DriveTrain {
-  - DriveTrain() 
-  - SysIdRoutine sysIdRoutineSteer
-  - boolean hasAppliedOperatorPerspective
-  - Rotation2d BLUE_ALLIANCE_PERSPECTIVE_ROTATION
-  - SysIdSwerveTranslation translationCharacterization
-  - SwerveDriveBrake brakeRequest
-  - SysIdRoutine sysIdRoutineTranslation
-  - SysIdSwerveSteerGains steerCharacterization
-  - SysIdRoutine sysIdRoutineToApply
-  - SysIdSwerveRotation rotationCharacterization
-  - Notifier simNotifier
-  - FieldCentric fieldCentricDriveRequest
-  - SysIdRoutine sysIdRoutineRotation
-  - Rotation2d RED_ALLIANCE_PERSPECTIVE_ROTATION
-  - double lastSimTime
-  - DriveTrain instance
-  - RobotCentric robotCentricDriveRequest
-  - double SIM_LOOP_PERIOD
-}
-class DriverJoystick {
-  - DriverJoystick() 
-  - double prevForward
-  ~ LinearFilter sidewaysFilter
-  - double maxPower
-  ~ SlewRateLimiter forwardLimiter
-  - DriveTrain driveTrain
-  ~ SlewRateLimiter sidewaysLimiter
-  - Telemetry logger
-  - DriverJoystick instance
-  ~ SlewRateLimiter rotateLimiter
-  - double prevRotate
-  - double prevSideways
-  ~ LinearFilter forwardFilter
-}
-class FieldConstants {
-  - FieldConstants() 
-  + Translation2d HUB_POSITION
-}
-class HubAlign {
-  + HubAlign(DoubleSupplier, DoubleSupplier) 
-  - DriveTrain driveTrain
-  - PIDController rotationController
-  - DoubleSupplier xSpeedSupplier
-  - double I
-  - double P
-  - double D
-  - DoubleSupplier ySpeedSupplier
-}
-class IOConstants {
-  + IOConstants() 
-  + int OPERATOR_CONTROLLER_PORT
-  + int DRIVER_CONTROLLER_PORT
-}
-class LeftTaxi {
-  ~ LeftTaxi(Optional~Alliance~) 
-}
-class Main {
-  - Main() 
-}
-class NeoMotorConstants {
-  + NeoMotorConstants() 
-  + int MAX_NEO_CURRENT
-  + double NEO_550_FREE_SPEED_RPM
-  + double VORTEX_FREE_SPEED_RPM
-  + int MAX_NEO_550_CURRENT
-  + double NEO_FREE_SPEED_RPM
-  + double MAX_POWER
-  + double MIN_POWER
-  + int MAX_VORTEX_CURRENT
-}
-class OperatorStates {
-<<enumeration>>
-  - OperatorStates(String) 
-  + String value
-  +  Default
-  +  ReadyState
-}
-class Paths {
-  + Paths() 
-}
-class PovPositions {
-<<enumeration>>
-  - PovPositions() 
-  +  Up
-  +  Right
-  +  None
-  +  Left
-  +  Down
-}
-class RightTaxi {
-  ~ RightTaxi(Optional~Alliance~) 
-}
-class Robot {
-  + Robot() 
-  - DriveTrain driveTrain
-  - SwagLights swagLights
-  - ControlWord controlWordCache
-  - AutonSelector autonSelector
-  - Auton autonomousCommand
-  - Vision vision
-}
-class RobotStates {
-<<enumeration>>
-  - RobotStates(String) 
-  + String value
-  +  EmergencyStop
-  +  Disabled
-  +  Enabled
-}
-class SwagLights {
-  - SwagLights() 
-  - SerialPort serialPort
-  - OperatorStates operatorState
-  - RobotStates robotState
-  - SwagLights instance
-}
-class SwerveConstants {
-  + SwerveConstants() 
-  + NeutralModeValue AUTON_DRIVING_MOTOR_NEUTRAL_MODE
-  - MomentOfInertia STEER_INERTIA
-  - Current SLIP_CURRENT
-  - boolean BACK_RIGHT_ENCODER_INVERTED
-  - Slot0Configs DRIVE_GAINS
-  - Angle Back_LEFT_ENCODER_OFFSET
-  - SteerFeedbackType STEER_FEEDBACK_TYPE
-  - int FRONT_RIGHT_ENCODER_ID
-  - Slot0Configs STEER_GAINS
-  - int PIGEON_ID
-  - Pigeon2Configuration PIGEON_CONFIGS
-  - double STEER_GEAR_RATIO
-  - int BACK_RIGHT_ENCODER_ID
-  - int FRONT_RIGHT_STEER_MOTOR_ID
-  - SwerveModuleConstantsFactory~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ CONSTANT_CREATOR
-  - TalonFXConfiguration STEER_INITIAL_CONFIGS
-  - Distance WHEEL_RADIUS
-  - Angle FRONT_RIGHT_ENCODER_OFFSET
-  - Distance BACK_RIGHT_Y_POS
-  - SteerMotorArrangement STEER_MOTOR_TYPE
-  - Distance FRONT_RIGHT_Y_POS
-  - int BACK_LEFT_ENCODER_ID
-  - ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT
-  - boolean BACK_RIGHT_STEER_MOTOR_INVERTED
-  - int BACK_RIGHT_DRIVE_MOTOR_ID
-  - int FRONT_RIGHT_DRIVE_MOTOR_ID
-  - Distance FRONT_RIGHT_X_POS
-  - int BACK_RIGHT_STEER_MOTOR_ID
-  - double DRIVE_GEAR_RATIO
-  - Distance FRONT_LEFT_X_POS
-  - boolean INVERT_LEFT_SIDE
-  - boolean FRONT_RIGHT_STEER_MOTOR_INVERTED
-  - boolean FRONT_LEFT_STEER_MOTOR_INVERTED
-  - CANcoderConfiguration ENCODER_INITIAL_CONFIGS
-  + LinearVelocity SPEED_AT_12_VOLTS
-  - Angle BACK_RIGHT_ENCODER_OFFSET
-  - Distance BACK_RIGHT_X_POS
-  - boolean BACK_LEFT_ENCODER_INVERTED
-  - boolean INVERT_RIGHT_SIDE
-  - Distance FRONT_LEFT_Y_POS
-  - Distance BACK_LEFT_X_POS
-  - MomentOfInertia DRIVE_INERTIA
-  - ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT
-  - int BACK_LEFT_DRIVE_MOTOR_ID
-  - TalonFXConfiguration DRIVE_INITIAL_CONFIGS
-  - boolean BACK_LEFT_STEER_MOTOR_INVERTED
-  - DriveMotorArrangement DRIVE_MOTOR_TYPE
-  + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ FRONT_RIGHT
-  - boolean FRONT_RIGHT_ENCODER_INVERTED
-  - int FRONT_LEFT_ENCODER_ID
-  - int BACK_LEFT_STEER_MOTOR_ID
-  + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ FRONT_LEFT
-  - Voltage DRIVE_FRICTION_VOLTAGE
-  - int FRONT_LEFT_STEER_MOTOR_ID
-  + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ BACK_LEFT
-  - int FRONT_LEFT_DRIVE_MOTOR_ID
-  - Angle FRONT_LEFt_ENCODER_OFFSET
-  + NeutralModeValue TELEOP_DRIVING_MOTOR_NEUTRAL_MODE
-  + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ BACK_RIGHT
-  + CANBus CAN_BUS
-  - boolean FRONT_LEFT_ENCODER_INVERTED
-  - Voltage STEER_FRICTION_VOLTAGE
-  + SwerveDrivetrainConstants DRIVETRAIN_CONSTANTS
-  - Distance BACK_LEFT_Y_POS
-  - double COUPLE_RATIO
-}
-class Telemetry {
-  + Telemetry(double) 
-  - DoublePublisher driveOdometryFrequency
-  - DoubleArrayPublisher fieldPub
-  - double MAX_SPEED
-  - StructArrayPublisher~SwerveModuleState~ driveModuleStates
-  - Mechanism2d[] moduleMechanisms
-  - double[] moduleStatesArray
-  - StructArrayPublisher~SwerveModuleState~ driveModuleTargets
-  - StringPublisher fieldTypePub
-  - double[] poseArray
-  - StructPublisher~Pose2d~ drivePose
-  - MechanismLigament2d[] moduleSpeeds
-  - StructArrayPublisher~SwerveModulePosition~ driveModulePositions
-  - double[] moduleTargetsArray
-  - MechanismLigament2d[] moduleDirections
-  - DoublePublisher driveTimestamp
-  - StructPublisher~ChassisSpeeds~ driveSpeeds
-  - NetworkTable driveStateTable
-  - NetworkTableInstance inst
-  - NetworkTable table
-}
-class Vision {
-  - Vision() 
-  - PhotonPoseEstimator backCamPhotonEstimator
-  - Matrix~N3, N1~ frontCurStdDevs
-  - Vision instance
-  - PhotonCamera backCam
-  - Matrix~N3, N1~ backCurStdDevs
-  - PhotonCamera frontCam
-  - PhotonPoseEstimator frontCamPhotonEstimator
-}
-class VisionConstants {
-  + VisionConstants() 
-  + double APRIL_TAG_AREA
-  + String VALUES_TOPIC
-  - double FRONT_CAMERA_X_OFFSET
-  + String ROBOT_TO_FRONT_CAM_NAME
-  + String ENABLED_0_TOPIC
-  - double FRONT_CAMERA_Y_OFFSET
-  + AprilTagFieldLayout TAG_LAYOUT
-  + double WIDTH
-  + double SPIN_D
-  + double FOV
-  + Matrix~N3, N1~ MULTI_TAG_STD_DEVS
-  + Transform3d ROBOT_TO_BACK_CAM
-  + String TABLE_NAME
-  - double BACK_CAMERA_Y_OFFSET
-  + String ENABLED_1_TOPIC
-  + double SPIN_I
-  + double SPIN_SETPOINT
-  - double BACK_CAMERA_Z_OFFSET
-  + double HEIGHT
-  + Matrix~N3, N1~ SINGLE_TAG_STD_DEVS
-  + String STREAM_CAM_0
-  + String ROBOT_TO_BACK_CAM_NAME
-  + String RECORDING_TOPIC
-  - double FRONT_CAMERA_Z_OFFSET
-  + double SPIN_P
-  + double DRIVE_P
-  - double BACK_CAMERA_X_OFFSET
-  + Transform3d ROBOT_TO_FRONT_CAM
-  + double DRIVE_I
-  + double DRIVE_D
-}
-class XboxController1038 {
-  + XboxController1038(int) 
-  - XboxController controller
-}
-class build {
-  + build() 
-}
-class settings {
-  + settings() 
-}
+  direction BT
+  class AutoConstants {
+    + AutoConstants()
+    + double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED
+    + double MAX_SPEED
+    + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND
+    + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED
+    + double P_X_CONTROLLER
+    + double I_X_CONTROLLER
+    + double D_CONTROLLER
+    + double P_THETA_CONTROLLER
+    + double I_THETA_CONTROLLER
+    + double D_THETA_CONTROLLER
+    + Constraints THETA_CONTROLLER_CONSTRAINTS
+    + Optional~RobotConfig~ ROBOT_CONFIG
+  }
+  class Auton {
+    + Auton(Optional~Alliance~)
+    - Pose2d initialPose
+    # DriveTrain driveTrain
+    # Alliance alliance
+    - setInitialPose(Pose2d) void
+    # setInitialPose(PathPlannerTrajectory) void
+    # setInitialPose(PathPlannerTrajectory, Rotation2d) void
+    + getInitialPose() Pose2d
+    + followPathCommand(PathPlannerPath) Command
+  }
+  class AutonChoices {
+    <<enumeration>>
+    +  NoAuto
+    +  LeftTaxi
+    +  RightTaxi
+  }
+  class AutonSelector {
+    - AutonSelector()
+    ~ SendableChooser~AutonChoices~ autoChooser
+    ~ SendableChooser~Double~ delayChooser
+    - AutonSelector instance
+    + getInstance() AutonSelector
+    + chooseAuton() Auton
+    + chooseDelay() double
+  }
+  class Dashboard {
+    - Dashboard()
+    - DriveTrain driveTrain
+    - SendableChooser~AutonChoices~ autoChooser
+    - SendableChooser~Double~ delayChooser
+    - Field2d field
+    - Dashboard instance
+    + getInstance() Dashboard
+    + periodic() void
+    + clearTrajectory() void
+    + getAutoChooser() SendableChooser~AutonChoices~
+    + getDelayChooser() SendableChooser~Double~
+  }
+  class DashboardConstants {
+    + DashboardConstants()
+    + String ROBOT_X
+    + String ROBOT_ROT
+    + String ROBOT_Y
+    + String AUTON_CHOICES
+    + String DELAY_CHOICES
+  }
+  class DriveConstants {
+    + DriveConstants()
+    + double DEFAULT_MAX_POWER
+    + double OVERDRIVE_POWER
+    + double MAX_SPEED
+    + Matrix~N3, N1~ ODOMETRY_STD_DEV
+    + double MAX_ANGULAR_RATE
+    + double TRACK_WIDTH
+    + double WHEEL_BASE
+    + double FINE_ADJUSTMENT_PERCENT
+    + Matrix~N3, N1~ VISION_STD_DEVS
+  }
+  class DriveTrain {
+    - DriveTrain()
+    - SysIdRoutine sysIdRoutineRotation
+    - FieldCentric fieldCentricDriveRequest
+    - Rotation2d BLUE_ALLIANCE_PERSPECTIVE_ROTATION
+    - SysIdRoutine sysIdRoutineSteer
+    - double lastSimTime
+    - Notifier simNotifier
+    - SysIdSwerveRotation rotationCharacterization
+    - SysIdRoutine sysIdRoutineTranslation
+    - DriveTrain instance
+    - SysIdSwerveSteerGains steerCharacterization
+    - SysIdSwerveTranslation translationCharacterization
+    - SysIdRoutine sysIdRoutineToApply
+    - RobotCentric robotCentricDriveRequest
+    - double SIM_LOOP_PERIOD
+    - boolean hasAppliedOperatorPerspective
+    - Rotation2d RED_ALLIANCE_PERSPECTIVE_ROTATION
+    - SwerveDriveBrake brakeRequest
+    + addVisionMeasurement(Pose2d, double, Matrix~N3, N1~) void
+    + getY() double
+    + getInstance() DriveTrain
+    + drive(double, double, double, boolean) SwerveRequest
+    - startSimThread() void
+    + getRotation() double
+    + periodic() void
+    + setX() Command
+    + applyRequest(Supplier~SwerveRequest~) Command
+    + sysIdQuasistatic(Direction) Command
+    + sysIdDynamic(Direction) Command
+    + addVisionMeasurement(Pose2d, double) void
+    + getX() double
+  }
+  class DriverJoystick {
+    - DriverJoystick()
+    ~ SlewRateLimiter forwardLimiter
+    - double prevForward
+    - DriveTrain driveTrain
+    - double maxPower
+    - Telemetry logger
+    ~ SlewRateLimiter sidewaysLimiter
+    - DriverJoystick instance
+    ~ LinearFilter sidewaysFilter
+    - double prevSideways
+    - double prevRotate
+    ~ SlewRateLimiter rotateLimiter
+    ~ LinearFilter forwardFilter
+    + getInstance() DriverJoystick
+    - limitRate(double, double, SlewRateLimiter) double
+    - getRotateValue() double
+    - signChange(double, double) boolean
+    - getSidewaysValue() double
+    - getForwardValue() double
+  }
+  class FieldConstants {
+    + FieldConstants()
+    - double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
+    - double HUB_LENGTH
+    - double HUB_CENTER_Y
+    + Translation2d HUB_POSITION
+    - double HUB_CENTER_X
+  }
+  class IOConstants {
+    + IOConstants()
+    + int OPERATOR_CONTROLLER_PORT
+    + int DRIVER_CONTROLLER_PORT
+  }
+  class LeftTaxi {
+    ~ LeftTaxi(Optional~Alliance~)
+  }
+  class NeoMotorConstants {
+    + NeoMotorConstants()
+    + double MIN_POWER
+    + double MAX_POWER
+    + double NEO_550_FREE_SPEED_RPM
+    + double VOLTAGE
+    + int MAX_VORTEX_CURRENT
+    + double NEO_FREE_SPEED_RPM
+    + double VORTEX_FREE_SPEED_RPM
+    + int MAX_NEO_CURRENT
+    + int MAX_NEO_550_CURRENT
+  }
+  class OperatorStates {
+    <<enumeration>>
+    - OperatorStates(String)
+    +  ReadyState
+    +  Default
+    + String value
+    + values() OperatorStates[]
+    + valueOf(String) OperatorStates
+  }
+  class Paths {
+    + Paths()
+    + getRightPosTaxiPath() PathPlannerPath
+    + getLeftPosTaxiPath() PathPlannerPath
+  }
+  class PovPositions {
+    <<enumeration>>
+    + PovPositions()
+    +  Left
+    +  Down
+    +  Up
+    +  Right
+    +  None
+    + values() PovPositions[]
+    + valueOf(String) PovPositions
+  }
+  class RightTaxi {
+    ~ RightTaxi(Optional~Alliance~)
+  }
+  class Robot {
+    + Robot()
+    - SwagLights swagLights
+    - Vision vision
+    - Auton autonomousCommand
+    - AutonSelector autonSelector
+    - ControlWord controlWordCache
+    - DriveTrain driveTrain
+    + robotPeriodic() void
+    + autonomousExit() void
+    + teleopInit() void
+    + autonomousInit() void
+    + disabledInit() void
+    + autonomousPeriodic() void
+    + disabledExit() void
+    + teleopPeriodic() void
+    + testInit() void
+    + testExit() void
+    + teleopExit() void
+    + testPeriodic() void
+    + robotInit() void
+    + disabledPeriodic() void
+  }
+  class RobotStates {
+    <<enumeration>>
+    - RobotStates(String)
+    +  Disabled
+    +  EmergencyStop
+    + String value
+    +  Enabled
+    + valueOf(String) RobotStates
+    + values() RobotStates[]
+  }
+  class Shooter {
+    - Shooter()
+    - ShooterModule nearShooter
+    - ShooterModule farShooter
+    - Shooter instance
+    - ServoHub servoHub
+    + getServoHub() ServoHub
+    + getNearShooter() ShooterModule
+    + getFarShooter() ShooterModule
+    + getInstance() Shooter
+  }
+  class ShooterConstants {
+    + ShooterConstants()
+    + double A
+    + ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS
+    + double SHOOTER_ANGLE_MAX_DEG
+    + double S
+    + double I
+    + double WHEEL_RADIUS_M
+    + List~ShooterFormula~ SHOOTER_FORMULAS
+    + ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS
+    + double RPM_TOLERANCE
+    + double SHOOTER_ANGLE_MIN_DEG
+    + int SERVO_HUB_CAN_ID
+    + double P
+    + double D
+    + double V
+  }
+  class ShooterFormula {
+    - ShooterFormula(double, double, double, double, double)
+    - double max
+    - double slope
+    - double yIntercept
+    - double min
+    - double angle
+    + getRPM(double) double
+    + getAngle() double
+    + getMin() double
+    + getMax() double
+  }
+  class ShooterModule {
+    - ShooterModule(ShooterModuleConstants, ServoHub, ServoHubConfig)
+    - Translation2d translation
+    - SparkClosedLoopController controller
+    - PulseRange servoPulseRange
+    - RelativeEncoder encoder
+    - SparkFlex leftMotor
+    - ServoChannel servoChannel
+    - SparkFlex rightMotor
+    + autoShoot(double) void
+    + getRPM() double
+    + stop() void
+    + setAngle(double) void
+    + getTargetRPM() double
+    + isAtTargetRPM() boolean
+    + getTranslation() Translation2d
+    + start(double) void
+  }
+  class ShooterModuleConstants {
+    + ShooterModuleConstants(int, int, Translation2d, ChannelId, PulseRange)
+    - int leftMotorCanId
+    - ChannelId servoChannelID
+    - int rightMotorCanId
+    - Translation2d translation
+    - PulseRange servoPulseRange
+    + leftMotorCanId() int
+    + rightMotorCanId() int
+    + servoChannelID() ChannelId
+    + servoPulseRange() PulseRange
+    + translation() Translation2d
+  }
+  class SwagLights {
+    - SwagLights()
+    - SwagLights instance
+    - OperatorStates operatorState
+    - SerialPort serialPort
+    - RobotStates robotState
+    + setDisabled(boolean) void
+    - setLedStates(String[]) void
+    + stopSerialPort() void
+    + setEStop() void
+    + setReadyState() void
+    + periodic() void
+    + getInstance() SwagLights
+    + setDefaultState() void
+  }
+  class SwerveConstants {
+    + SwerveConstants()
+    - int FRONT_RIGHT_ENCODER_ID
+    + NeutralModeValue TELEOP_DRIVING_MOTOR_NEUTRAL_MODE
+    - SteerMotorArrangement STEER_MOTOR_TYPE
+    - Distance FRONT_LEFT_X_POS
+    - Slot0Configs DRIVE_GAINS
+    - Pigeon2Configuration PIGEON_CONFIGS
+    + NeutralModeValue AUTON_DRIVING_MOTOR_NEUTRAL_MODE
+    - MomentOfInertia DRIVE_INERTIA
+    - Voltage DRIVE_FRICTION_VOLTAGE
+    - SteerFeedbackType STEER_FEEDBACK_TYPE
+    - boolean BACK_LEFT_ENCODER_INVERTED
+    - ClosedLoopOutputType STEER_CLOSED_LOOP_OUTPUT
+    - Distance FRONT_RIGHT_X_POS
+    + CANBus CAN_BUS
+    - boolean FRONT_LEFT_STEER_MOTOR_INVERTED
+    - Distance BACK_LEFT_Y_POS
+    - Voltage STEER_FRICTION_VOLTAGE
+    - int FRONT_LEFT_DRIVE_MOTOR_ID
+    - boolean FRONT_LEFT_ENCODER_INVERTED
+    - Distance FRONT_LEFT_Y_POS
+    + SwerveDrivetrainConstants DRIVETRAIN_CONSTANTS
+    + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ BACK_LEFT
+    - Current SLIP_CURRENT
+    - boolean INVERT_RIGHT_SIDE
+    - int FRONT_RIGHT_DRIVE_MOTOR_ID
+    - Distance BACK_RIGHT_X_POS
+    - int FRONT_LEFT_ENCODER_ID
+    - int FRONT_RIGHT_STEER_MOTOR_ID
+    - double STEER_GEAR_RATIO
+    - int PIGEON_ID
+    - Distance BACK_RIGHT_Y_POS
+    - Distance FRONT_RIGHT_Y_POS
+    - boolean BACK_RIGHT_ENCODER_INVERTED
+    + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ FRONT_LEFT
+    - double DRIVE_GEAR_RATIO
+    - Distance WHEEL_RADIUS
+    - SwerveModuleConstantsFactory~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ CONSTANT_CREATOR
+    - Angle FRONT_LEFt_ENCODER_OFFSET
+    - boolean BACK_LEFT_STEER_MOTOR_INVERTED
+    - boolean FRONT_RIGHT_STEER_MOTOR_INVERTED
+    - DriveMotorArrangement DRIVE_MOTOR_TYPE
+    + LinearVelocity SPEED_AT_12_VOLTS
+    - MomentOfInertia STEER_INERTIA
+    + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ FRONT_RIGHT
+    - TalonFXConfiguration DRIVE_INITIAL_CONFIGS
+    - int BACK_RIGHT_STEER_MOTOR_ID
+    - int BACK_LEFT_ENCODER_ID
+    + SwerveModuleConstants~TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration~ BACK_RIGHT
+    - boolean BACK_RIGHT_STEER_MOTOR_INVERTED
+    - int BACK_RIGHT_DRIVE_MOTOR_ID
+    - ClosedLoopOutputType DRIVE_CLOSED_LOOP_OUTPUT
+    - TalonFXConfiguration STEER_INITIAL_CONFIGS
+    - CANcoderConfiguration ENCODER_INITIAL_CONFIGS
+    - boolean FRONT_RIGHT_ENCODER_INVERTED
+    - int FRONT_LEFT_STEER_MOTOR_ID
+    - int BACK_LEFT_STEER_MOTOR_ID
+    - double COUPLE_RATIO
+    - boolean INVERT_LEFT_SIDE
+    - Distance BACK_LEFT_X_POS
+    - Angle FRONT_RIGHT_ENCODER_OFFSET
+    - Angle Back_LEFT_ENCODER_OFFSET
+    - int BACK_LEFT_DRIVE_MOTOR_ID
+    - int BACK_RIGHT_ENCODER_ID
+    - Slot0Configs STEER_GAINS
+    - Angle BACK_RIGHT_ENCODER_OFFSET
+  }
+  class Telemetry {
+    + Telemetry(double)
+    - StructPublisher~Pose2d~ drivePose
+    - StringPublisher fieldTypePub
+    - double[] moduleTargetsArray
+    - NetworkTableInstance inst
+    - StructPublisher~ChassisSpeeds~ driveSpeeds
+    - StructArrayPublisher~SwerveModuleState~ driveModuleStates
+    - MechanismLigament2d[] moduleDirections
+    - double[] moduleStatesArray
+    - Mechanism2d[] moduleMechanisms
+    - MechanismLigament2d[] moduleSpeeds
+    - DoubleArrayPublisher fieldPub
+    - double MAX_SPEED
+    - StructArrayPublisher~SwerveModulePosition~ driveModulePositions
+    - double[] poseArray
+    - StructArrayPublisher~SwerveModuleState~ driveModuleTargets
+    - DoublePublisher driveTimestamp
+    - NetworkTable table
+    - DoublePublisher driveOdometryFrequency
+    - NetworkTable driveStateTable
+    + telemeterize(SwerveDriveState) void
+  }
+  class Vision {
+    - Vision()
+    - PhotonCamera frontCam
+    - PhotonPoseEstimator frontCamPhotonEstimator
+    - Matrix~N3, N1~ backCurStdDevs
+    - PhotonPoseEstimator backCamPhotonEstimator
+    - Matrix~N3, N1~ frontCurStdDevs
+    - PhotonCamera backCam
+    - Vision instance
+    + getFrontEstimationStdDevs() Matrix~N3, N1~
+    + setAprilTagMode() void
+    - estimateCameraPose(PhotonCamera, PhotonPoseEstimator, Matrix~N3, N1~) Optional~EstimatedRobotPose~
+    + getInstance() Vision
+    + backCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
+    - updateEstimationStdDevs(PhotonPoseEstimator, Optional~EstimatedRobotPose~, List~PhotonTrackedTarget~, Matrix~N3, N1~) void
+    + frontCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
+    + getBackEstimationStdDevs() Matrix~N3, N1~
+    + setAlgaeMode() void
+  }
+  class VisionConstants {
+    + VisionConstants()
+    + double SPIN_D
+    + double APRIL_TAG_AREA
+    + String ENABLED_0_TOPIC
+    + double SPIN_P
+    + double SPIN_SETPOINT
+    + Transform3d ROBOT_TO_BACK_CAM
+    + String ENABLED_1_TOPIC
+    + String VALUES_TOPIC
+    + Matrix~N3, N1~ SINGLE_TAG_STD_DEVS
+    - double FRONT_CAMERA_X_OFFSET
+    - double FRONT_CAMERA_Z_OFFSET
+    + double DRIVE_D
+    - double BACK_CAMERA_Y_OFFSET
+    - double BACK_CAMERA_X_OFFSET
+    + String RECORDING_TOPIC
+    + String TABLE_NAME
+    + double FOV
+    + String STREAM_CAM_0
+    - double BACK_CAMERA_Z_OFFSET
+    + AprilTagFieldLayout TAG_LAYOUT
+    + double HEIGHT
+    + double DRIVE_P
+    + double DRIVE_I
+    + double SPIN_I
+    + String ROBOT_TO_FRONT_CAM_NAME
+    + Matrix~N3, N1~ MULTI_TAG_STD_DEVS
+    + double WIDTH
+    - double FRONT_CAMERA_Y_OFFSET
+    + Transform3d ROBOT_TO_FRONT_CAM
+    + String ROBOT_TO_BACK_CAM_NAME
+  }
+  class XboxController1038 {
+    + XboxController1038(int)
+    - XboxController controller
+    + deadband(double) double
+    + getLeftY() double
+    + getRightX() double
+    + setRightRumble(double) void
+    + getPOV() PovPositions
+    + getRightY() double
+    + getLeftX() double
+    + setLeftRumble(double) void
+  }
 
-AlignToPoint "1" *--> "driveTrain 1" DriveTrain 
-Auton "1" *--> "driveTrain 1" DriveTrain 
-AutonSelector  -->  AutonChoices 
-Dashboard "1" *--> "driveTrain 1" DriveTrain 
-DriverJoystick "1" *--> "driveTrain 1" DriveTrain 
-DriverJoystick "1" *--> "logger 1" Telemetry 
-DriverJoystick  -->  XboxController1038 
-LeftTaxi  -->  Auton 
-SwagLights  -->  OperatorStates 
-XboxController1038  -->  PovPositions 
-RightTaxi  -->  Auton 
-Robot "1" *--> "autonomousCommand 1" Auton 
-Robot "1" *--> "autonSelector 1" AutonSelector 
-Robot "1" *--> "driveTrain 1" DriveTrain 
-Robot "1" *--> "swagLights 1" SwagLights 
-Robot "1" *--> "vision 1" Vision 
-SwagLights  -->  RobotStates 
-SwagLights "1" *--> "operatorState 1" OperatorStates 
-SwagLights "1" *--> "robotState 1" RobotStates 
+  AutoConstants  ..>  SwerveConstants
+  Auton  ..>  Auton
+  Auton  ..>  AutonSelector
+  AutonSelector  -->  AutonChoices
+  AutonSelector  ..>  Auton
+  AutonSelector  ..>  AutonChoices
+  AutonSelector  ..>  AutonSelector : «create»
+  AutonSelector  ..>  Dashboard
+  AutonSelector  ..>  LeftTaxi : «create»
+  AutonSelector  ..>  RightTaxi : «create»
+  Dashboard  ..>  AutonChoices
+  Dashboard  ..>  Dashboard : «create»
+  Dashboard  ..>  DashboardConstants
+  DriveConstants  ..>  SwerveConstants
+  DriveTrain  ..>  AutoConstants
+  DriveTrain  ..>  DriveConstants
+  DriveTrain  ..>  DriveTrain : «create»
+  DriveTrain  ..>  SwerveConstants
+  DriverJoystick  ..>  DriveConstants
+  DriverJoystick  ..>  DriverJoystick : «create»
+  DriverJoystick  ..>  IOConstants
+  DriverJoystick  ..>  PovPositions
+  DriverJoystick  ..>  Telemetry : «create»
+  DriverJoystick  -->  XboxController1038
+  LeftTaxi  -->  Auton
+  LeftTaxi  ..>  Paths
+  Main  ..>  Robot
+  SwagLights  -->  OperatorStates
+  XboxController1038  -->  PovPositions
+  RightTaxi  -->  Auton
+  RightTaxi  ..>  Paths
+  Robot  ..>  Dashboard
+  Robot  ..>  DriverJoystick
+  Robot  ..>  SwerveConstants
+  SwagLights  -->  RobotStates
+  Shooter  ..>  Shooter : «create»
+  Shooter  ..>  ShooterConstants
+  Shooter  ..>  ShooterModule : «create»
+  ShooterConstants  ..>  NeoMotorConstants
+  ShooterConstants  ..>  ShooterFormula : «create»
+  ShooterConstants  ..>  ShooterModuleConstants : «create»
+  ShooterConstants  -->  ShooterFormula
+  ShooterModule  ..>  NeoMotorConstants
+  Shooter  -->  ShooterModule
+  ShooterModule  ..>  ShooterConstants
+  ShooterModule  ..>  ShooterFormula
+  ShooterModule  ..>  ShooterModule
+  ShooterModule  ..>  ShooterModuleConstants
+  ShooterConstants  -->  ShooterModuleConstants
+  SwagLights  ..>  SwagLights : «create»
+  SwerveConstants  ..>  DriveConstants
+  Vision  ..>  Vision : «create»
+  Vision  ..>  VisionConstants
+  XboxController1038  ..>  PovPositions
+  XboxController1038  ..>  XboxController1038
