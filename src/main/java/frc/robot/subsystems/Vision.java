@@ -54,8 +54,6 @@ public class Vision extends SubsystemBase {
 
     private static Vision instance;
 
-    private Vision() {}
-
     /**
      * Gets the singleton instance of vision.
      *
@@ -67,6 +65,8 @@ public class Vision extends SubsystemBase {
         }
         return instance;
     }
+
+    private Vision() {}
 
     private Optional<EstimatedRobotPose> estimateCameraPose(
             PhotonCamera camera,
