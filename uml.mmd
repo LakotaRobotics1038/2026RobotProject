@@ -43,16 +43,16 @@ classDiagram
   }
   class Dashboard {
     - Dashboard()
-    - Field2d field
     - DriveTrain driveTrain
     - SendableChooser~AutonChoices~ autoChooser
-    - Dashboard instance
     - SendableChooser~Double~ delayChooser
-    + clearTrajectory() void
-    + getDelayChooser() SendableChooser~Double~
+    - Field2d field
+    - Dashboard instance
     + getInstance() Dashboard
     + periodic() void
+    + clearTrajectory() void
     + getAutoChooser() SendableChooser~AutonChoices~
+    + getDelayChooser() SendableChooser~Double~
   }
   class DashboardConstants {
     + DashboardConstants()
