@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public final class ShooterConstants {
-    public static record ShooterModuleOptions(
+    public static record ShooterModuleConstants(
             int leftMotorCanId,
             int rightMotorCanId,
             Translation2d translation,
@@ -17,14 +17,14 @@ public final class ShooterConstants {
             ServoChannelConfig.PulseRange servoPulseRange) {
     }
 
-    public static final ShooterModuleOptions NEAR_SHOOTER_MODULE_OPTIONS = new ShooterModuleOptions(
+    public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             0,
             0,
             new Translation2d(),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
-    public static final ShooterModuleOptions FAR_SHOOTER_MODULE_OPTIONS = new ShooterModuleOptions(
+    public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             0,
             0,
             new Translation2d(),
