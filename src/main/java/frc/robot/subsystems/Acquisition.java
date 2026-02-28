@@ -53,7 +53,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Gets the instance of Acquisition, instantiates Acquisition if null
+     * Gets the instance of Acquisition. Instantiates Acquisition if null.
      */
     public static Acquisition getInstance() {
         if (instance == null) {
@@ -63,7 +63,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's pivot position to AcquisitionSetpoint.RAISED
+     * Sets the Acquisition's pivot position to {@link AcquisitionSetpoint#RAISED}.
      */
     public void raise() {
         setpoint = AcquisitionSetpoint.RAISED;
@@ -71,7 +71,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's pivot position to AcquisitionSetpoint.LOWERED
+     * Sets the Acquisition's pivot position to {@link AcquisitionSetpoint#LOWERED}.
      */
     public void lower() {
         setpoint = AcquisitionSetpoint.LOWERED;
@@ -79,8 +79,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * AcquisitionConstants.INTAKE_ACQUIRE_RPM
+     * Sets the Acquisition's intake RPM to {@link AcquisitionSetpoint#INTAKE_ACQUIRE_RPM}.
      */
     public void acquire() {
         if (readyToIntake()) {
@@ -91,8 +90,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * AcquisitionConstants.INTAKE_DISPOSE_RPM
+     * Sets the Acquisition's intake RPM to {@link AcquisitionSetpoint#INTAKE_DISPOSE_RPM}.
      */
     public void dispose() {
         if (readyToIntake()) {
@@ -103,35 +101,35 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Stops the intakeMotor
+     * Stops the intake motor.
      */
     public void stopIntake() {
         intakeMotor.stopMotor();
     }
 
     /**
-     * Gets the if the Acquisition's pivotMotor is at setpoint
+     * Gets if the pivot motor is at the setpoint.
      */
     public boolean atSetpoint() {
         return pivotController.isAtSetpoint();
     }
 
     /**
-     * Gets the if the Acquisition's pivotMotor's setpoint
+     * Gets the setpoint of the pivot motor.
      */
     public AcquisitionSetpoint getSetpoint() {
         return setpoint;
     }
 
     /**
-     * Gets the if the Acquisition's pivotMotor's position
+     * Gets the position of the pivot encoder..
      */
     public double getPosition() {
         return pivotEncoder.getPosition();
     }
 
     /**
-     * Gets the if the Acquisition's pivotMotor is at readyToIntake
+     * Gets if the requirements are met for the intake motor to run.
      */
     public boolean readyToIntake() {
         return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
