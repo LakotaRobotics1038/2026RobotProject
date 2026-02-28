@@ -147,10 +147,6 @@ classDiagram
   class LeftTaxi {
     ~ LeftTaxi(Optional~Alliance~)
   }
-  class Main {
-    - Main()
-    + main(String[]) void
-  }
   class NeoMotorConstants {
     + NeoMotorConstants()
     + double MIN_POWER
@@ -464,26 +460,6 @@ classDiagram
     + getRightY() double
     + getLeftX() double
     + setLeftRumble(double) void
-  }
-  class build {
-    + build()
-    + main(String[]) void
-    + getMetaClass() MetaClass
-    + setProperty(String, Object) void
-    + invokeMethod(String, Object) Object
-    + run() Object
-    + setMetaClass(MetaClass) void
-    + getProperty(String) Object
-  }
-  class settings {
-    + settings()
-    + run() Object
-    + invokeMethod(String, Object) Object
-    + setProperty(String, Object) void
-    + setMetaClass(MetaClass) void
-    + main(String[]) void
-    + getProperty(String) Object
-    + getMetaClass() MetaClass
   }
 
   AutoConstants  ..>  SwerveConstants
