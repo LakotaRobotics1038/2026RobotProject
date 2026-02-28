@@ -51,6 +51,8 @@ public class Vision extends SubsystemBase {
             VisionConstants.ROBOT_TO_BACK_CAM);
     private Matrix<N3, N1> frontCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private final Consumer<Matrix<N3, N1>> frontStdDevSetter = stdDevs -> frontCurStdDevs = stdDevs;
+    private final Consumer<Matrix<N3, N1>> backStdDevSetter = stdDevs -> backCurStdDevs = stdDevs;
 
     private static Vision instance;
 
@@ -97,7 +99,7 @@ public class Vision extends SubsystemBase {
      */
     public Optional<EstimatedRobotPose> frontCamGetEstimatedGlobalPose() {
         return estimateCameraPose(frontCam, frontCamPhotonEstimator, frontCurStdDevs,
-                stdDevs -> frontCurStdDevs = stdDevs);
+                frontStdDevSetter);
     }
 
     /**
@@ -111,7 +113,7 @@ public class Vision extends SubsystemBase {
      */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
         return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs,
-                stdDevs -> backCurStdDevs = stdDevs);
+                backStdDevSetter);
     }
 
     /**
