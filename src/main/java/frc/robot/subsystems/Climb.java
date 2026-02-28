@@ -47,6 +47,10 @@ public class Climb extends SubsystemBase {
         return controller.isAtSetpoint();
     }
 
+    public double getSetpoint() {
+        return controller.getSetpoint();
+    }
+
     public void stopClimb() {
         motor.stopMotor();
     }
