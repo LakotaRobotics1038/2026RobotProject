@@ -92,6 +92,7 @@ public class Shooter extends SubsystemBase {
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
                     .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
+            baseConfig.encoder.positionConversionFactor(ShooterConstants.POSITION_CONVERSION_FACTOR);
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
             leftMotorConfig.apply(baseConfig);
