@@ -32,8 +32,8 @@ public class Shooter extends SubsystemBase {
     private Shooter() {
         servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
         ServoHubConfig servoHubConfig = new ServoHubConfig();
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_OPTIONS, servoHub, servoHubConfig);
-        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_OPTIONS, servoHub, servoHubConfig);
+        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
+        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
     }
 
@@ -74,7 +74,7 @@ public class Shooter extends SubsystemBase {
          * @param leftMotorCanId  CAN ID of the left shooter motor controller.
          * @param rightMotorCanId CAN ID of the right shooter motor controller.
          */
-        private ShooterModule(ShooterConstants.ShooterModuleOptions options, ServoHub servoHub,
+        private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
                 ServoHubConfig servoHubConfig) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
@@ -85,22 +85,22 @@ public class Shooter extends SubsystemBase {
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
             leftMotorConfig.apply(baseConfig);
-            leftMotor = new SparkFlex(options.leftMotorCanId(), SparkLowLevel.MotorType.kBrushless);
+            leftMotor = new SparkFlex(moduleConstants.leftMotorCanId(), SparkLowLevel.MotorType.kBrushless);
             leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
             SparkFlexConfig rightMotorConfig = new SparkFlexConfig();
             rightMotorConfig.apply(baseConfig).follow(leftMotor, true);
-            rightMotor = new SparkFlex(options.rightMotorCanId(), SparkLowLevel.MotorType.kBrushless);
+            rightMotor = new SparkFlex(moduleConstants.rightMotorCanId(), SparkLowLevel.MotorType.kBrushless);
             rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
             controller = leftMotor.getClosedLoopController();
             encoder = leftMotor.getEncoder();
 
-            translation = options.translation();
-            servoChannel = servoHub.getServoChannel(options.servoChannelID());
-            servoPulseRange = options.servoPulseRange();
+            translation = moduleConstants.translation();
+            servoChannel = servoHub.getServoChannel(moduleConstants.servoChannelID());
+            servoPulseRange = moduleConstants.servoPulseRange();
 
-            switch (options.servoChannelID()) {
+            switch (moduleConstants.servoChannelID()) {
                 case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoPulseRange);
                 case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoPulseRange);
                 case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoPulseRange);
