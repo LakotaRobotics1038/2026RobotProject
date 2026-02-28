@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public final class ShooterConstants {
-    public static record ShooterModuleConstants(
+    public record ShooterModuleConstants(
             int leftMotorCanId,
             int rightMotorCanId,
             Translation2d translation,

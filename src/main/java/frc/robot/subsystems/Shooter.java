@@ -69,18 +69,18 @@ public class Shooter extends SubsystemBase {
         private final ServoChannelConfig.PulseRange servoPulseRange;
 
         /**
-         * Creates a shooter with the specified motor controller CAN IDs.
+         * Creates and configures a shooter module.
          *
-         * @param leftMotorCanId  CAN ID of the left shooter motor controller.
-         * @param rightMotorCanId CAN ID of the right shooter motor controller.
+         * @param moduleConstants configuration for this shooter module. See {@link ShooterConstants.ShooterModuleConstants}.
+         * @param servoHub        ServoHub used to get and control the servo channel for this module.
+         * @param servoHubConfig  Configuration object whose channel settings are updated for this module.
          */
         private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
                 ServoHubConfig servoHubConfig) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
-                    .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0)
-                    .outputRange(NeoMotorConstants.MIN_POWER, NeoMotorConstants.MAX_POWER).feedForward
+                    .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
