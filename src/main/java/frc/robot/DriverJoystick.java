@@ -2,7 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.constants.DriveConstants;
@@ -52,9 +52,10 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                Translation2d translation = new Translation2d(driveTrain.getState().Pose.getX(),
-                        driveTrain.getState().Pose.getY());
-                if (FieldConstants.LEFT_BUMP.contains(translation) || FieldConstants.RIGHT_BUMP.contains(translation)) {
+                if (robotNearRect(FieldConstants.BLUE_LEFT_BUMP) ||
+                        robotNearRect(FieldConstants.BLUE_RIGHT_BUMP) ||
+                        robotNearRect(FieldConstants.RED_LEFT_BUMP) ||
+                        robotNearRect(FieldConstants.RED_RIGHT_BUMP)) {
                     maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
                 } else {
                     maxPower = DriveConstants.DEFAULT_MAX_POWER;
@@ -166,5 +167,9 @@ public class DriverJoystick extends XboxController1038 {
      */
     private boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
+    }
+
+    private boolean robotNearRect(Rectangle2d rect) {
+        return rect.getDistance(driveTrain.getState().Pose.getTranslation()) <= DriveConstants.ROBOT_SIZE_RADIUS;
     }
 }
