@@ -465,34 +465,26 @@ classDiagram
   AutoConstants  ..>  SwerveConstants
   Auton  ..>  Auton
   Auton  ..>  AutonSelector
-  Auton "1" *--> "driveTrain 1" DriveTrain
   AutonSelector  -->  AutonChoices
   AutonSelector  ..>  Auton
   AutonSelector  ..>  AutonChoices
-  AutonSelector "1" *--> "instance 1" AutonSelector
   AutonSelector  ..>  AutonSelector : «create»
   AutonSelector  ..>  Dashboard
   AutonSelector  ..>  LeftTaxi : «create»
   AutonSelector  ..>  RightTaxi : «create»
   Dashboard  ..>  AutonChoices
   Dashboard  ..>  Dashboard : «create»
-  Dashboard "1" *--> "instance 1" Dashboard
   Dashboard  ..>  DashboardConstants
-  Dashboard "1" *--> "driveTrain 1" DriveTrain
   DriveConstants  ..>  SwerveConstants
   DriveTrain  ..>  AutoConstants
   DriveTrain  ..>  DriveConstants
-  DriveTrain "1" *--> "instance 1" DriveTrain
   DriveTrain  ..>  DriveTrain : «create»
   DriveTrain  ..>  SwerveConstants
   DriverJoystick  ..>  DriveConstants
-  DriverJoystick "1" *--> "driveTrain 1" DriveTrain
   DriverJoystick  ..>  DriverJoystick : «create»
-  DriverJoystick "1" *--> "instance 1" DriverJoystick
   DriverJoystick  ..>  IOConstants
   DriverJoystick  ..>  PovPositions
   DriverJoystick  ..>  Telemetry : «create»
-  DriverJoystick "1" *--> "logger 1" Telemetry
   DriverJoystick  -->  XboxController1038
   LeftTaxi  -->  Auton
   LeftTaxi  ..>  Paths
@@ -501,26 +493,16 @@ classDiagram
   XboxController1038  -->  PovPositions
   RightTaxi  -->  Auton
   RightTaxi  ..>  Paths
-  Robot "1" *--> "autonomousCommand 1" Auton
-  Robot "1" *--> "autonSelector 1" AutonSelector
   Robot  ..>  Dashboard
-  Robot "1" *--> "driveTrain 1" DriveTrain
   Robot  ..>  DriverJoystick
-  Robot "1" *--> "swagLights 1" SwagLights
   Robot  ..>  SwerveConstants
-  Robot "1" *--> "vision 1" Vision
   SwagLights  -->  RobotStates
   Shooter  ..>  Shooter : «create»
-  Shooter "1" *--> "instance 1" Shooter
   Shooter  ..>  ShooterConstants
-  Shooter "1" *--> "nearShooter 1" ShooterModule
-  Shooter "1" *--> "farShooter 1" ShooterModule
   Shooter  ..>  ShooterModule : «create»
   ShooterConstants  ..>  NeoMotorConstants
   ShooterConstants  ..>  ShooterFormula : «create»
-  ShooterConstants "1" *--> "SHOOTER_FORMULAS *" ShooterFormula
   ShooterConstants  ..>  ShooterModuleConstants : «create»
-  ShooterConstants "1" *--> "NEAR_SHOOTER_MODULE_CONSTANTS 1" ShooterModuleConstants
   ShooterConstants  -->  ShooterFormula
   ShooterModule  ..>  NeoMotorConstants
   Shooter  -->  ShooterModule
@@ -529,13 +511,9 @@ classDiagram
   ShooterModule  ..>  ShooterModule
   ShooterModule  ..>  ShooterModuleConstants
   ShooterConstants  -->  ShooterModuleConstants
-  SwagLights "1" *--> "operatorState 1" OperatorStates
-  SwagLights "1" *--> "robotState 1" RobotStates
-  SwagLights "1" *--> "instance 1" SwagLights
   SwagLights  ..>  SwagLights : «create»
   SwerveConstants  ..>  DriveConstants
   Vision  ..>  Vision : «create»
-  Vision "1" *--> "instance 1" Vision
   Vision  ..>  VisionConstants
   XboxController1038  ..>  PovPositions
   XboxController1038  ..>  XboxController1038
