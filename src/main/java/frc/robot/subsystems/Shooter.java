@@ -42,14 +42,26 @@ public class Shooter extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Gets the shooter module that is closer to the hub.
+     * @return The near shooter module.
+     */
     public ShooterModule getNearShooter() {
         return nearShooter;
     }
 
+    /**
+     * Gets the shooter module that is further from the hub.
+     * @return The far shooter module.
+     */
     public ShooterModule getFarShooter() {
         return farShooter;
     }
 
+    /**
+     * Gets the servo hub.
+     * @return The servo hub.
+     */
     public ServoHub getServoHub() {
         return servoHub;
     }
@@ -147,7 +159,7 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Indicates whether the shooter at its target RPM.
+         * Indicates whether the shooter is at the target RPM.
          *
          * @return Whether the shooter is at the target RPM.
          */
