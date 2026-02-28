@@ -195,7 +195,8 @@ public class Shooter extends SubsystemBase {
 
         /**
          * Sets the shooter to a certain speed given the distance to the hub. Assumes that it is already aligned.
-         * If the robot is too close or too far for any of the angles, it silently fails.
+         * If the robot is too close or too far for any of the angles, it silently fails. If distances overlap, lesser
+         * angles will be preferred.
          *
          * @param hubDistance The distance from the shooter module to the hub.
          */

@@ -79,6 +79,10 @@ public final class ShooterConstants {
         }
     }
 
+    /**
+     * List of angles and their corresponding shooter formulas. The formula is used to calculate the RPM of the shooter
+     * based on the distance to the target. The min and max values represent the range of that angle.
+     */
     public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
             new ShooterFormula(
                     55.0,
