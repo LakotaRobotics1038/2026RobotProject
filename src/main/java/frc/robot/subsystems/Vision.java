@@ -54,6 +54,8 @@ public class Vision extends SubsystemBase {
 
     private static Vision instance;
 
+    private Vision() {}
+
     /**
      * Gets the singleton instance of vision.
      *
