@@ -8,6 +8,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.util.Units;
 
 public final class DriveConstants {
     public static final Matrix<N3, N1> ODOMETRY_STD_DEV = VecBuilder.fill(0.1, 0.1, 0.1);
@@ -19,9 +20,9 @@ public final class DriveConstants {
 
     // Chassis configuration
     // Distance between centers of right and left wheels on robot
-    public static final double TRACK_WIDTH = 25; // Inches
+    public static final double TRACK_WIDTH = Units.inchesToMeters(25); // Inches
     // Distance between front and back wheels on robot
-    public static final double WHEEL_BASE = 24; // Inches
+    public static final double WHEEL_BASE = Units.inchesToMeters(24); // Inches
     private static final double ROBOT_MAX_LENGTH = Math.max(TRACK_WIDTH, WHEEL_BASE);
     public static final double ROBOT_SIZE_RADIUS = Math.sqrt(Math.pow(ROBOT_MAX_LENGTH, 2) + Math.pow(ROBOT_MAX_LENGTH, 2)) / 2;
 
