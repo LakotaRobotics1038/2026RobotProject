@@ -2,38 +2,35 @@ classDiagram
   direction BT
   class AutoConstants {
     + AutoConstants()
-    + double P_THETA_CONTROLLER
-    + double I_X_CONTROLLER
-    + Constraints THETA_CONTROLLER_CONSTRAINTS
     + double MAX_ACCELERATION_METERS_PER_SECOND_SQUARED
-    + double D_CONTROLLER
     + double MAX_SPEED
-    + double I_THETA_CONTROLLER
     + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND
     + double MAX_ANGULAR_SPEED_RADIANS_PER_SECOND_SQUARED
     + double P_X_CONTROLLER
+    + double I_X_CONTROLLER
+    + double D_CONTROLLER
+    + double P_THETA_CONTROLLER
+    + double I_THETA_CONTROLLER
     + double D_THETA_CONTROLLER
+    + Constraints THETA_CONTROLLER_CONSTRAINTS
     + Optional~RobotConfig~ ROBOT_CONFIG
   }
   class Auton {
     + Auton(Optional~Alliance~)
-    # DriveTrain driveTrain
     - Pose2d initialPose
+    # DriveTrain driveTrain
     # Alliance alliance
     - setInitialPose(Pose2d) void
-    # setInitialPose(PathPlannerTrajectory, Rotation2d) void
-    + followPathCommand(PathPlannerPath) Command
     # setInitialPose(PathPlannerTrajectory) void
+    # setInitialPose(PathPlannerTrajectory, Rotation2d) void
     + getInitialPose() Pose2d
+    + followPathCommand(PathPlannerPath) Command
   }
   class AutonChoices {
     <<enumeration>>
-    + AutonChoices()
     +  NoAuto
     +  LeftTaxi
     +  RightTaxi
-    + values() AutonChoices[]
-    + valueOf(String) AutonChoices
   }
   class AutonSelector {
     - AutonSelector()
