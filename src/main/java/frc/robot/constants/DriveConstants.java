@@ -23,7 +23,7 @@ public final class DriveConstants {
     // Distance between front and back wheels on robot
     public static final double WHEEL_BASE = 24; // Inches
     private static final double ROBOT_MAX_LENGTH = Math.max(TRACK_WIDTH, WHEEL_BASE);
-    public static final double ROBOT_SIZE_RADIUS = Math.sqrt(Math.pow(ROBOT_MAX_LENGTH, 2) + Math.pow(ROBOT_MAX_LENGTH, 2));
+    public static final double ROBOT_SIZE_RADIUS = Math.sqrt(Math.pow(ROBOT_MAX_LENGTH / 2, 2) + Math.pow(ROBOT_MAX_LENGTH / 2, 2));
 
     public static final double FINE_ADJUSTMENT_PERCENT = 0.2;
 
