@@ -43,7 +43,6 @@ public final class ShooterConstants {
     public static final double V = NeoMotorConstants.VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double WHEEL_RADIUS_M = Units.inchesToMeters(2);
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
 
