@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import java.util.Map;
-
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -190,9 +188,9 @@ public class Shooter extends SubsystemBase {
          * @param hubDistance The distance from the shooter module to the hub.
          */
         public void autoShoot(double hubDistance) {
-            for (Map.Entry<Double, ShooterConstants.ShooterFormula> entry : ShooterConstants.ANGLE_MAP.entrySet()) {
-                ShooterConstants.ShooterFormula formula = entry.getValue();
+            for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= hubDistance && formula.getMax() >= hubDistance) {
+                    setAngle(formula.getAngle());
                     start(formula.getRPM(hubDistance));
                     break;
                 }

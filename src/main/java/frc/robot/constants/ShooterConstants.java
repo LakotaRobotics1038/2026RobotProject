@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import java.util.Map;
+import java.util.List;
 
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.config.ServoChannelConfig;
@@ -52,12 +52,18 @@ public final class ShooterConstants {
         private final double yIntercept;
         private final double min;
         private final double max;
+        private final double angle;
 
-        private ShooterFormula(double slope, double yIntercept, double min, double max) {
+        private ShooterFormula(double angle, double slope, double yIntercept, double min, double max) {
+            this.angle = angle;
             this.slope = slope;
             this.yIntercept = yIntercept;
             this.min = min;
             this.max = max;
+        }
+
+        public double getAngle() {
+            return angle;
         }
 
         public double getMin() {
@@ -73,13 +79,15 @@ public final class ShooterConstants {
         }
     }
 
-    public static final Map<Double, ShooterFormula> ANGLE_MAP = Map.of(
-            55.0, new ShooterFormula(
+    public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
+            new ShooterFormula(
+                    55.0,
                     454.97,
                     2033.9,
                     1.7,
                     3.25),
-            65.0, new ShooterFormula(
+            new ShooterFormula(
+                    65.0,
                     448.4,
                     2056.9,
                     2.5,
