@@ -538,6 +538,7 @@ classDiagram
   Shooter "1" *--> "instance 1" Shooter
   Shooter  ..>  ShooterConstants
   Shooter "1" *--> "nearShooter 1" ShooterModule
+  Shooter "1" *--> "farShooter 1" ShooterModule
   Shooter  ..>  ShooterModule : «create»
   ShooterConstants  ..>  NeoMotorConstants
   ShooterConstants  ..>  ShooterFormula : «create»
