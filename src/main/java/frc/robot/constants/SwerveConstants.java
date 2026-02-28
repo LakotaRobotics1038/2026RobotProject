@@ -142,8 +142,8 @@ public class SwerveConstants {
             .withDriveFrictionVoltage(DRIVE_FRICTION_VOLTAGE);
 
     // Front Left
-    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 14;
-    private static final int FRONT_LEFT_STEER_MOTOR_ID = 15;
+    private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 2;
+    private static final int FRONT_LEFT_STEER_MOTOR_ID = 1;
     private static final int FRONT_LEFT_ENCODER_ID = 33;
     private static final Angle FRONT_LEFt_ENCODER_OFFSET = Rotations.of(0.047119140625);
     private static final boolean FRONT_LEFT_STEER_MOTOR_INVERTED = true;
@@ -153,8 +153,8 @@ public class SwerveConstants {
     private static final Distance FRONT_LEFT_Y_POS = Inches.of(DriveConstants.TRACK_WIDTH / 2);
 
     // Front Right
-    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 0;
-    private static final int FRONT_RIGHT_STEER_MOTOR_ID = 1;
+    private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 18;
+    private static final int FRONT_RIGHT_STEER_MOTOR_ID = 19;
     private static final int FRONT_RIGHT_ENCODER_ID = 30;
     private static final Angle FRONT_RIGHT_ENCODER_OFFSET = Rotations.of(-0.384521484375);
     private static final boolean FRONT_RIGHT_STEER_MOTOR_INVERTED = true;
@@ -164,8 +164,8 @@ public class SwerveConstants {
     private static final Distance FRONT_RIGHT_Y_POS = Inches.of(-DriveConstants.TRACK_WIDTH / 2);
 
     // Back Left
-    private static final int BACK_LEFT_DRIVE_MOTOR_ID = 16;
-    private static final int BACK_LEFT_STEER_MOTOR_ID = 17;
+    private static final int BACK_LEFT_DRIVE_MOTOR_ID = 8;
+    private static final int BACK_LEFT_STEER_MOTOR_ID = 9;
     private static final int BACK_LEFT_ENCODER_ID = 32;
     private static final Angle Back_LEFT_ENCODER_OFFSET = Rotations.of(-0.29443359375);
     private static final boolean BACK_LEFT_STEER_MOTOR_INVERTED = true;
@@ -175,8 +175,8 @@ public class SwerveConstants {
     private static final Distance BACK_LEFT_Y_POS = Inches.of(DriveConstants.TRACK_WIDTH / 2);
 
     // Back Right
-    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = 18;
-    private static final int BACK_RIGHT_STEER_MOTOR_ID = 19;
+    private static final int BACK_RIGHT_DRIVE_MOTOR_ID = 10;
+    private static final int BACK_RIGHT_STEER_MOTOR_ID = 11;
     private static final int BACK_RIGHT_ENCODER_ID = 31;
     private static final Angle BACK_RIGHT_ENCODER_OFFSET = Rotations.of(-0.42578125);
     private static final boolean BACK_RIGHT_STEER_MOTOR_INVERTED = true;
