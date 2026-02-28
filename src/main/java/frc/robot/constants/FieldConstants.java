@@ -6,9 +6,6 @@ import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.util.Units;
 
 public final class FieldConstants {
-    private FieldConstants() {
-    }
-
     private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = Units.inchesToMeters(158.6);
     private static final double BUMP_WIDTH = Units.inchesToMeters(73);
     private static final double BUMP_LENGTH = Units.inchesToMeters(44.4);
