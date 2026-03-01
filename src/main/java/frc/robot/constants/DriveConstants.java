@@ -18,6 +18,8 @@ public final class DriveConstants {
     public static final double OVERDRIVE_POWER = 1.0;
     public static final double BUMP_SLOWDOWN_POWER = 0.3;
 
+    public static final double BUMP_APPROACH_SPEED_THRESHOLD = 0.5;
+
     // Chassis configuration
     // Distance between centers of right and left wheels on robot
     public static final double TRACK_WIDTH = Units.inchesToMeters(25); // Inches

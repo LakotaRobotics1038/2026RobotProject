@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rectangle2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.constants.DriveConstants;
@@ -52,10 +53,10 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                if (robotNearRect(FieldConstants.BLUE_LEFT_BUMP) ||
-                        robotNearRect(FieldConstants.BLUE_RIGHT_BUMP) ||
-                        robotNearRect(FieldConstants.RED_LEFT_BUMP) ||
-                        robotNearRect(FieldConstants.RED_RIGHT_BUMP)) {
+                if (drivingOverRect(FieldConstants.BLUE_LEFT_BUMP) ||
+                        drivingOverRect(FieldConstants.BLUE_RIGHT_BUMP) ||
+                        drivingOverRect(FieldConstants.RED_LEFT_BUMP) ||
+                        drivingOverRect(FieldConstants.RED_RIGHT_BUMP)) {
                     maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
                 } else {
                     maxPower = DriveConstants.DEFAULT_MAX_POWER;
@@ -169,7 +170,20 @@ public class DriverJoystick extends XboxController1038 {
         return a > 0 && b < 0 || b > 0 && a < 0;
     }
 
-    private boolean robotNearRect(Rectangle2d rect) {
-        return rect.getDistance(driveTrain.getState().Pose.getTranslation()) <= DriveConstants.ROBOT_SIZE_RADIUS;
+    private boolean drivingOverRect(Rectangle2d rect) {
+        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
+        Translation2d nearest = rect.nearest(robotPos);
+        if (nearest.getDistance(robotPos) > DriveConstants.ROBOT_SIZE_RADIUS) {
+            return false;
+        }
+        double vx = driveTrain.getState().Speeds.vxMetersPerSecond;
+        double vy = driveTrain.getState().Speeds.vyMetersPerSecond;
+        double speed = Math.sqrt(vx * vx + vy * vy);
+        if (speed < DriveConstants.BUMP_APPROACH_SPEED_THRESHOLD) {
+            return false;
+        }
+        double dx = nearest.getX() - robotPos.getX();
+        double dy = nearest.getY() - robotPos.getY();
+        return vx * dx + vy * dy > 0;
     }
 }
