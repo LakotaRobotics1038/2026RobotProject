@@ -3,12 +3,12 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.ClosedLoopSlot;
-import com.revrobotics.spark.config.AbsoluteEncoderConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -35,6 +35,7 @@ public class Acquisition extends SubsystemBase {
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.apply(baseConfig).closedLoop
+                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                 .pid(AcquisitionConstants.PIVOT_P, AcquisitionConstants.PIVOT_I,
                         AcquisitionConstants.PIVOT_D)
                 .allowedClosedLoopError(AcquisitionConstants.PIVOT_ALLOWED_ERROR_DEGREES,
@@ -79,7 +80,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionSetpoint#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
      */
     public void acquire() {
         if (readyToIntake()) {
@@ -90,7 +91,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionSetpoint#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
      */
     public void dispose() {
         if (readyToIntake()) {
@@ -131,7 +132,7 @@ public class Acquisition extends SubsystemBase {
     /**
      * Gets if the requirements are met for the intake motor to run.
      */
-    public boolean readyToIntake() {
+    private boolean readyToIntake() {
         return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
     }
 }
