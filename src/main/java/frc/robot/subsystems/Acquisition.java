@@ -123,7 +123,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Gets the position of the pivot encoder..
+     * Gets the position of the pivot encoder.
      */
     public double getPosition() {
         return pivotEncoder.getPosition();
