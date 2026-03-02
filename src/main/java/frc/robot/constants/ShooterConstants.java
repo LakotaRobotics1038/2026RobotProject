@@ -20,14 +20,14 @@ public final class ShooterConstants {
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             0,
             0,
-            new Translation2d(),
+            new Translation2d(Units.inchesToMeters(-7.826), Units.inchesToMeters(-13.5)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             0,
             0,
-            new Translation2d(),
+            new Translation2d(Units.inchesToMeters(8.635), Units.inchesToMeters(-13.5)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
@@ -81,8 +81,10 @@ public final class ShooterConstants {
     }
 
     /**
-     * List of angles and their corresponding shooter formulas. The formula is used to calculate the RPM of the shooter
-     * based on the distance to the target. The min and max values represent the range of that angle.
+     * List of angles and their corresponding shooter formulas. The formula is used
+     * to calculate the RPM of the shooter
+     * based on the distance to the target. The min and max values represent the
+     * range of that angle.
      */
     public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
             new ShooterFormula(
