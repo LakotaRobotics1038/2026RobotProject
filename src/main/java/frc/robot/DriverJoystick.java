@@ -6,15 +6,18 @@ import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
+import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
 
     // Commands
     // NONE
@@ -73,6 +76,8 @@ public class DriverJoystick extends XboxController1038 {
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
+        this.y().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.RAISED)));
+        this.a().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.LOWERED)));
         this.x().whileTrue(this.driveTrain.setX());
     }
 
