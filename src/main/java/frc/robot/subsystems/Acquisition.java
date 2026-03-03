@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
@@ -63,6 +64,7 @@ public class Acquisition extends SubsystemBase {
 
     /**
      * Sets the pivot motor position.
+     *
      * @param setpoint The setpoint for the pivot motor to go to.
      */
     public void setPivot(AcquisitionSetpoint setpoint) {
@@ -71,7 +73,9 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake RPM to
+     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM} if the pivot is in the
+     * correct position, otherwise stops the intake.
      */
     public void acquire() {
         if (readyToIntake()) {
@@ -82,7 +86,9 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's intake RPM to
+     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM} if the pivot is in the
+     * correct position. Otherwise, stops the intake motor.
      */
     public void dispose() {
         if (readyToIntake()) {
@@ -125,20 +131,5 @@ public class Acquisition extends SubsystemBase {
      */
     private boolean readyToIntake() {
         return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
-    }
-
-    public enum AcquisitionSetpoint {
-        RAISED(0),
-        LOWERED(90);
-
-        private final double degrees;
-
-        AcquisitionSetpoint(double degrees) {
-            this.degrees = degrees;
-        }
-
-        public double getDegrees() {
-            return degrees;
-        }
     }
 }
