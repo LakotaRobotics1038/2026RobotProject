@@ -183,6 +183,7 @@ public class Shooter extends SubsystemBase {
                     angle,
                     ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
                     ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
+            // Sets angle to a value between 0 and 1.
             double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
