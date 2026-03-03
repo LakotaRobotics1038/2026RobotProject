@@ -30,7 +30,7 @@ public class Climb extends SubsystemBase {
         config.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition);
         motor.configure(config, ResetMode.kResetSafeParameters,
-                PersistMode.kNoPersistParameters);
+                PersistMode.kPersistParameters);
     }
 
     public static Climb getInstance() {
