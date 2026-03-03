@@ -40,7 +40,7 @@ public class Acquisition extends SubsystemBase {
                         AcquisitionConstants.PIVOT_D)
                 .allowedClosedLoopError(AcquisitionConstants.PIVOT_ALLOWED_ERROR_DEGREES,
                         ClosedLoopSlot.kSlot0);
-        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_CONVERSION_FACTOR);
+        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_DEGREES_CONVERSION_FACTOR * AcquisitionConstants.PIVOT_GEAR_RATIO);
 
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
