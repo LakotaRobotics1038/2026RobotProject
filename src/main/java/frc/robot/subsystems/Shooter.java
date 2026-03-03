@@ -25,10 +25,8 @@ public class Shooter extends SubsystemBase {
     private final ShooterModule nearShooter;
     private final ShooterModule farShooter;
 
-    private final ServoHub servoHub;
-
     private Shooter() {
-        servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
+        ServoHub servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
         ServoHubConfig servoHubConfig = new ServoHubConfig();
         nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
