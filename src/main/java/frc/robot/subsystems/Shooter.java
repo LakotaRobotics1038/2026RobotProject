@@ -44,6 +44,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Gets the shooter module that is closer to the hub.
+     * 
      * @return The near shooter module.
      */
     public ShooterModule getNearShooter() {
@@ -52,18 +53,11 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Gets the shooter module that is further from the hub.
+     * 
      * @return The far shooter module.
      */
     public ShooterModule getFarShooter() {
         return farShooter;
-    }
-
-    /**
-     * Gets the servo hub.
-     * @return The servo hub.
-     */
-    public ServoHub getServoHub() {
-        return servoHub;
     }
 
     /**
@@ -81,9 +75,12 @@ public class Shooter extends SubsystemBase {
         /**
          * Creates and configures a shooter module.
          *
-         * @param moduleConstants configuration for this shooter module. See {@link ShooterConstants.ShooterModuleConstants}.
-         * @param servoHub        ServoHub used to get and control the servo channel for this module.
-         * @param servoHubConfig  Configuration object whose channel settings are updated for this module.
+         * @param moduleConstants configuration for this shooter module. See
+         *                        {@link ShooterConstants.ShooterModuleConstants}.
+         * @param servoHub        ServoHub used to get and control the servo channel for
+         *                        this module.
+         * @param servoHubConfig  Configuration object whose channel settings are
+         *                        updated for this module.
          */
         private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
                 ServoHubConfig servoHubConfig) {
@@ -195,8 +192,10 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Sets the shooter to a certain speed given the distance to the hub. Assumes that it is already aligned.
-         * If the robot is too close or too far for any of the angles, it silently fails. If distances overlap, lesser
+         * Sets the shooter to a certain speed given the distance to the hub. Assumes
+         * that it is already aligned.
+         * If the robot is too close or too far for any of the angles, it silently
+         * fails. If distances overlap, lesser
          * angles will be preferred.
          *
          * @param hubDistance The distance from the shooter module to the hub.
