@@ -11,9 +11,6 @@ public final class AcquisitionConstants {
     public static final double PIVOT_I = 0;
     public static final double PIVOT_D = 0;
 
-    public static final double PIVOT_S = 0;
-    public static final double PIVOT_V = 0;
-    public static final double PIVOT_A = 0;
     public static final double PIVOT_ENCODER_CONVERSION_FACTOR = 360;
     public static final double PIVOT_ALLOWED_ERROR_DEGREES = 2.0;
 
