@@ -44,7 +44,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Gets the shooter module that is closer to the hub.
-     * 
+     *
      * @return The near shooter module.
      */
     public ShooterModule getNearShooter() {
@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Gets the shooter module that is further from the hub.
-     * 
+     *
      * @return The far shooter module.
      */
     public ShooterModule getFarShooter() {
@@ -176,7 +176,7 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Sets the servo angle by converting the given degrees to pulse width.
+         * Sets the hood angle by converting the given degrees to pulse width.
          *
          * @param angle Angle in degrees.
          */
