@@ -180,18 +180,30 @@ public class DriverJoystick extends XboxController1038 {
      */
     private boolean drivingThroughRect(Rectangle2d rect) {
         Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        Translation2d nearest = rect.nearest(robotPos);
-        if (nearest.getDistance(robotPos) > DriveConstants.ROBOT_SIZE_RADIUS) {
+        Translation2d nearestRectPointToRobot = rect.nearest(robotPos);
+
+        if (nearestRectPointToRobot.getDistance(robotPos) > DriveConstants.ROBOT_SIZE_RADIUS) {
             return false;
         }
+
         double vx = driveTrain.getState().Speeds.vxMetersPerSecond;
         double vy = driveTrain.getState().Speeds.vyMetersPerSecond;
+
+        // Magnitude of the velocity vector. If the robot is moving too slowly
+        // we don't consider it to be 'approaching' the bump rectangle.
         double speed = Math.sqrt(vx * vx + vy * vy);
+
         if (speed < DriveConstants.BUMP_APPROACH_SPEED_THRESHOLD) {
             return false;
         }
-        double dx = nearest.getX() - robotPos.getX();
-        double dy = nearest.getY() - robotPos.getY();
+
+        // Vector from the robot to the nearest point on the rectangle
+        double dx = nearestRectPointToRobot.getX() - robotPos.getX();
+        double dy = nearestRectPointToRobot.getY() - robotPos.getY();
+
+        // Use the dot product between velocity (vx,vy) and the displacement
+        // vector (dx,dy). If the dot product is positive, the robot is moving in the
+        // direction of the rectangle.
         return vx * dx + vy * dy > 0;
     }
 }
