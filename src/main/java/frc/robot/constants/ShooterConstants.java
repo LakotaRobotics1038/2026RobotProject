@@ -92,11 +92,12 @@ public final class ShooterConstants {
                     454.97,
                     2033.9,
                     1.7,
-                    3.25),
-            new ShooterFormula(
-                    65.0,
-                    448.4,
-                    2056.9,
-                    2.5,
-                    5.1));
+                    3.25)
+//            new ShooterFormula(
+//                    65.0,
+//                    448.4,
+//                    2056.9,
+//                    2.5,
+//                    5.1)
+    );
 }
