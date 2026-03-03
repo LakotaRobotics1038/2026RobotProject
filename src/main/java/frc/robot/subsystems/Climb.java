@@ -3,9 +3,12 @@ package frc.robot.subsystems;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkLimitSwitch;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.LimitSwitchConfig;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,9 +24,11 @@ public class Climb extends SubsystemBase {
 
     private Climb() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+        config.idleMode(SparkBaseConfig.IdleMode.kBrake).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
                 .pid(ClimbConstants.P,  ClimbConstants.I, ClimbConstants.D).feedForward.
                 sva(ClimbConstants.S, ClimbConstants.V, ClimbConstants.A);
+        config.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen)
+                .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition);
         motor.configure(config, ResetMode.kResetSafeParameters,
                 PersistMode.kNoPersistParameters);
     }
