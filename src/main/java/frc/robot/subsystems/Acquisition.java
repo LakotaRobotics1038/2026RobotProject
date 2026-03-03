@@ -14,7 +14,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.NeoMotorConstants;
-import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
 public class Acquisition extends SubsystemBase {
     private final SparkMax pivotMotor = new SparkMax(AcquisitionConstants.PIVOT_MOTOR_CAN_ID, MotorType.kBrushless);
@@ -127,5 +126,20 @@ public class Acquisition extends SubsystemBase {
      */
     private boolean readyToIntake() {
         return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
+    }
+
+    public enum AcquisitionSetpoint {
+        RAISED(0),
+        LOWERED(90);
+
+        private final double degrees;
+
+        AcquisitionSetpoint(double degrees) {
+            this.degrees = degrees;
+        }
+
+        public double getDegrees() {
+            return degrees;
+        }
     }
 }
