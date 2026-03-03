@@ -64,18 +64,11 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's pivot position to {@link AcquisitionSetpoint#RAISED}.
+     * Sets the pivot motor position.
+     * @param setpoint The setpoint for the pivot motor to go to.
      */
-    public void raise() {
-        setpoint = AcquisitionSetpoint.RAISED;
-        pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
-    }
-
-    /**
-     * Sets the Acquisition's pivot position to {@link AcquisitionSetpoint#LOWERED}.
-     */
-    public void lower() {
-        setpoint = AcquisitionSetpoint.LOWERED;
+    public void setPivot(AcquisitionSetpoint setpoint) {
+        this.setpoint = setpoint;
         pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
     }
 
