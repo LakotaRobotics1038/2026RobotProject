@@ -53,10 +53,10 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                if (drivingOverRect(FieldConstants.BLUE_LEFT_BUMP) ||
-                        drivingOverRect(FieldConstants.BLUE_RIGHT_BUMP) ||
-                        drivingOverRect(FieldConstants.RED_LEFT_BUMP) ||
-                        drivingOverRect(FieldConstants.RED_RIGHT_BUMP)) {
+                if (drivingThroughRect(FieldConstants.BLUE_LEFT_BUMP) ||
+                        drivingThroughRect(FieldConstants.BLUE_RIGHT_BUMP) ||
+                        drivingThroughRect(FieldConstants.RED_LEFT_BUMP) ||
+                        drivingThroughRect(FieldConstants.RED_RIGHT_BUMP)) {
                     maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
                 } else {
                     maxPower = DriveConstants.DEFAULT_MAX_POWER;
@@ -170,7 +170,15 @@ public class DriverJoystick extends XboxController1038 {
         return a > 0 && b < 0 || b > 0 && a < 0;
     }
 
-    private boolean drivingOverRect(Rectangle2d rect) {
+    /**
+     * Determines if the robot is currently driving through a given rectangle on the
+     * field. Takes into account the direction of the robot's movement and only
+     * returns true if the robot is moving towards the rectangle.
+     *
+     * @param rect the rectangle to check
+     * @return true if the robot is driving through the rectangle, false otherwise
+     */
+    private boolean drivingThroughRect(Rectangle2d rect) {
         Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
         Translation2d nearest = rect.nearest(robotPos);
         if (nearest.getDistance(robotPos) > DriveConstants.ROBOT_SIZE_RADIUS) {
