@@ -25,8 +25,8 @@ public final class ShooterConstants {
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            0,
-            0,
+            12,
+            13,
             new Translation2d(Units.inchesToMeters(8.635), Units.inchesToMeters(-13.5)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
