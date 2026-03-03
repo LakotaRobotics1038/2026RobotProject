@@ -3,6 +3,7 @@ package frc.robot.constants;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
@@ -149,8 +150,8 @@ public class SwerveConstants {
     private static final boolean FRONT_LEFT_STEER_MOTOR_INVERTED = true;
     private static final boolean FRONT_LEFT_ENCODER_INVERTED = false;
 
-    private static final Distance FRONT_LEFT_X_POS = Inches.of(DriveConstants.WHEEL_BASE / 2);
-    private static final Distance FRONT_LEFT_Y_POS = Inches.of(DriveConstants.TRACK_WIDTH / 2);
+    private static final Distance FRONT_LEFT_X_POS = Meters.of(DriveConstants.WHEEL_BASE / 2);
+    private static final Distance FRONT_LEFT_Y_POS = Meters.of(DriveConstants.TRACK_WIDTH / 2);
 
     // Front Right
     private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 18;
@@ -160,8 +161,8 @@ public class SwerveConstants {
     private static final boolean FRONT_RIGHT_STEER_MOTOR_INVERTED = true;
     private static final boolean FRONT_RIGHT_ENCODER_INVERTED = false;
 
-    private static final Distance FRONT_RIGHT_X_POS = Inches.of(DriveConstants.WHEEL_BASE / 2);
-    private static final Distance FRONT_RIGHT_Y_POS = Inches.of(-DriveConstants.TRACK_WIDTH / 2);
+    private static final Distance FRONT_RIGHT_X_POS = Meters.of(DriveConstants.WHEEL_BASE / 2);
+    private static final Distance FRONT_RIGHT_Y_POS = Meters.of(-DriveConstants.TRACK_WIDTH / 2);
 
     // Back Left
     private static final int BACK_LEFT_DRIVE_MOTOR_ID = 8;
@@ -171,8 +172,8 @@ public class SwerveConstants {
     private static final boolean BACK_LEFT_STEER_MOTOR_INVERTED = true;
     private static final boolean BACK_LEFT_ENCODER_INVERTED = false;
 
-    private static final Distance BACK_LEFT_X_POS = Inches.of(-DriveConstants.WHEEL_BASE / 2);
-    private static final Distance BACK_LEFT_Y_POS = Inches.of(DriveConstants.TRACK_WIDTH / 2);
+    private static final Distance BACK_LEFT_X_POS = Meters.of(-DriveConstants.WHEEL_BASE / 2);
+    private static final Distance BACK_LEFT_Y_POS = Meters.of(DriveConstants.TRACK_WIDTH / 2);
 
     // Back Right
     private static final int BACK_RIGHT_DRIVE_MOTOR_ID = 10;
@@ -182,8 +183,8 @@ public class SwerveConstants {
     private static final boolean BACK_RIGHT_STEER_MOTOR_INVERTED = true;
     private static final boolean BACK_RIGHT_ENCODER_INVERTED = false;
 
-    private static final Distance BACK_RIGHT_X_POS = Inches.of(-DriveConstants.WHEEL_BASE / 2);
-    private static final Distance BACK_RIGHT_Y_POS = Inches.of(-DriveConstants.TRACK_WIDTH / 2);
+    private static final Distance BACK_RIGHT_X_POS = Meters.of(-DriveConstants.WHEEL_BASE / 2);
+    private static final Distance BACK_RIGHT_Y_POS = Meters.of(-DriveConstants.TRACK_WIDTH / 2);
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FRONT_LEFT = CONSTANT_CREATOR
             .createModuleConstants(
