@@ -25,8 +25,7 @@ public class Climb extends SubsystemBase {
     private Climb() {
         SparkMaxConfig config = new SparkMaxConfig();
         config.idleMode(SparkBaseConfig.IdleMode.kBrake).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
-                .pid(ClimbConstants.P,  ClimbConstants.I, ClimbConstants.D).feedForward.
-                sva(ClimbConstants.S, ClimbConstants.V, ClimbConstants.A);
+                .pid(ClimbConstants.P,  ClimbConstants.I, ClimbConstants.D);
         config.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition);
         motor.configure(config, ResetMode.kResetSafeParameters,
