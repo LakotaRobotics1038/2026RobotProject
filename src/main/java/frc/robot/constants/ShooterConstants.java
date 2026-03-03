@@ -31,7 +31,7 @@ public final class ShooterConstants {
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
-    public static final int SERVO_HUB_CAN_ID = 0;
+    public static final int SERVO_HUB_CAN_ID = 17;
 
     public static final double VELOCITY_CONVERSION_FACTOR = 1;
 
