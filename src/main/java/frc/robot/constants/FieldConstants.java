@@ -2,7 +2,10 @@ package frc.robot.constants;
 
 import com.pathplanner.lib.util.FlippingUtil;
 
-import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.geometry.Rectangle2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
 public final class FieldConstants {
@@ -22,9 +25,11 @@ public final class FieldConstants {
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_BUMP_DISTANCE),
             Rotation2d.kZero));
     public static final Rectangle2d RED_LEFT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH, LEFT_BUMP_DISTANCE),
+            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH,
+                    LEFT_BUMP_DISTANCE),
             Rotation2d.kZero));
     public static final Rectangle2d RED_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH, RIGHT_BUMP_DISTANCE),
+            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH,
+                    RIGHT_BUMP_DISTANCE),
             Rotation2d.kZero));
 }
