@@ -26,6 +26,7 @@ package frc.robot.subsystems;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -48,11 +49,18 @@ public class Vision extends SubsystemBase {
             VisionConstants.ROBOT_TO_FRONT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_BACK_CAM);
-    private Matrix<N3, N1> frontCurStdDevs;
-    private Matrix<N3, N1> backCurStdDevs;
+    private Matrix<N3, N1> frontCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private final Consumer<Matrix<N3, N1>> frontStdDevSetter = stdDevs -> frontCurStdDevs = stdDevs;
+    private final Consumer<Matrix<N3, N1>> backStdDevSetter = stdDevs -> backCurStdDevs = stdDevs;
 
     private static Vision instance;
 
+    /**
+     * Gets the singleton instance of vision.
+     *
+     * @return The instance of vision.
+     */
     public static Vision getInstance() {
         if (instance == null) {
             instance = new Vision();
@@ -60,13 +68,13 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
-    private Vision() {
-    }
+    private Vision() {}
 
     private Optional<EstimatedRobotPose> estimateCameraPose(
             PhotonCamera camera,
             PhotonPoseEstimator estimator,
-            Matrix<N3, N1> curStdDevs) {
+            Matrix<N3, N1> curStdDevs,
+            Consumer<Matrix<N3, N1>> stdDevSetter) {
         Optional<EstimatedRobotPose> visionEst = Optional.empty();
 
         for (PhotonPipelineResult change : camera.getAllUnreadResults()) {
@@ -74,8 +82,9 @@ public class Vision extends SubsystemBase {
             if (visionEst.isEmpty()) {
                 visionEst = estimator.estimateLowestAmbiguityPose(change);
             }
-            updateEstimationStdDevs(estimator, visionEst, change.getTargets(), curStdDevs);
+            curStdDevs = updateEstimationStdDevs(estimator, visionEst, change.getTargets());
         }
+        stdDevSetter.accept(curStdDevs);
         return visionEst;
     }
 
@@ -89,7 +98,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> frontCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(frontCam, frontCamPhotonEstimator, frontCurStdDevs);
+        return estimateCameraPose(frontCam, frontCamPhotonEstimator, frontCurStdDevs,
+                frontStdDevSetter);
     }
 
     /**
@@ -102,7 +112,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs);
+        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs,
+                backStdDevSetter);
     }
 
     /**
@@ -111,30 +122,28 @@ public class Vision extends SubsystemBase {
      * deviations based on number of tags, estimation strategy, and distance from
      * the tags.
      *
-     * @param estimatedPose The estimated pose to guess standard deviations for.
+     * @param estimator     The pose estimator
+     * @param estimatedPose The estimated pose to guess standard deviations for
      * @param targets       All targets in this camera frame
+     *
+     * @return Estimated standard deviations
      */
-    private void updateEstimationStdDevs(
+    private Matrix<N3, N1> updateEstimationStdDevs(
             PhotonPoseEstimator estimator,
             Optional<EstimatedRobotPose> estimatedPose,
-            List<PhotonTrackedTarget> targets,
-            Matrix<N3, N1> curStdDevs) {
+            List<PhotonTrackedTarget> targets) {
         if (estimatedPose.isEmpty()) {
-            // No pose input. Default to single-tag std devs
-            curStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
-
+            return VisionConstants.SINGLE_TAG_STD_DEVS;
         } else {
-            // Pose present. Start running Heuristic
             Matrix<N3, N1> estStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
             int numTags = 0;
             double avgDist = 0;
 
-            // Precalculation - see how many tags we found, and calculate an
-            // average-distance metric
             for (PhotonTrackedTarget tgt : targets) {
                 Optional<Pose3d> tagPose = estimator.getFieldTags().getTagPose(tgt.getFiducialId());
-                if (tagPose.isEmpty())
+                if (tagPose.isEmpty()) {
                     continue;
+                }
                 numTags++;
                 avgDist += tagPose
                         .get()
@@ -144,20 +153,19 @@ public class Vision extends SubsystemBase {
             }
 
             if (numTags == 0) {
-                // No tags visible. Default to single-tag std devs
-                curStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+                return estStdDevs;
             } else {
-                // One or more tags visible, run the full heuristic.
-                avgDist /= numTags;
-                // Decrease std devs if multiple targets are visible
-                if (numTags > 1)
+                if (numTags > 1) {
+                    avgDist /= numTags;
                     estStdDevs = VisionConstants.MULTI_TAG_STD_DEVS;
-                // Increase std devs based on (average) distance
-                if (numTags == 1 && avgDist > 4)
+                } else if (numTags == 1 && avgDist > 4) {
                     estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                else
-                    estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
-                curStdDevs = estStdDevs;
+                    return estStdDevs;
+                }
+
+                estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+
+                return estStdDevs;
             }
         }
     }
@@ -180,13 +188,5 @@ public class Vision extends SubsystemBase {
      */
     public Matrix<N3, N1> getBackEstimationStdDevs() {
         return backCurStdDevs;
-    }
-
-    public void setAlgaeMode() {
-        backCam.setPipelineIndex(0);
-    }
-
-    public void setAprilTagMode() {
-        backCam.setPipelineIndex(1);
     }
 }
