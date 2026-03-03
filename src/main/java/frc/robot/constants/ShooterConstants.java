@@ -18,8 +18,8 @@ public final class ShooterConstants {
     }
 
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            0,
-            0,
+            5,
+            6,
             new Translation2d(Units.inchesToMeters(-7.826), Units.inchesToMeters(-13.5)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
@@ -33,7 +33,7 @@ public final class ShooterConstants {
 
     public static final int SERVO_HUB_CAN_ID = 0;
 
-    public static final double POSITION_CONVERSION_FACTOR = 1;
+    public static final double VELOCITY_CONVERSION_FACTOR = 1;
 
     public static final double RPM_TOLERANCE = 25;
 
