@@ -395,11 +395,11 @@ classDiagram
     - ChannelId servoChannelID
     - PulseRange servoPulseRange
     - int rightMotorCanId
-    + rightMotorCanId() int
-    + leftMotorCanId() int
-    + servoChannelID() ChannelId
-    + servoPulseRange() PulseRange
     + translation() Translation2d
+    + servoPulseRange() PulseRange
+    + leftMotorCanId() int
+    + rightMotorCanId() int
+    + servoChannelID() ChannelId
   }
   class SwagLights {
     - SwagLights()
@@ -572,14 +572,35 @@ classDiagram
     + deadband(double) double
   }
 
+  Acquisition "1" *--> "setpoint 1" AcquisitionSetpoint
   AcquisitionConstants  -->  AcquisitionSetpoint
+  Auton "1" *--> "driveTrain 1" DriveTrain
   AutonSelector  -->  AutonChoices
+  AutonSelector  ..>  LeftTaxi : «create»
+  AutonSelector  ..>  RightTaxi : «create»
+  Dashboard "1" *--> "driveTrain 1" DriveTrain
+  DriverJoystick "1" *--> "driveTrain 1" DriveTrain
+  DriverJoystick  ..>  Telemetry : «create»
+  DriverJoystick "1" *--> "logger 1" Telemetry
   DriverJoystick  -->  XboxController1038
   LeftTaxi  -->  Auton
-  RightTaxi  -->  Auton
   SwagLights  -->  OperatorStates
   XboxController1038  -->  PovPositions
+  RightTaxi  -->  Auton
+  Robot "1" *--> "autonomousCommand 1" Auton
+  Robot "1" *--> "autonSelector 1" AutonSelector
+  Robot "1" *--> "driveTrain 1" DriveTrain
+  Robot "1" *--> "swagLights 1" SwagLights
+  Robot "1" *--> "vision 1" Vision
   SwagLights  -->  RobotStates
+  Shooter  ..>  ShooterModule : «create»
+  Shooter "1" *--> "nearShooter 1" ShooterModule
+  ShooterConstants  ..>  ShooterFormula : «create»
+  ShooterConstants "1" *--> "SHOOTER_FORMULAS *" ShooterFormula
+  ShooterConstants  ..>  ShooterModuleConstants : «create»
+  ShooterConstants "1" *--> "NEAR_SHOOTER_MODULE_CONSTANTS 1" ShooterModuleConstants
   ShooterConstants  -->  ShooterFormula
   Shooter  -->  ShooterModule
   ShooterConstants  -->  ShooterModuleConstants
+  SwagLights "1" *--> "operatorState 1" OperatorStates
+  SwagLights "1" *--> "robotState 1" RobotStates
