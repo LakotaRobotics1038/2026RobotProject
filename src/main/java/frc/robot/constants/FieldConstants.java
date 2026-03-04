@@ -20,23 +20,46 @@ public final class FieldConstants {
     private static final double BUMP_WIDTH = Units.inchesToMeters(73);
     private static final double BUMP_DEPTH = Units.inchesToMeters(44.4);
     private static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
-    private static final double LEFT_BUMP_DISTANCE = TRENCH_WIDTH;
-    private static final double RIGHT_BUMP_DISTANCE = FlippingUtil.fieldSizeY - TRENCH_WIDTH - BUMP_WIDTH;
+
+    private static final double LEFT_TRENCH_Y_OFFSET = 0;
+    private static final double RIGHT_TRENCH_Y_OFFSET = FlippingUtil.fieldSizeY - TRENCH_WIDTH;
+
+    private static final double LEFT_BUMP_Y_OFFSET = TRENCH_WIDTH;
+    private static final double RIGHT_BUMP_Y_OFFSET = RIGHT_TRENCH_Y_OFFSET - BUMP_WIDTH;
+
+    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH;
+
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(BUMP_WIDTH, BUMP_DEPTH));
     public static final Rectangle2d BLUE_LEFT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_BUMP_DISTANCE),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
     public static final Rectangle2d BLUE_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_BUMP_DISTANCE),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
     public static final Rectangle2d RED_LEFT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH,
-                    LEFT_BUMP_DISTANCE),
+            new Translation2d(RED_SIDE_DISTANCE, LEFT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
     public static final Rectangle2d RED_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
-            new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH,
-                    RIGHT_BUMP_DISTANCE),
+            new Translation2d(RED_SIDE_DISTANCE, RIGHT_BUMP_Y_OFFSET),
+            Rotation2d.kZero));
+
+    private static final Rectangle2d TRENCH = new Rectangle2d(
+            new Translation2d(0, 0),
+            new Translation2d(TRENCH_WIDTH, BUMP_DEPTH)
+    );
+
+    public static final Rectangle2d BLUE_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    public static final Rectangle2d BLUE_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    public static final Rectangle2d RED_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
+            new Translation2d(RED_SIDE_DISTANCE, LEFT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    public static final Rectangle2d RED_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
+            new Translation2d(RED_SIDE_DISTANCE, RIGHT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
 }

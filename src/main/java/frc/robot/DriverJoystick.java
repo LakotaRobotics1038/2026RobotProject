@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.function.Predicate;
+
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rectangle2d;
@@ -9,18 +11,33 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
+import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Shooter shooter = Shooter.getInstance();
 
     // Commands
     // NONE
 
     // Instance Variables
     private double maxPower = DriveConstants.DEFAULT_MAX_POWER;
+    private static final Rectangle2d[] BUMP_RECTANGLES = {
+            FieldConstants.BLUE_LEFT_BUMP,
+            FieldConstants.BLUE_RIGHT_BUMP,
+            FieldConstants.RED_LEFT_BUMP,
+            FieldConstants.RED_RIGHT_BUMP
+    };
+    private static final Rectangle2d[] TRENCH_RECTANGLES = {
+            FieldConstants.BLUE_LEFT_TRENCH,
+            FieldConstants.BLUE_RIGHT_TRENCH,
+            FieldConstants.RED_LEFT_TRENCH,
+            FieldConstants.RED_RIGHT_TRENCH
+    };
 
     // Previous Status
     private double prevSideways = 0;
@@ -53,14 +70,13 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                if (drivingThroughRect(FieldConstants.BLUE_LEFT_BUMP) ||
-                        drivingThroughRect(FieldConstants.BLUE_RIGHT_BUMP) ||
-                        drivingThroughRect(FieldConstants.RED_LEFT_BUMP) ||
-                        drivingThroughRect(FieldConstants.RED_RIGHT_BUMP)) {
-                    maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
-                } else {
-                    maxPower = DriveConstants.DEFAULT_MAX_POWER;
-                }
+                maxPower = anyRectMatches(BUMP_RECTANGLES, this::drivingThroughRect)
+                        ? DriveConstants.BUMP_SLOWDOWN_POWER
+                        : DriveConstants.DEFAULT_MAX_POWER;
+            }
+
+            if (anyRectMatches(TRENCH_RECTANGLES, this::inRect)) {
+                retractHoods();
             }
 
             double sideways = this.getSidewaysValue();
@@ -182,7 +198,7 @@ public class DriverJoystick extends XboxController1038 {
         Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
         Translation2d nearestRectPointToRobot = rect.nearest(robotPos);
 
-        if (nearestRectPointToRobot.getDistance(robotPos) > DriveConstants.ROBOT_SIZE_RADIUS) {
+        if (!inRect(robotPos, nearestRectPointToRobot)) {
             return false;
         }
 
@@ -205,5 +221,28 @@ public class DriverJoystick extends XboxController1038 {
         // vector (dx,dy). If the dot product is positive, the robot is moving in the
         // direction of the rectangle.
         return vx * dx + vy * dy > 0;
+    }
+
+    private void retractHoods() {
+        shooter.getNearShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
+        shooter.getFarShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
+    }
+
+    private boolean anyRectMatches(Rectangle2d[] rects, Predicate<Rectangle2d> predicate) {
+        for (Rectangle2d rect : rects) {
+            if (predicate.test(rect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inRect(Rectangle2d rect) {
+        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
+        return inRect(robotPos, rect.nearest(robotPos));
+    }
+
+    private boolean inRect(Translation2d robotPos, Translation2d nearestRectPointToRobot) {
+        return nearestRectPointToRobot.getDistance(robotPos) <= DriveConstants.ROBOT_SIZE_RADIUS;
     }
 }
