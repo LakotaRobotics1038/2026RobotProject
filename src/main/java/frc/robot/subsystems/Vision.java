@@ -46,9 +46,9 @@ public class Vision extends SubsystemBase {
     private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_FRONT_CAM_NAME);
     private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
     private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            VisionConstants.ROBOT_TO_FRONT_CAM);
+            VisionConstants.ROBOT_TO_LEFT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            VisionConstants.ROBOT_TO_BACK_CAM);
+            VisionConstants.ROBOT_TO_RIGHT_CAM);
     private Matrix<N3, N1> frontCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private final Consumer<Matrix<N3, N1>> frontStdDevSetter = stdDevs -> frontCurStdDevs = stdDevs;
