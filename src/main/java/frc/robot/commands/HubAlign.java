@@ -42,15 +42,23 @@ public class HubAlign extends Command {
                 ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
         double farShooterTargetAngle = getModuleTargetHeading(toHubFromRobotCenter,
                 ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
+
         double targetAngleRad = Math.atan2(
                 Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
                 Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
+        // Shooter modules fire sideways relatively to the robot's forward orientation.
+        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(targetAngleRad + (Math.PI / 2.0));
 
         double currentRotationRadians = driveTrain.getState().Pose.getRotation().getRadians();
-        double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians, targetAngleRad);
+        double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians,
+                shooterAlignedTargetAngleRad);
+
+        // drive() expects normalized rotation input; clamp keeps PID output in [-1, 1]
+        // before DriveTrain rescales by MAX_ANGULAR_RATE.
+        double rotation = MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -1.0, 1.0);
 
         driveTrain.setControl(driveTrain.drive(xSpeedSupplier.getAsDouble(), -ySpeedSupplier.getAsDouble(),
-                MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -1.0, 1.0),
+                rotation,
                 true));
     }
 
