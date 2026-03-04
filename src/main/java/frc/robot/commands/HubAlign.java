@@ -15,7 +15,6 @@ public class HubAlign extends Command {
     private static final double P = 0.0;
     private static final double I = 0.0;
     private static final double D = 0.0;
-    private static final double MIN_DISTANCE_TO_HUB_METERS = 1e-6;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final DoubleSupplier xSpeedSupplier;
@@ -58,10 +57,6 @@ public class HubAlign extends Command {
     private static double getModuleTargetHeading(Translation2d toHubFromRobotCenter, double moduleLateralOffset) {
         double baseTargetHeading = Math.atan2(toHubFromRobotCenter.getY(), toHubFromRobotCenter.getX());
         double hubDistance = toHubFromRobotCenter.getNorm();
-
-        if (hubDistance < MIN_DISTANCE_TO_HUB_METERS) {
-            return baseTargetHeading;
-        }
 
         double clampedRatio = MathUtil.clamp(moduleLateralOffset / hubDistance, -1.0, 1.0);
         return baseTargetHeading - Math.asin(clampedRatio);
