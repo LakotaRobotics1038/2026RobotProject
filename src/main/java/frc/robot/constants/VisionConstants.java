@@ -34,12 +34,12 @@ public final class VisionConstants {
 
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-    private static final double FRONT_CAMERA_X_OFFSET = Units.inchesToMeters(13.730);
-    private static final double FRONT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.995);
-    private static final double FRONT_CAMERA_Z_OFFSET = Units.inchesToMeters(7.35);
+    private static final double FRONT_CAMERA_X_OFFSET = Units.inchesToMeters(11.961);
+    private static final double FRONT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.492);
+    private static final double FRONT_CAMERA_Z_OFFSET = Units.inchesToMeters(6.759); // TODO I think this is from the bottom of the robot, not the floor. That might not be correct. I honestly don't know.
     public static final Transform3d ROBOT_TO_FRONT_CAM = new Transform3d(
             new Translation3d(FRONT_CAMERA_X_OFFSET, FRONT_CAMERA_Y_OFFSET, FRONT_CAMERA_Z_OFFSET),
-            new Rotation3d(0, 0, 0));
+            new Rotation3d(0, 0, Math.toRadians(180 - 75)));
     public static final String ROBOT_TO_FRONT_CAM_NAME = "frontCamera";
 
     private static final double BACK_CAMERA_X_OFFSET = Units.inchesToMeters(-10.5277);
