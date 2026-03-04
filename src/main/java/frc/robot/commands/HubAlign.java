@@ -8,12 +8,14 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
+import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class HubAlign extends Command {
     private static final double P = 0.0;
     private static final double I = 0.0;
     private static final double D = 0.0;
+    private static final double MIN_DISTANCE_TO_HUB_METERS = 1e-6;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final DoubleSupplier xSpeedSupplier;
@@ -34,21 +36,34 @@ public class HubAlign extends Command {
 
     @Override
     public void execute() {
-        Translation2d currentTranslation = driveTrain.getState().Pose.getTranslation();
+        Translation2d robotTranslation = driveTrain.getState().Pose.getTranslation();
+        Translation2d toHubFromRobotCenter = FieldConstants.HUB_POSITION.minus(robotTranslation);
+
+        double nearShooterTargetAngle = getModuleTargetHeading(toHubFromRobotCenter,
+                ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
+        double farShooterTargetAngle = getModuleTargetHeading(toHubFromRobotCenter,
+                ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
         double targetAngleRad = Math.atan2(
-                FieldConstants.HUB_POSITION.getY() - currentTranslation.getY(),
-                FieldConstants.HUB_POSITION.getX() - currentTranslation.getX());
+                Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
+                Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
 
         double currentRotationRadians = driveTrain.getState().Pose.getRotation().getRadians();
         double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians, targetAngleRad);
 
-        driveTrain.setControl(driveTrain.drive(xSpeedSupplier.getAsDouble(), ySpeedSupplier.getAsDouble(),
+        driveTrain.setControl(driveTrain.drive(xSpeedSupplier.getAsDouble(), -ySpeedSupplier.getAsDouble(),
                 MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -1.0, 1.0),
                 true));
     }
 
-    @Override
-    public boolean isFinished() {
-        return true;
+    private static double getModuleTargetHeading(Translation2d toHubFromRobotCenter, double moduleLateralOffsetMeters) {
+        double baseTargetHeading = Math.atan2(toHubFromRobotCenter.getY(), toHubFromRobotCenter.getX());
+        double hubDistance = toHubFromRobotCenter.getNorm();
+
+        if (hubDistance < MIN_DISTANCE_TO_HUB_METERS) {
+            return baseTargetHeading;
+        }
+
+        double clampedRatio = MathUtil.clamp(moduleLateralOffsetMeters / hubDistance, -1.0, 1.0);
+        return baseTargetHeading - Math.asin(clampedRatio);
     }
 }
