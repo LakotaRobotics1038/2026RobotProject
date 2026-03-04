@@ -9,4 +9,5 @@ public final class NeoMotorConstants {
     public static final int MAX_NEO_550_CURRENT = 20; // amps
     public static final double MIN_POWER = 0.05;
     public static final double MAX_POWER = 1.0;
+    public static final double VOLTAGE = 12.0;
 }
