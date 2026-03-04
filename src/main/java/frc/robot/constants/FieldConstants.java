@@ -39,5 +39,4 @@ public final class FieldConstants {
             new Translation2d(FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH,
                     RIGHT_BUMP_DISTANCE),
             Rotation2d.kZero));
-    public static final Translation2d HUB_POSITION = new Translation2d(0, 0);
 }
