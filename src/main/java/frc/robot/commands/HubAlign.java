@@ -55,7 +55,7 @@ public class HubAlign extends Command {
                 true));
     }
 
-    private static double getModuleTargetHeading(Translation2d toHubFromRobotCenter, double moduleLateralOffsetMeters) {
+    private static double getModuleTargetHeading(Translation2d toHubFromRobotCenter, double moduleLateralOffset) {
         double baseTargetHeading = Math.atan2(toHubFromRobotCenter.getY(), toHubFromRobotCenter.getX());
         double hubDistance = toHubFromRobotCenter.getNorm();
 
@@ -63,7 +63,7 @@ public class HubAlign extends Command {
             return baseTargetHeading;
         }
 
-        double clampedRatio = MathUtil.clamp(moduleLateralOffsetMeters / hubDistance, -1.0, 1.0);
+        double clampedRatio = MathUtil.clamp(moduleLateralOffset / hubDistance, -1.0, 1.0);
         return baseTargetHeading - Math.asin(clampedRatio);
     }
 }
