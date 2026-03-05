@@ -175,27 +175,6 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Gets the module position in field coordinates.
-         *
-         * @param robotPose Robot pose in field coordinates.
-         * @return Module position in field coordinates.
-         */
-        public Translation2d getFieldPosition(Pose2d robotPose) {
-            return robotPose.getTranslation().plus(translation.rotateBy(robotPose.getRotation()));
-        }
-
-        /**
-         * Gets the distance from this module to the hub.
-         *
-         * @param robotPose   Robot pose in field coordinates.
-         * @param hubPosition Hub position in field coordinates.
-         * @return Distance from this module to the hub.
-         */
-        public double getHubDistance(Pose2d robotPose, Translation2d hubPosition) {
-            return getFieldPosition(robotPose).getDistance(hubPosition);
-        }
-
-        /**
          * Sets the hood angle by converting the given degrees to pulse width.
          *
          * @param angle Angle in degrees.

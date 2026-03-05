@@ -43,8 +43,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
-    private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_FRONT_CAM_NAME);
-    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
+    private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
+    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_RIGHT_CAM_NAME);
     private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_LEFT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
