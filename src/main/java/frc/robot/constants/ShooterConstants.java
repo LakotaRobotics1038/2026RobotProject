@@ -20,14 +20,14 @@ public final class ShooterConstants {
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
             6,
-            new Translation2d(Units.inchesToMeters(-7.826), Units.inchesToMeters(-13.5)),
+            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(7.826)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
             13,
-            new Translation2d(Units.inchesToMeters(8.635), Units.inchesToMeters(-13.5)),
+            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(-8.635)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
