@@ -63,6 +63,16 @@ public class HubAlignCommand extends Command {
                 true));
     }
 
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        rotationController.reset();
+    }
+
     private static double getModuleTargetHeading(Pose2d robotPose, Translation2d shooterModuleTranslation) {
         Translation2d moduleFieldPosition = robotPose.getTranslation()
                 .plus(shooterModuleTranslation.rotateBy(robotPose.getRotation()));
