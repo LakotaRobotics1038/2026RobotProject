@@ -32,34 +32,46 @@ public final class FieldConstants {
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(BUMP_WIDTH, BUMP_DEPTH));
-    public static final Rectangle2d BLUE_LEFT_BUMP = BUMP.transformBy(new Transform2d(
+    private static final Rectangle2d BLUE_LEFT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d BLUE_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
+    private static final Rectangle2d BLUE_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d RED_LEFT_BUMP = BUMP.transformBy(new Transform2d(
+    private static final Rectangle2d RED_LEFT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, LEFT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d RED_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
+    private static final Rectangle2d RED_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, RIGHT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
+    public static final Rectangle2d[] BUMP_RECTANGLES = {
+            BLUE_LEFT_BUMP,
+            BLUE_RIGHT_BUMP,
+            RED_LEFT_BUMP,
+            RED_RIGHT_BUMP
+    };
 
     private static final Rectangle2d TRENCH = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(TRENCH_WIDTH, BUMP_DEPTH)
     );
 
-    public static final Rectangle2d BLUE_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
+    private static final Rectangle2d BLUE_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d BLUE_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
+    private static final Rectangle2d BLUE_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d RED_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
+    private static final Rectangle2d RED_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, LEFT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d RED_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
+    private static final Rectangle2d RED_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, RIGHT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
+    public static final Rectangle2d[] TRENCH_RECTANGLES = {
+            BLUE_LEFT_TRENCH,
+            BLUE_RIGHT_TRENCH,
+            RED_LEFT_TRENCH,
+            RED_RIGHT_TRENCH
+    };
 }

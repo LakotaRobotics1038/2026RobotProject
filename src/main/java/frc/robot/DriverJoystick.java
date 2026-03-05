@@ -1,10 +1,7 @@
 package frc.robot;
 
-import java.util.function.Predicate;
-
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -15,6 +12,7 @@ import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.utils.RectangleUtils;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -26,18 +24,6 @@ public class DriverJoystick extends XboxController1038 {
 
     // Instance Variables
     private double maxPower = DriveConstants.DEFAULT_MAX_POWER;
-    private static final Rectangle2d[] BUMP_RECTANGLES = {
-            FieldConstants.BLUE_LEFT_BUMP,
-            FieldConstants.BLUE_RIGHT_BUMP,
-            FieldConstants.RED_LEFT_BUMP,
-            FieldConstants.RED_RIGHT_BUMP
-    };
-    private static final Rectangle2d[] TRENCH_RECTANGLES = {
-            FieldConstants.BLUE_LEFT_TRENCH,
-            FieldConstants.BLUE_RIGHT_TRENCH,
-            FieldConstants.RED_LEFT_TRENCH,
-            FieldConstants.RED_RIGHT_TRENCH
-    };
 
     // Previous Status
     private double prevSideways = 0;
@@ -70,13 +56,12 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                maxPower = anyRectMatches(BUMP_RECTANGLES, this::drivingThroughRect)
+                Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
+                double vx = driveTrain.getState().Speeds.vxMetersPerSecond;
+                double vy = driveTrain.getState().Speeds.vyMetersPerSecond;
+                maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
                         ? DriveConstants.BUMP_SLOWDOWN_POWER
                         : DriveConstants.DEFAULT_MAX_POWER;
-            }
-
-            if (anyRectMatches(TRENCH_RECTANGLES, this::inRect)) {
-                retractHoods();
             }
 
             double sideways = this.getSidewaysValue();
@@ -106,6 +91,8 @@ public class DriverJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .whileTrue(this.driveTrain
                         .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
+
+        new Trigger(this::isInTrench).onTrue(new InstantCommand(this::retractHoods, shooter));
 
         this.rightBumper()
                 .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
@@ -186,63 +173,15 @@ public class DriverJoystick extends XboxController1038 {
         return a > 0 && b < 0 || b > 0 && a < 0;
     }
 
-    /**
-     * Determines if the robot is currently driving through a given rectangle on the
-     * field. Takes into account the direction of the robot's movement and only
-     * returns true if the robot is moving towards the rectangle.
-     *
-     * @param rect the rectangle to check
-     * @return true if the robot is driving through the rectangle, false otherwise
-     */
-    private boolean drivingThroughRect(Rectangle2d rect) {
+    private boolean isInTrench() {
         Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        Translation2d nearestRectPointToRobot = rect.nearest(robotPos);
-
-        if (!inRect(robotPos, nearestRectPointToRobot)) {
-            return false;
-        }
-
-        double vx = driveTrain.getState().Speeds.vxMetersPerSecond;
-        double vy = driveTrain.getState().Speeds.vyMetersPerSecond;
-
-        // Magnitude of the velocity vector. If the robot is moving too slowly
-        // we don't consider it to be 'approaching' the bump rectangle.
-        double speed = Math.sqrt(vx * vx + vy * vy);
-
-        if (speed < DriveConstants.BUMP_APPROACH_SPEED_THRESHOLD) {
-            return false;
-        }
-
-        // Vector from the robot to the nearest point on the rectangle
-        double dx = nearestRectPointToRobot.getX() - robotPos.getX();
-        double dy = nearestRectPointToRobot.getY() - robotPos.getY();
-
-        // Use the dot product between velocity (vx,vy) and the displacement
-        // vector (dx,dy). If the dot product is positive, the robot is moving in the
-        // direction of the rectangle.
-        return vx * dx + vy * dy > 0;
+        return RectangleUtils.inRect(
+                FieldConstants.TRENCH_RECTANGLES,
+                robotPos);
     }
 
     private void retractHoods() {
         shooter.getNearShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
         shooter.getFarShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
-    }
-
-    private boolean anyRectMatches(Rectangle2d[] rects, Predicate<Rectangle2d> predicate) {
-        for (Rectangle2d rect : rects) {
-            if (predicate.test(rect)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean inRect(Rectangle2d rect) {
-        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        return inRect(robotPos, rect.nearest(robotPos));
-    }
-
-    private boolean inRect(Translation2d robotPos, Translation2d nearestRectPointToRobot) {
-        return nearestRectPointToRobot.getDistance(robotPos) <= DriveConstants.ROBOT_SIZE_RADIUS;
     }
 }
