@@ -14,8 +14,10 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.FieldConstants;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ShooterConstants;
 
@@ -174,6 +176,19 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
+         * Calculates the angle from this module's location to the hub.
+         *
+         * @param robotPose Current robot pose in field coordinates.
+         * @return Angle in radians from the module toward the hub.
+         */
+        public double getHubAngle(Pose2d robotPose) {
+            Translation2d moduleFieldPosition = robotPose.getTranslation()
+                    .plus(translation.rotateBy(robotPose.getRotation()));
+            Translation2d toTargetFromModule = FieldConstants.HUB_POSITION.minus(moduleFieldPosition);
+            return toTargetFromModule.getAngle().getRadians();
+        }
+
+        /**
          * Sets the hood angle by converting the given degrees to pulse width.
          *
          * @param angle Angle in degrees.
@@ -183,7 +198,7 @@ public class Shooter extends SubsystemBase {
                     angle,
                     ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
                     ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
-            // Sets angle to a value between 0 and 1.
+            // Sets the angle to a value between 0 and 1.
             double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us

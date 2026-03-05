@@ -5,12 +5,11 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
-import frc.robot.constants.FieldConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 public class HubAlignCommand extends Command {
     private static final double P = 0.0;
@@ -18,6 +17,7 @@ public class HubAlignCommand extends Command {
     private static final double D = 0.0;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Shooter shooter = Shooter.getInstance();
     private final DoubleSupplier xSpeedSupplier;
     private final DoubleSupplier ySpeedSupplier;
     private final PIDController rotationController;
@@ -38,10 +38,8 @@ public class HubAlignCommand extends Command {
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
 
-        double nearShooterTargetAngle = getModuleTargetHeading(robotPose,
-                ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS.translation());
-        double farShooterTargetAngle = getModuleTargetHeading(robotPose,
-                ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS.translation());
+        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
+        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
 
         double targetAngleRad = Math.atan2(
                 Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
@@ -71,12 +69,5 @@ public class HubAlignCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         rotationController.reset();
-    }
-
-    private static double getModuleTargetHeading(Pose2d robotPose, Translation2d shooterModuleTranslation) {
-        Translation2d moduleFieldPosition = robotPose.getTranslation()
-                .plus(shooterModuleTranslation.rotateBy(robotPose.getRotation()));
-        Translation2d toHubFromModule = FieldConstants.HUB_POSITION.minus(moduleFieldPosition);
-        return toHubFromModule.getAngle().getRadians();
     }
 }
