@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
@@ -180,7 +181,7 @@ public class Shooter extends SubsystemBase {
          * @param robotPose Robot pose in field coordinates.
          * @return Distance from this module to the hub.
          */
-        public double getHubDistance(edu.wpi.first.math.geometry.Pose2d robotPose) {
+        public double getHubDistance(Pose2d robotPose) {
             Translation2d fieldPosition = robotPose.getTranslation().plus(translation.rotateBy(robotPose.getRotation()));
             return fieldPosition.getDistance(FieldConstants.HUB_POSITION);
         }
