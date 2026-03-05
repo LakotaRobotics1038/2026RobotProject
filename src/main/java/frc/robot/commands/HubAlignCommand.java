@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
@@ -35,21 +36,21 @@ public class HubAlignCommand extends Command {
 
     @Override
     public void execute() {
-        Translation2d robotTranslation = driveTrain.getState().Pose.getTranslation();
-        Translation2d toHubFromRobotCenter = FieldConstants.HUB_POSITION.minus(robotTranslation);
+        Pose2d robotPose = driveTrain.getState().Pose;
 
-        double nearShooterTargetAngle = getModuleTargetHeading(toHubFromRobotCenter,
-                ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
-        double farShooterTargetAngle = getModuleTargetHeading(toHubFromRobotCenter,
-                ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS.translation().getY());
+        double nearShooterTargetAngle = getModuleTargetHeading(robotPose,
+                ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS.translation());
+        double farShooterTargetAngle = getModuleTargetHeading(robotPose,
+                ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS.translation());
 
         double targetAngleRad = Math.atan2(
                 Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
                 Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
         // Shooter modules fire sideways relatively to the robot's forward orientation.
-        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(targetAngleRad - (Math.PI / 2.0));
+        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(
+                targetAngleRad + ShooterConstants.SHOOTER_DIRECTION_FROM_FORWARD_RAD);
 
-        double currentRotationRadians = driveTrain.getState().Pose.getRotation().getRadians();
+        double currentRotationRadians = robotPose.getRotation().getRadians();
         double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians,
                 shooterAlignedTargetAngleRad);
 
@@ -62,11 +63,10 @@ public class HubAlignCommand extends Command {
                 true));
     }
 
-    private static double getModuleTargetHeading(Translation2d toHubFromRobotCenter, double moduleLateralOffset) {
-        double baseTargetHeading = Math.atan2(toHubFromRobotCenter.getY(), toHubFromRobotCenter.getX());
-        double hubDistance = toHubFromRobotCenter.getNorm();
-
-        double clampedRatio = MathUtil.clamp(moduleLateralOffset / hubDistance, -1.0, 1.0);
-        return baseTargetHeading - Math.asin(clampedRatio);
+    private static double getModuleTargetHeading(Pose2d robotPose, Translation2d shooterModuleTranslation) {
+        Translation2d moduleFieldPosition = robotPose.getTranslation()
+                .plus(shooterModuleTranslation.rotateBy(robotPose.getRotation()));
+        Translation2d toHubFromModule = FieldConstants.HUB_POSITION.minus(moduleFieldPosition);
+        return toHubFromModule.getAngle().getRadians();
     }
 }
