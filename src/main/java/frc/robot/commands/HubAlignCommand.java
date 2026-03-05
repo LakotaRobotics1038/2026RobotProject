@@ -11,7 +11,7 @@ import frc.robot.constants.FieldConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.DriveTrain;
 
-public class HubAlign extends Command {
+public class HubAlignCommand extends Command {
     private static final double P = 0.0;
     private static final double I = 0.0;
     private static final double D = 0.0;
@@ -21,8 +21,8 @@ public class HubAlign extends Command {
     private final DoubleSupplier ySpeedSupplier;
     private final PIDController rotationController;
 
-    public HubAlign(DoubleSupplier xSpeed,
-            DoubleSupplier ySpeed) {
+    public HubAlignCommand(DoubleSupplier xSpeed,
+                           DoubleSupplier ySpeed) {
         this.xSpeedSupplier = xSpeed;
         this.ySpeedSupplier = ySpeed;
 
@@ -47,7 +47,7 @@ public class HubAlign extends Command {
                 Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
                 Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
         // Shooter modules fire sideways relatively to the robot's forward orientation.
-        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(targetAngleRad + (Math.PI / 2.0));
+        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(targetAngleRad - (Math.PI / 2.0));
 
         double currentRotationRadians = driveTrain.getState().Pose.getRotation().getRadians();
         double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians,
