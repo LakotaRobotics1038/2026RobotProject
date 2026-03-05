@@ -36,10 +36,11 @@ public final class VisionConstants {
 
     private static final double LEFT_CAMERA_X_OFFSET = Units.inchesToMeters(11.961);
     private static final double LEFT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.897);
-    private static final double LEFT_CAMERA_Z_OFFSET = Units.inchesToMeters(7.729); // TODO I think this is from the bottom of the robot, not the floor. That might not be correct. I honestly don't know.
+    // Z offset is measured from above the floor
+    private static final double LEFT_CAMERA_Z_OFFSET = Units.inchesToMeters(7.729);
     public static final Transform3d ROBOT_TO_LEFT_CAM = new Transform3d(
             new Translation3d(LEFT_CAMERA_X_OFFSET, LEFT_CAMERA_Y_OFFSET, LEFT_CAMERA_Z_OFFSET),
-            new Rotation3d(0, Math.toRadians(-90), Math.toRadians(180 - 75)));
+            new Rotation3d(0, Math.toRadians(-75), Math.toRadians(-90)));
     public static final String ROBOT_TO_FRONT_CAM_NAME = "frontCamera";
 
     private static final double RIGHT_CAMERA_X_OFFSET = Units.inchesToMeters(11.492);
@@ -47,7 +48,7 @@ public final class VisionConstants {
     private static final double RIGHT_CAMERA_Z_OFFSET = Units.inchesToMeters(8.191);
     public static final Transform3d ROBOT_TO_RIGHT_CAM = new Transform3d(
             new Translation3d(RIGHT_CAMERA_X_OFFSET, RIGHT_CAMERA_Y_OFFSET, RIGHT_CAMERA_Z_OFFSET),
-            new Rotation3d(0, Math.toRadians(90), Math.toRadians(180 - 75)));
+            new Rotation3d(0, Math.toRadians(-75), Math.toRadians(90)));
     public static final String ROBOT_TO_BACK_CAM_NAME = "backCamera";
 
     public static final Matrix<N3, N1> SINGLE_TAG_STD_DEVS = VecBuilder.fill(4, 4, 8);
