@@ -18,17 +18,13 @@ public class AutoShootCommand extends Command {
     }
 
     @Override
-    public void initialize() {
+    public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
         double farDistance = shooter.getFarShooter().getHubDistance(robotPose);
         double nearDistance = shooter.getNearShooter().getHubDistance(robotPose);
 
         shooter.getFarShooter().autoShoot(farDistance);
         shooter.getNearShooter().autoShoot(nearDistance);
-    }
-
-    @Override
-    public void execute() {
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
             acquisition.acquire();
         }
