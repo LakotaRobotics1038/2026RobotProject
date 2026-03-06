@@ -21,14 +21,12 @@ public class HubAlignCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DoubleSupplier xSpeedSupplier;
     private final DoubleSupplier ySpeedSupplier;
-    private final PIDController rotationController;
+    private final PIDController rotationController = new PIDController(P, I, D);
 
     public HubAlignCommand(DoubleSupplier xSpeed,
                            DoubleSupplier ySpeed) {
         this.xSpeedSupplier = xSpeed;
         this.ySpeedSupplier = ySpeed;
-
-        this.rotationController = new PIDController(P, I, D);
 
         this.rotationController.enableContinuousInput(-Math.PI, Math.PI);
 
