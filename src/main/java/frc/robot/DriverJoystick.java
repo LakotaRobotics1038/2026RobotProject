@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutoShootCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
@@ -96,6 +97,8 @@ public class DriverJoystick extends XboxController1038 {
                 .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
 
         this.x().whileTrue(this.driveTrain.setX());
+
+        this.rightTrigger().whileTrue(new AutoShootCommand());
     }
 
     /**
