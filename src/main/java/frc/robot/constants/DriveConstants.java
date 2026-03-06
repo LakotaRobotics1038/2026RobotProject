@@ -14,8 +14,7 @@ public final class DriveConstants {
     public static final Matrix<N3, N1> ODOMETRY_STD_DEV = VecBuilder.fill(0.1, 0.1, 0.1);
     public static final Matrix<N3, N1> VISION_STD_DEVS = VecBuilder.fill(1, 1, 1);
 
-    public static final double DEFAULT_MAX_POWER = 0.75;
-    public static final double OVERDRIVE_POWER = 1.0;
+    public static final double DEFAULT_MAX_POWER = 1.0;
     public static final double BUMP_SLOWDOWN_POWER = 0.3;
 
     public static final double BUMP_APPROACH_SPEED_THRESHOLD = 0.5;

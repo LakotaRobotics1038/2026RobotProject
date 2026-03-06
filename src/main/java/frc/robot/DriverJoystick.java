@@ -6,15 +6,18 @@ import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
+import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
 
     // Commands
     // NONE
@@ -52,15 +55,13 @@ public class DriverJoystick extends XboxController1038 {
         super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
-            if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                if (drivingThroughRect(FieldConstants.BLUE_LEFT_BUMP) ||
-                        drivingThroughRect(FieldConstants.BLUE_RIGHT_BUMP) ||
-                        drivingThroughRect(FieldConstants.RED_LEFT_BUMP) ||
-                        drivingThroughRect(FieldConstants.RED_RIGHT_BUMP)) {
-                    maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
-                } else {
-                    maxPower = DriveConstants.DEFAULT_MAX_POWER;
-                }
+            if (drivingThroughRect(FieldConstants.BLUE_LEFT_BUMP) ||
+                    drivingThroughRect(FieldConstants.BLUE_RIGHT_BUMP) ||
+                    drivingThroughRect(FieldConstants.RED_LEFT_BUMP) ||
+                    drivingThroughRect(FieldConstants.RED_RIGHT_BUMP)) {
+                maxPower = DriveConstants.BUMP_SLOWDOWN_POWER;
+            } else {
+                maxPower = DriveConstants.DEFAULT_MAX_POWER;
             }
 
             double sideways = this.getSidewaysValue();
@@ -75,26 +76,8 @@ public class DriverJoystick extends XboxController1038 {
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
-        new Trigger(() -> this.getPOV().equals(PovPositions.Up))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Down))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(-DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
-
-        this.rightBumper()
-                .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
-                .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
-
+        this.y().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.RAISED)));
+        this.a().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.LOWERED)));
         this.x().whileTrue(this.driveTrain.setX());
     }
 
