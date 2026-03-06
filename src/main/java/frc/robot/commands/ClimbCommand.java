@@ -14,10 +14,10 @@ public class ClimbCommand extends Command {
 
     @Override
     public void initialize() {
-        if (direction == Direction.UP) {
-            climb.climbUp();
-        } else {
-            climb.climbDown();
+        switch (direction) {
+            case UP -> climb.climbUp();
+            case DOWN -> climb.climbDown();
+            case ZERO -> climb.zero();
         }
     }
 
@@ -32,6 +32,6 @@ public class ClimbCommand extends Command {
     }
 
     public enum Direction {
-        UP, DOWN
+        UP, DOWN, ZERO
     }
 }
