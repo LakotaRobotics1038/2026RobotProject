@@ -27,8 +27,6 @@ public final class DriveConstants {
     private static final double ROBOT_MAX_LENGTH = Math.max(TRACK_WIDTH, WHEEL_BASE);
     public static final double ROBOT_SIZE_RADIUS = Math.sqrt(Math.pow(ROBOT_MAX_LENGTH, 2) + Math.pow(ROBOT_MAX_LENGTH, 2)) / 2;
 
-    public static final double FINE_ADJUSTMENT_PERCENT = 0.2;
-
     public static final double MAX_SPEED = SwerveConstants.SPEED_AT_12_VOLTS.in(MetersPerSecond); // SPEED_AT_12_VOLTS
                                                                                                   // desired top speed
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation
