@@ -4,6 +4,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
@@ -16,19 +17,27 @@ public class HubAlignCommand extends Command {
     private static final double I = 0.0;
     private static final double D = 0.0;
     private static final double MAX_ROTATION_POWER = 1.0;
+    private static final double ALIGNMENT_TOLERANCE_DEG = 2.0;
+    private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(ALIGNMENT_TOLERANCE_DEG);
+    public static final double HUB_ALIGNMENT_RUMBLE_INTENSITY = 0.8;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Shooter shooter = Shooter.getInstance();
-    private final DoubleSupplier xSpeedSupplier;
-    private final DoubleSupplier ySpeedSupplier;
+    private final DoubleSupplier forwardSpeedSupplier;
+    private final DoubleSupplier sidewaysSpeedSupplier;
+    private final BooleanConsumer alignmentStateConsumer;
     private final PIDController rotationController = new PIDController(P, I, D);
+    private boolean alignedToHub = false;
 
-    public HubAlignCommand(DoubleSupplier xSpeed,
-                           DoubleSupplier ySpeed) {
-        this.xSpeedSupplier = xSpeed;
-        this.ySpeedSupplier = ySpeed;
+    public HubAlignCommand(DoubleSupplier forwardSpeedSupplier,
+            DoubleSupplier sidewaysSpeedSupplier,
+            BooleanConsumer alignmentStateConsumer) {
+        this.forwardSpeedSupplier = forwardSpeedSupplier;
+        this.sidewaysSpeedSupplier = sidewaysSpeedSupplier;
+        this.alignmentStateConsumer = alignmentStateConsumer;
 
-        this.rotationController.enableContinuousInput(-Math.PI, Math.PI);
+        rotationController.enableContinuousInput(-Math.PI, Math.PI);
+        rotationController.setTolerance(ALIGNMENT_TOLERANCE_RAD);
 
         addRequirements(driveTrain);
     }
@@ -36,24 +45,15 @@ public class HubAlignCommand extends Command {
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
+        double targetHeadingRadians = getShooterAlignedTargetHeadingRadians(robotPose);
+        double currentHeadingRadians = robotPose.getRotation().getRadians();
 
-        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
-        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
-
-        double targetAngleRad = Math.atan2(
-                Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
-                Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
-        // Shooter modules fire sideways relatively to the robot's forward orientation.
-        double shooterAlignedTargetAngleRad = MathUtil.angleModulus(
-                targetAngleRad + ShooterConstants.SHOOTER_DIRECTION_FROM_FORWARD_RAD);
-
-        double currentRotationRadians = robotPose.getRotation().getRadians();
-        double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians,
-                shooterAlignedTargetAngleRad);
+        double rotationOutputRadPerSec = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
+        updateAlignmentState(isAligned(currentHeadingRadians, targetHeadingRadians));
 
         double rotation = MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
 
-        driveTrain.setControl(driveTrain.drive(xSpeedSupplier.getAsDouble(), -ySpeedSupplier.getAsDouble(),
+        driveTrain.setControl(driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(),
                 rotation,
                 true));
     }
@@ -66,5 +66,28 @@ public class HubAlignCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         rotationController.reset();
+        updateAlignmentState(false);
+    }
+
+    private double getShooterAlignedTargetHeadingRadians(Pose2d robotPose) {
+        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
+        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
+
+        double targetAngleRad = Math.atan2(
+                Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
+                Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
+        return MathUtil.angleModulus(targetAngleRad + ShooterConstants.SHOOTER_DIRECTION_FROM_FORWARD_RAD);
+    }
+
+    private boolean isAligned(double currentHeadingRadians, double targetHeadingRadians) {
+        double alignmentErrorRad = MathUtil.angleModulus(targetHeadingRadians - currentHeadingRadians);
+        return Math.abs(alignmentErrorRad) <= ALIGNMENT_TOLERANCE_RAD;
+    }
+
+    private void updateAlignmentState(boolean isAligned) {
+        if (alignedToHub != isAligned) {
+            alignedToHub = isAligned;
+            alignmentStateConsumer.accept(alignedToHub);
+        }
     }
 }
