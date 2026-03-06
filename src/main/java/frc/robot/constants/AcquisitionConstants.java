@@ -19,7 +19,7 @@ public final class AcquisitionConstants {
     public static final double INTAKE_D = 0.0;
 
     public static final double INTAKE_S = 0.0;
-    public static final double INTAKE_V = 0.0;
+    public static final double INTAKE_V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.NEO_FREE_SPEED_RPM;
     public static final double INTAKE_A = 0.0;
     public static final double INTAKE_ACQUIRE_RPM = 4000;
     public static final double INTAKE_DISPOSE_RPM = -1000;
