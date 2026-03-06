@@ -34,21 +34,22 @@ public final class VisionConstants {
 
     public static final AprilTagFieldLayout TAG_LAYOUT = AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
 
-    private static final double FRONT_CAMERA_X_OFFSET = Units.inchesToMeters(13.730);
-    private static final double FRONT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.995);
-    private static final double FRONT_CAMERA_Z_OFFSET = Units.inchesToMeters(7.35);
-    public static final Transform3d ROBOT_TO_FRONT_CAM = new Transform3d(
-            new Translation3d(FRONT_CAMERA_X_OFFSET, FRONT_CAMERA_Y_OFFSET, FRONT_CAMERA_Z_OFFSET),
-            new Rotation3d(0, 0, 0));
-    public static final String ROBOT_TO_FRONT_CAM_NAME = "frontCamera";
+    private static final double LEFT_CAMERA_X_OFFSET = Units.inchesToMeters(11.961);
+    private static final double LEFT_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.897);
+    // Z offset is measured from the base of the robot
+    private static final double LEFT_CAMERA_Z_OFFSET = Units.inchesToMeters(6.297);
+    public static final Transform3d ROBOT_TO_LEFT_CAM = new Transform3d(
+            new Translation3d(LEFT_CAMERA_X_OFFSET, LEFT_CAMERA_Y_OFFSET, LEFT_CAMERA_Z_OFFSET),
+            new Rotation3d(0, Math.toRadians(-75), Math.toRadians(-90)));
+    public static final String ROBOT_TO_LEFT_CAM_NAME = "leftCamera";
 
-    private static final double BACK_CAMERA_X_OFFSET = Units.inchesToMeters(-10.5277);
-    private static final double BACK_CAMERA_Y_OFFSET = Units.inchesToMeters(-11.391);
-    private static final double BACK_CAMERA_Z_OFFSET = Units.inchesToMeters(7.6);
-    public static final Transform3d ROBOT_TO_BACK_CAM = new Transform3d(
-            new Translation3d(BACK_CAMERA_X_OFFSET, BACK_CAMERA_Y_OFFSET, BACK_CAMERA_Z_OFFSET),
-            new Rotation3d(0, 0, Math.toRadians(180 - 45)));
-    public static final String ROBOT_TO_BACK_CAM_NAME = "backCamera";
+    private static final double RIGHT_CAMERA_X_OFFSET = Units.inchesToMeters(11.492);
+    private static final double RIGHT_CAMERA_Y_OFFSET = Units.inchesToMeters(11.961);
+    private static final double RIGHT_CAMERA_Z_OFFSET = Units.inchesToMeters(6.759);
+    public static final Transform3d ROBOT_TO_RIGHT_CAM = new Transform3d(
+            new Translation3d(RIGHT_CAMERA_X_OFFSET, RIGHT_CAMERA_Y_OFFSET, RIGHT_CAMERA_Z_OFFSET),
+            new Rotation3d(0, Math.toRadians(-75), Math.toRadians(90)));
+    public static final String ROBOT_TO_RIGHT_CAM_NAME = "rightCamera";
 
     public static final Matrix<N3, N1> SINGLE_TAG_STD_DEVS = VecBuilder.fill(4, 4, 8);
     public static final Matrix<N3, N1> MULTI_TAG_STD_DEVS = VecBuilder.fill(0.5, 0.5, 1);
