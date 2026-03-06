@@ -15,6 +15,7 @@ public class HubAlignCommand extends Command {
     private static final double P = 0.0;
     private static final double I = 0.0;
     private static final double D = 0.0;
+    private static final double MAX_ROTATION_POWER = 1.0;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Shooter shooter = Shooter.getInstance();
@@ -52,9 +53,7 @@ public class HubAlignCommand extends Command {
         double rotationOutputRadPerSec = rotationController.calculate(currentRotationRadians,
                 shooterAlignedTargetAngleRad);
 
-        // drive() expects normalized rotation input; clamp keeps PID output in [-1, 1]
-        // before DriveTrain rescales by MAX_ANGULAR_RATE.
-        double rotation = MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -1.0, 1.0);
+        double rotation = MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
 
         driveTrain.setControl(driveTrain.drive(xSpeedSupplier.getAsDouble(), -ySpeedSupplier.getAsDouble(),
                 rotation,
