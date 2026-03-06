@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -56,9 +57,10 @@ public class DriverJoystick extends XboxController1038 {
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
             if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-                double vx = driveTrain.getState().Speeds.vxMetersPerSecond;
-                double vy = driveTrain.getState().Speeds.vyMetersPerSecond;
+                SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
+                Translation2d robotPos = state.Pose.getTranslation();
+                double vx = state.Speeds.vxMetersPerSecond;
+                double vy = state.Speeds.vyMetersPerSecond;
                 maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
                         ? DriveConstants.BUMP_SLOWDOWN_POWER
                         : DriveConstants.DEFAULT_MAX_POWER;
