@@ -98,7 +98,7 @@ public class DriverJoystick extends XboxController1038 {
 
         this.x().whileTrue(this.driveTrain.setX());
 
-        this.a().whileTrue(new HubAlignCommand(
+        this.rightTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue));
     }
