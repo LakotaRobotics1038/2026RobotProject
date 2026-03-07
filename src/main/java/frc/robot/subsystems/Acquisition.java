@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
@@ -38,8 +39,7 @@ public class Acquisition extends SubsystemBase {
                 .pid(AcquisitionConstants.PIVOT_P, AcquisitionConstants.PIVOT_I,
                         AcquisitionConstants.PIVOT_D)
                 .allowedClosedLoopError(AcquisitionConstants.PIVOT_ALLOWED_ERROR_DEGREES,
-                        ClosedLoopSlot.kSlot0).feedForward
-                .sva(AcquisitionConstants.PIVOT_S, AcquisitionConstants.PIVOT_V, AcquisitionConstants.PIVOT_A);
+                        ClosedLoopSlot.kSlot0);
         pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_CONVERSION_FACTOR);
 
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -64,6 +64,7 @@ public class Acquisition extends SubsystemBase {
 
     /**
      * Sets the pivot motor position.
+     *
      * @param setpoint The setpoint for the pivot motor to go to.
      */
     public void setPivot(AcquisitionSetpoint setpoint) {
@@ -72,10 +73,12 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake RPM to
+     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM} if the pivot is in the
+     * correct position, otherwise stops the intake.
      */
     public void acquire() {
-        if (readyToIntake()) {
+        if (isIntakeAllowed()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
         } else {
             stopIntake();
@@ -83,10 +86,12 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's intake RPM to
+     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM} if the pivot is in the
+     * correct position. Otherwise, stops the intake motor.
      */
     public void dispose() {
-        if (readyToIntake()) {
+        if (isIntakeAllowed()) {
             intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
         } else {
             stopIntake();
@@ -124,22 +129,7 @@ public class Acquisition extends SubsystemBase {
     /**
      * Gets if the requirements are met for the intake motor to run.
      */
-    private boolean readyToIntake() {
+    private boolean isIntakeAllowed() {
         return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
-    }
-
-    public enum AcquisitionSetpoint {
-        RAISED(0),
-        LOWERED(90);
-
-        private final double degrees;
-
-        AcquisitionSetpoint(double degrees) {
-            this.degrees = degrees;
-        }
-
-        public double getDegrees() {
-            return degrees;
-        }
     }
 }

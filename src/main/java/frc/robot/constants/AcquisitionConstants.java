@@ -11,9 +11,6 @@ public final class AcquisitionConstants {
     public static final double PIVOT_I = 0;
     public static final double PIVOT_D = 0;
 
-    public static final double PIVOT_S = 0;
-    public static final double PIVOT_V = 0;
-    public static final double PIVOT_A = 0;
     public static final double PIVOT_ENCODER_CONVERSION_FACTOR = 360;
     public static final double PIVOT_ALLOWED_ERROR_DEGREES = 2.0;
 
@@ -22,8 +19,23 @@ public final class AcquisitionConstants {
     public static final double INTAKE_D = 0.0;
 
     public static final double INTAKE_S = 0.0;
-    public static final double INTAKE_V = 0.0;
+    public static final double INTAKE_V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.NEO_FREE_SPEED_RPM;
     public static final double INTAKE_A = 0.0;
     public static final double INTAKE_ACQUIRE_RPM = 4000;
     public static final double INTAKE_DISPOSE_RPM = -1000;
+
+    public enum AcquisitionSetpoint {
+        RAISED(0),
+        LOWERED(90);
+
+        private final double degrees;
+
+        AcquisitionSetpoint(double degrees) {
+            this.degrees = degrees;
+        }
+
+        public double getDegrees() {
+            return degrees;
+        }
+    }
 }
