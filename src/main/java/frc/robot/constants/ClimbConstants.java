@@ -19,7 +19,7 @@ public final class ClimbConstants {
         DOWN(MIN_CLIMB),
         ZERO(0);
 
-        private double setpoint;
+        private final double setpoint;
 
         ClimbSetpoint(double setpoint){
             this.setpoint = setpoint;
