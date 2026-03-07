@@ -48,10 +48,10 @@ public class HubAlignCommand extends Command {
         double targetHeadingRadians = getShooterAlignedTargetHeadingRadians(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
-        double rotationOutputRadPerSec = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
+        double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
         updateAlignmentState(isAligned(currentHeadingRadians, targetHeadingRadians));
 
-        double rotation = MathUtil.clamp(rotationOutputRadPerSec / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
+        double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
 
         driveTrain.setControl(driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(),
                 rotation,
