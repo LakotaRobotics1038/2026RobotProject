@@ -36,7 +36,8 @@ import edu.wpi.first.units.measure.Voltage;
 public class SwerveConstants {
     // Both sets of gains need to be tuned to your individual robot.
 
-    // The steer motor uses any SwerveModule.SteerRequestType control request with the
+    // The steer motor uses any SwerveModule.SteerRequestType control request with
+    // the
     // output type specified by SwerveModuleConstants.SteerMotorClosedLoopOutput
     private static final Slot0Configs STEER_GAINS = new Slot0Configs()
             .withKP(100).withKI(0).withKD(0.5)
@@ -65,23 +66,25 @@ public class SwerveConstants {
 
     // The remote sensor feedback type to use for the steer motors;
     // When not Pro-licensed, Fused*/Sync* automatically fall back to Remote*
-    private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.FusedCANcoder;
+    private static final SteerFeedbackType STEER_FEEDBACK_TYPE = SteerFeedbackType.RemoteCANcoder;
 
     // The stator current at which the wheels start to slip;
     // This needs to be tuned to your individual robot
     private static final Current SLIP_CURRENT = Amps.of(120.0);
 
-    // Initial configs for the drive and steer motors and the azimuth encoder; these cannot be null.
-    // Some configs will be overwritten; check the `with*InitialConfigs()` API documentation.
+    // Initial configs for the drive and steer motors and the azimuth encoder; these
+    // cannot be null.
+    // Some configs will be overwritten; check the `with*InitialConfigs()` API
+    // documentation.
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIGS = new TalonFXConfiguration();
     private static final TalonFXConfiguration STEER_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(
                     new CurrentLimitsConfigs()
-                            // Swerve azimuth does not require much torque output, so we can set a relatively low
+                            // Swerve azimuth does not require much torque output, so we can set a
+                            // relatively low
                             // stator current limit to help avoid brownouts without impacting performance.
                             .withStatorCurrentLimit(Amps.of(60))
-                            .withStatorCurrentLimitEnable(true)
-            );
+                            .withStatorCurrentLimitEnable(true));
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIGS = new CANcoderConfiguration();
     // Configs for the Pigeon 2; leave this null to skip applying Pigeon 2 configs
     private static final Pigeon2Configuration PIGEON_CONFIGS = null;
@@ -119,8 +122,7 @@ public class SwerveConstants {
             .withPigeon2Id(PIGEON_ID)
             .withPigeon2Configs(PIGEON_CONFIGS);
 
-    private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> CONSTANT_CREATOR =
-        new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
+    private static final SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> CONSTANT_CREATOR = new SwerveModuleConstantsFactory<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration>()
             .withDriveMotorGearRatio(DRIVE_GEAR_RATIO)
             .withSteerMotorGearRatio(STEER_GEAR_RATIO)
             .withCouplingGearRatio(COUPLE_RATIO)
