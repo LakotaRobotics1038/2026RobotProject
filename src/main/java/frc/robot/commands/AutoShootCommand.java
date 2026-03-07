@@ -49,17 +49,17 @@ public class AutoShootCommand extends Command {
      * fails. If distances overlap, lesser
      * angles will be preferred.
      *
-     * @param nearHubDistance The distance from the near shooter module to the hub.
-     * @param farHubDistance The distance from the far shooter module to the hub.
+     * @param nearShooterHubDistance The distance from the near shooter module to the hub.
+     * @param farShooterHubDistance The distance from the far shooter module to the hub.
      */
-    private void autoShoot(double nearHubDistance, double farHubDistance) {
+    private void autoShoot(double nearShooterHubDistance, double farShooterHubDistance) {
         for (AutoShootUtils.AutoShootFormula formula : AutoShootUtils.AUTO_SHOOT_FORMULAS) {
-            if (formula.getMin() <= nearHubDistance && formula.getMax() >= farHubDistance) {
+            if (formula.getMin() <= nearShooterHubDistance && formula.getMax() >= farShooterHubDistance) {
                 shooter.getNearShooter().setAngle(formula.getAngle());
-                shooter.getNearShooter().start(formula.getShooterRPM(nearHubDistance));
+                shooter.getNearShooter().start(formula.getShooterRPM(nearShooterHubDistance));
                 shooter.getFarShooter().setAngle(formula.getAngle());
-                shooter.getFarShooter().start(formula.getShooterRPM(farHubDistance));
-                kicker.start(formula.getKickerRPM(nearHubDistance)); // TODO Should this be based on near or far? Does it matter?
+                shooter.getFarShooter().start(formula.getShooterRPM(farShooterHubDistance));
+                kicker.start(formula.getKickerRPM(nearShooterHubDistance)); // TODO Should this be based on near or far? Does it matter?
                 break;
             }
         }
