@@ -9,7 +9,6 @@ public class AcquisitionPivotCommand extends Command {
     private final AcquisitionSetpoint setpoint;
 
     public AcquisitionPivotCommand(AcquisitionSetpoint setpoint) {
-        addRequirements(acquisition);
         this.setpoint = setpoint;
         addRequirements(acquisition);
     }
