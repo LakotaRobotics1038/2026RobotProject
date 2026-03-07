@@ -51,7 +51,7 @@ public class HubAlignCommand extends Command {
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
         double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
-        updateAlignmentState(isAligned(currentHeadingRadians, targetHeadingRadians));
+        updateAlignmentState(rotationController.atSetpoint());
 
         double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
 
@@ -75,15 +75,13 @@ public class HubAlignCommand extends Command {
         double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
         double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
 
+        // Converts both aim angles into vectors, add them, and turns the result back
+        // into an angle. This gives the bisector between the near and far shooter
+        // headings without breaking when the angles wrap around -pi and pi.
         double targetAngleRad = Math.atan2(
                 Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
                 Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
         return MathUtil.angleModulus(targetAngleRad + ShooterConstants.SHOOTER_DIRECTION_FROM_FORWARD_RAD);
-    }
-
-    private boolean isAligned(double currentHeadingRadians, double targetHeadingRadians) {
-        double alignmentErrorRad = MathUtil.angleModulus(targetHeadingRadians - currentHeadingRadians);
-        return Math.abs(alignmentErrorRad) <= ALIGNMENT_TOLERANCE_RAD;
     }
 
     private void updateAlignmentState(boolean isAligned) {
