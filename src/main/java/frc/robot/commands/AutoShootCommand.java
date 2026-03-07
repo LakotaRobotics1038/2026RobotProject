@@ -51,13 +51,15 @@ public class AutoShootCommand extends Command {
      * @param farShooterHubDistance The distance from the far shooter module to the hub.
      */
     private void autoShoot(double nearShooterHubDistance, double farShooterHubDistance) {
+        double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
+        double maxDistance = Math.max(nearShooterHubDistance, farShooterHubDistance);
         for (AutoShootUtils.AutoShootFormula formula : AutoShootUtils.AUTO_SHOOT_FORMULAS) {
-            if (formula.getMin() <= nearShooterHubDistance && formula.getMax() >= farShooterHubDistance) {
+            if (formula.getMin() <= minDistance && formula.getMax() >= maxDistance) {
                 shooter.getNearShooter().setAngle(formula.getAngle());
                 shooter.getNearShooter().start(formula.getShooterRPM(nearShooterHubDistance));
                 shooter.getFarShooter().setAngle(formula.getAngle());
                 shooter.getFarShooter().start(formula.getShooterRPM(farShooterHubDistance));
-                kicker.start(formula.getKickerRPM(nearShooterHubDistance)); // TODO Should this be based on near or far? Does it matter?
+                kicker.start(formula.getKickerRPM(minDistance)); // TODO Should this be based on min or max? Does it matter?
                 break;
             }
         }
