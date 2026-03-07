@@ -6,6 +6,7 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
@@ -94,7 +95,7 @@ public class DriverJoystick extends XboxController1038 {
                 .whileTrue(this.driveTrain
                         .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
 
-        new Trigger(this::isInTrench).onTrue(new InstantCommand(this::retractHoods, shooter));
+        new Trigger(this::isInTrench).onTrue(new RetractHoodsCommand());
 
         this.rightBumper()
                 .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
@@ -180,10 +181,5 @@ public class DriverJoystick extends XboxController1038 {
         return RectangleUtils.inRect(
                 FieldConstants.TRENCH_RECTANGLES,
                 robotPos);
-    }
-
-    private void retractHoods() {
-        shooter.getNearShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
-        shooter.getFarShooter().setAngle(ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
     }
 }
