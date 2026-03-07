@@ -73,29 +73,17 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM} if the pivot is in the
-     * correct position, otherwise stops the intake.
+     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
      */
     public void acquire() {
-        if (isIntakeAllowed()) {
-            intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
-        } else {
-            stopIntake();
-        }
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM} if the pivot is in the
-     * correct position. Otherwise, stops the intake motor.
+     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
      */
     public void dispose() {
-        if (isIntakeAllowed()) {
-            intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
-        } else {
-            stopIntake();
-        }
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
     }
 
     /**
@@ -124,12 +112,5 @@ public class Acquisition extends SubsystemBase {
      */
     public double getPosition() {
         return pivotEncoder.getPosition();
-    }
-
-    /**
-     * Gets if the requirements are met for the intake motor to run.
-     */
-    private boolean isIntakeAllowed() {
-        return setpoint == AcquisitionSetpoint.LOWERED && atSetpoint();
     }
 }
