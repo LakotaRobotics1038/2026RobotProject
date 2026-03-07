@@ -166,16 +166,6 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Gets the translation of the shooter module relative to the center of the
-         * robot.
-         *
-         * @return The translation of the shooter module.
-         */
-        public Translation2d getTranslation() {
-            return translation;
-        }
-
-        /**
          * Gets the distance from this module to the hub.
          *
          * @param robotPose Robot pose in field coordinates.
@@ -201,25 +191,6 @@ public class Shooter extends SubsystemBase {
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
                     + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
-        }
-
-        /**
-         * Sets the shooter to a certain speed given the distance to the hub. Assumes
-         * that it is already aligned.
-         * If the robot is too close or too far for any of the angles, it silently
-         * fails. If distances overlap, lesser
-         * angles will be preferred.
-         *
-         * @param hubDistance The distance from the shooter module to the hub.
-         */
-        public void autoShoot(double hubDistance) {
-            for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-                if (formula.getMin() <= hubDistance && formula.getMax() >= hubDistance) {
-                    setAngle(formula.getAngle());
-                    start(formula.getRPM(hubDistance));
-                    break;
-                }
-            }
         }
     }
 }
