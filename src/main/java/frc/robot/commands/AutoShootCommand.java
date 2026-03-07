@@ -25,6 +25,7 @@ public class AutoShootCommand extends Command {
 
         shooter.getFarShooter().autoShoot(farDistance);
         shooter.getNearShooter().autoShoot(nearDistance);
+        kicker.start(1000); // TODO This is a placeholder. I need something that tells me what the kicker RPM should be relative to shooter RPM
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
             acquisition.acquire();
         }
