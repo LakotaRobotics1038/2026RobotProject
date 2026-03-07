@@ -8,8 +8,6 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utils.AutoShootUtils;
 
-import java.util.List;
-
 public class AutoShootCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
     private final Kicker kicker = Kicker.getInstance();
