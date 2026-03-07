@@ -101,7 +101,9 @@ public class DriverJoystick extends XboxController1038 {
         this.rightTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
-                aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+                aligned -> {
+                    setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0);
+                }));
     }
 
     /**

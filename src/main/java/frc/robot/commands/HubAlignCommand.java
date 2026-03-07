@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 
@@ -22,6 +23,7 @@ public class HubAlignCommand extends Command {
     public static final double HUB_ALIGNMENT_RUMBLE_INTENSITY = 0.8;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Dashboard dashboard = Dashboard.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
@@ -88,6 +90,7 @@ public class HubAlignCommand extends Command {
         if (alignedToHub != isAligned) {
             alignedToHub = isAligned;
             alignmentStateConsumer.accept(alignedToHub);
+            dashboard.setHubAligned(isAligned);
         }
     }
 }
