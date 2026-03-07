@@ -21,6 +21,7 @@ public class Dashboard extends SubsystemBase {
 
     // Variables
     private final Field2d field = new Field2d();
+    private boolean hubAligned = false;
 
     // Singleton Setup
     private static Dashboard instance;
@@ -55,6 +56,7 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
+        SmartDashboard.putBoolean(DashboardConstants.HUB_ALIGNED, hubAligned);
 
         field.setRobotPose(driveTrain.getState().Pose);
     }
@@ -77,5 +79,9 @@ public class Dashboard extends SubsystemBase {
 
     public SendableChooser<Double> getDelayChooser() {
         return delayChooser;
+    }
+
+    public void setHubAligned(boolean hubAligned) {
+        this.hubAligned = hubAligned;
     }
 }
