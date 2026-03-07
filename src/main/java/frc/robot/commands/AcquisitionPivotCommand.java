@@ -4,13 +4,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.subsystems.Acquisition;
 
-public class PivotAcquisitionCommand extends Command {
+public class AcquisitionPivotCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
     private final AcquisitionSetpoint setpoint;
 
-    public PivotAcquisitionCommand(AcquisitionSetpoint setpoint) {
+    public AcquisitionPivotCommand(AcquisitionSetpoint setpoint) {
         addRequirements(acquisition);
         this.setpoint = setpoint;
+        addRequirements(acquisition);
     }
 
     @Override
