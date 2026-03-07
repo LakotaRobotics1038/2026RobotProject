@@ -1,24 +1,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.ClimbConstants.ClimbSetpoint;
 import frc.robot.subsystems.Climb;
 
 public class ClimbCommand extends Command {
     private final Climb climb = Climb.getInstance();
-    private final Direction direction;
+    private final ClimbSetpoint setpoint;
 
-    public ClimbCommand(Direction direction) {
-        this.direction = direction;
+    public ClimbCommand(ClimbSetpoint setpoint) {
+        this.setpoint = setpoint;
         addRequirements(climb);
     }
 
     @Override
     public void initialize() {
-        switch (direction) {
-            case UP -> climb.climbUp();
-            case DOWN -> climb.climbDown();
-            case ZERO -> climb.zero();
-        }
+        climb.setSetpoint(setpoint);
     }
 
     @Override
@@ -29,9 +26,5 @@ public class ClimbCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         climb.stopClimb();
-    }
-
-    public enum Direction {
-        UP, DOWN, ZERO
     }
 }

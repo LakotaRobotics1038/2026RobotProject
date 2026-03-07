@@ -10,4 +10,21 @@ public final class ClimbConstants {
     public static final double P = 0.0;
     public static final double I = 0.0;
     public static final double D = 0.0;
+
+    public enum ClimbSetpoint {
+        UP(MAX_CLIMB),
+        DOWN(MIN_CLIMB),
+        ZERO(0);
+
+        private double setpoint;
+
+        ClimbSetpoint(double setpoint){
+            this.setpoint = setpoint;
+        }
+
+        public double getSetpoint() {
+            return this.setpoint;
+        }
+
+    }
 }
