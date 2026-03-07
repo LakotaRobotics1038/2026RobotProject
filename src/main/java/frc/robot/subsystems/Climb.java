@@ -29,6 +29,7 @@ public class Climb extends SubsystemBase {
                 .pid(ClimbConstants.P, ClimbConstants.I, ClimbConstants.D);
         config.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition);
+        config.encoder.positionConversionFactor(ClimbConstants.CLIMB_POSITION_CONVERSION_FACTOR);
         motor.configure(config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
     }
