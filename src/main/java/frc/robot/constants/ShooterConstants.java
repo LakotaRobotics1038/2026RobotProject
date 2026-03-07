@@ -20,14 +20,14 @@ public final class ShooterConstants {
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
             6,
-            new Translation2d(Units.inchesToMeters(-7.826), Units.inchesToMeters(-13.5)),
-            ServoChannel.ChannelId.kChannelId0,
+            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(7.826)),
+            ServoChannel.ChannelId.kChannelId1,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
             13,
-            new Translation2d(Units.inchesToMeters(8.635), Units.inchesToMeters(-13.5)),
+            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(-8.635)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
@@ -47,57 +47,4 @@ public final class ShooterConstants {
 
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
-
-    public static class ShooterFormula {
-        private final double slope;
-        private final double yIntercept;
-        private final double min;
-        private final double max;
-        private final double angle;
-
-        private ShooterFormula(double angle, double slope, double yIntercept, double min, double max) {
-            this.angle = angle;
-            this.slope = slope;
-            this.yIntercept = yIntercept;
-            this.min = min;
-            this.max = max;
-        }
-
-        public double getAngle() {
-            return angle;
-        }
-
-        public double getMin() {
-            return min;
-        }
-
-        public double getMax() {
-            return max;
-        }
-
-        public double getRPM(double distance) {
-            return slope * distance + yIntercept;
-        }
-    }
-
-    /**
-     * List of angles and their corresponding shooter formulas. The formula is used
-     * to calculate the RPM of the shooter
-     * based on the distance to the target. The min and max values represent the
-     * range of that angle.
-     */
-    public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
-            new ShooterFormula(
-                    55.0,
-                    454.97,
-                    2033.9,
-                    1.7,
-                    3.25)
-//            new ShooterFormula(
-//                    65.0,
-//                    448.4,
-//                    2056.9,
-//                    2.5,
-//                    5.1)
-    );
 }
