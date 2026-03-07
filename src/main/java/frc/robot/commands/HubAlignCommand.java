@@ -45,7 +45,7 @@ public class HubAlignCommand extends Command {
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
-        double targetHeadingRadians = getShooterAlignedTargetHeadingRadians(robotPose);
+        double targetHeadingRadians = getAlignedTargetHeading(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
         double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
@@ -69,7 +69,7 @@ public class HubAlignCommand extends Command {
         updateAlignmentState(false);
     }
 
-    private double getShooterAlignedTargetHeadingRadians(Pose2d robotPose) {
+    private double getAlignedTargetHeading(Pose2d robotPose) {
         double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
         double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
 
