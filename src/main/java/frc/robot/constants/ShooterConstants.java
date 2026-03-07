@@ -42,7 +42,7 @@ public final class ShooterConstants {
     public static final double D = 0.0;
 
     public static final double S = 0.0;
-    public static final double V = NeoMotorConstants.VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
+    public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
