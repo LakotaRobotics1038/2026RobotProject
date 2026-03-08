@@ -10,6 +10,7 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.HubAlignCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -88,10 +89,11 @@ public class DriverJoystick extends XboxController1038 {
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
 
-        this.rightTrigger().whileTrue(new HubAlignCommand(
+        this.leftTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
                 aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+        this.rightTrigger().whileTrue(new AutoShootCommand());
 
         new Trigger(this::isInTrench).onTrue(new RetractHoodsCommand());
     }
