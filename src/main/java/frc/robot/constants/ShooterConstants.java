@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import java.util.List;
-
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 
@@ -47,4 +45,5 @@ public final class ShooterConstants {
 
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
+    public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
 }
