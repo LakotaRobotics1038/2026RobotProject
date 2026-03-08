@@ -4,7 +4,7 @@ public final class ClimbConstants {
     private ClimbConstants() {
     }
 
-    public static final int MOTOR_CAN_ID = 0;
+    public static final int MOTOR_CAN_ID = 15;
     public static final double MAX_CLIMB = 0;
     public static final double MIN_CLIMB = 0;
     public static final double P = 0.0;
