@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.HubAlignCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -102,12 +103,14 @@ public class DriverJoystick extends XboxController1038 {
 
         this.x().whileTrue(this.driveTrain.setX());
 
-        this.rightTrigger().whileTrue(new HubAlignCommand(
+        this.leftTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
                 aligned -> {
                     setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0);
                 }));
+
+        this.rightTrigger().whileTrue(new AutoShootCommand());
     }
 
     /**
