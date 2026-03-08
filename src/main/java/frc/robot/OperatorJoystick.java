@@ -7,7 +7,7 @@ import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 
 public class OperatorJoystick extends XboxController1038 {
-    public static OperatorJoystick instance = new OperatorJoystick();
+    public static OperatorJoystick instance;
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {

@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         // Singleton instances that need to be created but not referenced
         DriverJoystick.getInstance();
+        OperatorJoystick.getInstance();
         Dashboard.getInstance();
 
         WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
