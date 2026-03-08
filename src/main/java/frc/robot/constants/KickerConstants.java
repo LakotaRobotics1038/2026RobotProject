@@ -15,5 +15,5 @@ public class KickerConstants {
     public static final double A = 0.0;
 
     public static final double MAX_SPEED = 0.0;
-    public static final double MIN_SPEED = 0.0;
+    public static final double MIN_SPEED = NeoMotorConstants.NEO_FREE_SPEED_RPM;
 }

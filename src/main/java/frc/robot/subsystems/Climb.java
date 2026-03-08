@@ -41,7 +41,7 @@ public class Climb extends SubsystemBase {
     }
 
     public void setSetpoint(ClimbSetpoint setpoint) {
-        controller.setSetpoint(setpoint.getSetpoint(),  ControlType.kPosition);
+        controller.setSetpoint(setpoint.getSetpoint(), ControlType.kPosition);
     }
 
     public boolean isAtSetpoint() {

@@ -10,6 +10,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
@@ -34,7 +35,7 @@ public class Acquisition extends SubsystemBase {
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
-        pivotConfig.apply(baseConfig).closedLoop
+        pivotConfig.apply(baseConfig).idleMode(IdleMode.kBrake).closedLoop
                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                 .pid(AcquisitionConstants.PIVOT_P, AcquisitionConstants.PIVOT_I,
                         AcquisitionConstants.PIVOT_D)
@@ -45,7 +46,7 @@ public class Acquisition extends SubsystemBase {
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
-        intakeConfig.apply(baseConfig).closedLoop
+        intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast).closedLoop
                 .pid(AcquisitionConstants.INTAKE_P, AcquisitionConstants.INTAKE_I,
                         AcquisitionConstants.INTAKE_D).feedForward
                 .sva(AcquisitionConstants.INTAKE_S, AcquisitionConstants.INTAKE_V, AcquisitionConstants.INTAKE_A);
@@ -73,14 +74,16 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake RPM to
+     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
      */
     public void acquire() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     /**
-     * Sets the Acquisition's disposal RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's disposal RPM to
+     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
      */
     public void dispose() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
@@ -91,6 +94,10 @@ public class Acquisition extends SubsystemBase {
      */
     public void stopIntake() {
         intakeMotor.stopMotor();
+    }
+
+    public void stopPivot() {
+        pivotMotor.stopMotor();
     }
 
     /**

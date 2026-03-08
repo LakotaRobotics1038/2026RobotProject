@@ -22,7 +22,7 @@ public class Kicker extends SubsystemBase {
 
     private Kicker() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+        config.inverted(true).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
                 .pid(KickerConstants.P, KickerConstants.I, KickerConstants.D).feedForward
                 .sva(KickerConstants.S, KickerConstants.V, KickerConstants.A);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
