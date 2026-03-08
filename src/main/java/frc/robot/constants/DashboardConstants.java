@@ -7,4 +7,5 @@ public final class DashboardConstants {
     public static final String ROBOT_X = "X Pos";
     public static final String ROBOT_Y = "Y Pos";
     public static final String ROBOT_ROT = "Rot";
+    public static final String HUB_ALIGNED = "Hub Aligned";
 }
