@@ -73,17 +73,14 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM} if the pivot is in the
-     * correct position, otherwise stops the intake.
+     * Sets the Acquisition's intake RPM to {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
      */
     public void acquire() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's disposal RPM to {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
      */
     public void dispose() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);

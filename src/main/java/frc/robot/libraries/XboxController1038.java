@@ -104,4 +104,14 @@ public class XboxController1038 extends CommandXboxController {
     public void setRightRumble(double speed) {
         controller.setRumble(RumbleType.kRightRumble, speed);
     }
+
+    /**
+     * Sets both rumble motors to the same speed.
+     *
+     * @param speed the rumble speed between 0.0 and 1.0
+     */
+    public void setRumble(double speed) {
+        setLeftRumble(speed);
+        setRightRumble(speed);
+    }
 }
