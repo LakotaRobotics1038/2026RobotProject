@@ -7,19 +7,18 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.HubAlignCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.utils.RectangleUtils;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Shooter shooter = Shooter.getInstance();
 
     // Commands
     // NONE
@@ -102,6 +101,13 @@ public class DriverJoystick extends XboxController1038 {
                 .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
 
         this.x().whileTrue(this.driveTrain.setX());
+
+        this.rightTrigger().whileTrue(new HubAlignCommand(
+                this::getForwardValue,
+                this::getSidewaysValue,
+                aligned -> {
+                    setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0);
+                }));
     }
 
     /**
