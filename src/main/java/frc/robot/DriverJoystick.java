@@ -24,7 +24,6 @@ import frc.robot.utils.RectangleUtils;
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Acquisition acquisition = Acquisition.getInstance();
 
     // Commands
     // NONE
