@@ -6,6 +6,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AcquisitionPivotCommand;
+import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.HubAlignCommand;
@@ -79,9 +81,12 @@ public class DriverJoystick extends XboxController1038 {
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
-        this.y().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.RAISED)));
-        this.a().onTrue(new InstantCommand(() -> acquisition.setPivot(AcquisitionConstants.AcquisitionSetpoint.LOWERED)));
+        this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
+        this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(this.driveTrain.setX());
+
+        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
+        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
 
         this.rightTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
