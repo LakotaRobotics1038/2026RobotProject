@@ -31,8 +31,6 @@ public final class ShooterConstants {
 
     public static final int SERVO_HUB_CAN_ID = 17;
 
-    public static final double VELOCITY_CONVERSION_FACTOR = 1;
-
     public static final double RPM_TOLERANCE = 25;
 
     public static final double P = 0.0;
