@@ -46,4 +46,9 @@ public final class ShooterConstants {
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
+    public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
+    public static final double MANUAL_SHOOTER_RPM = 3200.0;
+    public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
+    public static final double MANUAL_SHOOTER_MIN_RPM = 0.0;
+    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
 }
