@@ -74,9 +74,6 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
                     null,
                     this));
 
-    /* The SysId routine to test */
-    private final SysIdRoutine sysIdRoutineToApply = sysIdRoutineTranslation;
-
     /*
      * SysId routine for characterizing steer. This is used to find PID gains for
      * the steer motors.
@@ -212,28 +209,6 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
         return run(() -> this.setControl(requestSupplier.get()));
     }
 
-    /**
-     * Runs the SysId Quasistatic test in the given direction for the routine
-     * specified by {@link #sysIdRoutineToApply}.
-     *
-     * @param direction Direction of the SysId Quasistatic test
-     * @return Command to run
-     */
-    public Command sysIdQuasistatic(SysIdRoutine.Direction direction) {
-        return sysIdRoutineToApply.quasistatic(direction);
-    }
-
-    /**
-     * Runs the SysId Dynamic test in the given direction for the routine
-     * specified by {@link #sysIdRoutineToApply}.
-     *
-     * @param direction Direction of the SysId Dynamic test
-     * @return Command to run
-     */
-    public Command sysIdDynamic(SysIdRoutine.Direction direction) {
-        return sysIdRoutineToApply.dynamic(direction);
-    }
-
     @Override
     public void periodic() {
         /*
@@ -249,10 +224,9 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
          */
         if (!hasAppliedOperatorPerspective || DriverStation.isDisabled()) {
             DriverStation.getAlliance().ifPresent(allianceColor -> {
-                setOperatorPerspectiveForward(
-                        allianceColor == Alliance.Red
-                                ? RED_ALLIANCE_PERSPECTIVE_ROTATION
-                                : BLUE_ALLIANCE_PERSPECTIVE_ROTATION);
+                setOperatorPerspectiveForward(allianceColor == Alliance.Red
+                        ? RED_ALLIANCE_PERSPECTIVE_ROTATION
+                        : BLUE_ALLIANCE_PERSPECTIVE_ROTATION);
                 hasAppliedOperatorPerspective = true;
             });
         }
@@ -274,21 +248,6 @@ public class DriveTrain extends SwerveDrivetrain<TalonFX, TalonFX, CANcoder> imp
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         simNotifier.startPeriodic(SIM_LOOP_PERIOD);
-    }
-
-    /**
-     * Adds a vision measurement to the Kalman Filter. This will correct the
-     * odometry pose estimate
-     * while still accounting for measurement noise.
-     *
-     * @param visionRobotPoseMeters The pose of the robot as measured by the vision
-     *                              camera.
-     * @param timestampSeconds      The timestamp of the vision measurement in
-     *                              seconds.
-     */
-    @Override
-    public void addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) {
-        super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
     }
 
     /**
