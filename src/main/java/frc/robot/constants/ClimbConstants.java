@@ -10,7 +10,7 @@ public final class ClimbConstants {
     // TODO Find the diameter of the winch pully and multiply it by pi.
     // One over the diameter of the winch pully
     public static final double CLIMB_POSITION_CONVERSION_FACTOR = 1 / (Math.PI);
-    public static final double P = 0.0;
+    public static final double P = 0.01;
     public static final double I = 0.0;
     public static final double D = 0.0;
 
@@ -21,7 +21,7 @@ public final class ClimbConstants {
 
         private final double setpoint;
 
-        ClimbSetpoint(double setpoint){
+        ClimbSetpoint(double setpoint) {
             this.setpoint = setpoint;
         }
 

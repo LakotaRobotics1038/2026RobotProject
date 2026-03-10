@@ -7,7 +7,7 @@ public final class AcquisitionConstants {
     public static final int PIVOT_MOTOR_CAN_ID = 4;
     public static final int INTAKE_MOTOR_CAN_ID = 3;
 
-    public static final double PIVOT_P = 0;
+    public static final double PIVOT_P = 0.05;
     public static final double PIVOT_I = 0;
     public static final double PIVOT_D = 0;
 
