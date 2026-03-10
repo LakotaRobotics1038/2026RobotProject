@@ -35,13 +35,15 @@ public class Acquisition extends SubsystemBase {
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
-        pivotConfig.apply(baseConfig).idleMode(IdleMode.kBrake).closedLoop
+        pivotConfig.apply(baseConfig).inverted(true).idleMode(IdleMode.kBrake).closedLoop
+                .outputRange(-AcquisitionConstants.PIVOT_POWER, AcquisitionConstants.PIVOT_POWER)
                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
                 .pid(AcquisitionConstants.PIVOT_P, AcquisitionConstants.PIVOT_I,
                         AcquisitionConstants.PIVOT_D)
                 .allowedClosedLoopError(AcquisitionConstants.PIVOT_ALLOWED_ERROR_DEGREES,
                         ClosedLoopSlot.kSlot0);
-        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_CONVERSION_FACTOR);
+        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionConstants.PIVOT_ENCODER_CONVERSION_FACTOR)
+                .inverted(true);
 
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
