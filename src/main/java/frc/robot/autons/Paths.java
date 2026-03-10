@@ -10,11 +10,16 @@ import com.pathplanner.lib.util.FileVersionException;
 public class Paths {
     public static PathPlannerPath getLeftPosTaxiPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("TopStartingPos Taxi");
+        return PathPlannerPath.fromPathFile("Depot Taxi");
     }
 
     public static PathPlannerPath getRightPosTaxiPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("BottomStartingPos Taxi");
+        return PathPlannerPath.fromPathFile("Outpost Taxi");
+    }
+
+    public static PathPlannerPath getMiddleToShootingPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Middle To Shooting");
     }
 }
