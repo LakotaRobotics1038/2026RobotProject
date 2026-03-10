@@ -100,6 +100,7 @@ public class DriverJoystick extends XboxController1038 {
         new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).onTrue(new RetractHoodsCommand());
 
         this.x().whileTrue(this.driveTrain.setX());
+        this.b().and(dashboard::isManualModeEnabled).onTrue(new RetractHoodsCommand());
 
         this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(
                 this::getForwardValue,
@@ -109,7 +110,8 @@ public class DriverJoystick extends XboxController1038 {
                 }));
 
         this.rightTrigger().whileTrue(
-                new ConditionalCommand(new ManualShootCommand(), new AutoShootCommand(), dashboard::isManualModeEnabled));
+                new ConditionalCommand(new ManualShootCommand(), new AutoShootCommand(),
+                        dashboard::isManualModeEnabled));
     }
 
     /**
