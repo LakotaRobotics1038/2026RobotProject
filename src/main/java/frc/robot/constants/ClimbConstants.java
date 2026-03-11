@@ -5,17 +5,15 @@ public final class ClimbConstants {
     }
 
     public static final int MOTOR_CAN_ID = 15;
-    public static final double MAX_CLIMB = 0;
-    public static final double MIN_CLIMB = 0;
-    // Pulley diameter is 1 inch, so its circumference is pi.
-    public static final double CLIMB_POSITION_CONVERSION_FACTOR = 1 / Math.PI;
-    public static final double P = 0.0;
-    public static final double I = 0.0;
+    // One over circumference of the pulley
+    public static final double CLIMB_POSITION_CONVERSION_FACTOR = 1 / (0.75 * Math.PI);
+    public static final double P = 0.8;
+    public static final double I = 0.00005;
     public static final double D = 0.0;
 
     public enum ClimbSetpoint {
-        UP(MAX_CLIMB),
-        DOWN(MIN_CLIMB),
+        UP(15.5),
+        DOWN(12),
         ZERO(0);
 
         private final double setpoint;
@@ -27,6 +25,5 @@ public final class ClimbConstants {
         public double getSetpoint() {
             return this.setpoint;
         }
-
     }
 }

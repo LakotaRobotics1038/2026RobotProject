@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ClimbCommand;
+import frc.robot.commands.ZeroClimbCommand;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.IOConstants;
@@ -26,6 +27,8 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.UP));
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.DOWN));
+
+        this.start().onTrue(new ZeroClimbCommand());
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
