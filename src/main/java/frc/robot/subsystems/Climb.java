@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
@@ -24,10 +25,12 @@ public class Climb extends SubsystemBase {
 
     private Climb() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.idleMode(SparkBaseConfig.IdleMode.kBrake).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+        config.inverted(true).idleMode(SparkBaseConfig.IdleMode.kBrake)
+                .smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
                 .pid(ClimbConstants.P, ClimbConstants.I, ClimbConstants.D);
         config.limitSwitch.reverseLimitSwitchType(LimitSwitchConfig.Type.kNormallyOpen)
-                .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition);
+                .reverseLimitSwitchTriggerBehavior(LimitSwitchConfig.Behavior.kStopMovingMotorAndSetPosition)
+                .limitSwitchPositionSensor(FeedbackSensor.kPrimaryEncoder);
         config.encoder.positionConversionFactor(ClimbConstants.CLIMB_POSITION_CONVERSION_FACTOR);
         motor.configure(config, ResetMode.kResetSafeParameters,
                 PersistMode.kPersistParameters);
@@ -41,7 +44,11 @@ public class Climb extends SubsystemBase {
     }
 
     public void setSetpoint(ClimbSetpoint setpoint) {
-        controller.setSetpoint(setpoint.getSetpoint(),  ControlType.kPosition);
+        controller.setSetpoint(setpoint.getSetpoint(), ControlType.kPosition);
+    }
+
+    public void zero() {
+        controller.setSetpoint(ClimbConstants.ZEROING_POWER, ControlType.kDutyCycle);
     }
 
     public boolean isAtSetpoint() {
@@ -50,6 +57,10 @@ public class Climb extends SubsystemBase {
 
     public double getSetpoint() {
         return controller.getSetpoint();
+    }
+
+    public boolean limitSwitchPressed() {
+        return motor.getReverseLimitSwitch().isPressed();
     }
 
     public void stopClimb() {

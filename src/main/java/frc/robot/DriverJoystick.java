@@ -12,7 +12,6 @@ import frc.robot.commands.HubAlignCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
-import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.RectangleUtils;
@@ -57,15 +56,13 @@ public class DriverJoystick extends XboxController1038 {
         super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
-            if (maxPower != DriveConstants.OVERDRIVE_POWER) {
-                SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
-                Translation2d robotPos = state.Pose.getTranslation();
-                double vx = state.Speeds.vxMetersPerSecond;
-                double vy = state.Speeds.vyMetersPerSecond;
-                maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
-                        ? DriveConstants.BUMP_SLOWDOWN_POWER
-                        : DriveConstants.DEFAULT_MAX_POWER;
-            }
+            SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
+            Translation2d robotPos = state.Pose.getTranslation();
+            double vx = state.Speeds.vxMetersPerSecond;
+            double vy = state.Speeds.vyMetersPerSecond;
+            maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
+                    ? DriveConstants.BUMP_SLOWDOWN_POWER
+                    : DriveConstants.DEFAULT_MAX_POWER;
 
             double sideways = this.getSidewaysValue();
             double forward = this.getForwardValue();
@@ -95,22 +92,15 @@ public class DriverJoystick extends XboxController1038 {
                 .whileTrue(this.driveTrain
                         .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
 
-        new Trigger(this::isInTrench).onTrue(new RetractHoodsCommand());
-
-        this.rightBumper()
-                .onTrue(new InstantCommand(() -> this.maxPower = DriveConstants.OVERDRIVE_POWER))
-                .onFalse(new InstantCommand(() -> this.maxPower = DriveConstants.DEFAULT_MAX_POWER));
-
         this.x().whileTrue(this.driveTrain.setX());
 
         this.leftTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
-                aligned -> {
-                    setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0);
-                }));
-
+                aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
         this.rightTrigger().whileTrue(new AutoShootCommand());
+
+        new Trigger(this::isInTrench).onTrue(new RetractHoodsCommand());
     }
 
     /**
