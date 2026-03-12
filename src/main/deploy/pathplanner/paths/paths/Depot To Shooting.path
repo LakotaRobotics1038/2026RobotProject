@@ -3,32 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.264549180327867,
-        "y": 3.770724431818182
+        "x": 0.8,
+        "y": 5.904636233951498
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.913469061266706,
-        "y": 3.770724431818182
+        "x": 1.1,
+        "y": 5.904636233951498
       },
       "isLocked": false,
-      "linkedName": "midStartPose"
+      "linkedName": "FromDepot"
     },
     {
       "anchor": {
-        "x": 5.598258196721312,
-        "y": 3.770724431818182
+        "x": 1.4,
+        "y": 5.904636233951498
       },
       "prevControl": {
-        "x": 5.848258196721312,
-        "y": 3.770724431818182
+        "x": 1.15,
+        "y": 5.904636233951498
+      },
+      "nextControl": {
+        "x": 1.6499999999999986,
+        "y": 5.904636233951498
+      },
+      "isLocked": false,
+      "linkedName": "ToDepot"
+    },
+    {
+      "anchor": {
+        "x": 2.3,
+        "y": 5.3
+      },
+      "prevControl": {
+        "x": 1.9612385968159154,
+        "y": 5.5731898359293295
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "ReefTag21Algae"
+      "linkedName": "Shooting"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.25,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -130.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
