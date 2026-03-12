@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.subsystems.Acquisition;
@@ -22,10 +21,5 @@ public class AcquisitionPivotCommand extends Command {
     @Override
     public boolean isFinished() {
         return acquisition.atSetpoint();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        DriverStation.reportWarning("ended and stuff", false);
     }
 }
