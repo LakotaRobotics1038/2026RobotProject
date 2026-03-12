@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import java.util.List;
+
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 
@@ -44,4 +46,55 @@ public final class ShooterConstants {
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
+
+    /**
+     * List of angles and their corresponding shooter formulas. The formula is used
+     * to calculate the RPM of the shooter
+     * based on the distance to the target. The min and max values represent the
+     * range of that angle.
+     */
+    public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
+            new ShooterFormula(
+                    66.3,
+                    393.7,
+                    2150,
+                    1.7,
+                    3.25));
+
+    public static final class ShooterFormula {
+        private final double shooterSlope;
+        private final double shooterYIntercept;
+        private final double min;
+        private final double max;
+        private final double angle;
+
+        private ShooterFormula(
+                double angle,
+                double shooterSlope,
+                double shooterYIntercept,
+                double min,
+                double max) {
+            this.angle = angle;
+            this.shooterSlope = shooterSlope;
+            this.shooterYIntercept = shooterYIntercept;
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getAngle() {
+            return angle;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public double getShooterRPM(double distance) {
+            return shooterSlope * distance + shooterYIntercept;
+        }
+    }
 }
