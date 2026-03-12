@@ -6,18 +6,13 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.constants.AcquisitionConstants;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.commands.HubAlignCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
-import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
-import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.RectangleUtils;
 
@@ -81,12 +76,23 @@ public class DriverJoystick extends XboxController1038 {
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
-        this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
-        this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        this.x().whileTrue(this.driveTrain.setX());
+        new Trigger(() -> this.getPOV().equals(PovPositions.Up))
+                .whileTrue(this.driveTrain
+                        .applyRequest(() -> driveTrain.drive(DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        new Trigger(() -> this.getPOV().equals(PovPositions.Down))
+                .whileTrue(this.driveTrain
+                        .applyRequest(() -> driveTrain.drive(-DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
+
+        new Trigger(() -> this.getPOV().equals(PovPositions.Left))
+                .whileTrue(this.driveTrain
+                        .applyRequest(() -> driveTrain.drive(0, DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
+
+        new Trigger(() -> this.getPOV().equals(PovPositions.Right))
+                .whileTrue(this.driveTrain
+                        .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
+
+        this.x().whileTrue(this.driveTrain.setX());
 
         this.leftTrigger().whileTrue(new HubAlignCommand(
                 this::getForwardValue,
