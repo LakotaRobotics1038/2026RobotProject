@@ -47,8 +47,10 @@ public class AutoShootCommand extends Command {
      * fails. If distances overlap, lesser
      * angles will be preferred.
      *
-     * @param nearShooterHubDistance The distance from the near shooter module to the hub.
-     * @param farShooterHubDistance The distance from the far shooter module to the hub.
+     * @param nearShooterHubDistance The distance from the near shooter module to
+     *                               the hub.
+     * @param farShooterHubDistance  The distance from the far shooter module to the
+     *                               hub.
      */
     private void autoShoot(double nearShooterHubDistance, double farShooterHubDistance) {
         double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
@@ -59,7 +61,7 @@ public class AutoShootCommand extends Command {
                 shooter.getNearShooter().start(formula.getShooterRPM(nearShooterHubDistance));
                 shooter.getFarShooter().setAngle(formula.getAngle());
                 shooter.getFarShooter().start(formula.getShooterRPM(farShooterHubDistance));
-                kicker.start(formula.getKickerRPM(minDistance)); // TODO Should this be based on min or max? Does it matter?
+                kicker.start();
                 break;
             }
         }

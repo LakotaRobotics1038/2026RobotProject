@@ -13,4 +13,6 @@ public class KickerConstants {
     public static final double S = 0.0;
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.NEO_FREE_SPEED_RPM;
     public static final double A = 0.0;
+
+    public static final double KICKER_RPM = 5000;
 }

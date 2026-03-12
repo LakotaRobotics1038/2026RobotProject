@@ -34,8 +34,8 @@ public class Kicker extends SubsystemBase {
         return instance;
     }
 
-    public void start(double rpm) {
-        controller.setSetpoint(rpm, ControlType.kVelocity);
+    public void start() {
+        controller.setSetpoint(KickerConstants.KICKER_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
