@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.KickerConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Dashboard;
@@ -28,7 +27,7 @@ public class ManualShootCommand extends Command {
         shooter.getFarShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
         shooter.getFarShooter().start(targetRPM);
 
-        kicker.start(KickerConstants.MANUAL_KICKER_RPM);
+        kicker.start();
 
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
             acquisition.acquire();

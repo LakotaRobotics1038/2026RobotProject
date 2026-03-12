@@ -9,7 +9,6 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -22,7 +21,7 @@ public class Kicker extends SubsystemBase {
 
     private Kicker() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+        config.inverted(true).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
                 .pid(KickerConstants.P, KickerConstants.I, KickerConstants.D).feedForward
                 .sva(KickerConstants.S, KickerConstants.V, KickerConstants.A);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -35,9 +34,8 @@ public class Kicker extends SubsystemBase {
         return instance;
     }
 
-    public void start(double rpm) {
-        controller.setSetpoint(MathUtil.clamp(rpm, KickerConstants.MIN_SPEED, KickerConstants.MAX_SPEED),
-                ControlType.kVelocity);
+    public void start() {
+        controller.setSetpoint(KickerConstants.KICKER_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
