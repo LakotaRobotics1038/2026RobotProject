@@ -4,14 +4,20 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.AutoShootCommand;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.HubAlignCommand;
+import frc.robot.commands.ManualShootCommand;
+import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
+import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utils.RectangleUtils;
@@ -19,6 +25,7 @@ import frc.robot.utils.RectangleUtils;
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Dashboard dashboard = Dashboard.getInstance();
 
     // Commands
     // NONE
@@ -56,13 +63,15 @@ public class DriverJoystick extends XboxController1038 {
         super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
-            SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
-            Translation2d robotPos = state.Pose.getTranslation();
-            double vx = state.Speeds.vxMetersPerSecond;
-            double vy = state.Speeds.vyMetersPerSecond;
-            maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
-                    ? DriveConstants.BUMP_SLOWDOWN_POWER
-                    : DriveConstants.DEFAULT_MAX_POWER;
+            if (!dashboard.isManualModeEnabled()) {
+                SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
+                Translation2d robotPos = state.Pose.getTranslation();
+                double vx = state.Speeds.vxMetersPerSecond;
+                double vy = state.Speeds.vyMetersPerSecond;
+                maxPower = RectangleUtils.drivingThroughRect(FieldConstants.BUMP_RECTANGLES, robotPos, vx, vy)
+                        ? DriveConstants.BUMP_SLOWDOWN_POWER
+                        : DriveConstants.DEFAULT_MAX_POWER;
+            }
 
             double sideways = this.getSidewaysValue();
             double forward = this.getForwardValue();
@@ -77,30 +86,35 @@ public class DriverJoystick extends XboxController1038 {
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
+                .onTrue(new InstantCommand(
+                        () -> dashboard.nudgeManualShooterRPM(ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(-DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, 0, false)));
+                .onTrue(new InstantCommand(
+                        () -> dashboard.nudgeManualShooterRPM(-ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
+                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .whileTrue(this.driveTrain
-                        .applyRequest(() -> driveTrain.drive(0, -DriveConstants.FINE_ADJUSTMENT_PERCENT, 0, false)));
+                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
+
+        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).onTrue(new RetractHoodsCommand());
 
         this.x().whileTrue(this.driveTrain.setX());
+        this.b().and(dashboard::isManualModeEnabled).onTrue(new RetractHoodsCommand());
 
-        this.leftTrigger().whileTrue(new HubAlignCommand(
+        this.leftBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.DOWN));
+        this.rightBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.UP));
+
+        this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
                 aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
-        this.rightTrigger().whileTrue(new AutoShootCommand());
 
-        new Trigger(this::isInTrench).onTrue(new RetractHoodsCommand());
+        this.rightTrigger().whileTrue(
+                new ConditionalCommand(new ManualShootCommand(), new AutoShootCommand(),
+                        dashboard::isManualModeEnabled));
     }
 
     /**
