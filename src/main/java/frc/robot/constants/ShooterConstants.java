@@ -50,7 +50,8 @@ public final class ShooterConstants {
     public static final double MANUAL_SHOOTER_RPM = 3200.0;
     public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
     public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
-    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
+    // Make sure there's a 0 at the end so manual mode goes by 10s
+    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10 * 10;
 
     /**
      * List of angles and their corresponding shooter formulas. The formula is used

@@ -27,12 +27,10 @@ public class ManualShootCommand extends Command {
         shooter.getFarShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
         shooter.getFarShooter().start(targetRPM);
 
-        kicker.start();
-
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
-            acquisition.acquire();
+            kicker.start();
         } else {
-            acquisition.stopIntake();
+            kicker.stop();
         }
     }
 
