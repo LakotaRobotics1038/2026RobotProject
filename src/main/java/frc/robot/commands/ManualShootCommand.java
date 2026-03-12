@@ -29,8 +29,10 @@ public class ManualShootCommand extends Command {
 
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
             kicker.start();
+            acquisition.acquire();
         } else {
             kicker.stop();
+            acquisition.stopIntake();
         }
     }
 
