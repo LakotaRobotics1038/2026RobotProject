@@ -9,7 +9,6 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -36,8 +35,7 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start(double rpm) {
-        controller.setSetpoint(MathUtil.clamp(rpm, KickerConstants.MIN_SPEED, KickerConstants.MAX_SPEED),
-                ControlType.kVelocity);
+        controller.setSetpoint(rpm, ControlType.kVelocity);
     }
 
     public void stop() {

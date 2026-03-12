@@ -48,7 +48,7 @@ public class Climb extends SubsystemBase {
     }
 
     public void zero() {
-        controller.setSetpoint(-0.3, ControlType.kDutyCycle);
+        controller.setSetpoint(ClimbConstants.ZEROING_POWER, ControlType.kDutyCycle);
     }
 
     public boolean isAtSetpoint() {
@@ -57,6 +57,10 @@ public class Climb extends SubsystemBase {
 
     public double getSetpoint() {
         return controller.getSetpoint();
+    }
+
+    public boolean limitSwitchPressed() {
+        return motor.getReverseLimitSwitch().isPressed();
     }
 
     public void stopClimb() {

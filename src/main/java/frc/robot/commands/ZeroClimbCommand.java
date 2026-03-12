@@ -17,6 +17,11 @@ public class ZeroClimbCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return climb.limitSwitchPressed();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        climb.stopClimb();
     }
 }
