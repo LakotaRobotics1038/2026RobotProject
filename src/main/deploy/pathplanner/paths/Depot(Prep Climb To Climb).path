@@ -3,53 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 5.904636233951498
+        "x": 0.610313837375178,
+        "y": 4.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1,
-        "y": 5.904636233951498
+        "x": 0.610313837375178,
+        "y": 4.55
       },
       "isLocked": false,
-      "linkedName": "FromDepot"
+      "linkedName": "depotPrepClimb"
     },
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.904636233951498
+        "x": 0.610313837375178,
+        "y": 4.170855920114123
       },
       "prevControl": {
-        "x": 1.15,
-        "y": 5.904636233951498
-      },
-      "nextControl": {
-        "x": 1.65,
-        "y": 5.904636233951498
-      },
-      "isLocked": false,
-      "linkedName": "ToDepot"
-    },
-    {
-      "anchor": {
-        "x": 2.3,
-        "y": 5.3
-      },
-      "prevControl": {
-        "x": 1.9612385968159154,
-        "y": 5.5731898359293295
+        "x": 0.610313837375178,
+        "y": 4.49432239657632
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "depotShooting"
+      "linkedName": "depotClimb"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.25,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -63,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -130.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": null,
