@@ -1,7 +1,9 @@
 package frc.robot.constants;
 
+import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FlippingUtil;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rectangle2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
@@ -27,7 +29,8 @@ public final class FieldConstants {
     private static final double LEFT_BUMP_Y_OFFSET = LEFT_TRENCH_Y_OFFSET - BUMP_WIDTH;
     private static final double RIGHT_BUMP_Y_OFFSET = TRENCH_WIDTH;
 
-    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH;
+    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
+            - BUMP_DEPTH;
 
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
@@ -53,8 +56,7 @@ public final class FieldConstants {
 
     private static final Rectangle2d TRENCH = new Rectangle2d(
             new Translation2d(0, 0),
-            new Translation2d(BUMP_DEPTH, TRENCH_WIDTH)
-    );
+            new Translation2d(BUMP_DEPTH, TRENCH_WIDTH));
 
     private static final Rectangle2d BLUE_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_TRENCH_Y_OFFSET),
@@ -74,4 +76,6 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH
     };
+    public static final Pose2d TOWER_OUTPOST = null;
+    public static final Pose2d TOWER_DEPOT = null;
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.json.simple.parser.ParseException;
 
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import com.pathplanner.lib.util.FileVersionException;
 
 public class Paths {
@@ -16,5 +17,15 @@ public class Paths {
     public static PathPlannerPath getRightPosTaxiPath()
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("BottomStartingPos Taxi");
+    }
+
+    public static PathPlannerPath getDepotClimb() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDepotClimb'");
+    }
+
+    public static PathPlannerPath getOutpostClimb() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getOutpostClimb'");
     }
 }
