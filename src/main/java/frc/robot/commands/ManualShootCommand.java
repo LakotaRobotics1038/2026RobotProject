@@ -22,7 +22,7 @@ public class ManualShootCommand extends Command {
         double targetRPM = dashboard.getManualShooterRPM();
 
         shooter.getNearShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
-        shooter.getNearShooter().start(targetRPM);
+        shooter.getNearShooter().start(targetRPM * 0.91);
 
         shooter.getFarShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
         shooter.getFarShooter().start(targetRPM);

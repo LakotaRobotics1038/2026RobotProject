@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
         nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
-        servoHub.setBankPulsePeriod(Bank.kBank0_2, 20000);
+        // servoHub.setBankPulsePeriod(Bank.kBank0_2, 20000);
         nearShooter.enableServo();
         farShooter.enableServo();
     }

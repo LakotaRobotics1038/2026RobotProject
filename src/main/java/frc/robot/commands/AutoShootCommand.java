@@ -26,8 +26,10 @@ public class AutoShootCommand extends Command {
 
         autoShoot(nearDistance, farDistance);
         if (shooter.getNearShooter().isAtTargetRPM() && shooter.getFarShooter().isAtTargetRPM()) {
+            kicker.start();
             acquisition.acquire();
         } else {
+            kicker.stop();
             acquisition.stopIntake();
         }
     }
@@ -54,14 +56,12 @@ public class AutoShootCommand extends Command {
      */
     private void autoShoot(double nearShooterHubDistance, double farShooterHubDistance) {
         double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
-        double maxDistance = Math.max(nearShooterHubDistance, farShooterHubDistance);
         for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-            if (formula.getMin() <= minDistance && formula.getMax() >= maxDistance) {
+            if (formula.getMin() <= minDistance) {
                 shooter.getNearShooter().setAngle(formula.getAngle());
                 shooter.getNearShooter().start(formula.getShooterRPM(nearShooterHubDistance));
                 shooter.getFarShooter().setAngle(formula.getAngle());
                 shooter.getFarShooter().start(formula.getShooterRPM(farShooterHubDistance));
-                kicker.start();
                 break;
             }
         }

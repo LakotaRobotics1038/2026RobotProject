@@ -33,7 +33,7 @@ public final class ShooterConstants {
 
     public static final int SERVO_HUB_CAN_ID = 17;
 
-    public static final double RPM_TOLERANCE = 25;
+    public static final double RPM_TOLERANCE = 50;
 
     public static final double P = 0.0001;
     public static final double I = 0.00000001;
@@ -47,7 +47,7 @@ public final class ShooterConstants {
     public static final double SHOOTER_ANGLE_MAX_DEG = 73.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
     public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
-    public static final double MANUAL_SHOOTER_RPM = 3200.0;
+    public static final double MANUAL_SHOOTER_RPM = 2900.0;
     public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
     public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
     // Make sure there's a 0 at the end so manual mode goes by 10s
@@ -64,27 +64,23 @@ public final class ShooterConstants {
                     66.3,
                     393.7,
                     2150,
-                    1.7,
-                    3.25));
+                    2.286));
 
     public static final class ShooterFormula {
         private final double shooterSlope;
         private final double shooterYIntercept;
         private final double min;
-        private final double max;
         private final double angle;
 
         private ShooterFormula(
                 double angle,
                 double shooterSlope,
                 double shooterYIntercept,
-                double min,
-                double max) {
+                double min) {
             this.angle = angle;
             this.shooterSlope = shooterSlope;
             this.shooterYIntercept = shooterYIntercept;
             this.min = min;
-            this.max = max;
         }
 
         public double getAngle() {
@@ -93,10 +89,6 @@ public final class ShooterConstants {
 
         public double getMin() {
             return min;
-        }
-
-        public double getMax() {
-            return max;
         }
 
         public double getShooterRPM(double distance) {
