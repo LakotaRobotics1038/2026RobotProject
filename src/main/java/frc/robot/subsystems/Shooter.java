@@ -1,12 +1,15 @@
 package frc.robot.subsystems;
 
+import com.pathplanner.lib.util.FlippingUtil;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.ServoHub;
+import com.revrobotics.servohub.ServoHub.Bank;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 import com.revrobotics.servohub.config.ServoHubConfig;
+import com.revrobotics.servohub.config.ServoChannelConfig.BehaviorWhenDisabled;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -17,6 +20,8 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -34,6 +39,9 @@ public class Shooter extends SubsystemBase {
         nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
+        servoHub.setBankPulsePeriod(Bank.kBank0_2, 20000);
+        nearShooter.enableServo();
+        farShooter.enableServo();
     }
 
     public static Shooter getInstance() {
@@ -109,17 +117,17 @@ public class Shooter extends SubsystemBase {
             servoChannel = servoHub.getServoChannel(moduleConstants.servoChannelID());
             servoPulseRange = moduleConstants.servoPulseRange();
 
+            ServoChannelConfig channelConfig;
             switch (moduleConstants.servoChannelID()) {
-                case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoPulseRange);
-                case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoPulseRange);
-                case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoPulseRange);
-                case kChannelId3 -> servoHubConfig.channel3.pulseRange(servoPulseRange);
-                case kChannelId4 -> servoHubConfig.channel4.pulseRange(servoPulseRange);
-                case kChannelId5 -> servoHubConfig.channel5.pulseRange(servoPulseRange);
+                case kChannelId0 -> channelConfig = servoHubConfig.channel0;
+                case kChannelId1 -> channelConfig = servoHubConfig.channel1;
+                case kChannelId2 -> channelConfig = servoHubConfig.channel2;
+                case kChannelId3 -> channelConfig = servoHubConfig.channel3;
+                case kChannelId4 -> channelConfig = servoHubConfig.channel4;
+                case kChannelId5 -> channelConfig = servoHubConfig.channel5;
+                default -> throw new IllegalArgumentException("Invalid servo channel ID"); // Will never get called
             }
-
-            servoChannel.setEnabled(true);
-            servoChannel.setPowered(true);
+            channelConfig.pulseRange(servoPulseRange).disableBehavior(BehaviorWhenDisabled.kSupplyPower);
         }
 
         /**
@@ -185,10 +193,18 @@ public class Shooter extends SubsystemBase {
          * @return Angle in radians from the module toward the hub.
          */
         public double getHubAngle(Pose2d robotPose) {
+            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
             Translation2d moduleFieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            Translation2d toTargetFromModule = FieldConstants.HUB_POSITION.minus(moduleFieldPosition);
+            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
+                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
+            Translation2d toTargetFromModule = hubPosition.minus(moduleFieldPosition);
             return toTargetFromModule.getAngle().getRadians();
+        }
+
+        public void enableServo() {
+            servoChannel.setEnabled(true);
+            servoChannel.setPowered(true);
         }
 
         /**
@@ -206,6 +222,10 @@ public class Shooter extends SubsystemBase {
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
                     + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
+        }
+
+        public void setPulseWidth(int pulseWidth_us) {
+            servoChannel.setPulseWidth(pulseWidth_us);
         }
     }
 }

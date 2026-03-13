@@ -13,10 +13,12 @@ import frc.robot.constants.IOConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.Shooter;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
+    private final Shooter shooter = Shooter.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -53,5 +55,10 @@ public class OperatorJoystick extends XboxController1038 {
         this.rightTrigger().whileTrue(
                 new ConditionalCommand(new ManualShootCommand(), new AutoShootCommand(),
                         dashboard::isManualModeEnabled));
+
+        this.leftTrigger().onTrue(new InstantCommand(() -> {
+            shooter.getNearShooter().setPulseWidth(1500);
+            shooter.getFarShooter().setPulseWidth(1500);
+        }));
     }
 }

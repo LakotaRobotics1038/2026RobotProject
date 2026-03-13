@@ -35,16 +35,16 @@ public final class ShooterConstants {
 
     public static final double RPM_TOLERANCE = 25;
 
-    public static final double P = 0.0;
-    public static final double I = 0.0;
+    public static final double P = 0.0001;
+    public static final double I = 0.00000001;
     public static final double D = 0.0;
 
     public static final double S = 0.0;
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
-    public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
+    public static final double SHOOTER_ANGLE_MIN_DEG = 49.0;
+    public static final double SHOOTER_ANGLE_MAX_DEG = 73.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
     public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
     public static final double MANUAL_SHOOTER_RPM = 3200.0;
