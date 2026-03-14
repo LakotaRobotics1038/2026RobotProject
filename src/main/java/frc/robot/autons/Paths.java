@@ -22,4 +22,28 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Middle To Shooting");
     }
+
+    public static PathPlannerPath getShootingToDepotPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Shooting To Depot");
+    }
+
+    public static PathPlannerPath getAcquireFromDepotPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Acquire From Depot");
+    }
+
+    public static PathPlannerPath getDepotToShootingPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot To Shooting");
+    }
+
+    public static PathPlannerPath getShootingToPrepClimb()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Shooting To Prep Climb");
+    }
+
+    public static PathPlannerPath getPrepClimbToClimb() throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Prep Climb To Climb");
+    }
 }

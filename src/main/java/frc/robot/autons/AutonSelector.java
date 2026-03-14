@@ -5,14 +5,13 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.constants.AutoConstants;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftTaxi,
-        RightTaxi, MiddleDepotClimb
+        RightTaxi, MiddleDepotClimb, MiddleDepotNoClimb
     }
 
     // Choosers
@@ -37,6 +36,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Left Taxi", AutonChoices.LeftTaxi);
         this.autoChooser.addOption("Right Taxi", AutonChoices.RightTaxi);
         this.autoChooser.addOption("Middle Depot Climb", AutonChoices.MiddleDepotClimb);
+        this.autoChooser.addOption("Middle Depot No Climb", AutonChoices.MiddleDepotNoClimb);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -68,6 +68,8 @@ public class AutonSelector {
                     return new RightTaxi(alliance);
                 case MiddleDepotClimb:
                     return new MiddleDepotClimb(alliance);
+                case MiddleDepotNoClimb:
+                    return new MiddleDepotNoClimb(alliance);
                 default:
                     return null;
             }

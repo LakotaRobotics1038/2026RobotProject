@@ -8,19 +8,19 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AutoShootCommand;
+import frc.robot.commands.ClimbCommand;
+import frc.robot.constants.ClimbConstants.ClimbSetpoint;
 
-public class MiddleDepotClimb extends Auton {
+public class MiddleDepotClimb extends MiddleDepot {
     MiddleDepotClimb(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getMiddleToShootingPath()),
-                new AutoShootCommand().withDeadline(new WaitCommand(2)));
-        /**
-         * TODO Acquire Depot
-         * TODO Shoot
-         * TODO Go Climb
-         */
+        // TODO climb
+        // followPathCommand(Paths.getShootingToPrepClimb()),
+        // new ClimbCommand(ClimbSetpoint.UP),
+        // followPathCommand(Paths.getPrepClimbToClimb()),
+        // new ClimbCommand(ClimbSetpoint.DOWN)
+        );
     }
 }
