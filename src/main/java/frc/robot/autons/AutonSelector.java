@@ -5,6 +5,10 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.autons.depot.DepotNeutralClimb;
+import frc.robot.autons.depot.DepotNeutralNoClimb;
+import frc.robot.autons.outpost.OutpostNeutralClimb;
+import frc.robot.autons.outpost.OutpostNeutralNoClimb;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
@@ -12,7 +16,7 @@ public class AutonSelector {
         NoAuto,
         LeftTaxi,
         RightTaxi, OutpostNeutralClimb,
-        OutpostNeutralNoClimb
+        OutpostNeutralNoClimb, DepotNeutralNoClimb, DepotNeutralClimb
     }
 
     // Choosers
@@ -38,6 +42,8 @@ public class AutonSelector {
         this.autoChooser.addOption("Right Taxi", AutonChoices.RightTaxi);
         this.autoChooser.addOption("Outpost Neutral Climb", AutonChoices.OutpostNeutralClimb);
         this.autoChooser.addOption("Outpost Neutral No Climb", AutonChoices.OutpostNeutralNoClimb);
+        this.autoChooser.addOption("Depot Neutral Climb", AutonChoices.DepotNeutralClimb);
+        this.autoChooser.addOption("Depot Neutral No Climb", AutonChoices.DepotNeutralNoClimb);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -72,6 +78,10 @@ public class AutonSelector {
 
                 case OutpostNeutralNoClimb:
                     return new OutpostNeutralNoClimb(alliance);
+                case DepotNeutralClimb:
+                    return new DepotNeutralClimb(alliance);
+                case DepotNeutralNoClimb:
+                    return new DepotNeutralNoClimb(alliance);
                 default:
                     return null;
             }

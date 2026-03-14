@@ -1,4 +1,4 @@
-package frc.robot.autons;
+package frc.robot.autons.outpost;
 
 import java.io.IOException;
 import java.util.Optional;

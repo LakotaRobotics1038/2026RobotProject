@@ -1,4 +1,4 @@
-package frc.robot.autons;
+package frc.robot.autons.depot;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -14,22 +14,22 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class OutpostNeutralNoClimb extends OutpostNeutral {
-    public OutpostNeutralNoClimb(Optional<Alliance> alliance)
+public class DepotNeutralNoClimb extends DepotNeutral {
+    public DepotNeutralNoClimb(Optional<Alliance> alliance)
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
 
         // TODO 4 acquire from neutral again ig
-        // followPathCommand(Paths.getOutpostShootingToNeutral()),
+        // followPathCommand(Paths.getDepotShootingToNeutralPath()),
         // new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
         // .andThen(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE)
-        // .raceWith(followPathCommand(Paths.getOutpostAcquireFromNeutral())
+        // .raceWith(followPathCommand(Paths.getDepotAcquireFromNeutralPath())
         // .andThen(new WaitCommand(0.5)))),
-        // new AcquisitionPivotCommand(AcquisitionSetpoint.RAISED),
+        // new AcquisitionPivotCommand(AcquisitionSetpoint.RAISED)
 
         // TODO 5 shooting again
-        // followPathCommand(Paths.getOutpostNeutralToShooting()),
+        // , followPathCommand(Paths.getDepotNeutralToShootingPath()),
         // new AutoShootCommand().withDeadline(new WaitCommand(2))
         );
 
