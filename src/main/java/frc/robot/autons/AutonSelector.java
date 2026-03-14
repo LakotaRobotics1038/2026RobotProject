@@ -66,7 +66,7 @@ public class AutonSelector {
                 case RightTaxi:
                     return new RightTaxi(alliance);
                 case OutpostNeutralShoot:
-                    return new OutpostNeutralShootClimb(alliance);
+                    return new OutpostNeutralClimb(alliance);
                 default:
                     return null;
             }
