@@ -11,7 +11,8 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftTaxi,
-        RightTaxi, OutpostNeutralShoot
+        RightTaxi, OutpostNeutralClimb,
+        OutpostNeutralNoClimb
     }
 
     // Choosers
@@ -35,7 +36,8 @@ public class AutonSelector {
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Taxi", AutonChoices.LeftTaxi);
         this.autoChooser.addOption("Right Taxi", AutonChoices.RightTaxi);
-        this.autoChooser.addOption("Outpost Neutral Climb", AutonChoices.OutpostNeutralShoot);
+        this.autoChooser.addOption("Outpost Neutral Climb", AutonChoices.OutpostNeutralClimb);
+        this.autoChooser.addOption("Outpost Neutral No Climb", AutonChoices.OutpostNeutralNoClimb);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -65,8 +67,11 @@ public class AutonSelector {
                     return new LeftTaxi(alliance);
                 case RightTaxi:
                     return new RightTaxi(alliance);
-                case OutpostNeutralShoot:
+                case OutpostNeutralClimb:
                     return new OutpostNeutralClimb(alliance);
+
+                case OutpostNeutralNoClimb:
+                    return new OutpostNeutralNoClimb(alliance);
                 default:
                     return null;
             }
