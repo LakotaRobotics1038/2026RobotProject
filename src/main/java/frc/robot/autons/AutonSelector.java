@@ -5,6 +5,8 @@ import java.util.Optional;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.autons.middle.MiddleDepotClimb;
+import frc.robot.autons.middle.MiddleDepotNoClimb;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {

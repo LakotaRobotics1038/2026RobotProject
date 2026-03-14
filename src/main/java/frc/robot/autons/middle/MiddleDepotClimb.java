@@ -1,4 +1,4 @@
-package frc.robot.autons;
+package frc.robot.autons.middle;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.constants.ClimbConstants.ClimbSetpoint;
 
 public class MiddleDepotClimb extends MiddleDepot {
-    MiddleDepotClimb(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+    public MiddleDepotClimb(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
         // TODO climb
