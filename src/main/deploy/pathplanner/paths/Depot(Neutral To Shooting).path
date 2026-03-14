@@ -3,51 +3,55 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3,
-        "y": 2.7
+        "x": 7.494132530120482,
+        "y": 6.183
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.554807228915663,
-        "y": 1.5871927710843368
+        "x": 7.188156626506023,
+        "y": 7.291457831325301
       },
       "isLocked": false,
-      "linkedName": "outpostShooting"
+      "linkedName": "depotNeutralAcq"
     },
     {
       "anchor": {
         "x": 4.609216867469879,
-        "y": 0.6255542168674697
+        "y": 7.374
       },
       "prevControl": {
-        "x": 2.9263493975903616,
-        "y": 0.5818433734939757
+        "x": 5.983388494764704,
+        "y": 7.392402918135369
       },
       "nextControl": {
-        "x": 5.712597623730415,
-        "y": 0.6542134572898215
+        "x": 3.341602409638554,
+        "y": 7.357024096385541
       },
       "isLocked": false,
-      "linkedName": "outpostTrench"
+      "linkedName": "depotTrench"
     },
     {
       "anchor": {
-        "x": 6.805686746987951,
-        "y": 0.8987469879518073
+        "x": 2.3,
+        "y": 5.3
       },
       "prevControl": {
-        "x": 6.062602409638554,
-        "y": 0.6255542168674696
+        "x": 2.3690361445783132,
+        "y": 6.31889156626506
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpostNeutral"
+      "linkedName": "depotShooting"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9971653543307126,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 0.6876712328767064,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 1.1013698630136972,
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
@@ -63,7 +67,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.97262661489657
+    "rotation": -130.0
   },
   "reversed": false,
   "folder": null,

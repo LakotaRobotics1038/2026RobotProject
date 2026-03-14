@@ -4,49 +4,49 @@
     {
       "anchor": {
         "x": 2.3,
-        "y": 2.7
+        "y": 5.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.554807228915663,
-        "y": 1.5871927710843368
+        "x": 3.101192771084338,
+        "y": 7.3023855421686745
       },
       "isLocked": false,
-      "linkedName": "outpostShooting"
+      "linkedName": "depotShooting"
     },
     {
       "anchor": {
         "x": 4.609216867469879,
-        "y": 0.6255542168674697
+        "y": 7.374
       },
       "prevControl": {
-        "x": 2.9263493975903616,
-        "y": 0.5818433734939757
+        "x": 3.1776867469879515,
+        "y": 7.400734939759036
       },
       "nextControl": {
-        "x": 5.712597623730415,
-        "y": 0.6542134572898215
+        "x": 5.609042520720285,
+        "y": 7.355327477342782
       },
       "isLocked": false,
-      "linkedName": "outpostTrench"
+      "linkedName": "depotTrench"
     },
     {
       "anchor": {
         "x": 6.805686746987951,
-        "y": 0.8987469879518073
+        "y": 7.101
       },
       "prevControl": {
-        "x": 6.062602409638554,
-        "y": 0.6255542168674696
+        "x": 6.6199156626506035,
+        "y": 7.367951807228916
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "outpostNeutral"
+      "linkedName": "depotNeutral"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.9971653543307126,
+      "waypointRelativePos": 1.0049099836333821,
       "rotationDegrees": 0.0
     }
   ],
@@ -63,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 53.97262661489657
+    "rotation": -59.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -130.0
   },
   "useDefaultConstraints": true
 }
