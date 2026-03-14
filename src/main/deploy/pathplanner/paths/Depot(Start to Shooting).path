@@ -3,32 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 5.904636233951498
+        "x": 3.560328102710413,
+        "y": 7.4572753209700435
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1,
-        "y": 5.904636233951498
+        "x": 3.2104698795180724,
+        "y": 7.0838313253012055
       },
       "isLocked": false,
-      "linkedName": "FromDepot"
-    },
-    {
-      "anchor": {
-        "x": 1.4,
-        "y": 5.904636233951498
-      },
-      "prevControl": {
-        "x": 1.15,
-        "y": 5.904636233951498
-      },
-      "nextControl": {
-        "x": 1.65,
-        "y": 5.904636233951498
-      },
-      "isLocked": false,
-      "linkedName": "ToDepot"
+      "linkedName": "depotStart"
     },
     {
       "anchor": {
@@ -36,20 +20,15 @@
         "y": 5.3
       },
       "prevControl": {
-        "x": 1.9612385968159154,
-        "y": 5.5731898359293295
+        "x": 2.5985180722891568,
+        "y": 5.969204819277109
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "depotShooting"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.25,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],

@@ -11,37 +11,37 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Middle To Shooting"
+                  "pathName": "Outpost(Start To Shooting)"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Shooting To Depot"
+                  "pathName": "Outpost(Shooting to Neutral)"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Acquire From Depot"
+                  "pathName": "Outpost(Acquire From Neutral)"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Depot To Shooting"
+                  "pathName": "Outpost(Neutral To Shooting)"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Shooting To Prep Climb"
+                  "pathName": "Outpost(Shooting to PrepClimb)"
                 }
               },
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Prep Climb To Climb"
+                  "pathName": "Outpost(PrepClimb To Climb)"
                 }
               }
             ]

@@ -1,0 +1,56 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Middle To DepotShooting"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Shooting To Depot"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Acquire From Depot"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot To Shooting"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot(Shooting To Prep Climb)"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot(Prep Climb To Climb)"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

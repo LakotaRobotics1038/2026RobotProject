@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Start to Shooting)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Shooting to Neutral)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Acquire From Neutral)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Neutral To Shooting)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Shooting To Prep Climb)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Depot(Prep Climb To Climb)"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}
