@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Dashboard;
@@ -19,8 +18,8 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
-    private boolean isUpToSpeed = false;
     private final Timer timer = new Timer();
+    private boolean isUpToSpeed = false;
 
     public ShootCommand() {
         addRequirements(acquisition, kicker, shooter);
@@ -46,8 +45,6 @@ public class ShootCommand extends Command {
             double farDistance = shooter.getFarShooter().getHubDistance(robotPose);
             double nearDistance = shooter.getNearShooter().getHubDistance(robotPose);
 
-            // SmartDashboard.putNumber("FAR", farShooterHubDistance);
-            // SmartDashboard.putNumber("NEAR", nearShooterHubDistance);
             // double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
             // double maxDistance = Math.max(nearShooterHubDistance, farShooterHubDistance);
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
@@ -65,15 +62,6 @@ public class ShootCommand extends Command {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
-                if (timer.get() >= 4) {
-                    acquisition.setPivot(AcquisitionSetpoint.RAISED);
-                } else if (timer.get() >= 1.5) {
-                    if (timer.get() % 1 <= 0.5) {
-                        acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
-                    } else {
-                        acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
-                    }
-                }
                 // if (timer.get() % 2 <= 0.1) {
                 // acquisition.stopIntake();
                 // // acquisition.acquireSlow();
@@ -95,7 +83,6 @@ public class ShootCommand extends Command {
         shooter.getNearShooter().stop();
         kicker.stop();
         acquisition.stopIntake();
-        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
         timer.stop();
         timer.reset();
     }

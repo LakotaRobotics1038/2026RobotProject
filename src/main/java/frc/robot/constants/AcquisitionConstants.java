@@ -30,7 +30,7 @@ public final class AcquisitionConstants {
     public enum AcquisitionSetpoint {
         RAISED(105),
         LOW_RAISE(30),
-        HIGH_RAISE(65),
+        HIGH_RAISE(55),
         LOWERED(0);
 
         private final double degrees;

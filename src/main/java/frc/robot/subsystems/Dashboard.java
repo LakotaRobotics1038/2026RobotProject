@@ -46,8 +46,6 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
         SmartDashboard.putNumber(DashboardConstants.ACQUISITION_RPM, 0);
-        SmartDashboard.putNumber("FAR", 0);
-        SmartDashboard.putNumber("NEAR", 0);
 
         SmartDashboard.putData(field);
 
@@ -58,8 +56,6 @@ public class Dashboard extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("FAR", shooter.getNearShooter().getHubDistance(driveTrain.getState().Pose));
-        SmartDashboard.putNumber("NEAR", shooter.getFarShooter().getHubDistance(driveTrain.getState().Pose));
         // Controls Tab
         manualModeEnabled = SmartDashboard.getBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         manualShooterRPM = MathUtil.clamp(

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
+import frc.robot.commands.AcquisitionWiggleCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ZeroClimbCommand;
 import frc.robot.constants.AcquisitionConstants;
@@ -49,6 +50,7 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
+        this.b().whileTrue(new AcquisitionWiggleCommand());
 
         this.rightTrigger().whileTrue(new ShootCommand());
 
