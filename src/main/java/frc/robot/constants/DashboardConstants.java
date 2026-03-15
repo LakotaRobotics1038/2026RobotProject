@@ -10,4 +10,5 @@ public final class DashboardConstants {
     public static final String HUB_ALIGNED = "Hub Aligned";
     public static final String MANUAL_MODE_ENABLED = "Manual Mode";
     public static final String MANUAL_SHOOTER_RPM = "Manual Shoot RPM";
+    public static final String ACQUISITION_RPM = "Acquisition RPM";
 }

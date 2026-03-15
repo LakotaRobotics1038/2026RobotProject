@@ -33,25 +33,27 @@ public final class ShooterConstants {
 
     public static final int SERVO_HUB_CAN_ID = 17;
 
-    public static final double RPM_TOLERANCE = 50;
+    public static final double OPERATING_TOLERANCE = 75;
 
-    public static final double P = 0.0001;
-    public static final double I = 0.00000001;
+    public static final double NEAR_SHOOTER_PERCENTAGE = 0.95;
+
+    public static final double P = 0.000175;
+    public static final double I = 0.0;
     public static final double D = 0.0;
 
     public static final double S = 0.0;
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double SHOOTER_ANGLE_MIN_DEG = 49.0;
+    public static final double SHOOTER_ANGLE_MIN_DEG = 54.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 73.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
-    public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
+    public static final double MANUAL_SHOOTER_ANGLE_DEG = 59;
     public static final double MANUAL_SHOOTER_RPM = 2900.0;
     public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
     public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
     // Make sure there's a 0 at the end so manual mode goes by 10s
-    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10 * 10;
+    public static final double MANUAL_SHOOTER_MAX_RPM = (int) (NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10) * 10;
 
     /**
      * List of angles and their corresponding shooter formulas. The formula is used
@@ -61,26 +63,36 @@ public final class ShooterConstants {
      */
     public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
             new ShooterFormula(
-                    66.3,
+                    59,
+                    397.69,
+                    1699.3,
+                    1.524,
+                    2.286),
+            new ShooterFormula(
+                    68,
                     393.7,
                     2150,
-                    2.286));
+                    2.286,
+                    10.0));
 
     public static final class ShooterFormula {
         private final double shooterSlope;
         private final double shooterYIntercept;
         private final double min;
+        private final double max;
         private final double angle;
 
         private ShooterFormula(
                 double angle,
                 double shooterSlope,
                 double shooterYIntercept,
-                double min) {
+                double min,
+                double max) {
             this.angle = angle;
             this.shooterSlope = shooterSlope;
             this.shooterYIntercept = shooterYIntercept;
             this.min = min;
+            this.max = max;
         }
 
         public double getAngle() {
@@ -89,6 +101,10 @@ public final class ShooterConstants {
 
         public double getMin() {
             return min;
+        }
+
+        public double getMax() {
+            return max;
         }
 
         public double getShooterRPM(double distance) {

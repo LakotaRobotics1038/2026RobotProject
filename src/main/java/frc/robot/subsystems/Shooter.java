@@ -6,6 +6,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.ServoHub;
+import com.revrobotics.servohub.ServoChannel.ChannelId;
 import com.revrobotics.servohub.ServoHub.Bank;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 import com.revrobotics.servohub.config.ServoHubConfig;
@@ -39,9 +40,10 @@ public class Shooter extends SubsystemBase {
         nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
-        // servoHub.setBankPulsePeriod(Bank.kBank0_2, 20000);
         nearShooter.enableServo();
         farShooter.enableServo();
+        farShooter.setAngle(73);
+        nearShooter.setAngle(73);
     }
 
     public static Shooter getInstance() {
@@ -96,8 +98,7 @@ public class Shooter extends SubsystemBase {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
                     .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                    .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
-                    .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0).feedForward
+                    .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
@@ -171,7 +172,7 @@ public class Shooter extends SubsystemBase {
          * @return Whether the shooter is at the target RPM.
          */
         public boolean isAtTargetRPM() {
-            return controller.isAtSetpoint();
+            return Math.abs(getRPM() - getTargetRPM()) <= ShooterConstants.OPERATING_TOLERANCE;
         }
 
         /**
@@ -181,9 +182,12 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
+            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
+                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            return fieldPosition.getDistance(FieldConstants.HUB_POSITION);
+            return fieldPosition.getDistance(hubPosition);
         }
 
         /**
@@ -218,7 +222,7 @@ public class Shooter extends SubsystemBase {
                     ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
                     ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
             // Sets the angle to a value between 0 and 1.
-            double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
+            double normalized = (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - clampedAngle)
                     / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
                     + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));

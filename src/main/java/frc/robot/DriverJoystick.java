@@ -4,14 +4,13 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.RetractHoodsCommand;
-import frc.robot.commands.AutoShootCommand;
+import frc.robot.commands.ShootCommand;
+import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.HubAlignCommand;
-import frc.robot.commands.ManualShootCommand;
 import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -99,7 +98,8 @@ public class DriverJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
 
-        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).onTrue(new RetractHoodsCommand());
+        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).onTrue(new RetractHoodsCommand())
+                .onTrue(new AcquisitionTrenchRetract());
 
         this.x().whileTrue(this.driveTrain.setX());
         this.b().and(dashboard::isManualModeEnabled).onTrue(new RetractHoodsCommand());
@@ -112,9 +112,7 @@ public class DriverJoystick extends XboxController1038 {
                 this::getSidewaysValue,
                 aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
 
-        this.rightTrigger().whileTrue(
-                new ConditionalCommand(new ManualShootCommand(), new AutoShootCommand(),
-                        dashboard::isManualModeEnabled));
+        this.rightTrigger().whileTrue(new ShootCommand());
     }
 
     /**

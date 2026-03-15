@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -21,12 +22,11 @@ public class Acquisition extends SubsystemBase {
     private final SparkMax pivotMotor = new SparkMax(AcquisitionConstants.PIVOT_MOTOR_CAN_ID, MotorType.kBrushless);
     private final SparkMax intakeMotor = new SparkMax(AcquisitionConstants.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
 
+    private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     private final AbsoluteEncoder pivotEncoder = pivotMotor.getAbsoluteEncoder();
 
     private final SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intakeMotor.getClosedLoopController();
-
-    private AcquisitionSetpoint setpoint = AcquisitionSetpoint.RAISED;
 
     private static Acquisition instance = null;
 
@@ -71,8 +71,11 @@ public class Acquisition extends SubsystemBase {
      * @param setpoint The setpoint for the pivot motor to go to.
      */
     public void setPivot(AcquisitionSetpoint setpoint) {
-        this.setpoint = setpoint;
-        pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
+        setPivotDegrees(setpoint.getDegrees());
+    }
+
+    public void setPivotDegrees(double degrees) {
+        pivotController.setSetpoint(degrees, ControlType.kPosition);
     }
 
     /**
@@ -81,6 +84,10 @@ public class Acquisition extends SubsystemBase {
      */
     public void acquire() {
         intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+    }
+
+    public void acquireSlow() {
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_SLOW_ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     /**
@@ -105,21 +112,18 @@ public class Acquisition extends SubsystemBase {
     /**
      * Gets if the pivot motor is at the setpoint.
      */
-    public boolean atSetpoint() {
+    public boolean pivotAtSetpoint() {
         return pivotController.isAtSetpoint();
     }
 
-    /**
-     * Gets the setpoint of the pivot motor.
-     */
-    public AcquisitionSetpoint getSetpoint() {
-        return setpoint;
+    public double getIntakeRPM() {
+        return intakeEncoder.getVelocity();
     }
 
     /**
      * Gets the position of the pivot encoder.
      */
-    public double getPosition() {
+    public double getPivotPosition() {
         return pivotEncoder.getPosition();
     }
 }

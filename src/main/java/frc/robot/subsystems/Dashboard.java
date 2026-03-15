@@ -16,6 +16,8 @@ import frc.robot.constants.ShooterConstants;
 public class Dashboard extends SubsystemBase {
     // Inputs
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
+    private final Shooter shooter = Shooter.getInstance();
 
     // Choosers
     private final SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
@@ -24,7 +26,7 @@ public class Dashboard extends SubsystemBase {
     // Variables
     private final Field2d field = new Field2d();
     private boolean hubAligned = false;
-    private boolean manualModeEnabled = false;
+    private boolean manualModeEnabled = true;
     private double manualShooterRPM = ShooterConstants.MANUAL_SHOOTER_RPM;
 
     // Singleton Setup
@@ -43,20 +45,21 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
+        SmartDashboard.putNumber(DashboardConstants.ACQUISITION_RPM, 0);
+        SmartDashboard.putNumber("FAR", 0);
+        SmartDashboard.putNumber("NEAR", 0);
 
         SmartDashboard.putData(field);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) ->
-            field.getObject("target pose").setPose(pose)
-        );
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
 
-        PathPlannerLogging.setLogActivePathCallback((poses) ->
-            field.getObject("poses").setPoses(poses)
-        );
+        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("poses").setPoses(poses));
     }
 
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("FAR", shooter.getNearShooter().getHubDistance(driveTrain.getState().Pose));
+        SmartDashboard.putNumber("NEAR", shooter.getFarShooter().getHubDistance(driveTrain.getState().Pose));
         // Controls Tab
         manualModeEnabled = SmartDashboard.getBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         manualShooterRPM = MathUtil.clamp(
@@ -69,6 +72,7 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
         SmartDashboard.putBoolean(DashboardConstants.HUB_ALIGNED, hubAligned);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
+        SmartDashboard.putNumber(DashboardConstants.ACQUISITION_RPM, acquisition.getIntakeRPM());
 
         field.setRobotPose(driveTrain.getState().Pose);
     }
