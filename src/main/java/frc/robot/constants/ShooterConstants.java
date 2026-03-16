@@ -2,9 +2,6 @@ package frc.robot.constants;
 
 import java.util.List;
 
-import com.revrobotics.servohub.ServoChannel;
-import com.revrobotics.servohub.config.ServoChannelConfig;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,26 +10,18 @@ public final class ShooterConstants {
     public record ShooterModuleConstants(
             int leftMotorCanId,
             int rightMotorCanId,
-            Translation2d translation,
-            ServoChannel.ChannelId servoChannelID,
-            ServoChannelConfig.PulseRange servoPulseRange) {
+            Translation2d translation) {
     }
 
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
             6,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)),
-            ServoChannel.ChannelId.kChannelId1,
-            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
             13,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)),
-            ServoChannel.ChannelId.kChannelId0,
-            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
-
-    public static final int SERVO_HUB_CAN_ID = 17;
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
 
     public static final double OPERATING_TOLERANCE = 75;
 
@@ -46,8 +35,6 @@ public final class ShooterConstants {
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double SHOOTER_NO_RETRACTION_ANGLE = 54.0;
-    public static final double SHOOTER_FULL_RETRACTION_ANGLE = 73.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
     public static final double MANUAL_SHOOTER_ANGLE_DEG = 59;
     public static final double MANUAL_SHOOTER_RPM = 2900.0;

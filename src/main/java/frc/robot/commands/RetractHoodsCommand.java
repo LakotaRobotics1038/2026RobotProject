@@ -1,20 +1,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Shooter;
+import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.subsystems.ShooterHoods;
 
 public class RetractHoodsCommand extends Command {
-    private final Shooter shooter = Shooter.getInstance();
+    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
 
     public RetractHoodsCommand() {
-        addRequirements(shooter);
+        addRequirements(shooterHoods);
     }
 
     @Override
     public void initialize() {
-        shooter.getNearShooter().setAngle(ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE);
-        shooter.getFarShooter().setAngle(ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        shooterHoods.getNearHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        shooterHoods.getFarHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
     }
 
     @Override

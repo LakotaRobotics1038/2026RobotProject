@@ -12,6 +12,7 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.ShooterHoods;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -19,6 +20,7 @@ public class ShootCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
+    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
@@ -26,7 +28,7 @@ public class ShootCommand extends Command {
     private static boolean wiggleAcquisition = false;
 
     public ShootCommand() {
-        addRequirements(acquisition, kicker, shooter);
+        addRequirements(acquisition, kicker, shooter, shooterHoods);
     }
 
     @Override
@@ -39,10 +41,10 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooter.getNearShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
+            shooterHoods.getNearHood().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
             shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
 
-            shooter.getFarShooter().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
+            shooterHoods.getFarHood().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
             shooter.getFarShooter().start(targetRPM);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
@@ -53,9 +55,9 @@ public class ShootCommand extends Command {
                     double targetRPM = formula.getShooterRPM(distance);
                     double angle = formula.getAngle();
                     SmartDashboard.putNumber(DashboardConstants.ANGLE, angle);
-                    shooter.getFarShooter().setAngle(angle);
+                    shooterHoods.getFarHood().setAngle(angle);
                     shooter.getFarShooter().start(targetRPM);
-                    shooter.getNearShooter().setAngle(angle);
+                    shooterHoods.getNearHood().setAngle(angle);
                     shooter.getNearShooter()
                             .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
                     break;

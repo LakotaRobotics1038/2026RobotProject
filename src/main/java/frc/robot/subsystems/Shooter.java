@@ -4,18 +4,12 @@ import com.pathplanner.lib.util.FlippingUtil;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.servohub.ServoChannel;
-import com.revrobotics.servohub.ServoHub;
-import com.revrobotics.servohub.config.ServoChannelConfig;
-import com.revrobotics.servohub.config.ServoHubConfig;
-import com.revrobotics.servohub.config.ServoChannelConfig.BehaviorWhenDisabled;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -32,13 +26,8 @@ public class Shooter extends SubsystemBase {
     private final ShooterModule farShooter;
 
     private Shooter() {
-        ServoHub servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
-        ServoHubConfig servoHubConfig = new ServoHubConfig();
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
-        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
-        servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
-        nearShooter.enableServo();
-        farShooter.enableServo();
+        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);
+        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
     }
 
     public static Shooter getInstance() {
@@ -75,21 +64,14 @@ public class Shooter extends SubsystemBase {
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
         private final Translation2d translation;
-        private final ServoChannel servoChannel;
-        private final ServoChannelConfig.PulseRange servoPulseRange;
 
         /**
          * Creates and configures a shooter module.
          *
          * @param moduleConstants configuration for this shooter module. See
          *                        {@link ShooterConstants.ShooterModuleConstants}.
-         * @param servoHub        ServoHub used to get and control the servo channel for
-         *                        this module.
-         * @param servoHubConfig  Configuration object whose channel settings are
-         *                        updated for this module.
          */
-        private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
-                ServoHubConfig servoHubConfig) {
+        private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
                     .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
@@ -110,20 +92,6 @@ public class Shooter extends SubsystemBase {
             encoder = leftMotor.getEncoder();
 
             translation = moduleConstants.translation();
-            servoChannel = servoHub.getServoChannel(moduleConstants.servoChannelID());
-            servoPulseRange = moduleConstants.servoPulseRange();
-
-            ServoChannelConfig channelConfig;
-            switch (moduleConstants.servoChannelID()) {
-                case kChannelId0 -> channelConfig = servoHubConfig.channel0;
-                case kChannelId1 -> channelConfig = servoHubConfig.channel1;
-                case kChannelId2 -> channelConfig = servoHubConfig.channel2;
-                case kChannelId3 -> channelConfig = servoHubConfig.channel3;
-                case kChannelId4 -> channelConfig = servoHubConfig.channel4;
-                case kChannelId5 -> channelConfig = servoHubConfig.channel5;
-                default -> throw new IllegalArgumentException("Invalid servo channel ID"); // Will never get called
-            }
-            channelConfig.pulseRange(servoPulseRange).disableBehavior(BehaviorWhenDisabled.kSupplyPower);
         }
 
         /**
@@ -201,30 +169,5 @@ public class Shooter extends SubsystemBase {
             return toTargetFromModule.getAngle().getRadians();
         }
 
-        public void enableServo() {
-            servoChannel.setEnabled(true);
-            servoChannel.setPowered(true);
-        }
-
-        /**
-         * Sets the hood angle by converting the given degrees to pulse width.
-         *
-         * @param angle Angle in degrees.
-         */
-        public void setAngle(double angle) {
-            double clampedAngle = MathUtil.clamp(
-                    angle,
-                    ShooterConstants.SHOOTER_NO_RETRACTION_ANGLE,
-                    ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE);
-            // Sets the angle to a value between 0 and 1.
-            double normalized = (ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE - clampedAngle)
-                    / (ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE - ShooterConstants.SHOOTER_NO_RETRACTION_ANGLE);
-            servoChannel.setPulseWidth(servoPulseRange.minPulse_us
-                    + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
-        }
-
-        public void setPulseWidth(int pulseWidth_us) {
-            servoChannel.setPulseWidth(pulseWidth_us);
-        }
     }
 }
