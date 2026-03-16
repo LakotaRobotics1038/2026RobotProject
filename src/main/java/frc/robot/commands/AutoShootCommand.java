@@ -2,11 +2,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
-import frc.robot.utils.AutoShootUtils;
 
 public class AutoShootCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
@@ -47,19 +47,21 @@ public class AutoShootCommand extends Command {
      * fails. If distances overlap, lesser
      * angles will be preferred.
      *
-     * @param nearShooterHubDistance The distance from the near shooter module to the hub.
-     * @param farShooterHubDistance The distance from the far shooter module to the hub.
+     * @param nearShooterHubDistance The distance from the near shooter module to
+     *                               the hub.
+     * @param farShooterHubDistance  The distance from the far shooter module to the
+     *                               hub.
      */
     private void autoShoot(double nearShooterHubDistance, double farShooterHubDistance) {
         double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
         double maxDistance = Math.max(nearShooterHubDistance, farShooterHubDistance);
-        for (AutoShootUtils.AutoShootFormula formula : AutoShootUtils.AUTO_SHOOT_FORMULAS) {
+        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
             if (formula.getMin() <= minDistance && formula.getMax() >= maxDistance) {
                 shooter.getNearShooter().setAngle(formula.getAngle());
                 shooter.getNearShooter().start(formula.getShooterRPM(nearShooterHubDistance));
                 shooter.getFarShooter().setAngle(formula.getAngle());
                 shooter.getFarShooter().start(formula.getShooterRPM(farShooterHubDistance));
-                kicker.start(formula.getKickerRPM(minDistance)); // TODO Should this be based on min or max? Does it matter?
+                kicker.start();
                 break;
             }
         }

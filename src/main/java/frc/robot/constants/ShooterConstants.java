@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import java.util.List;
+
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 
@@ -18,20 +20,18 @@ public final class ShooterConstants {
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
             6,
-            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(7.826)),
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)),
             ServoChannel.ChannelId.kChannelId1,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
             13,
-            new Translation2d(Units.inchesToMeters(13.5), Units.inchesToMeters(-8.635)),
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)),
             ServoChannel.ChannelId.kChannelId0,
             new ServoChannelConfig.PulseRange(1000, 1500, 2000));
 
     public static final int SERVO_HUB_CAN_ID = 17;
-
-    public static final double VELOCITY_CONVERSION_FACTOR = 1;
 
     public static final double RPM_TOLERANCE = 25;
 
@@ -46,4 +46,61 @@ public final class ShooterConstants {
     public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
     public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
+    public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
+    public static final double MANUAL_SHOOTER_RPM = 3200.0;
+    public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
+    public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
+    // Make sure there's a 0 at the end so manual mode goes by 10s
+    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10 * 10;
+
+    /**
+     * List of angles and their corresponding shooter formulas. The formula is used
+     * to calculate the RPM of the shooter
+     * based on the distance to the target. The min and max values represent the
+     * range of that angle.
+     */
+    public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
+            new ShooterFormula(
+                    66.3,
+                    393.7,
+                    2150,
+                    1.7,
+                    3.25));
+
+    public static final class ShooterFormula {
+        private final double shooterSlope;
+        private final double shooterYIntercept;
+        private final double min;
+        private final double max;
+        private final double angle;
+
+        private ShooterFormula(
+                double angle,
+                double shooterSlope,
+                double shooterYIntercept,
+                double min,
+                double max) {
+            this.angle = angle;
+            this.shooterSlope = shooterSlope;
+            this.shooterYIntercept = shooterYIntercept;
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getAngle() {
+            return angle;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public double getShooterRPM(double distance) {
+            return shooterSlope * distance + shooterYIntercept;
+        }
+    }
 }

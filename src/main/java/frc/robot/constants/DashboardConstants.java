@@ -8,4 +8,6 @@ public final class DashboardConstants {
     public static final String ROBOT_Y = "Y Pos";
     public static final String ROBOT_ROT = "Rot";
     public static final String HUB_ALIGNED = "Hub Aligned";
+    public static final String MANUAL_MODE_ENABLED = "Manual Mode";
+    public static final String MANUAL_SHOOTER_RPM = "Manual Shoot RPM";
 }

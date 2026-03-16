@@ -7,12 +7,13 @@ public final class AcquisitionConstants {
     public static final int PIVOT_MOTOR_CAN_ID = 4;
     public static final int INTAKE_MOTOR_CAN_ID = 3;
 
-    public static final double PIVOT_P = 0;
+    public static final double PIVOT_P = 0.01;
     public static final double PIVOT_I = 0;
     public static final double PIVOT_D = 0;
 
-    public static final double PIVOT_ENCODER_CONVERSION_FACTOR = 360;
+    public static final double PIVOT_ENCODER_CONVERSION_FACTOR = 360 / 2;
     public static final double PIVOT_ALLOWED_ERROR_DEGREES = 2.0;
+    public static final double PIVOT_POWER = 0.85;
 
     public static final double INTAKE_P = 0.0;
     public static final double INTAKE_I = 0.0;
@@ -25,8 +26,8 @@ public final class AcquisitionConstants {
     public static final double INTAKE_DISPOSE_RPM = -1000;
 
     public enum AcquisitionSetpoint {
-        RAISED(0),
-        LOWERED(90);
+        RAISED(105),
+        LOWERED(0);
 
         private final double degrees;
 

@@ -12,6 +12,7 @@ import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
+import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -85,14 +86,14 @@ public class Shooter extends SubsystemBase {
         private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
                 ServoHubConfig servoHubConfig) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
-            baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
+            baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
+                    .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
                     .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
-            baseConfig.encoder.velocityConversionFactor(ShooterConstants.VELOCITY_CONVERSION_FACTOR);
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
-            leftMotorConfig.apply(baseConfig);
+            leftMotorConfig.inverted(true).apply(baseConfig);
             leftMotor = new SparkFlex(moduleConstants.leftMotorCanId(), SparkLowLevel.MotorType.kBrushless);
             leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -172,7 +173,8 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
-            Translation2d fieldPosition = robotPose.getTranslation().plus(translation.rotateBy(robotPose.getRotation()));
+            Translation2d fieldPosition = robotPose.getTranslation()
+                    .plus(translation.rotateBy(robotPose.getRotation()));
             return fieldPosition.getDistance(FieldConstants.HUB_POSITION);
         }
 
