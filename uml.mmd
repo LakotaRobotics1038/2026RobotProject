@@ -2,23 +2,23 @@ classDiagram
   direction BT
   class Acquisition {
     - instance : Acquisition 
-    - Acquisition()
-    - SparkClosedLoopController pivotController
-    
-    - SparkClosedLoopController intakeController
-    - AcquisitionSetpoint setpoint
-    - AbsoluteEncoder pivotEncoder
-    - SparkMax pivotMotor
-    - SparkMax intakeMotor
-    + atSetpoint() boolean
-    + getSetpoint() AcquisitionSetpoint
-    + stopIntake() void
-    + getInstance() Acquisition
-    + dispose() void
-    + getPosition() double
-    + setPivot(AcquisitionSetpoint) void
-    - isIntakeAllowed() boolean
-    + acquire() void
+    - intakeMotor : SparkMax 
+    - pivotMotor : SparkMax
+    - intakeEncoder : RelativeEncoder 
+    - pivotEncoder : AbsoluteEncoder 
+    - intakeController : SparkClosedLoopController 
+    - pivotController : SparkClosedLoopController 
+    - Acquisition() : void
+    + acquire() : void
+    + dispose() : void
+    + getInstance() : Acquisition
+    + getIntakeRPM() : double
+    + getPivotPosition() : double
+    + setPivot(AcquisitionSetpoint setpoint) : void
+    + setPivotDegrees(double degrees) : void
+    + stopIntake() : void
+    + stopPivot() : void
+    + pivotAtSetpoint() : boolean
   }
   class AcquisitionConstants {
     - AcquisitionConstants()
