@@ -38,12 +38,12 @@ public class Paths {
         return PathPlannerPath.fromPathFile("Depot To Shooting");
     }
 
-    public static PathPlannerPath getShootingToPrepClimb()
+    public static PathPlannerPath getDepotShootingToPrepClimbPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Shooting To Prep Climb");
+        return PathPlannerPath.fromPathFile("Depot(Shooting To Prep Climb)");
     }
 
-    public static PathPlannerPath getPrepClimbToClimb() throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Prep Climb To Climb");
+    public static PathPlannerPath getDepotClimbPath() throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot(Prep Climb To Climb)");
     }
 }
