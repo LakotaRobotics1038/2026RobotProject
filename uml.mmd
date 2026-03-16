@@ -1,9 +1,10 @@
 classDiagram
   direction BT
   class Acquisition {
+    - instance : Acquisition 
     - Acquisition()
     - SparkClosedLoopController pivotController
-    - Acquisition instance
+    
     - SparkClosedLoopController intakeController
     - AcquisitionSetpoint setpoint
     - AbsoluteEncoder pivotEncoder
