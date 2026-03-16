@@ -2,9 +2,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.commands.AcquisitionWiggleCommand;
+import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ZeroClimbCommand;
 import frc.robot.constants.AcquisitionConstants;
@@ -12,12 +13,12 @@ import frc.robot.constants.IOConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.DriveTrain;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
-    private final Shooter shooter = Shooter.getInstance();
+    private final DriveTrain driveTrain = DriveTrain.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -50,13 +51,14 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        this.b().whileTrue(new AcquisitionWiggleCommand());
+        this.b().whileTrue(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(true)))
+                .whileFalse(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(false)));
+        this.x().onTrue(new RetractHoodsCommand());
+        // this.y().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        // this.a().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        // this.b().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        // this.x().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         this.rightTrigger().whileTrue(new ShootCommand());
-
-        this.leftTrigger().onTrue(new InstantCommand(() -> {
-            shooter.getNearShooter().setPulseWidth(1500);
-            shooter.getFarShooter().setPulseWidth(1500);
-        }));
     }
 }

@@ -102,7 +102,6 @@ public class DriverJoystick extends XboxController1038 {
                 .onTrue(new AcquisitionTrenchRetract());
 
         this.x().whileTrue(this.driveTrain.setX());
-        this.b().and(dashboard::isManualModeEnabled).onTrue(new RetractHoodsCommand());
 
         this.leftBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.DOWN));
         this.rightBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.UP));

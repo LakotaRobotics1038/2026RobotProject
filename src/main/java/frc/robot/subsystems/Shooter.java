@@ -6,12 +6,9 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.servohub.ServoChannel;
 import com.revrobotics.servohub.ServoHub;
-import com.revrobotics.servohub.ServoChannel.ChannelId;
-import com.revrobotics.servohub.ServoHub.Bank;
 import com.revrobotics.servohub.config.ServoChannelConfig;
 import com.revrobotics.servohub.config.ServoHubConfig;
 import com.revrobotics.servohub.config.ServoChannelConfig.BehaviorWhenDisabled;
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
@@ -42,8 +39,6 @@ public class Shooter extends SubsystemBase {
         servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
         nearShooter.enableServo();
         farShooter.enableServo();
-        farShooter.setAngle(73);
-        nearShooter.setAngle(73);
     }
 
     public static Shooter getInstance() {
@@ -219,11 +214,11 @@ public class Shooter extends SubsystemBase {
         public void setAngle(double angle) {
             double clampedAngle = MathUtil.clamp(
                     angle,
-                    ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
-                    ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
+                    ShooterConstants.SHOOTER_NO_RETRACTION_ANGLE,
+                    ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE);
             // Sets the angle to a value between 0 and 1.
-            double normalized = (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - clampedAngle)
-                    / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
+            double normalized = (ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE - clampedAngle)
+                    / (ShooterConstants.SHOOTER_FULL_RETRACTION_ANGLE - ShooterConstants.SHOOTER_NO_RETRACTION_ANGLE);
             servoChannel.setPulseWidth(servoPulseRange.minPulse_us
                     + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
         }

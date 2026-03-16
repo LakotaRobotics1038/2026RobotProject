@@ -2,7 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
+import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Dashboard;
@@ -20,6 +23,7 @@ public class ShootCommand extends Command {
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
     private boolean isUpToSpeed = false;
+    private static boolean wiggleAcquisition = false;
 
     public ShootCommand() {
         addRequirements(acquisition, kicker, shooter);
@@ -42,19 +46,20 @@ public class ShootCommand extends Command {
             shooter.getFarShooter().start(targetRPM);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double farDistance = shooter.getFarShooter().getHubDistance(robotPose);
-            double nearDistance = shooter.getNearShooter().getHubDistance(robotPose);
+            double distance = shooter.getFarShooter().getHubDistance(robotPose);
 
-            // double minDistance = Math.min(nearShooterHubDistance, farShooterHubDistance);
-            // double maxDistance = Math.max(nearShooterHubDistance, farShooterHubDistance);
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-                // if (formula.getMin() <= minDistance && formula.getMax() >= maxDistance) {
-                shooter.getNearShooter().setAngle(formula.getAngle());
-                shooter.getNearShooter().start(formula.getShooterRPM(nearDistance));
-                shooter.getFarShooter().setAngle(formula.getAngle());
-                shooter.getFarShooter().start(formula.getShooterRPM(farDistance));
-                break;
-                // }
+                if (formula.getMin() <= distance && formula.getMax() >= distance) {
+                    double targetRPM = formula.getShooterRPM(distance);
+                    double angle = formula.getAngle();
+                    SmartDashboard.putNumber(DashboardConstants.ANGLE, angle);
+                    shooter.getFarShooter().setAngle(angle);
+                    shooter.getFarShooter().start(targetRPM);
+                    shooter.getNearShooter().setAngle(angle);
+                    shooter.getNearShooter()
+                            .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+                    break;
+                }
             }
         }
 
@@ -62,12 +67,13 @@ public class ShootCommand extends Command {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
-                // if (timer.get() % 2 <= 0.1) {
-                // acquisition.stopIntake();
-                // // acquisition.acquireSlow();
-                // } else {
-                // acquisition.acquire();
-                // }
+                if (wiggleAcquisition) {
+                    if (timer.get() % 1 <= 0.5) {
+                        acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
+                    } else {
+                        acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
+                    }
+                }
             } else {
                 isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
                         shooter.getFarShooter().isAtTargetRPM();
@@ -85,5 +91,9 @@ public class ShootCommand extends Command {
         acquisition.stopIntake();
         timer.stop();
         timer.reset();
+    }
+
+    public static void setAcquisitionWiggle(boolean wiggleAcquisition) {
+        ShootCommand.wiggleAcquisition = wiggleAcquisition;
     }
 }

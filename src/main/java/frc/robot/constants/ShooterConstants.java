@@ -7,6 +7,7 @@ import com.revrobotics.servohub.config.ServoChannelConfig;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class ShooterConstants {
     public record ShooterModuleConstants(
@@ -45,8 +46,8 @@ public final class ShooterConstants {
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double SHOOTER_ANGLE_MIN_DEG = 54.0;
-    public static final double SHOOTER_ANGLE_MAX_DEG = 73.0;
+    public static final double SHOOTER_NO_RETRACTION_ANGLE = 54.0;
+    public static final double SHOOTER_FULL_RETRACTION_ANGLE = 73.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
     public static final double MANUAL_SHOOTER_ANGLE_DEG = 59;
     public static final double MANUAL_SHOOTER_RPM = 2900.0;
@@ -63,21 +64,21 @@ public final class ShooterConstants {
      */
     public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
             new ShooterFormula(
-                    59,
-                    397.69,
-                    1699.3,
-                    1.524,
-                    2.286),
-            new ShooterFormula(
                     68,
                     393.7,
                     2150,
+                    1.524,
+                    2.286),
+            new ShooterFormula(
+                    59,
+                    397.69,
+                    1799.3,
                     2.286,
-                    10.0));
+                    10000.0));
 
     public static final class ShooterFormula {
-        private final double shooterSlope;
-        private final double shooterYIntercept;
+        private final double slope;
+        private final double yIntercept;
         private final double min;
         private final double max;
         private final double angle;
@@ -89,8 +90,8 @@ public final class ShooterConstants {
                 double min,
                 double max) {
             this.angle = angle;
-            this.shooterSlope = shooterSlope;
-            this.shooterYIntercept = shooterYIntercept;
+            this.slope = shooterSlope;
+            this.yIntercept = shooterYIntercept;
             this.min = min;
             this.max = max;
         }
@@ -107,8 +108,22 @@ public final class ShooterConstants {
             return max;
         }
 
+        public double getSlope() {
+            return slope;
+        }
+
+        public double getYIntercept() {
+            return yIntercept;
+        }
+
         public double getShooterRPM(double distance) {
-            return shooterSlope * distance + shooterYIntercept;
+            if (angle == 59) {
+                return SmartDashboard.getNumber(DashboardConstants.SLOPE_59, slope) * distance
+                        + SmartDashboard.getNumber(DashboardConstants.INTERCEPT_59, yIntercept);
+            } else {
+                return SmartDashboard.getNumber(DashboardConstants.SLOPE_68, slope) * distance
+                        + SmartDashboard.getNumber(DashboardConstants.INTERCEPT_68, yIntercept);
+            }
         }
     }
 }

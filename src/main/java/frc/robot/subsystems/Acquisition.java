@@ -48,10 +48,7 @@ public class Acquisition extends SubsystemBase {
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
-        intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast).closedLoop
-                .pid(AcquisitionConstants.INTAKE_P, AcquisitionConstants.INTAKE_I,
-                        AcquisitionConstants.INTAKE_D).feedForward
-                .sva(AcquisitionConstants.INTAKE_S, AcquisitionConstants.INTAKE_V, AcquisitionConstants.INTAKE_A);
+        intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast);
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -79,23 +76,19 @@ public class Acquisition extends SubsystemBase {
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake power to
+     * {@link AcquisitionConstants#INTAKE_ACQUIRE_DUTY_CYCLE}.
      */
     public void acquire() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
-    }
-
-    public void acquireSlow() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_SLOW_ACQUIRE_RPM, ControlType.kVelocity);
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_DUTY_CYCLE, ControlType.kDutyCycle);
     }
 
     /**
-     * Sets the Acquisition's disposal RPM to
-     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's disposal power to
+     * {@link AcquisitionConstants#INTAKE_DISPOSE_DUTY_CYCLE}.
      */
     public void dispose() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_DUTY_CYCLE, ControlType.kDutyCycle);
     }
 
     /**
