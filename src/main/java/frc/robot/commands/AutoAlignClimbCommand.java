@@ -35,15 +35,21 @@ public class AutoAlignClimbCommand extends Command {
     private Optional<RobotConfig> robotConfig;
     private Supplier<Pose2d> currentPose = () -> driveTrain.getState().Pose;
     private Supplier<ChassisSpeeds> currentSpeed = () -> driveTrain.getState().Speeds;
-    private BiConsumer<ChassisSpeeds, DriveFeedforwards> controller = (ChassisSpeeds speeds,
+    private BiConsumer<ChassisSpeeds, DriveFeedforwards> output = (ChassisSpeeds speeds,
             DriveFeedforwards feedForwards) -> {
         driveTrain.setControl(
                 new SwerveRequest.ApplyRobotSpeeds().withSpeeds(speeds)
                         .withWheelForceFeedforwardsX(feedForwards.robotRelativeForcesXNewtons())
                         .withWheelForceFeedforwardsY(feedForwards.robotRelativeForcesYNewtons()));
     };
+    private PPHolonomicDriveController driveController = new PPHolonomicDriveController(
+            new PIDConstants(AutoConstants.P_X_CONTROLLER, AutoConstants.I_X_CONTROLLER,
+                    AutoConstants.D_CONTROLLER),
+            new PIDConstants(AutoConstants.P_THETA_CONTROLLER,
+                    AutoConstants.I_THETA_CONTROLLER,
+                    AutoConstants.D_THETA_CONTROLLER));
 
-    private FollowPathCommand followPathCommand;
+    private FollowPathCommand command;
     private Alliance alliance;
 
     public AutoAlignClimbCommand(Optional<Alliance> alliance) {
@@ -53,6 +59,7 @@ public class AutoAlignClimbCommand extends Command {
         path = new PathPlannerPath(waypoints, Paths.getOutpostClimb().getGlobalConstraints(),
                 new IdealStartingState(getMagnitude(), currentPose.get().getRotation()),
                 new GoalEndState(0, goal.getRotation()));
+        this.alliance = alliance.get();
         robotConfig = AutoConstants.ROBOT_CONFIG;
         addRequirements(driveTrain);
     }
@@ -66,16 +73,11 @@ public class AutoAlignClimbCommand extends Command {
 
     @Override
     public void initialize() {
-        followPathCommand = new FollowPathCommand(path,
+        command = new FollowPathCommand(path,
                 currentPose,
                 currentSpeed,
-                controller,
-                new PPHolonomicDriveController(
-                        new PIDConstants(AutoConstants.P_X_CONTROLLER, AutoConstants.I_X_CONTROLLER,
-                                AutoConstants.D_CONTROLLER),
-                        new PIDConstants(AutoConstants.P_THETA_CONTROLLER,
-                                AutoConstants.I_THETA_CONTROLLER,
-                                AutoConstants.D_THETA_CONTROLLER)),
+                output,
+                driveController,
                 robotConfig.get(),
                 () -> alliance == Alliance.Red,
                 driveTrain);
@@ -83,11 +85,11 @@ public class AutoAlignClimbCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return followPathCommand.isFinished();
+        return command.isFinished();
     }
 
     @Override
     public void end(boolean isInterrupted) {
-        followPathCommand.end(isInterrupted);
+        command.end(isInterrupted);
     }
 }
