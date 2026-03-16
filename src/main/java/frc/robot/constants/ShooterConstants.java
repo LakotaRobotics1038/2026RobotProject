@@ -4,7 +4,6 @@ import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public final class ShooterConstants {
     public record ShooterModuleConstants(
@@ -104,13 +103,7 @@ public final class ShooterConstants {
         }
 
         public double getShooterRPM(double distance) {
-            if (angle == 59) {
-                return SmartDashboard.getNumber(DashboardConstants.SLOPE_59, slope) * distance
-                        + SmartDashboard.getNumber(DashboardConstants.INTERCEPT_59, yIntercept);
-            } else {
-                return SmartDashboard.getNumber(DashboardConstants.SLOPE_68, slope) * distance
-                        + SmartDashboard.getNumber(DashboardConstants.INTERCEPT_68, yIntercept);
-            }
+            return slope * distance + yIntercept;
         }
     }
 }

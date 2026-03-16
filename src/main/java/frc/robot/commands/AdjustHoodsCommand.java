@@ -1,9 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -32,7 +30,6 @@ public class AdjustHoodsCommand extends Command {
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double angle = formula.getAngle();
-                    SmartDashboard.putNumber(DashboardConstants.ANGLE, angle);
                     shooterHoods.getFarHood().setAngle(angle);
                     shooterHoods.getNearHood().setAngle(angle);
                     break;

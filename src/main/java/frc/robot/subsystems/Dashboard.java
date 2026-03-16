@@ -10,14 +10,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
-import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Acquisition acquisition = Acquisition.getInstance();
 
     // Choosers
     private final SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
@@ -45,16 +43,6 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
-        SmartDashboard.putNumber(DashboardConstants.ACQUISITION_RPM, AcquisitionConstants.INTAKE_ACQUIRE_DUTY_CYCLE);
-        // TODO Remove this stuff when shooter tuning is done
-        SmartDashboard.putNumber(DashboardConstants.SLOPE_68, ShooterConstants.SHOOTER_FORMULAS.get(0).getSlope());
-        SmartDashboard.putNumber(DashboardConstants.SLOPE_59, ShooterConstants.SHOOTER_FORMULAS.get(1).getSlope());
-        SmartDashboard.putNumber(DashboardConstants.INTERCEPT_68,
-                ShooterConstants.SHOOTER_FORMULAS.get(0).getYIntercept());
-        SmartDashboard.putNumber(DashboardConstants.INTERCEPT_59,
-                ShooterConstants.SHOOTER_FORMULAS.get(1).getYIntercept());
-        SmartDashboard.putNumber(DashboardConstants.ANGLE, 0);
-
         SmartDashboard.putData(field);
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
