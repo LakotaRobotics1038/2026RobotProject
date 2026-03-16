@@ -23,25 +23,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Acquire From Depot"
+                  "pathName": "Depot to Acquire Depot"
                 }
               },
               {
                 "type": "path",
                 "data": {
                   "pathName": "Depot To Shooting"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot(Shooting To Prep Climb)"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Depot(Prep Climb To Climb)"
                 }
               }
             ]

@@ -8,40 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.101192771084338,
-        "y": 7.3023855421686745
+        "x": 2.617218309859156,
+        "y": 7.228661971830986
       },
       "isLocked": false,
       "linkedName": "depotShooting"
     },
     {
       "anchor": {
-        "x": 4.609216867469879,
-        "y": 7.374
+        "x": 3.655158450704226,
+        "y": 7.420281690140845
       },
       "prevControl": {
-        "x": 3.1776867469879515,
-        "y": 7.400734939759036
+        "x": 2.0989736736966584,
+        "y": 7.511464391918633
       },
       "nextControl": {
-        "x": 5.609042520720285,
-        "y": 7.355327477342782
+        "x": 7.743045774647888,
+        "y": 7.1807570422535205
       },
       "isLocked": false,
       "linkedName": "depotTrench"
     },
     {
       "anchor": {
-        "x": 6.805686746987951,
-        "y": 7.101
+        "x": 7.494132530120482,
+        "y": 6.183
       },
       "prevControl": {
-        "x": 6.6199156626506035,
-        "y": 7.367951807228916
+        "x": 7.3083614457831345,
+        "y": 6.449951807228916
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "depotNeutral"
+      "linkedName": "depotNeutralAcq"
     }
   ],
   "rotationTargets": [

@@ -19,25 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Acquire From Neutral)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Depot(Neutral To Shooting)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot(Shooting To Prep Climb)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot(Prep Climb To Climb)"
           }
         }
       ]

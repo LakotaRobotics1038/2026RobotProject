@@ -23,25 +23,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Outpost(Acquire From Neutral)"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
                   "pathName": "Outpost(Neutral To Shooting)"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Outpost(Shooting to PrepClimb)"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Outpost(PrepClimb To Climb)"
                 }
               }
             ]

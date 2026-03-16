@@ -8,16 +8,6 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 public class Paths {
-    public static PathPlannerPath getLeftPosTaxiPath()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Depot Taxi");
-    }
-
-    public static PathPlannerPath getRightPosTaxiPath()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Outpost Taxi");
-    }
-
     public static PathPlannerPath getMiddleToShootingPath()
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Middle To Shooting");
@@ -30,7 +20,7 @@ public class Paths {
 
     public static PathPlannerPath getAcquireFromDepotPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Acquire From Depot");
+        return PathPlannerPath.fromPathFile("Depot to Acquire depot");
     }
 
     public static PathPlannerPath getDepotToShootingPath()
@@ -38,12 +28,33 @@ public class Paths {
         return PathPlannerPath.fromPathFile("Depot To Shooting");
     }
 
-    public static PathPlannerPath getDepotShootingToPrepClimbPath()
+    public static PathPlannerPath getOutpostStartToShootingPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Depot(Shooting To Prep Climb)");
+        return PathPlannerPath.fromPathFile("Outpost(Start To Shooting)");
     }
 
-    public static PathPlannerPath getDepotClimbPath() throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Depot(Prep Climb To Climb)");
+    public static PathPlannerPath getOutpostShootingToNeutralPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Outpost(Shooting To Neutral)");
+    }
+
+    public static PathPlannerPath getOutpostNeutralToShootingPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Outpost(Neutral To Shooting)");
+    }
+
+    public static PathPlannerPath getDepotStartToShootingPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot(Start To Shooting)");
+    }
+
+    public static PathPlannerPath getDepotShootingToNeutralPath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot(Shooting To Neutral)");
+    }
+
+    public static PathPlannerPath getDepotNeutralToAcquirePath()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot(Neutral To Acquire)");
     }
 }
