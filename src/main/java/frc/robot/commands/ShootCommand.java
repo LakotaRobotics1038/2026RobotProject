@@ -2,17 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterHoods;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -20,7 +17,6 @@ public class ShootCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
-    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
@@ -28,7 +24,7 @@ public class ShootCommand extends Command {
     private static boolean wiggleAcquisition = false;
 
     public ShootCommand() {
-        addRequirements(acquisition, kicker, shooter, shooterHoods);
+        addRequirements(acquisition, kicker, shooter);
     }
 
     @Override
@@ -41,10 +37,7 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooterHoods.getNearHood().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
             shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
-
-            shooterHoods.getFarHood().setAngle(ShooterConstants.MANUAL_SHOOTER_ANGLE_DEG);
             shooter.getFarShooter().start(targetRPM);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
@@ -53,11 +46,7 @@ public class ShootCommand extends Command {
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double targetRPM = formula.getShooterRPM(distance);
-                    double angle = formula.getAngle();
-                    SmartDashboard.putNumber(DashboardConstants.ANGLE, angle);
-                    shooterHoods.getFarHood().setAngle(angle);
                     shooter.getFarShooter().start(targetRPM);
-                    shooterHoods.getNearHood().setAngle(angle);
                     shooter.getNearShooter()
                             .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
                     break;
