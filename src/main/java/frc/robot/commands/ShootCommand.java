@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,10 +22,11 @@ public class ShootCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
+    private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
-    private static boolean wiggleAcquisition = false;
 
-    public ShootCommand() {
+    public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
+        this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
         addRequirements(acquisition, kicker, shooter);
     }
 
@@ -59,7 +62,7 @@ public class ShootCommand extends Command {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
-                if (wiggleAcquisition) {
+                if (wiggleAcquisitionSupplier.getAsBoolean()) {
                     if (timer.get() % 1 <= 0.5) {
                         acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
                     } else {
@@ -83,9 +86,5 @@ public class ShootCommand extends Command {
         acquisition.stopIntake();
         timer.stop();
         timer.reset();
-    }
-
-    public static void setAcquisitionWiggle(boolean wiggleAcquisition) {
-        ShootCommand.wiggleAcquisition = wiggleAcquisition;
     }
 }

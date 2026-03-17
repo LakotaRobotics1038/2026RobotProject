@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.RetractHoodsCommand;
@@ -19,6 +18,7 @@ public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private boolean wiggleAcquisition = false;
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -51,14 +51,18 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        this.b().whileTrue(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(true)))
-                .whileFalse(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(false)));
+        this.b().whileTrue(new InstantCommand(() -> wiggleAcquisition = true))
+                .whileFalse(new InstantCommand(() -> wiggleAcquisition = false));
         this.x().whileTrue(new RetractHoodsCommand());
         // this.y().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // this.a().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // this.b().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
         // this.x().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
-        this.rightTrigger().whileTrue(new ShootCommand());
+        this.rightTrigger().whileTrue(new ShootCommand(this::getWiggleAcquisition));
+    }
+
+    public boolean getWiggleAcquisition() {
+        return wiggleAcquisition;
     }
 }
