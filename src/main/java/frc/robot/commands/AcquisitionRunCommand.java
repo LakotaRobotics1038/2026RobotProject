@@ -11,7 +11,7 @@ public class AcquisitionRunCommand extends Command {
 
     public AcquisitionRunCommand(Mode mode) {
         this.mode = mode;
-        addRequirements(acquisition);
+        addRequirements(acquisition, kicker);
     }
 
     @Override
