@@ -10,7 +10,9 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        MiddleDepot
+        DepotNeutral,
+        MiddleDepot,
+        OutpostNeutral
     }
 
     // Choosers
@@ -32,7 +34,9 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("Depot Neutral", AutonChoices.DepotNeutral);
         this.autoChooser.addOption("Middle Depot", AutonChoices.MiddleDepot);
+        this.autoChooser.addOption("Outpost Neutral", AutonChoices.OutpostNeutral);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 

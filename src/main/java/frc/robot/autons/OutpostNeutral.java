@@ -13,8 +13,8 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class OutpostNeutralAuto extends Auton {
-    public OutpostNeutralAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class OutpostNeutral extends Auton {
+    public OutpostNeutral(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getDepotStartToShootingPath()),
@@ -26,5 +26,4 @@ public class OutpostNeutralAuto extends Auton {
                 followPathCommand(Paths.getDepotNeutralToAcquirePath()),
                 new AutoShootCommand().withTimeout(2));
     }
-
 }

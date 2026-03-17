@@ -13,8 +13,8 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AutoShootCommand;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class DepotNeutralAuto extends Auton {
-    public DepotNeutralAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class DepotNeutral extends Auton {
+    public DepotNeutral(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getMiddleToShootingPath()),
