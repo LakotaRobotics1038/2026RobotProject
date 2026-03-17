@@ -36,13 +36,13 @@ classDiagram
 }
   class AcquisitionSetpoint {
     <<enumeration>>
-    - AcquisitionSetpoint(double)
-    +  LOWERED
-    - double degrees
-    +  RAISED
-    + getDegrees() double
-    + values() AcquisitionSetpoint[]
-    + valueOf(String) AcquisitionSetpoint
+    + RAISED
+    + LOW_RAISE
+    + HIGH_RAISE
+    + LOWERED
+    - degrees : double
+    - AcquisitionSetpoint(double degrees)
+    + getDegrees() : double
   }
   class AutoConstants {
     + MAX_ACCELERATION_METERS_PER_SECOND_SQUARE : double 
