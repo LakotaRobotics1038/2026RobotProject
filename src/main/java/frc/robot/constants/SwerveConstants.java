@@ -76,7 +76,11 @@ public class SwerveConstants {
     // cannot be null.
     // Some configs will be overwritten; check the `with*InitialConfigs()` API
     // documentation.
-    private static final TalonFXConfiguration DRIVE_INITIAL_CONFIGS = new TalonFXConfiguration();
+    private static final TalonFXConfiguration DRIVE_INITIAL_CONFIGS = new TalonFXConfiguration()
+            .withCurrentLimits(
+                    new CurrentLimitsConfigs()
+                            .withStatorCurrentLimit(Amps.of(60))
+                            .withStatorCurrentLimitEnable(true));
     private static final TalonFXConfiguration STEER_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(
                     new CurrentLimitsConfigs()
@@ -148,7 +152,7 @@ public class SwerveConstants {
     private static final int FRONT_LEFT_DRIVE_MOTOR_ID = 2;
     private static final int FRONT_LEFT_STEER_MOTOR_ID = 1;
     private static final int FRONT_LEFT_ENCODER_ID = 33;
-    private static final Angle FRONT_LEFT_ENCODER_OFFSET = Rotations.of(0.0205078125);
+    private static final Angle FRONT_LEFT_ENCODER_OFFSET = Rotations.of(0.01904296875);
     private static final boolean FRONT_LEFT_STEER_MOTOR_INVERTED = true;
     private static final boolean FRONT_LEFT_ENCODER_INVERTED = false;
 
@@ -159,7 +163,7 @@ public class SwerveConstants {
     private static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 18;
     private static final int FRONT_RIGHT_STEER_MOTOR_ID = 19;
     private static final int FRONT_RIGHT_ENCODER_ID = 30;
-    private static final Angle FRONT_RIGHT_ENCODER_OFFSET = Rotations.of(-0.134521484375);
+    private static final Angle FRONT_RIGHT_ENCODER_OFFSET = Rotations.of(-0.13720703125);
     private static final boolean FRONT_RIGHT_STEER_MOTOR_INVERTED = true;
     private static final boolean FRONT_RIGHT_ENCODER_INVERTED = false;
 
@@ -170,7 +174,7 @@ public class SwerveConstants {
     private static final int BACK_LEFT_DRIVE_MOTOR_ID = 8;
     private static final int BACK_LEFT_STEER_MOTOR_ID = 9;
     private static final int BACK_LEFT_ENCODER_ID = 32;
-    private static final Angle Back_LEFT_ENCODER_OFFSET = Rotations.of(-0.244140625);
+    private static final Angle Back_LEFT_ENCODER_OFFSET = Rotations.of(-0.245849609375);
     private static final boolean BACK_LEFT_STEER_MOTOR_INVERTED = true;
     private static final boolean BACK_LEFT_ENCODER_INVERTED = false;
 
@@ -181,7 +185,7 @@ public class SwerveConstants {
     private static final int BACK_RIGHT_DRIVE_MOTOR_ID = 10;
     private static final int BACK_RIGHT_STEER_MOTOR_ID = 11;
     private static final int BACK_RIGHT_ENCODER_ID = 31;
-    private static final Angle BACK_RIGHT_ENCODER_OFFSET = Rotations.of(-0.3037109375);
+    private static final Angle BACK_RIGHT_ENCODER_OFFSET = Rotations.of(-0.298095703125);
     private static final boolean BACK_RIGHT_STEER_MOTOR_INVERTED = true;
     private static final boolean BACK_RIGHT_ENCODER_INVERTED = false;
 

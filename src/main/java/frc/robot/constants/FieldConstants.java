@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import java.util.List;
+
 import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.geometry.Rectangle2d;
@@ -7,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public final class FieldConstants {
 
@@ -27,7 +30,8 @@ public final class FieldConstants {
     private static final double LEFT_BUMP_Y_OFFSET = LEFT_TRENCH_Y_OFFSET - BUMP_WIDTH;
     private static final double RIGHT_BUMP_Y_OFFSET = TRENCH_WIDTH;
 
-    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION - BUMP_DEPTH;
+    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
+            - BUMP_DEPTH;
 
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
@@ -44,17 +48,15 @@ public final class FieldConstants {
     private static final Rectangle2d RED_RIGHT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, RIGHT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d[] BUMP_RECTANGLES = {
+    public static final List<Rectangle2d> BUMP_RECTANGLES = List.of(
             BLUE_LEFT_BUMP,
             BLUE_RIGHT_BUMP,
             RED_LEFT_BUMP,
-            RED_RIGHT_BUMP
-    };
+            RED_RIGHT_BUMP);
 
     private static final Rectangle2d TRENCH = new Rectangle2d(
             new Translation2d(0, 0),
-            new Translation2d(BUMP_DEPTH, TRENCH_WIDTH)
-    );
+            new Translation2d(BUMP_DEPTH, TRENCH_WIDTH));
 
     private static final Rectangle2d BLUE_LEFT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_TRENCH_Y_OFFSET),
@@ -68,10 +70,13 @@ public final class FieldConstants {
     private static final Rectangle2d RED_RIGHT_TRENCH = TRENCH.transformBy(new Transform2d(
             new Translation2d(RED_SIDE_DISTANCE, RIGHT_TRENCH_Y_OFFSET),
             Rotation2d.kZero));
-    public static final Rectangle2d[] TRENCH_RECTANGLES = {
+    public static final List<Rectangle2d> TRENCH_RECTANGLES = List.of(
             BLUE_LEFT_TRENCH,
             BLUE_RIGHT_TRENCH,
             RED_LEFT_TRENCH,
-            RED_RIGHT_TRENCH
-    };
+            RED_RIGHT_TRENCH);
+
+    public static Translation2d hubPosition(Alliance alliance) {
+        return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+    }
 }

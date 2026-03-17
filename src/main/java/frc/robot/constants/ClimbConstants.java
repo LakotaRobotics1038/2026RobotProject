@@ -14,8 +14,8 @@ public final class ClimbConstants {
     public static final double ZEROING_POWER = -0.3;
 
     public enum ClimbSetpoint {
-        UP(15.5),
-        DOWN(12),
+        UP(40),
+        DOWN(25),
         ZERO(0);
 
         private final double setpoint;
