@@ -38,11 +38,14 @@ public class ShootCommand extends Command {
 
     @Override
     public void execute() {
+        boolean validPosition = false;
+
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
             shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
+            validPosition = true;
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             double distance = shooter.getFarShooter().getHubDistance(robotPose);
@@ -53,12 +56,13 @@ public class ShootCommand extends Command {
                     shooter.getFarShooter().start(targetRPM);
                     shooter.getNearShooter()
                             .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+                    validPosition = true;
                     break;
                 }
             }
         }
 
-        if (timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
+        if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
@@ -72,9 +76,10 @@ public class ShootCommand extends Command {
             } else {
                 isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
                         shooter.getFarShooter().isAtTargetRPM();
-                kicker.stop();
-                acquisition.stopIntake();
             }
+        } else {
+            kicker.stop();
+            acquisition.stopIntake();
         }
     }
 
