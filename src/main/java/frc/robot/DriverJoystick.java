@@ -103,7 +103,7 @@ public class DriverJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
 
-        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).onTrue(new RetractHoodsCommand())
+        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).whileTrue(new RetractHoodsCommand())
                 .onTrue(new AcquisitionTrenchRetract());
 
         this.x().whileTrue(this.driveTrain.setX());

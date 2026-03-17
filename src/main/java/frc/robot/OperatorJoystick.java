@@ -53,7 +53,7 @@ public class OperatorJoystick extends XboxController1038 {
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.b().whileTrue(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(true)))
                 .whileFalse(new InstantCommand(() -> ShootCommand.setAcquisitionWiggle(false)));
-        this.x().onTrue(new RetractHoodsCommand());
+        this.x().whileTrue(new RetractHoodsCommand());
         // this.y().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
         // this.a().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
         // this.b().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
