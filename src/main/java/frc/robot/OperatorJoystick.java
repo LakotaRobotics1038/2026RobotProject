@@ -12,12 +12,10 @@ import frc.robot.constants.IOConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.DriveTrain;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
-    private final DriveTrain driveTrain = DriveTrain.getInstance();
     private boolean wiggleAcquisition = false;
 
     public static OperatorJoystick getInstance() {
@@ -54,10 +52,6 @@ public class OperatorJoystick extends XboxController1038 {
         this.b().whileTrue(new InstantCommand(() -> wiggleAcquisition = true))
                 .whileFalse(new InstantCommand(() -> wiggleAcquisition = false));
         this.x().whileTrue(new RetractHoodsCommand());
-        // this.y().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        // this.a().whileTrue(driveTrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        // this.b().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        // this.x().whileTrue(driveTrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         this.rightTrigger().whileTrue(new ShootCommand(this::getWiggleAcquisition));
     }
