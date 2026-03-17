@@ -22,12 +22,10 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final ShooterModule nearShooter;
-    private final ShooterModule farShooter;
+    private final ShooterModule nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);;
+    private final ShooterModule farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
 
     private Shooter() {
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);
-        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
     }
 
     public static Shooter getInstance() {
