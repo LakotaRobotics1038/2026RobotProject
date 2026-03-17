@@ -32,7 +32,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void initialize() {
-        timer.start();
+        timer.restart();
         isUpToSpeed = false;
     }
 
@@ -84,7 +84,5 @@ public class ShootCommand extends Command {
         shooter.getNearShooter().stop();
         kicker.stop();
         acquisition.stopIntake();
-        timer.stop();
-        timer.reset();
     }
 }
