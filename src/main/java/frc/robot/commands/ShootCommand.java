@@ -84,6 +84,11 @@ public class ShootCommand extends Command {
     }
 
     @Override
+    public boolean isFinished() {
+        return false;
+    }
+
+    @Override
     public void end(boolean interrupted) {
         shooter.getFarShooter().stop();
         shooter.getNearShooter().stop();
