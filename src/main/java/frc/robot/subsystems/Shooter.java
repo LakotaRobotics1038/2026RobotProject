@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.util.FlippingUtil;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
