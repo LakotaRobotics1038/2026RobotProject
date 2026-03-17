@@ -94,5 +94,6 @@ public class ShootCommand extends Command {
         shooter.getNearShooter().stop();
         kicker.stop();
         acquisition.stopIntake();
+        timer.stop();
     }
 }

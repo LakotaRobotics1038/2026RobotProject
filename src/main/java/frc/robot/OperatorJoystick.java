@@ -16,7 +16,6 @@ import frc.robot.subsystems.Dashboard;
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
-    private boolean wiggleAcquisition = false;
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -49,14 +48,8 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        this.b().onTrue(new InstantCommand(() -> wiggleAcquisition = true))
-                .onFalse(new InstantCommand(() -> wiggleAcquisition = false));
         this.x().whileTrue(new RetractHoodsCommand());
 
-        this.rightTrigger().whileTrue(new ShootCommand(this::getWiggleAcquisition));
-    }
-
-    public boolean getWiggleAcquisition() {
-        return wiggleAcquisition;
+        this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
     }
 }
