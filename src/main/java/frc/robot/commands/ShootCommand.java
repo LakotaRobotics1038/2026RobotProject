@@ -20,7 +20,7 @@ public class ShootCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
-    private boolean isUpToSpeed = false;
+    private boolean isUpToSpeed;
     private static boolean wiggleAcquisition = false;
 
     public ShootCommand() {
@@ -30,6 +30,7 @@ public class ShootCommand extends Command {
     @Override
     public void initialize() {
         timer.start();
+        isUpToSpeed = false;
     }
 
     @Override
