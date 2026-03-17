@@ -143,9 +143,7 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
-            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
-                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
             return fieldPosition.getDistance(hubPosition);
@@ -158,11 +156,9 @@ public class Shooter extends SubsystemBase {
          * @return Angle in radians from the module toward the hub.
          */
         public double getHubAngle(Pose2d robotPose) {
-            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             Translation2d moduleFieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
-                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
             Translation2d toTargetFromModule = hubPosition.minus(moduleFieldPosition);
             return toTargetFromModule.getAngle().getRadians();
         }
