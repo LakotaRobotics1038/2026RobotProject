@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
@@ -41,7 +42,8 @@ public class ShootCommand extends Command {
             shooter.getFarShooter().start(targetRPM);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getHubDistance(robotPose);
+            Translation2d virtualHub = Shooter.getVirtualHubPosition(robotPose, driveTrain.getState().Speeds);
+            double distance = shooter.getFarShooter().getHubDistance(robotPose, virtualHub);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {

@@ -22,6 +22,8 @@ public final class ShooterConstants {
             13,
             new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
 
+    public static final double SHOT_SPEED = 8.0; // m/s horizontal ball speed
+
     public static final double OPERATING_TOLERANCE = 75;
 
     public static final double NEAR_SHOOTER_PERCENTAGE = 0.95;

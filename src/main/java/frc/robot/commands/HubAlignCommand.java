@@ -6,6 +6,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ShooterConstants;
@@ -46,7 +47,8 @@ public class HubAlignCommand extends Command {
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
-        double targetHeadingRadians = getAlignedTargetHeading(robotPose);
+        Translation2d virtualHub = Shooter.getVirtualHubPosition(robotPose, driveTrain.getState().Speeds);
+        double targetHeadingRadians = getAlignedTargetHeading(robotPose, virtualHub);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
         double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
@@ -71,11 +73,11 @@ public class HubAlignCommand extends Command {
         updateAlignmentState(false);
     }
 
-    private double getAlignedTargetHeading(Pose2d robotPose) {
-        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
-        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
+    private double getAlignedTargetHeading(Pose2d robotPose, Translation2d targetPosition) {
+        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose, targetPosition);
+        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose, targetPosition);
 
-        // Converts both aim angles into vectors, add them, and turns the result back
+        // Converts both aim angles into vectors, adds them, and turns the result back
         // into an angle. This gives the bisector between the near and far shooter
         // headings without breaking when the angles wrap around -pi and pi.
         double targetAngleRad = Math.atan2(
