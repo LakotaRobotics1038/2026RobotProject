@@ -58,17 +58,17 @@ classDiagram
     + THETA_CONTROLLER_CONSTRAINTS : TrapezoidProfile.Constraints 
     + ROBOT_CONFIG : Optional<RobotConfig>
 }
-  class Auton {
-    + Auton(Optional~Alliance~)
-    - Pose2d initialPose
-    # DriveTrain driveTrain
-    # Alliance alliance
-    + getInitialPose() Pose2d
-    - setInitialPose(Pose2d) void
-    # setInitialPose(PathPlannerTrajectory) void
-    # setInitialPose(PathPlannerTrajectory, Rotation2d) void
-    + followPathCommand(PathPlannerPath) Command
-  }
+  class Auton <<abstract>> {
+    - initialPose : Pose2d 
+    # driveTrain : DriveTrain 
+    # alliance : Alliance 
+    + Auton(Optional<Alliance> alliance)
+    - setInitialPose(Pose2d initialPose) : void 
+    # setInitialPose(PathPlannerTrajectory initialTrajectory) : void 
+    # setInitialPose(PathPlannerTrajectory initialTrajectory, Rotation2d rotationOffset) : void 
+    + getInitialPose() : Pose2d 
+    + followPathCommand(PathPlannerPath path) : Command 
+}
   class AutonChoices {
     <<enumeration>>
     + AutonChoices()
