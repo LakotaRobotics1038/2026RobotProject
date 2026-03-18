@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,25 +23,35 @@ public class ShootCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Timer timer = new Timer();
-    private boolean isUpToSpeed = false;
-    private static boolean wiggleAcquisition = false;
+    private final BooleanSupplier wiggleAcquisitionSupplier;
+    private boolean isUpToSpeed;
 
     public ShootCommand() {
+        this.wiggleAcquisitionSupplier = () -> false;
+        addRequirements(acquisition, kicker, shooter);
+    }
+
+    public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
+        this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
         addRequirements(acquisition, kicker, shooter);
     }
 
     @Override
     public void initialize() {
-        timer.start();
+        timer.restart();
+        isUpToSpeed = false;
     }
 
     @Override
     public void execute() {
+        boolean validPosition = false;
+
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
             shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
+            validPosition = true;
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             Translation2d virtualHub = Shooter.getVirtualHubPosition(robotPose, driveTrain.getState().Speeds);
@@ -51,16 +63,17 @@ public class ShootCommand extends Command {
                     shooter.getFarShooter().start(targetRPM);
                     shooter.getNearShooter()
                             .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+                    validPosition = true;
                     break;
                 }
             }
         }
 
-        if (timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
+        if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
-                if (wiggleAcquisition) {
+                if (wiggleAcquisitionSupplier.getAsBoolean()) {
                     if (timer.get() % 1 <= 0.5) {
                         acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
                     } else {
@@ -70,10 +83,16 @@ public class ShootCommand extends Command {
             } else {
                 isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
                         shooter.getFarShooter().isAtTargetRPM();
-                kicker.stop();
-                acquisition.stopIntake();
             }
+        } else {
+            kicker.stop();
+            acquisition.stopIntake();
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return false;
     }
 
     @Override
@@ -83,10 +102,5 @@ public class ShootCommand extends Command {
         kicker.stop();
         acquisition.stopIntake();
         timer.stop();
-        timer.reset();
-    }
-
-    public static void setAcquisitionWiggle(boolean wiggleAcquisition) {
-        ShootCommand.wiggleAcquisition = wiggleAcquisition;
     }
 }

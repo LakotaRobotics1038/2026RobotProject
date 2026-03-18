@@ -79,7 +79,7 @@ public class SwerveConstants {
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(
                     new CurrentLimitsConfigs()
-                            .withStatorCurrentLimit(Amps.of(40))
+                            .withStatorCurrentLimit(Amps.of(60))
                             .withStatorCurrentLimitEnable(true));
     private static final TalonFXConfiguration STEER_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(

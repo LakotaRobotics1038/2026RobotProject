@@ -8,13 +8,13 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.FileVersionException;
 
 public class Paths {
-    public static PathPlannerPath getLeftPosTaxiPath()
+    public static PathPlannerPath getLeftStartPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("TopStartingPos Taxi");
+        return PathPlannerPath.fromPathFile("Left Start to Middle Acquire");
     }
 
-    public static PathPlannerPath getRightPosTaxiPath()
+    public static PathPlannerPath getMiddleAcquireToShootPath()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("BottomStartingPos Taxi");
+        return PathPlannerPath.fromPathFile("Middle to Shoot");
     }
 }

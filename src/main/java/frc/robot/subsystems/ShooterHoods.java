@@ -71,8 +71,8 @@ public class ShooterHoods extends SubsystemBase {
         }
 
         public void enable() {
-            servoChannel.setEnabled(true);
             servoChannel.setPowered(true);
+            servoChannel.setEnabled(true);
         }
 
         /**

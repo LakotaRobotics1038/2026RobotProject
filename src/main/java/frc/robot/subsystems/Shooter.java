@@ -10,6 +10,8 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -23,12 +25,10 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final ShooterModule nearShooter;
-    private final ShooterModule farShooter;
+    private final ShooterModule nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);
+    private final ShooterModule farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
 
     private Shooter() {
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);
-        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
     }
 
     public static Shooter getInstance() {
@@ -163,7 +163,7 @@ public class Shooter extends SubsystemBase {
          * @return Whether the shooter is at the target RPM.
          */
         public boolean isAtTargetRPM() {
-            return Math.abs(getRPM() - getTargetRPM()) <= ShooterConstants.OPERATING_TOLERANCE;
+            return MathUtil.isNear(getRPM(), getTargetRPM(), ShooterConstants.OPERATING_TOLERANCE);
         }
 
         /**
@@ -173,9 +173,7 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
-            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
-                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             return getHubDistance(robotPose, hubPosition);
         }
 
@@ -199,9 +197,7 @@ public class Shooter extends SubsystemBase {
          * @return Angle in radians from the module toward the hub.
          */
         public double getHubAngle(Pose2d robotPose) {
-            Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-            Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
-                    : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             return getHubAngle(robotPose, hubPosition);
         }
 

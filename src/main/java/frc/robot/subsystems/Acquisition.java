@@ -13,6 +13,7 @@ import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
@@ -72,7 +73,9 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void setPivotDegrees(double degrees) {
-        pivotController.setSetpoint(degrees, ControlType.kPosition);
+        pivotController.setSetpoint(
+                MathUtil.clamp(degrees, AcquisitionConstants.PIVOT_MIN_ANGLE, AcquisitionConstants.PIVOT_MAX_ANGLE),
+                ControlType.kPosition);
     }
 
     /**
@@ -106,7 +109,8 @@ public class Acquisition extends SubsystemBase {
      * Gets if the pivot motor is at the setpoint.
      */
     public boolean pivotAtSetpoint() {
-        return pivotController.isAtSetpoint();
+        return MathUtil.isNear(pivotController.getSetpoint(), getPivotPosition(),
+                AcquisitionConstants.PIVOT_OPERATING_TOLERANCE);
     }
 
     public double getIntakeRPM() {

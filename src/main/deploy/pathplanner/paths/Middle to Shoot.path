@@ -1,0 +1,95 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.848845992476852,
+        "y": 4.737820023148148
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.480837919810638,
+        "y": 5.711957959602961
+      },
+      "isLocked": false,
+      "linkedName": "Acquire End"
+    },
+    {
+      "anchor": {
+        "x": 5.665244968220339,
+        "y": 7.417088023040254
+      },
+      "prevControl": {
+        "x": 6.418473646697661,
+        "y": 7.463499972970061
+      },
+      "nextControl": {
+        "x": 4.107606555275055,
+        "y": 7.321110482492404
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.6185738325388423,
+        "y": 7.069961544403249
+      },
+      "prevControl": {
+        "x": 3.005098810867536,
+        "y": 7.644976802154785
+      },
+      "nextControl": {
+        "x": 2.4791050523614375,
+        "y": 6.862480317889073
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.410897940942797,
+        "y": 5.512198810469633
+      },
+      "prevControl": {
+        "x": 2.364575628880738,
+        "y": 5.762168604291619
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0115040301268499,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.949895943446089,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -132.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

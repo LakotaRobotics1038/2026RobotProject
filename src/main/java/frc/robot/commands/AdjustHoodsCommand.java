@@ -37,4 +37,9 @@ public class AdjustHoodsCommand extends Command {
             }
         }
     }
+
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
