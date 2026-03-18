@@ -6,12 +6,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.RetractHoodsCommand;
-import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.AdjustHoodsCommand;
-import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.HubAlignCommand;
-import frc.robot.constants.ClimbConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
@@ -102,13 +98,7 @@ public class DriverJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
 
-        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).whileTrue(new RetractHoodsCommand())
-                .onTrue(new AcquisitionTrenchRetract());
-
         this.x().whileTrue(this.driveTrain.setX());
-
-        this.leftBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.DOWN));
-        this.rightBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.UP));
 
         this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(
                 this::getForwardValue,
@@ -186,12 +176,5 @@ public class DriverJoystick extends XboxController1038 {
      */
     private boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
-    }
-
-    private boolean isInTrench() {
-        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        return RectangleUtils.inRect(
-                FieldConstants.TRENCH_RECTANGLES,
-                robotPos);
     }
 }
