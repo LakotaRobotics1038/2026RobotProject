@@ -57,33 +57,6 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Gets a hub position offset compensating for robot velocity.
-     *
-     * @param robotPose           Current robot pose in field coordinates.
-     * @param robotRelativeSpeeds Robot-relative chassis speeds.
-     * @return Adjusted hub position that accounts for robot movement during time of
-     *         flight.
-     */
-    public static Translation2d getVirtualHubPosition(Pose2d robotPose, ChassisSpeeds robotRelativeSpeeds) {
-        Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        Translation2d hubPosition = alliance == Alliance.Blue ? FieldConstants.HUB_POSITION
-                : FlippingUtil.flipFieldPosition(FieldConstants.HUB_POSITION);
-
-        // Convert robot-relative velocity to field-relative
-        Translation2d fieldVelocity = new Translation2d(
-                robotRelativeSpeeds.vxMetersPerSecond,
-                robotRelativeSpeeds.vyMetersPerSecond)
-                .rotateBy(robotPose.getRotation());
-
-        double distance = robotPose.getTranslation().getDistance(hubPosition);
-        double tof = distance / ShooterConstants.SHOT_SPEED;
-
-        return hubPosition.minus(new Translation2d(
-                fieldVelocity.getX() * tof,
-                fieldVelocity.getY() * tof));
-    }
-
-    /**
      * Base shooter module.
      */
     public static class ShooterModule {
@@ -173,7 +146,7 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
-            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
+            Translation2d hubPosition = FieldConstants.hubPosition();
             return getHubDistance(robotPose, hubPosition);
         }
 
@@ -188,17 +161,6 @@ public class Shooter extends SubsystemBase {
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
             return fieldPosition.getDistance(targetPosition);
-        }
-
-        /**
-         * Calculates the angle from this module's location to the hub.
-         *
-         * @param robotPose Current robot pose in field coordinates.
-         * @return Angle in radians from the module toward the hub.
-         */
-        public double getHubAngle(Pose2d robotPose) {
-            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
-            return getHubAngle(robotPose, hubPosition);
         }
 
         /**

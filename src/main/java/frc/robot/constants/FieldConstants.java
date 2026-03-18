@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public final class FieldConstants {
@@ -76,7 +77,8 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    public static Translation2d hubPosition(Alliance alliance) {
-        return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+    public static Translation2d hubPosition() {
+        return DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue ?
+                HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
     }
 }

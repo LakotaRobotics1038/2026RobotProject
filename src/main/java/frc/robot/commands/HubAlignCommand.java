@@ -4,11 +4,13 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.FieldConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -47,7 +49,7 @@ public class HubAlignCommand extends Command {
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
-        Translation2d virtualHub = Shooter.getVirtualHubPosition(robotPose, driveTrain.getState().Speeds);
+        Translation2d virtualHub = getVirtualHubPosition(robotPose, driveTrain.getState().Speeds);
         double targetHeadingRadians = getAlignedTargetHeading(robotPose, virtualHub);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
@@ -100,5 +102,29 @@ public class HubAlignCommand extends Command {
             }
             dashboard.setHubAligned(isAligned);
         }
+    }
+
+    /**
+     * Gets a hub position offset compensating for robot velocity.
+     *
+     * @param robotPose           Current robot pose in field coordinates.
+     * @param robotRelativeSpeeds Robot-relative chassis speeds.
+     * @return Adjusted hub position.
+     */
+    private Translation2d getVirtualHubPosition(Pose2d robotPose, ChassisSpeeds robotRelativeSpeeds) {
+        Translation2d hubPosition = FieldConstants.hubPosition();
+
+        // Convert robot-relative velocity to field-relative
+        Translation2d fieldVelocity = new Translation2d(
+                robotRelativeSpeeds.vxMetersPerSecond,
+                robotRelativeSpeeds.vyMetersPerSecond)
+                .rotateBy(robotPose.getRotation());
+
+        double distance = robotPose.getTranslation().getDistance(hubPosition);
+        double tof = distance / ShooterConstants.SHOT_SPEED;
+
+        return hubPosition.minus(new Translation2d(
+                fieldVelocity.getX() * tof,
+                fieldVelocity.getY() * tof));
     }
 }
