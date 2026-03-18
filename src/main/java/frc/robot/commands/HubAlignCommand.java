@@ -14,12 +14,11 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 
 public class HubAlignCommand extends Command {
-    private static final double P = 0.0;
-    private static final double I = 0.0;
-    private static final double D = 0.0;
+    private static final double P = 4.0;
+    private static final double I = 0.005;
+    private static final double D = 0.01;
     private static final double MAX_ROTATION_POWER = 1.0;
-    private static final double ALIGNMENT_TOLERANCE_DEG = 2.0;
-    private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(ALIGNMENT_TOLERANCE_DEG);
+    private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
     public static final double HUB_ALIGNMENT_RUMBLE_INTENSITY = 0.8;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
@@ -53,7 +52,8 @@ public class HubAlignCommand extends Command {
         double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
         updateAlignmentState(rotationController.atSetpoint());
 
-        double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER, MAX_ROTATION_POWER);
+        double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER,
+                MAX_ROTATION_POWER);
 
         driveTrain.setControl(driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(),
                 rotation,

@@ -3,20 +3,16 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
-import com.revrobotics.servohub.ServoChannel;
-import com.revrobotics.servohub.ServoHub;
-import com.revrobotics.servohub.config.ServoChannelConfig;
-import com.revrobotics.servohub.config.ServoHubConfig;
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -25,15 +21,10 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final ShooterModule nearShooter;
-    private final ShooterModule farShooter;
+    private final ShooterModule nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS);
+    private final ShooterModule farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS);
 
     private Shooter() {
-        ServoHub servoHub = new ServoHub(ShooterConstants.SERVO_HUB_CAN_ID);
-        ServoHubConfig servoHubConfig = new ServoHubConfig();
-        nearShooter = new ShooterModule(ShooterConstants.NEAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
-        farShooter = new ShooterModule(ShooterConstants.FAR_SHOOTER_MODULE_CONSTANTS, servoHub, servoHubConfig);
-        servoHub.configure(servoHubConfig, ResetMode.kResetSafeParameters);
     }
 
     public static Shooter getInstance() {
@@ -70,26 +61,18 @@ public class Shooter extends SubsystemBase {
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
         private final Translation2d translation;
-        private final ServoChannel servoChannel;
-        private final ServoChannelConfig.PulseRange servoPulseRange;
 
         /**
          * Creates and configures a shooter module.
          *
          * @param moduleConstants configuration for this shooter module. See
          *                        {@link ShooterConstants.ShooterModuleConstants}.
-         * @param servoHub        ServoHub used to get and control the servo channel for
-         *                        this module.
-         * @param servoHubConfig  Configuration object whose channel settings are
-         *                        updated for this module.
          */
-        private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants, ServoHub servoHub,
-                ServoHubConfig servoHubConfig) {
+        private ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants) {
             SparkFlexConfig baseConfig = new SparkFlexConfig();
             baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
                     .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                    .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D)
-                    .allowedClosedLoopError(ShooterConstants.RPM_TOLERANCE, ClosedLoopSlot.kSlot0).feedForward
+                    .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
 
             SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
@@ -106,20 +89,6 @@ public class Shooter extends SubsystemBase {
             encoder = leftMotor.getEncoder();
 
             translation = moduleConstants.translation();
-            servoChannel = servoHub.getServoChannel(moduleConstants.servoChannelID());
-            servoPulseRange = moduleConstants.servoPulseRange();
-
-            switch (moduleConstants.servoChannelID()) {
-                case kChannelId0 -> servoHubConfig.channel0.pulseRange(servoPulseRange);
-                case kChannelId1 -> servoHubConfig.channel1.pulseRange(servoPulseRange);
-                case kChannelId2 -> servoHubConfig.channel2.pulseRange(servoPulseRange);
-                case kChannelId3 -> servoHubConfig.channel3.pulseRange(servoPulseRange);
-                case kChannelId4 -> servoHubConfig.channel4.pulseRange(servoPulseRange);
-                case kChannelId5 -> servoHubConfig.channel5.pulseRange(servoPulseRange);
-            }
-
-            servoChannel.setEnabled(true);
-            servoChannel.setPowered(true);
         }
 
         /**
@@ -163,7 +132,7 @@ public class Shooter extends SubsystemBase {
          * @return Whether the shooter is at the target RPM.
          */
         public boolean isAtTargetRPM() {
-            return controller.isAtSetpoint();
+            return Math.abs(getRPM() - getTargetRPM()) <= ShooterConstants.OPERATING_TOLERANCE;
         }
 
         /**
@@ -173,9 +142,10 @@ public class Shooter extends SubsystemBase {
          * @return Distance from this module to the hub.
          */
         public double getHubDistance(Pose2d robotPose) {
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            return fieldPosition.getDistance(FieldConstants.HUB_POSITION);
+            return fieldPosition.getDistance(hubPosition);
         }
 
         /**
@@ -185,27 +155,12 @@ public class Shooter extends SubsystemBase {
          * @return Angle in radians from the module toward the hub.
          */
         public double getHubAngle(Pose2d robotPose) {
+            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
             Translation2d moduleFieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            Translation2d toTargetFromModule = FieldConstants.HUB_POSITION.minus(moduleFieldPosition);
+            Translation2d toTargetFromModule = hubPosition.minus(moduleFieldPosition);
             return toTargetFromModule.getAngle().getRadians();
         }
 
-        /**
-         * Sets the hood angle by converting the given degrees to pulse width.
-         *
-         * @param angle Angle in degrees.
-         */
-        public void setAngle(double angle) {
-            double clampedAngle = MathUtil.clamp(
-                    angle,
-                    ShooterConstants.SHOOTER_ANGLE_MIN_DEG,
-                    ShooterConstants.SHOOTER_ANGLE_MAX_DEG);
-            // Sets the angle to a value between 0 and 1.
-            double normalized = (clampedAngle - ShooterConstants.SHOOTER_ANGLE_MIN_DEG)
-                    / (ShooterConstants.SHOOTER_ANGLE_MAX_DEG - ShooterConstants.SHOOTER_ANGLE_MIN_DEG);
-            servoChannel.setPulseWidth(servoPulseRange.minPulse_us
-                    + (int) (normalized * (servoPulseRange.maxPulse_us - servoPulseRange.minPulse_us)));
-        }
     }
 }

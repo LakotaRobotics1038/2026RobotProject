@@ -13,17 +13,17 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class OutpostNeutral extends Auton {
-    public OutpostNeutral(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class DepotNeutral extends Auton {
+    public DepotNeutral(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getDepotStartToShootingPath()),
+                followPathCommand(Paths.getMiddleToShootingPath()),
                 new ShootCommand().withTimeout(2),
-                followPathCommand(Paths.getDepotShootingToNeutralPath()).alongWith(
+                followPathCommand(Paths.getShootingToDepotPath()).alongWith(
                         new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)),
                 new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE)
                         .raceWith(followPathCommand(Paths.getAcquireFromDepotPath())),
-                followPathCommand(Paths.getDepotNeutralToAcquirePath()),
+                followPathCommand(Paths.getDepotToShootingPath()),
                 new ShootCommand().withTimeout(2));
     }
 }
