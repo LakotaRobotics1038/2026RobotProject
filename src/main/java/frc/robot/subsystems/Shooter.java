@@ -57,12 +57,12 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Computes a virtual hub position offset by the robot's velocity to compensate
-     * for lead shots while moving.
+     * Gets a hub position offset compensating for robot velocity.
      *
      * @param robotPose           Current robot pose in field coordinates.
      * @param robotRelativeSpeeds Robot-relative chassis speeds.
-     * @return Adjusted hub position that accounts for robot movement during time of flight.
+     * @return Adjusted hub position that accounts for robot movement during time of
+     *         flight.
      */
     public static Translation2d getVirtualHubPosition(Pose2d robotPose, ChassisSpeeds robotRelativeSpeeds) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
