@@ -14,17 +14,17 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class LeftAuto extends Auton {
-    public LeftAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class RightAuto extends Auton {
+    public RightAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getLeft1Path())
+                followPathCommand(Paths.getRight1Path())
                         .alongWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
                                 new AcquisitionRunCommand(Mode.INTAKE)),
-                followPathCommand(Paths.getLeft2Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
+                followPathCommand(Paths.getRight2Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
                 new ShootCommand().withTimeout(2),
-                followPathCommand(Paths.getLeft3Path()).alongWith(new AcquisitionRunCommand(Mode.INTAKE)),
-                followPathCommand(Paths.getLeft4Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
+                followPathCommand(Paths.getRight3Path()).alongWith(new AcquisitionRunCommand(Mode.INTAKE)),
+                followPathCommand(Paths.getRight4Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
                 new ShootCommand().withTimeout(2));
     }
 }

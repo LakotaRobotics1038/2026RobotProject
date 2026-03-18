@@ -47,15 +47,17 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        this.leftBumper().onTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE))
+                .onFalse(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.STOP));
+        this.rightBumper().onTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))
+                .onFalse(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.STOP));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
 
         new Trigger(this::isInTrench)
-                .and(() -> DriverStation.isTeleopEnabled())
+                .and(DriverStation::isTeleopEnabled)
                 .and(() -> !dashboard.isManualModeEnabled())
                 .onTrue(new AcquisitionTrenchRetract());
 
