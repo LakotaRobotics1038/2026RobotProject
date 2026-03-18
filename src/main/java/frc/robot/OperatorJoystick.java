@@ -43,8 +43,10 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.start().onTrue(new ZeroClimbCommand());
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        this.leftBumper().onTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE))
+                .onFalse(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.STOP));
+        this.rightBumper().onTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))
+                .onFalse(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.STOP));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
