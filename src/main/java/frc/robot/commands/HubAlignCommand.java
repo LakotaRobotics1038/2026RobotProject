@@ -72,6 +72,8 @@ public class HubAlignCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         rotationController.reset();
+        driveTrain.setControl(
+                driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
     }
 
