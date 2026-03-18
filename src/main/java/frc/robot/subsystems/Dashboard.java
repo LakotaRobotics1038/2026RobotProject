@@ -43,16 +43,11 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
-
         SmartDashboard.putData(field);
 
-        PathPlannerLogging.setLogTargetPoseCallback((pose) ->
-            field.getObject("target pose").setPose(pose)
-        );
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
 
-        PathPlannerLogging.setLogActivePathCallback((poses) ->
-            field.getObject("poses").setPoses(poses)
-        );
+        PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("poses").setPoses(poses));
     }
 
     @Override

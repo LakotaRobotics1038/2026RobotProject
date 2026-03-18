@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.FeedbackSensor;
 import com.revrobotics.spark.SparkClosedLoopController;
@@ -12,6 +13,7 @@ import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
@@ -21,12 +23,11 @@ public class Acquisition extends SubsystemBase {
     private final SparkMax pivotMotor = new SparkMax(AcquisitionConstants.PIVOT_MOTOR_CAN_ID, MotorType.kBrushless);
     private final SparkMax intakeMotor = new SparkMax(AcquisitionConstants.INTAKE_MOTOR_CAN_ID, MotorType.kBrushless);
 
+    private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     private final AbsoluteEncoder pivotEncoder = pivotMotor.getAbsoluteEncoder();
 
     private final SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intakeMotor.getClosedLoopController();
-
-    private AcquisitionSetpoint setpoint = AcquisitionSetpoint.RAISED;
 
     private static Acquisition instance = null;
 
@@ -48,10 +49,7 @@ public class Acquisition extends SubsystemBase {
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
-        intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast).closedLoop
-                .pid(AcquisitionConstants.INTAKE_P, AcquisitionConstants.INTAKE_I,
-                        AcquisitionConstants.INTAKE_D).feedForward
-                .sva(AcquisitionConstants.INTAKE_S, AcquisitionConstants.INTAKE_V, AcquisitionConstants.INTAKE_A);
+        intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast);
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -71,24 +69,29 @@ public class Acquisition extends SubsystemBase {
      * @param setpoint The setpoint for the pivot motor to go to.
      */
     public void setPivot(AcquisitionSetpoint setpoint) {
-        this.setpoint = setpoint;
-        pivotController.setSetpoint(setpoint.getDegrees(), ControlType.kPosition);
+        setPivotDegrees(setpoint.getDegrees());
+    }
+
+    public void setPivotDegrees(double degrees) {
+        pivotController.setSetpoint(
+                MathUtil.clamp(degrees, AcquisitionConstants.PIVOT_MIN_ANGLE, AcquisitionConstants.PIVOT_MAX_ANGLE),
+                ControlType.kPosition);
     }
 
     /**
-     * Sets the Acquisition's intake RPM to
-     * {@link AcquisitionConstants#INTAKE_ACQUIRE_RPM}.
+     * Sets the Acquisition's intake power to
+     * {@link AcquisitionConstants#INTAKE_ACQUIRE_DUTY_CYCLE}.
      */
     public void acquire() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_RPM, ControlType.kVelocity);
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_ACQUIRE_DUTY_CYCLE, ControlType.kDutyCycle);
     }
 
     /**
-     * Sets the Acquisition's disposal RPM to
-     * {@link AcquisitionConstants#INTAKE_DISPOSE_RPM}.
+     * Sets the Acquisition's disposal power to
+     * {@link AcquisitionConstants#INTAKE_DISPOSE_DUTY_CYCLE}.
      */
     public void dispose() {
-        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_RPM, ControlType.kVelocity);
+        intakeController.setSetpoint(AcquisitionConstants.INTAKE_DISPOSE_DUTY_CYCLE, ControlType.kDutyCycle);
     }
 
     /**
@@ -105,21 +108,18 @@ public class Acquisition extends SubsystemBase {
     /**
      * Gets if the pivot motor is at the setpoint.
      */
-    public boolean atSetpoint() {
+    public boolean pivotAtSetpoint() {
         return pivotController.isAtSetpoint();
     }
 
-    /**
-     * Gets the setpoint of the pivot motor.
-     */
-    public AcquisitionSetpoint getSetpoint() {
-        return setpoint;
+    public double getIntakeRPM() {
+        return intakeEncoder.getVelocity();
     }
 
     /**
      * Gets the position of the pivot encoder.
      */
-    public double getPosition() {
+    public double getPivotPosition() {
         return pivotEncoder.getPosition();
     }
 }

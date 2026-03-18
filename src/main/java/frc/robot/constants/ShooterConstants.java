@@ -2,9 +2,6 @@ package frc.robot.constants;
 
 import java.util.List;
 
-import com.revrobotics.servohub.ServoChannel;
-import com.revrobotics.servohub.config.ServoChannelConfig;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 
@@ -12,30 +9,24 @@ public final class ShooterConstants {
     public record ShooterModuleConstants(
             int leftMotorCanId,
             int rightMotorCanId,
-            Translation2d translation,
-            ServoChannel.ChannelId servoChannelID,
-            ServoChannelConfig.PulseRange servoPulseRange) {
+            Translation2d translation) {
     }
 
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
             6,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)),
-            ServoChannel.ChannelId.kChannelId1,
-            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
             13,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)),
-            ServoChannel.ChannelId.kChannelId0,
-            new ServoChannelConfig.PulseRange(1000, 1500, 2000));
+            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
 
-    public static final int SERVO_HUB_CAN_ID = 17;
+    public static final double OPERATING_TOLERANCE = 75;
 
-    public static final double RPM_TOLERANCE = 25;
+    public static final double NEAR_SHOOTER_PERCENTAGE = 0.95;
 
-    public static final double P = 0.0;
+    public static final double P = 0.000175;
     public static final double I = 0.0;
     public static final double D = 0.0;
 
@@ -43,15 +34,13 @@ public final class ShooterConstants {
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0.0;
 
-    public static final double SHOOTER_ANGLE_MIN_DEG = 55.0;
-    public static final double SHOOTER_ANGLE_MAX_DEG = 70.0;
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
-    public static final double MANUAL_SHOOTER_ANGLE_DEG = SHOOTER_ANGLE_MIN_DEG;
-    public static final double MANUAL_SHOOTER_RPM = 3200.0;
+    public static final double MANUAL_SHOOTER_ANGLE_DEG = 59;
+    public static final double MANUAL_SHOOTER_RPM = 2900.0;
     public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
     public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
     // Make sure there's a 0 at the end so manual mode goes by 10s
-    public static final double MANUAL_SHOOTER_MAX_RPM = NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10 * 10;
+    public static final double MANUAL_SHOOTER_MAX_RPM = (int) (NeoMotorConstants.VORTEX_FREE_SPEED_RPM / 10) * 10;
 
     /**
      * List of angles and their corresponding shooter formulas. The formula is used
@@ -61,15 +50,21 @@ public final class ShooterConstants {
      */
     public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
             new ShooterFormula(
-                    66.3,
+                    68,
                     393.7,
                     2150,
-                    1.7,
-                    3.25));
+                    1.524,
+                    2.286),
+            new ShooterFormula(
+                    59,
+                    397.69,
+                    1799.3,
+                    2.286,
+                    10000.0));
 
     public static final class ShooterFormula {
-        private final double shooterSlope;
-        private final double shooterYIntercept;
+        private final double slope;
+        private final double yIntercept;
         private final double min;
         private final double max;
         private final double angle;
@@ -81,8 +76,8 @@ public final class ShooterConstants {
                 double min,
                 double max) {
             this.angle = angle;
-            this.shooterSlope = shooterSlope;
-            this.shooterYIntercept = shooterYIntercept;
+            this.slope = shooterSlope;
+            this.yIntercept = shooterYIntercept;
             this.min = min;
             this.max = max;
         }
@@ -99,8 +94,16 @@ public final class ShooterConstants {
             return max;
         }
 
+        public double getSlope() {
+            return slope;
+        }
+
+        public double getYIntercept() {
+            return yIntercept;
+        }
+
         public double getShooterRPM(double distance) {
-            return shooterSlope * distance + shooterYIntercept;
+            return slope * distance + yIntercept;
         }
     }
 }
