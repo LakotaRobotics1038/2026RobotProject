@@ -51,6 +51,8 @@ public class AutonSelector {
         System.out.println(this.autoChooser.getSelected());
         try {
             switch (this.autoChooser.getSelected()) {
+                case LeftAuto:
+                    return new LeftAuto(alliance);
                 default:
                     return null;
             }
