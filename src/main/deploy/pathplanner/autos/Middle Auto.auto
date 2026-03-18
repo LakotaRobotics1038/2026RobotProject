@@ -7,19 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Start to Shooting)"
+            "pathName": "Middle 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Shooting to Neutral)"
+            "pathName": "Middle 2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Neutral To Shooting)"
+            "pathName": "Middle 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle 5"
           }
         }
       ]

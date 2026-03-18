@@ -3,51 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.494132530120482,
-        "y": 6.183
+        "x": 8.744113636363636,
+        "y": 2.427136363636364
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.632419747213182,
-        "y": 6.5873759392458835
+        "x": 6.996572622949344,
+        "y": 1.5783710384745029
       },
       "isLocked": false,
-      "linkedName": "depotNeutralAcq"
+      "linkedName": "Right1"
     },
     {
       "anchor": {
-        "x": 3.655158450704226,
-        "y": 7.420281690140845
+        "x": 6.239556818181818,
+        "y": 0.6955909090909096
       },
       "prevControl": {
-        "x": 5.475545774647888,
-        "y": 7.563996478873239
+        "x": 7.9166871642960785,
+        "y": 1.9941926669580883
       },
       "nextControl": {
-        "x": 1.4387865092893373,
-        "y": 7.245304957923881
+        "x": 6.041886062127351,
+        "y": 0.5425344743981608
       },
       "isLocked": false,
-      "linkedName": "depotTrench"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.3,
-        "y": 5.3
+        "x": 3.7349999999999994,
+        "y": 0.6955909090909096
       },
       "prevControl": {
-        "x": 2.9651295100436714,
-        "y": 6.280856943273382
+        "x": 4.470899287032998,
+        "y": 0.68968092108973
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "depotShooting"
+      "linkedName": "Right2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.93,
-      "rotationDegrees": 0.0
+      "waypointRelativePos": 1.638364779874213,
+      "rotationDegrees": 180.0
     }
   ],
   "constraintZones": [],
@@ -63,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -130.0
+    "rotation": 166.48746936421398
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }

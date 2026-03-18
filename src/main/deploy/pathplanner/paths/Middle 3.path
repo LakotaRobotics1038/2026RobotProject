@@ -3,53 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 5.904636233951498
+        "x": 0.8181704545454542,
+        "y": 5.921147727272728
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1,
-        "y": 5.904636233951498
+        "x": 1.5061458596601018,
+        "y": 5.521402829935502
       },
       "isLocked": false,
-      "linkedName": "FromDepot"
+      "linkedName": "Middle2"
     },
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.904636233951498
+        "x": 1.5808749999999998,
+        "y": 5.292431818181818
       },
       "prevControl": {
-        "x": 1.15,
-        "y": 5.904636233951498
-      },
-      "nextControl": {
-        "x": 1.65,
-        "y": 5.904636233951498
-      },
-      "isLocked": false,
-      "linkedName": "ToDepot"
-    },
-    {
-      "anchor": {
-        "x": 2.3,
-        "y": 5.3
-      },
-      "prevControl": {
-        "x": 1.9612385968159154,
-        "y": 5.5731898359293295
+        "x": 1.0439013251291742,
+        "y": 5.542709602467477
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "depotShooting"
+      "linkedName": "Middle3"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.25,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -63,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -130.0
+    "rotation": 64.44003482817624
   },
   "reversed": false,
   "folder": null,
