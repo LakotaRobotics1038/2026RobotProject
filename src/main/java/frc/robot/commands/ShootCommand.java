@@ -25,6 +25,11 @@ public class ShootCommand extends Command {
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
 
+    public ShootCommand() {
+        this.wiggleAcquisitionSupplier = () -> false;
+        addRequirements(acquisition, kicker, shooter);
+    }
+
     public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
         this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
         addRequirements(acquisition, kicker, shooter);

@@ -62,12 +62,18 @@ public class HubAlignCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        if (this.alignmentStateConsumer == null) {
+            return rotationController.atSetpoint();
+        }
+
         return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         rotationController.reset();
+        driveTrain.setControl(
+                driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
     }
 
@@ -87,7 +93,9 @@ public class HubAlignCommand extends Command {
     private void updateAlignmentState(boolean isAligned) {
         if (alignedToHub != isAligned) {
             alignedToHub = isAligned;
-            alignmentStateConsumer.accept(alignedToHub);
+            if (alignmentStateConsumer != null) {
+                alignmentStateConsumer.accept(alignedToHub);
+            }
             dashboard.setHubAligned(isAligned);
         }
     }
