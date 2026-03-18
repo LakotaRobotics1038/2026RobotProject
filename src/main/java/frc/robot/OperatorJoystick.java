@@ -63,7 +63,6 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new AcquisitionTrenchRetract());
 
         new Trigger(this::isInTrench)
-                .and(() -> DriverStation.isTeleopEnabled())
                 .and(() -> !dashboard.isManualModeEnabled())
                 .whileTrue(new RetractHoodsCommand());
 
