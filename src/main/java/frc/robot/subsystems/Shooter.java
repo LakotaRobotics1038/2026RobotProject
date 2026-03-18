@@ -9,6 +9,8 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -132,7 +134,7 @@ public class Shooter extends SubsystemBase {
          * @return Whether the shooter is at the target RPM.
          */
         public boolean isAtTargetRPM() {
-            return Math.abs(getRPM() - getTargetRPM()) <= ShooterConstants.OPERATING_TOLERANCE;
+            return MathUtil.isNear(getRPM(), getTargetRPM(), ShooterConstants.OPERATING_TOLERANCE);
         }
 
         /**
