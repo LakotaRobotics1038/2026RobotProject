@@ -18,9 +18,9 @@ public class LeftAuto extends Auton {
     public LeftAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
+                new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
                 followPathCommand(Paths.getLeftStartPath())
-                        .raceWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED).andThen(
-                                new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))),
+                        .raceWith(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getMiddleAcquireToShootPath()),
                 new HubAlignCommand(() -> 0, () -> 0, null),
                 new ShootCommand().withTimeout(5));
