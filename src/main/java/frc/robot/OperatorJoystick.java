@@ -9,7 +9,6 @@ import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.ZeroClimbCommand;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
@@ -47,8 +46,6 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
-
-        this.start().onTrue(new ZeroClimbCommand());
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));

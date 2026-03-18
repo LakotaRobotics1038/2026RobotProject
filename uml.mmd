@@ -91,27 +91,6 @@ classDiagram
     + getInstance() AutonSelector
     + chooseAuton() Auton
   }
-  class Climb {
-    - Climb()
-    - SparkMax motor
-    - Climb instance
-    - SparkClosedLoopController controller
-    + getInstance() Climb
-    + isAtSetpoint() boolean
-    + stopClimb() void
-    + climbUp() void
-    + getSetpoint() double
-    + climbDown() void
-  }
-  class ClimbConstants {
-    - ClimbConstants()
-    + double D
-    + double I
-    + double MAX_CLIMB
-    + double P
-    + double MIN_CLIMB
-    + int MOTOR_CAN_ID
-  }
   class Dashboard {
     - Dashboard()
     - SendableChooser~Double~ delayChooser
