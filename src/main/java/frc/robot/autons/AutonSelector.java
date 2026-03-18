@@ -53,6 +53,10 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftAuto:
                     return new LeftAuto(alliance);
+                case MiddleAuto:
+                    return new MiddleAuto(alliance);
+                case RightAuto:
+                    return new RightAuto(alliance);
                 default:
                     return null;
             }
