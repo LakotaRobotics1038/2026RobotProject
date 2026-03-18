@@ -21,29 +21,26 @@ classDiagram
     + pivotAtSetpoint() boolean
   }
   class AcquisitionConstants {
-    - AcquisitionConstants()
-    + double PIVOT_I
-    + double INTAKE_ACQUIRE_RPM
-    + double PIVOT_ENCODER_CONVERSION_FACTOR
-    + double INTAKE_I
-    + double INTAKE_V
-    + double PIVOT_P
-    + double INTAKE_S
-    + double INTAKE_P
-    + double PIVOT_ALLOWED_ERROR_DEGREES
-    + int INTAKE_MOTOR_CAN_ID
-    + double PIVOT_D
-    + double INTAKE_D
-    + double INTAKE_DISPOSE_RPM
-    + int PIVOT_MOTOR_CAN_ID
-    + double INTAKE_A
+    + INTAKE_ACQUIRE_DUTY_CYCLE : double
+    + INTAKE_DISPOSE_DUTY_CYCLE : double
+    + INTAKE_MOTOR_CAN_ID : int 
+    + PIVOT_ALLOWED_ERROR_DEGREES : double
+    + PIVOT_D : double
+    + PIVOT_ENCODER_CONVERSION_FACTOR : double
+    + PIVOT_I : double
+    + PIVOT_MAX_ANGLE : double
+    + PIVOT_MAX_TRENCH_ANGLE_DEGREES : double
+    + PIVOT_MIN_ANGLE : double
+    + PIVOT_MOTOR_CAN_ID : int
+    + PIVOT_P : double
+    + PIVOT_POWER : double
   }
   class AcquisitionSetpoint {
     <<enumeration>>
-    - AcquisitionSetpoint(double)
-    +  LOWERED
-    - double degrees
-    +  RAISED
+    HIGH_RAISE
+    LOWERED
+    LOW_RAISE 
+    RAISED
     + getDegrees() double
     + values() AcquisitionSetpoint[]
     + valueOf(String) AcquisitionSetpoint
