@@ -7,25 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Start to Shooting)"
+            "pathName": "Left Start to Middle Acquire"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot(Shooting to Neutral)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Depot(Neutral To Shooting)"
+            "pathName": "Middle to Shoot"
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }
