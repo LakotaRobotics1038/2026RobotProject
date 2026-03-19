@@ -4,10 +4,13 @@ import com.ctre.phoenix6.swerve.SwerveDrivetrain;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.HubAlignCommand;
+import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
@@ -104,6 +107,19 @@ public class DriverJoystick extends XboxController1038 {
                 this::getForwardValue,
                 this::getSidewaysValue,
                 aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+
+        Trigger trenchTrigger = new Trigger(this::isInTrench).or(this::isDrivingTowardsTrench);
+
+        trenchTrigger
+                .and(DriverStation::isTeleopEnabled)
+                .and(() -> !dashboard.isManualModeEnabled())
+                .onTrue(new AcquisitionTrenchRetract());
+
+        trenchTrigger
+                .and(() -> !dashboard.isManualModeEnabled())
+                .whileTrue(new RetractHoodsCommand())
+                .onTrue(new InstantCommand(() -> maxPower = DriveConstants.TRENCH_SLOWDOWN_POWER))
+                .onFalse(new InstantCommand(() -> maxPower = DriveConstants.DEFAULT_MAX_POWER));
     }
 
     /**
@@ -176,5 +192,24 @@ public class DriverJoystick extends XboxController1038 {
      */
     private boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
+    }
+
+    private boolean isInTrench() {
+        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
+        return RectangleUtils.inRect(
+                FieldConstants.TRENCH_RECTANGLES,
+                robotPos);
+    }
+
+    private boolean isDrivingTowardsTrench() {
+        SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
+        Translation2d robotPos = state.Pose.getTranslation();
+        double vx = state.Speeds.vxMetersPerSecond;
+        double vy = state.Speeds.vyMetersPerSecond;
+        return RectangleUtils.drivingThroughRect(
+                FieldConstants.TRENCH_APPROACH_RECTANGLES,
+                robotPos,
+                vx,
+                vy);
     }
 }

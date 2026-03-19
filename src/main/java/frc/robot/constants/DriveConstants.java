@@ -16,6 +16,7 @@ public final class DriveConstants {
 
     public static final double DEFAULT_MAX_POWER = 1.0;
     public static final double BUMP_SLOWDOWN_POWER = 0.3;
+    public static final double TRENCH_SLOWDOWN_POWER = 0.3;
 
     public static final double BUMP_APPROACH_SPEED_THRESHOLD = 0.5;
 

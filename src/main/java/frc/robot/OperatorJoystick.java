@@ -56,36 +56,6 @@ public class OperatorJoystick extends XboxController1038 {
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
 
-        Trigger trenchTrigger = new Trigger(this::isInTrench).or(this::isDrivingTowardsTrench);
-
-        trenchTrigger
-                .and(DriverStation::isTeleopEnabled)
-                .and(() -> !dashboard.isManualModeEnabled())
-                .onTrue(new AcquisitionTrenchRetract());
-
-        trenchTrigger
-                .and(() -> !dashboard.isManualModeEnabled())
-                .whileTrue(new RetractHoodsCommand());
-
         this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
-    }
-
-    private boolean isInTrench() {
-        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        return RectangleUtils.inRect(
-                FieldConstants.TRENCH_RECTANGLES,
-                robotPos);
-    }
-
-    private boolean isDrivingTowardsTrench() {
-        SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
-        Translation2d robotPos = state.Pose.getTranslation();
-        double vx = state.Speeds.vxMetersPerSecond;
-        double vy = state.Speeds.vyMetersPerSecond;
-        return RectangleUtils.drivingThroughRect(
-                FieldConstants.TRENCH_APPROACH_RECTANGLES,
-                robotPos,
-                vx,
-                vy);
     }
 }
