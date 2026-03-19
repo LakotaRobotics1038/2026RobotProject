@@ -559,20 +559,20 @@ classDiagram
     - backCam : PhotonCamera 
     - frontCamPhotonEstimator : PhotonPoseEstimator 
     - backCamPhotonEstimator : PhotonPoseEstimator 
-    - frontCurStdDevs : Matrix<N3, N1> 
-    - backCurStdDevs : Matrix<N3, N1> 
-    - frontStdDevSetter : Consumer<Matrix<N3, N1>> 
-    - backStdDevSetter : Consumer<Matrix<N3, N1>> 
+    - frontCurStdDevs : Matrix~N3, N1~ 
+    - backCurStdDevs : Matrix~N3, N1~ 
+    - frontStdDevSetter : Consumer~Matrix~N3, N1~~ 
+    - backStdDevSetter : Consumer~Matrix~N3, N1~~ 
     - instance : Vision 
     + getInstance() : Vision 
     - Vision() 
-    -  estimateCameraPose(PhotonCamera camera, PhotonPoseEstimator estimator, Matrix<N3, N1> curStdDevs, Consumer<Matrix<N3, N1>> stdDevSetter) : Optional<EstimatedRobotPose>   
-    + frontCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>     
-    + backCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>  
-    - updateEstimationStdDevs(PhotonPoseEstimator estimator, Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) : Matrix<N3, N1> 
-    + getFrontEstimationStdDevs() : Matrix<N3, N1>     
-    + getBackEstimationStdDevs() : Matrix<N3, N1> 
-}
+    -  estimateCameraPose(PhotonCamera camera, PhotonPoseEstimator estimator, Matrix~N3, N1~ curStdDevs, Consumer~Matrix~N3, N1~~ stdDevSetter) : Optional~EstimatedRobotPose~   
+    + frontCamGetEstimatedGlobalPose() : Optional~EstimatedRobotPose~     
+    + backCamGetEstimatedGlobalPose() : Optional~EstimatedRobotPose~  
+    - updateEstimationStdDevs(PhotonPoseEstimator estimator, Optional~EstimatedRobotPose~ estimatedPose, List~PhotonTrackedTarget~ targets) : Matrix~N3, N1~ 
+    + getFrontEstimationStdDevs() : Matrix~N3, N1~     
+    + getBackEstimationStdDevs() : Matrix~N3, N1~ 
+ }
   class VisionConstants {
     + VisionConstants()
     + double HEIGHT
