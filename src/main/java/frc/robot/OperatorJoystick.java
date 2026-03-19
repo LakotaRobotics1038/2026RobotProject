@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrain;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -54,12 +56,14 @@ public class OperatorJoystick extends XboxController1038 {
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
 
-        new Trigger(this::isInTrench)
-                .and(() -> DriverStation.isTeleopEnabled())
+        Trigger trenchTrigger = new Trigger(this::isInTrench).or(this::isDrivingTowardsTrench);
+
+        trenchTrigger
+                .and(DriverStation::isTeleopEnabled)
                 .and(() -> !dashboard.isManualModeEnabled())
                 .onTrue(new AcquisitionTrenchRetract());
 
-        new Trigger(this::isInTrench)
+        trenchTrigger
                 .and(() -> !dashboard.isManualModeEnabled())
                 .whileTrue(new RetractHoodsCommand());
 
@@ -71,5 +75,17 @@ public class OperatorJoystick extends XboxController1038 {
         return RectangleUtils.inRect(
                 FieldConstants.TRENCH_RECTANGLES,
                 robotPos);
+    }
+
+    private boolean isDrivingTowardsTrench() {
+        SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
+        Translation2d robotPos = state.Pose.getTranslation();
+        double vx = state.Speeds.vxMetersPerSecond;
+        double vy = state.Speeds.vyMetersPerSecond;
+        return RectangleUtils.drivingThroughRect(
+                FieldConstants.TRENCH_APPROACH_RECTANGLES,
+                robotPos,
+                vx,
+                vy);
     }
 }

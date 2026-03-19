@@ -30,12 +30,15 @@ public final class FieldConstants {
     private static final double LEFT_BUMP_Y_OFFSET = LEFT_TRENCH_Y_OFFSET - BUMP_WIDTH;
     private static final double RIGHT_BUMP_Y_OFFSET = TRENCH_WIDTH;
 
+    private static final double TRENCH_APPROACH_X_EXTENSION = DriveConstants.ROBOT_SIZE_RADIUS;
+
     private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
             - BUMP_DEPTH;
 
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(BUMP_DEPTH, BUMP_WIDTH));
+
     private static final Rectangle2d BLUE_LEFT_BUMP = BUMP.transformBy(new Transform2d(
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_BUMP_Y_OFFSET),
             Rotation2d.kZero));
@@ -75,6 +78,28 @@ public final class FieldConstants {
             BLUE_RIGHT_TRENCH,
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
+
+    private static final Rectangle2d TRENCH_APPROACH = new Rectangle2d(
+            new Translation2d(-TRENCH_APPROACH_X_EXTENSION, 0),
+            new Translation2d(BUMP_DEPTH + TRENCH_APPROACH_X_EXTENSION, TRENCH_WIDTH));
+
+    private static final Rectangle2d BLUE_LEFT_TRENCH_APPROACH = TRENCH_APPROACH.transformBy(new Transform2d(
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, LEFT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    private static final Rectangle2d BLUE_RIGHT_TRENCH_APPROACH = TRENCH_APPROACH.transformBy(new Transform2d(
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, RIGHT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    private static final Rectangle2d RED_LEFT_TRENCH_APPROACH = TRENCH_APPROACH.transformBy(new Transform2d(
+            new Translation2d(RED_SIDE_DISTANCE, LEFT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    private static final Rectangle2d RED_RIGHT_TRENCH_APPROACH = TRENCH_APPROACH.transformBy(new Transform2d(
+            new Translation2d(RED_SIDE_DISTANCE, RIGHT_TRENCH_Y_OFFSET),
+            Rotation2d.kZero));
+    public static final List<Rectangle2d> TRENCH_APPROACH_RECTANGLES = List.of(
+            BLUE_LEFT_TRENCH_APPROACH,
+            BLUE_RIGHT_TRENCH_APPROACH,
+            RED_LEFT_TRENCH_APPROACH,
+            RED_RIGHT_TRENCH_APPROACH);
 
     public static Translation2d hubPosition(Alliance alliance) {
         return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
