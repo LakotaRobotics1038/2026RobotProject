@@ -566,17 +566,10 @@ classDiagram
     - instance : Vision 
     + getInstance() : Vision 
     - Vision() 
-    -  estimateCameraPose(
-            PhotonCamera camera,
-            PhotonPoseEstimator estimator,
-            Matrix<N3, N1> curStdDevs,
-            Consumer<Matrix<N3, N1>> stdDevSetter)  : Optional<EstimatedRobotPose>   
+    -  estimateCameraPose(PhotonCamera camera, PhotonPoseEstimator estimator, Matrix<N3, N1> curStdDevs, Consumer<Matrix<N3, N1>> stdDevSetter) : Optional<EstimatedRobotPose>   
     + frontCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>     
     + backCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>  
-    - updateEstimationStdDevs(
-            PhotonPoseEstimator estimator,
-            Optional<EstimatedRobotPose> estimatedPose,
-            List<PhotonTrackedTarget> targets) : Matrix<N3, N1> 
+    - updateEstimationStdDevs(PhotonPoseEstimator estimator, Optional<EstimatedRobotPose> estimatedPose, List<PhotonTrackedTarget> targets) : Matrix<N3, N1> 
     + getFrontEstimationStdDevs() : Matrix<N3, N1>     
     + getBackEstimationStdDevs() : Matrix<N3, N1> 
 }
