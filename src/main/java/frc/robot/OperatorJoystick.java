@@ -1,12 +1,10 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionConstants;
@@ -54,14 +52,14 @@ public class OperatorJoystick extends XboxController1038 {
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
 
-        new Trigger(this::isInTrench)
-                .and(() -> DriverStation.isTeleopEnabled())
-                .and(() -> !dashboard.isManualModeEnabled())
-                .onTrue(new AcquisitionTrenchRetract());
+        // new Trigger(this::isInTrench)
+        // .and(() -> DriverStation.isTeleopEnabled())
+        // .and(() -> !dashboard.isManualModeEnabled())
+        // .onTrue(new AcquisitionTrenchRetract());
 
-        new Trigger(this::isInTrench)
-                .and(() -> !dashboard.isManualModeEnabled())
-                .whileTrue(new RetractHoodsCommand());
+        // new Trigger(this::isInTrench)
+        // .and(() -> !dashboard.isManualModeEnabled())
+        // .whileTrue(new RetractHoodsCommand());
 
         this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
     }
