@@ -555,24 +555,31 @@ classDiagram
     + telemeterize(SwerveDriveState) void
   }
   class Vision {
-    - Vision()
-    - PhotonCamera frontCam
-    - Vision instance
-    - PhotonPoseEstimator frontCamPhotonEstimator
-    - Matrix~N3, N1~ frontCurStdDevs
-    - Matrix~N3, N1~ backCurStdDevs
-    - PhotonCamera backCam
-    - Consumer~Matrix~N3, N1~~ backStdDevSetter
-    - PhotonPoseEstimator backCamPhotonEstimator
-    - Consumer~Matrix~N3, N1~~ frontStdDevSetter
-    - updateEstimationStdDevs(PhotonPoseEstimator, Optional~EstimatedRobotPose~, List~PhotonTrackedTarget~) Matrix~N3, N1~
-    + getBackEstimationStdDevs() Matrix~N3, N1~
-    + backCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
-    + getInstance() Vision
-    + frontCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
-    - estimateCameraPose(PhotonCamera, PhotonPoseEstimator, Matrix~N3, N1~, Consumer~Matrix~N3, N1~~) Optional~EstimatedRobotPose~
-    + getFrontEstimationStdDevs() Matrix~N3, N1~
-  }
+    - frontCam : PhotonCamera 
+    - backCam : PhotonCamera 
+    - frontCamPhotonEstimator : PhotonPoseEstimator 
+    - backCamPhotonEstimator : PhotonPoseEstimator 
+    - frontCurStdDevs : Matrix<N3, N1> 
+    - backCurStdDevs : Matrix<N3, N1> 
+    - frontStdDevSetter : Consumer<Matrix<N3, N1>> 
+    - backStdDevSetter : Consumer<Matrix<N3, N1>> 
+    - instance : Vision 
+    + getInstance() : Vision 
+    - Vision() 
+    -  estimateCameraPose(
+            PhotonCamera camera,
+            PhotonPoseEstimator estimator,
+            Matrix<N3, N1> curStdDevs,
+            Consumer<Matrix<N3, N1>> stdDevSetter)  : Optional<EstimatedRobotPose>   
+    + frontCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>     
+    + backCamGetEstimatedGlobalPose() : Optional<EstimatedRobotPose>  
+    - updateEstimationStdDevs(
+            PhotonPoseEstimator estimator,
+            Optional<EstimatedRobotPose> estimatedPose,
+            List<PhotonTrackedTarget> targets) : Matrix<N3, N1> 
+    + getFrontEstimationStdDevs() : Matrix<N3, N1>     
+    + getBackEstimationStdDevs() : Matrix<N3, N1> 
+}
   class VisionConstants {
     + VisionConstants()
     + double HEIGHT
