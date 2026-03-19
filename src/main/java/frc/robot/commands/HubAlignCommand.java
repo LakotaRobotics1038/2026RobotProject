@@ -48,17 +48,6 @@ public class HubAlignCommand extends Command {
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
-        double distance = shooter.getFarShooter().getHubDistance(robotPose);
-
-        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-            if (formula.getMin() <= distance && formula.getMax() >= distance) {
-                double angle = formula.getAngle();
-                shooterHoods.getNearHood().setAngle(angle);
-                shooterHoods.getFarHood().setAngle(angle);
-                break;
-            }
-        }
-
 
         double targetHeadingRadians = getAlignedTargetHeading(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
