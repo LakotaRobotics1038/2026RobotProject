@@ -12,7 +12,6 @@ import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterHoods;
 
 public class HubAlignCommand extends Command {
     private static final double P = 4.0;
@@ -25,7 +24,6 @@ public class HubAlignCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Shooter shooter = Shooter.getInstance();
-    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
@@ -42,7 +40,7 @@ public class HubAlignCommand extends Command {
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
         rotationController.setTolerance(ALIGNMENT_TOLERANCE_RAD);
 
-        addRequirements(driveTrain, shooterHoods);
+        addRequirements(driveTrain);
     }
 
     @Override
