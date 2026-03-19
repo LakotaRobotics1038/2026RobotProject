@@ -11,6 +11,7 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftAuto,
+        SimpleLeftAuto
     }
 
     // Choosers
@@ -49,6 +50,8 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftAuto:
                     return new LeftAuto(alliance);
+                case SimpleLeftAuto:
+                    return new SimpleLeftAuto(alliance);
                 default:
                     return null;
             }

@@ -17,4 +17,9 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Middle to Shoot");
     }
+
+    public static PathPlannerPath getLeft1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Left 1");
+    }
 }
