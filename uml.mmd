@@ -358,21 +358,21 @@ classDiagram
     + getInstance() : Shooter 
     + getNearShooter() : ShooterModule 
     + getFarShooter() : ShooterModule 
-         class ShooterModule {
-             - SparkFlex leftMotor;
-             - SparkFlex rightMotor;
-             - SparkClosedLoopController controller;
-             - RelativeEncoder encoder;
-             - Translation2d translation;
-             - ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants)
-             + start(double rpm) : void 
-             + stop() : void       
-             + getRPM() : double          
-             + getTargetRPM() : double 
-             + isAtTargetRPM() : boolean 
-             + getHubDistance(Pose2d robotPose) : double 
-             + getHubAngle(Pose2d robotPose) : double 
-         }
+  }
+  class ShooterModule {
+    - SparkFlex leftMotor;
+    - SparkFlex rightMotor;
+    - SparkClosedLoopController controller;
+    - RelativeEncoder encoder;
+    - Translation2d translation;
+    - ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants)
+    + start(double rpm) : void 
+    + stop() : void       
+    + getRPM() : double          
+    + getTargetRPM() : double 
+    + isAtTargetRPM() : boolean 
+    + getHubDistance(Pose2d robotPose) : double 
+    + getHubAngle(Pose2d robotPose) : double 
   }
   class ShooterHoods {
     - servoHub : ServoHub 
