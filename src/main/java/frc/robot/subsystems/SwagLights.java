@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class SwagLights implements Subsystem {
     // Enums
     public enum RobotStates {
-        Enabled("A"),
+        Enabled("D"),
         Disabled("D"),
         EmergencyStop("E");
 
@@ -18,8 +18,10 @@ public class SwagLights implements Subsystem {
     }
 
     public enum OperatorStates {
-        Default("X"),
-        ReadyState("G");
+        Default("D"),
+        ALIGNING("A"),
+        ALIGNED("S"),
+        TOO_CLOSE("C");
 
         public final String value;
 
@@ -29,7 +31,7 @@ public class SwagLights implements Subsystem {
     }
 
     // Inputs and Outputs
-    private SerialPort serialPort;
+    private final SerialPort serialPort;
 
     // States
     private RobotStates robotState = RobotStates.Disabled;
@@ -98,9 +100,15 @@ public class SwagLights implements Subsystem {
         this.robotState = RobotStates.EmergencyStop;
     }
 
-    public void setReadyState() {
-        this.operatorState = OperatorStates.ReadyState;
+    public void setAligningState() {
+        this.operatorState = OperatorStates.ALIGNING;
     }
+
+    public void setAlignedState() {
+        this.operatorState = OperatorStates.ALIGNED;
+    }
+
+
 
     public void setDefaultState() {
         this.operatorState = OperatorStates.Default;
