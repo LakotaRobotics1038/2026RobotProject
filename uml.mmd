@@ -122,17 +122,26 @@ classDiagram
      + getSetpoint() : double
   }
   class Dashboard {
-    - Dashboard()
-    - SendableChooser~Double~ delayChooser
+    - driveTrain : DriveTrain 
+    - autoChooser : SendableChooser<AutonChoices>
+    - delayChooser :  SendableChooser<Double> 
     - Field2d field
-    - SendableChooser~AutonChoices~ autoChooser
-    - DriveTrain driveTrain
-    - Dashboard instance
-    + getDelayChooser() SendableChooser~Double~
-    + getInstance() Dashboard
-    + clearTrajectory() void
-    + getAutoChooser() SendableChooser~AutonChoices~
-    + periodic() void
+    - hubAligned : boolean 
+    - manualModeEnabled : boolean 
+    - manualShooterRPM : double 
+    - instance : Dashboard 
+    - Dashboard()
+    +  getInstance() : Dashboard
+    + periodic() : void 
+    + clearTrajectory() : void 
+    + getAutoChooser() : SendableChooser<AutonChoices> 
+    + getDelayChooser() : SendableChooser<Double> 
+    + setHubAligned(boolean hubAligned) : void 
+    + isManualModeEnabled() : boolean 
+    + getManualShooterRPM() : double 
+    + nudgeManualShooterRPM(double deltaRPM) : void 
+    + resetManualShooterRPM() : void 
+    - setManualShooterRPM(double manualShooterRPM) : void 
   }
   class DashboardConstants {
     + DashboardConstants()
@@ -159,38 +168,38 @@ classDiagram
     + Matrix~N3, N1~ VISION_STD_DEVS
   }
   class DriveTrain {
+    - SIM_LOOP_PERIOD : double 
+    - BLUE_ALLIANCE_PERSPECTIVE_ROTATION : Rotation2d 
+    - RED_ALLIANCE_PERSPECTIVE_ROTATION : Rotation2d 
+    - instance : DriveTrain 
+    - fieldCentricDriveRequest : SwerveRequest.FieldCentric 
+    - robotCentricDriveRequest : SwerveRequest.RobotCentric 
+    - brakeRequest : SwerveRequest.SwerveDriveBrake 
+    - translationCharacterization : SwerveRequest.SysIdSwerveTranslation 
+    - steerCharacterization : SwerveRequest.SysIdSwerveSteerGains 
+    - rotationCharacterization : SwerveRequest.SysIdSwerveRotation 
+    - sysIdRoutineTranslation : SysIdRoutine 
+    - sysIdRoutineToApply : SysIdRoutine 
+    - sysIdRoutineSteer : SysIdRoutine 
+    - sysIdRoutineRotation : SysIdRoutine 
+    - simNotifier : Notifier 
+    - lastSimTime : double 
+    - hasAppliedOperatorPerspective : boolean 
     - DriveTrain()
-    - Rotation2d RED_ALLIANCE_PERSPECTIVE_ROTATION
-    - Rotation2d BLUE_ALLIANCE_PERSPECTIVE_ROTATION
-    - SysIdSwerveTranslation translationCharacterization
-    - SysIdRoutine sysIdRoutineTranslation
-    - SwerveDriveBrake brakeRequest
-    - SysIdRoutine sysIdRoutineToApply
-    - DriveTrain instance
-    - SysIdRoutine sysIdRoutineRotation
-    - FieldCentric fieldCentricDriveRequest
-    - SysIdSwerveSteerGains steerCharacterization
-    - boolean hasAppliedOperatorPerspective
-    - Notifier simNotifier
-    - SysIdRoutine sysIdRoutineSteer
-    - double lastSimTime
-    - SysIdSwerveRotation rotationCharacterization
-    - double SIM_LOOP_PERIOD
-    - RobotCentric robotCentricDriveRequest
-    + getY() double
-    + applyRequest(Supplier~SwerveRequest~) Command
-    + periodic() void
-    + sysIdQuasistatic(Direction) Command
-    + addVisionMeasurement(Pose2d, double) void
-    + setX() Command
-    + sysIdDynamic(Direction) Command
-    + getInstance() DriveTrain
-    + addVisionMeasurement(Pose2d, double, Matrix~N3, N1~) void
-    - startSimThread() void
-    + drive(double, double, double, boolean) SwerveRequest
-    + getX() double
-    + getRotation() double
-  }
+    + getInstance() : DriveTrain 
+    + drive(double xSpeed, double ySpeed, double rot, boolean fieldCentric) : SwerveRequest 
+    + setX() : Command 
+    + applyRequest(Supplier<SwerveRequest> requestSupplier) : Command 
+    + sysIdQuasistatic(SysIdRoutine.Direction direction) : Command 
+    + sysIdDynamic(SysIdRoutine.Direction direction) : Command 
+    + periodic() : void 
+    - startSimThread() : void
+    + addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds) : void 
+    + addVisionMeasurement(Pose2d visionRobotPoseMeters, double timestampSeconds, Matrix<N3, N1> visionMeasurementStdDevs) : void 
+    + getX() : double 
+    + getY() : double 
+    + getRotation() : double 
+}
   class DriverJoystick {
     - DriverJoystick()
     ~ LinearFilter sidewaysFilter
@@ -237,18 +246,18 @@ classDiagram
     + int OPERATOR_CONTROLLER_PORT
   }
   class Kicker {
+    -  motor : SparkMax
+    -  controller : SparkClosedLoopController 
+    -  instance :  Kicker 
     - Kicker()
-    - SparkClosedLoopController controller
-    - SparkMax motor
-    - RelativeEncoder encoder
-    - Kicker instance
-    + stop() void
-    + getTargetRPM() double
-    + getRPM() double
-    + isAtTargetRPM() boolean
-    + getInstance() Kicker
-    + start(double) void
-  }
+    + getInstance() : Kicker 
+    + start() : void 
+    + reverse() : void 
+    + stop() : void 
+    + getRPM() : double 
+    + getTargetRPM() : double 
+    + isAtTargetRPM() : boolean 
+}
   class KickerConstants {
     - KickerConstants()
     + double V
@@ -342,13 +351,45 @@ classDiagram
     + values() RobotStates[]
   }
   class Shooter {
+    - instance : Shooter
+    - nearShooter : ShooterModule 
+    - farShooter : ShooterModule 
     - Shooter()
-    - Shooter instance
-    - ShooterModule nearShooter
-    - ShooterModule farShooter
-    + getNearShooter() ShooterModule
-    + getFarShooter() ShooterModule
-    + getInstance() Shooter
+    + getInstance() : Shooter 
+    + getNearShooter() : ShooterModule 
+    + getFarShooter() : ShooterModule 
+         class ShooterModule {
+             - SparkFlex leftMotor;
+             - SparkFlex rightMotor;
+             - SparkClosedLoopController controller;
+             - RelativeEncoder encoder;
+             - Translation2d translation;
+             - ShooterModule(ShooterConstants.ShooterModuleConstants moduleConstants)
+             + start(double rpm) : void 
+             + stop() : void       
+             + getRPM() : double          
+             + getTargetRPM() : double 
+             + isAtTargetRPM() : boolean 
+             + getHubDistance(Pose2d robotPose) : double 
+             + getHubAngle(Pose2d robotPose) : double 
+         }
+  }
+  class ShooterHoods {
+    - servoHub : ServoHub 
+    - instance : ShooterHoods
+    - nearHood : Hood 
+    - farHood : Hood 
+    - ShooterHoods()
+    + getInstance() : ShooterHoods 
+    + getNearHood() : Hood 
+    + getFarHood() : Hood 
+         class Hood {
+             - servoChannel : ServoChannel 
+             - pulseRange : ServoChannelConfig.PulseRange
+             - Hood(ChannelId channelId, ServoChannelConfig.PulseRange pulseRange, ServoHubConfig servoHubConfig)
+             + enable() : void 
+             + setAngle(double angle) :  void 
+         }
   }
   class ShooterConstants {
     + ShooterConstants()
