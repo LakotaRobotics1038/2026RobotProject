@@ -34,6 +34,8 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
+        this.autoChooser.addOption("Left Auto Simple", AutonChoices.SimpleLeftAuto);
+
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
