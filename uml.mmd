@@ -382,14 +382,14 @@ classDiagram
     - ShooterHoods()
     + getInstance() : ShooterHoods 
     + getNearHood() : Hood 
-    + getFarHood() : Hood 
-         class Hood {
-             - servoChannel : ServoChannel 
-             - pulseRange : ServoChannelConfig.PulseRange
-             - Hood(ChannelId channelId, ServoChannelConfig.PulseRange pulseRange, ServoHubConfig servoHubConfig)
-             + enable() : void 
-             + setAngle(double angle) :  void 
-         }
+    + getFarHood() : Hood
+  }
+  class Hood {
+    - servoChannel : ServoChannel 
+    - pulseRange : ServoChannelConfig.PulseRange
+    - Hood(ChannelId channelId, ServoChannelConfig.PulseRange pulseRange, ServoHubConfig servoHubConfig)
+    + enable() : void 
+    + setAngle(double angle) :  void 
   }
   class ShooterConstants {
     + ShooterConstants()
