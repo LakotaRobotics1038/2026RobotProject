@@ -21,7 +21,7 @@ public class SimpleLeftAuto extends Auton {
                 new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
                 followPathCommand(Paths.getLeft1Path()),
                 new AdjustHoodsCommand().raceWith(
-                        new HubAlignCommand(() -> 0, () -> 0, null),
-                        new ShootCommand().withTimeout(5)));
+                        new HubAlignCommand(() -> 0, () -> 0, null)
+                                .andThen(new ShootCommand().withTimeout(5))));
     }
 }
