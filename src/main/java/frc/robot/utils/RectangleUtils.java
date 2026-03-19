@@ -22,7 +22,7 @@ public final class RectangleUtils {
      * footprint intersects the rectangle (using
      * {@link DriveConstants#ROBOT_SIZE_RADIUS})
      * and its translational velocity points toward the rectangle at or above
-     * {@link DriveConstants#BUMP_APPROACH_SPEED_THRESHOLD}.
+     * {@link DriveConstants#APPROACH_SPEED_THRESHOLD}.
      *
      * @param rects    rectangles to check against
      * @param robotPos robot translation in meters
@@ -73,7 +73,7 @@ public final class RectangleUtils {
      * <li>The robot is currently in the rectangle (accounting for robot
      * radius)</li>
      * <li>The robot's speed is at least
-     * {@link DriveConstants#BUMP_APPROACH_SPEED_THRESHOLD}</li>
+     * {@link DriveConstants#APPROACH_SPEED_THRESHOLD}</li>
      * <li>The velocity vector has a positive dot product toward the nearest point
      * on the rectangle</li>
      * </ul>
@@ -92,7 +92,7 @@ public final class RectangleUtils {
         // Size of the velocity vector. If the robot is moving too slowly,
         // we don't consider it to be "approaching" the bump rectangle.
         double speed = Math.hypot(vx, vy);
-        if (speed < DriveConstants.BUMP_APPROACH_SPEED_THRESHOLD) {
+        if (speed < DriveConstants.APPROACH_SPEED_THRESHOLD) {
             return false;
         }
 
