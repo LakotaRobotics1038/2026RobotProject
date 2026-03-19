@@ -6,7 +6,6 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.HubAlignCommand;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
@@ -78,7 +77,7 @@ public class DriverJoystick extends XboxController1038 {
             return driveTrain.drive(forward, -sideways, -rotate, true);
         }));
 
-        shooterHoods.setDefaultCommand(new AdjustHoodsCommand());
+        shooterHoods.setDefaultCommand(new RetractHoodsCommand());
 
         this.driveTrain.registerTelemetry(logger::telemeterize);
 
