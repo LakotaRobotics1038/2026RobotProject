@@ -18,7 +18,7 @@ public final class DriveConstants {
     public static final double BUMP_SLOWDOWN_POWER = 0.3;
     public static final double TRENCH_SLOWDOWN_POWER = 0.3;
 
-    public static final double APPROACH_SPEED_THRESHOLD = 0.5;
+    public static final double APPROACH_SPEED_THRESHOLD = 0.1;
 
     // Chassis configuration
     // Distance between centers of right and left wheels on robot
