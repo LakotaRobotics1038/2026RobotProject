@@ -240,6 +240,13 @@ classDiagram
     - double BUMP_DEPTH
     + Translation2d HUB_POSITION
   }
+  class Hood {
+    - servoChannel : ServoChannel 
+    - pulseRange : ServoChannelConfig.PulseRange
+    - Hood(ChannelId channelId, ServoChannelConfig.PulseRange pulseRange, ServoHubConfig servoHubConfig)
+    + enable() : void 
+    + setAngle(double angle) :  void 
+  }
   class IOConstants {
     + IOConstants()
     + int DRIVER_CONTROLLER_PORT
@@ -290,13 +297,11 @@ classDiagram
     + int MAX_NEO_550_CURRENT
   }
   class OperatorStates {
-    <<enumeration>>
-    - OperatorStates(String)
-    +  ReadyState
-    +  Default
-    + String value
-    + valueOf(String) OperatorStates
-    + values() OperatorStates[]
+        <<enumeration>>
+        + Default
+        + ReadyState
+        + value : String 
+        - OperatorStates(String value) 
   }
   class Paths {
     + Paths()
@@ -340,15 +345,13 @@ classDiagram
     + testInit() void
     + testExit() void
   }
-  class RobotStates {
-    <<enumeration>>
-    - RobotStates(String)
-    + String value
-    +  EmergencyStop
-    +  Enabled
-    +  Disabled
-    + valueOf(String) RobotStates
-    + values() RobotStates[]
+  class Robotstates {
+        <<enumeration>>
+        + Enabled
+        + Disabled
+        + EmergencyStop
+        + value : String 
+        - RobotStates(String value) 
   }
   class Shooter {
     - instance : Shooter
@@ -384,13 +387,7 @@ classDiagram
     + getNearHood() : Hood 
     + getFarHood() : Hood
   }
-  class Hood {
-    - servoChannel : ServoChannel 
-    - pulseRange : ServoChannelConfig.PulseRange
-    - Hood(ChannelId channelId, ServoChannelConfig.PulseRange pulseRange, ServoHubConfig servoHubConfig)
-    + enable() : void 
-    + setAngle(double angle) :  void 
-  }
+  
   class ShooterConstants {
     + ShooterConstants()
     + double VELOCITY_CONVERSION_FACTOR
@@ -452,19 +449,19 @@ classDiagram
     + servoChannelID() ChannelId
   }
   class SwagLights {
+    - serialPort : SerialPort 
+    - robotState : RobotStates 
+    - operatorState : OperatorStates 
+    - instance : SwagLights 
+    + getInstance() : SwagLights 
     - SwagLights()
-    - RobotStates robotState
-    - OperatorStates operatorState
-    - SwagLights instance
-    - SerialPort serialPort
-    + stopSerialPort() void
-    + setDisabled(boolean) void
-    + setEStop() void
-    - setLedStates(String[]) void
-    + periodic() void
-    + getInstance() SwagLights
-    + setReadyState() void
-    + setDefaultState() void
+    + periodic() : void 
+    - setLedStates(String... values) : void 
+    + stopSerialPort() : void 
+    + setDisabled(boolean isDisabled) : void 
+    + setEStop() : void 
+    + setReadyState() : void 
+    + setDefaultState() 
   }
   class SwerveConstants {
     + SwerveConstants()
