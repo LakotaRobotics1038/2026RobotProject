@@ -13,13 +13,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public final class FieldConstants {
+    private static final double FUEL_DIAMETER = 0.15;
 
     private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = Units.inchesToMeters(158.6);
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
     private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
-    private static final double HUB_LEFT_Y = HUB_CENTER_Y - HUB_LENGTH / 2;
-    private static final double HUB_RIGHT_Y = HUB_CENTER_Y + HUB_LENGTH / 2;
+    private static final double HUB_LEFT_Y = HUB_CENTER_Y - HUB_LENGTH / 2 - FUEL_DIAMETER;
+    private static final double HUB_RIGHT_Y = HUB_CENTER_Y + HUB_LENGTH / 2 + FUEL_DIAMETER;
 
     public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 
