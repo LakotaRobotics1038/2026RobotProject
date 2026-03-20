@@ -35,7 +35,6 @@ public final class ShooterConstants {
     public static final double A = 0.0;
 
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
-    public static final double MANUAL_SHOOTER_ANGLE_DEG = 59;
     public static final double MANUAL_SHOOTER_RPM = 2900.0;
     public static final double MANUAL_SHOOTER_RPM_STEP = 50.0;
     public static final double MANUAL_SHOOTER_MIN_RPM = 2000.0;
@@ -48,14 +47,14 @@ public final class ShooterConstants {
      * based on the distance to the target. The min and max values represent the
      * range of that angle.
      */
-    public static final List<ShooterFormula> SHOOTER_FORMULAS = List.of(
-            new ShooterFormula(
+    public static final List<ShooterConstants.ShooterFormula> SHOOTER_FORMULAS = List.of(
+            new ShooterConstants.ShooterFormula(
                     68,
                     393.7,
                     2150,
                     1.524,
                     2.286),
-            new ShooterFormula(
+            new ShooterConstants.ShooterFormula(
                     59,
                     397.69,
                     1799.3,
@@ -63,13 +62,13 @@ public final class ShooterConstants {
                     10000.0));
 
     public static final class ShooterFormula {
-        private final double slope;
-        private final double yIntercept;
+        private double slope;
+        private double yIntercept;
         private final double min;
         private final double max;
         private final double angle;
 
-        private ShooterFormula(
+        public ShooterFormula(
                 double angle,
                 double shooterSlope,
                 double shooterYIntercept,
@@ -98,8 +97,16 @@ public final class ShooterConstants {
             return slope;
         }
 
+        public void setSlope(double slope) {
+            this.slope = slope;
+        }
+
         public double getYIntercept() {
             return yIntercept;
+        }
+
+        public void setYIntercept(double yIntercept) {
+            this.yIntercept = yIntercept;
         }
 
         public double getShooterRPM(double distance) {

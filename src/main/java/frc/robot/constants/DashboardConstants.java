@@ -10,4 +10,12 @@ public final class DashboardConstants {
     public static final String HUB_ALIGNED = "Hub Aligned";
     public static final String MANUAL_MODE_ENABLED = "Manual Mode";
     public static final String MANUAL_SHOOTER_RPM = "Manual Shoot RPM";
+    public static final String MANUAL_SHOOTER_HOOD_ANGLE = "Manual Shooter Hood Angle";
+    public static String shooterSlopeKey(double angle) {
+        return "Shooter Slope " + (int) angle;
+    }
+
+    public static String shooterYInterceptKey(double angle) {
+        return "Shooter Y Intercept " + (int) angle;
+    }
 }

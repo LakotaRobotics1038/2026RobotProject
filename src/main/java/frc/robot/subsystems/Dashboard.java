@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.constants.ShooterHoodsConstants;
 
 public class Dashboard extends SubsystemBase {
     // Inputs
@@ -26,6 +27,7 @@ public class Dashboard extends SubsystemBase {
     private boolean hubAligned = false;
     private boolean manualModeEnabled = false;
     private double manualShooterRPM = ShooterConstants.MANUAL_SHOOTER_RPM;
+    private double manualShooterHoodAngle = ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE;
 
     // Singleton Setup
     private static Dashboard instance;
@@ -43,7 +45,14 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putData(DashboardConstants.DELAY_CHOICES, delayChooser);
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
+        SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle);
         SmartDashboard.putData(field);
+
+        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
+            SmartDashboard.putNumber(DashboardConstants.shooterSlopeKey(formula.getAngle()), formula.getSlope());
+            SmartDashboard.putNumber(DashboardConstants.shooterYInterceptKey(formula.getAngle()),
+                    formula.getYIntercept());
+        }
 
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
 
@@ -58,12 +67,23 @@ public class Dashboard extends SubsystemBase {
                 SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM),
                 ShooterConstants.MANUAL_SHOOTER_MIN_RPM,
                 ShooterConstants.MANUAL_SHOOTER_MAX_RPM);
+        manualShooterHoodAngle = MathUtil.clamp(SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle),
+                ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
+                ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
 
         SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_ROT, driveTrain.getRotation());
         SmartDashboard.putBoolean(DashboardConstants.HUB_ALIGNED, hubAligned);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
+        SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle);
+
+        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
+            formula.setSlope(SmartDashboard.getNumber(
+                    DashboardConstants.shooterSlopeKey(formula.getAngle()), formula.getSlope()));
+            formula.setYIntercept(SmartDashboard.getNumber(
+                    DashboardConstants.shooterYInterceptKey(formula.getAngle()), formula.getYIntercept()));
+        }
 
         field.setRobotPose(driveTrain.getState().Pose);
     }
@@ -100,8 +120,16 @@ public class Dashboard extends SubsystemBase {
         return manualShooterRPM;
     }
 
+    public double getManualShooterHoodAngle() {
+        return manualShooterHoodAngle;
+    }
+
     public void nudgeManualShooterRPM(double deltaRPM) {
         setManualShooterRPM(manualShooterRPM + deltaRPM);
+    }
+
+    public void nudgeManualShooterHoodAngle(double deltaHoodAngle) {
+        manualShooterHoodAngle = manualShooterHoodAngle + deltaHoodAngle;
     }
 
     public void resetManualShooterRPM() {

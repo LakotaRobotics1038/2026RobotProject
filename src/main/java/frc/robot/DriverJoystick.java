@@ -85,20 +85,6 @@ public class DriverJoystick extends XboxController1038 {
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
-        new Trigger(() -> this.getPOV().equals(PovPositions.Up))
-                .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Down))
-                .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(-ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
-
         this.x().whileTrue(this.driveTrain.setX());
 
         this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(

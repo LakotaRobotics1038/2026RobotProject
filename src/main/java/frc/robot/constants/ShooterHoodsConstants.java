@@ -17,4 +17,6 @@ public final class ShooterHoodsConstants {
     public static final double SHOOTER_NO_RETRACTION_ANGLE = 54.0;
     public static final double SHOOTER_FULL_RETRACTION_ANGLE = 73.0;
 
+    public static final double MANUAL_SHOOTER_DEFAULT_ANGLE = 59;
+    public static final double MANUAL_SHOOTER_ANGLE_INCREMENT = 2;
 }
