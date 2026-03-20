@@ -11,7 +11,8 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftAuto,
-        SimpleLeftAuto
+        SimpleLeftAuto,
+        SimpleRightAuto
     }
 
     // Choosers
@@ -35,6 +36,7 @@ public class AutonSelector {
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
         this.autoChooser.addOption("Left Auto Simple", AutonChoices.SimpleLeftAuto);
+        this.autoChooser.addOption("Right Auto Simple", AutonChoices.SimpleRightAuto);
 
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
@@ -54,6 +56,8 @@ public class AutonSelector {
                     return new LeftAuto(alliance);
                 case SimpleLeftAuto:
                     return new SimpleLeftAuto(alliance);
+                case SimpleRightAuto:
+                    return new SimpleRightAuto(alliance);
                 default:
                     return null;
             }

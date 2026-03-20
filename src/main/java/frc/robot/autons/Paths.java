@@ -22,4 +22,9 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Left 1");
     }
+
+    public static PathPlannerPath getRight1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Right 1");
+    }
 }
