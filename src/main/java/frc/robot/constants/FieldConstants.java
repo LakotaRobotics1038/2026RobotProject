@@ -89,7 +89,7 @@ public final class FieldConstants {
 
     public static Translation2d targetPosition(Translation2d robotPose) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        // if (robotPose.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION) {
+        // if (robotPose.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH) {
         // Rectangle2d leftAllianceBoundingBox;
         // Rectangle2d rightAllianceBoundingBox;
         // if (alliance == Alliance.Blue) {
