@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
+import java.util.zip.ZipEntry;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -69,7 +70,7 @@ public class ShootCommand extends Command {
             }
         }
 
-        if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
+        if (timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             if (isUpToSpeed) {
                 kicker.start();
                 acquisition.acquire();
