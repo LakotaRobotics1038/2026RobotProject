@@ -23,6 +23,11 @@ public class Paths {
         return PathPlannerPath.fromPathFile("Left 1");
     }
 
+    public static PathPlannerPath getMiddle1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Middle 1");
+    }
+
     public static PathPlannerPath getRight1Path()
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Right 1");

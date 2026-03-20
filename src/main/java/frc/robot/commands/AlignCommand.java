@@ -46,6 +46,10 @@ public class AlignCommand extends Command {
         addRequirements(driveTrain, swagLights);
     }
 
+    public AlignCommand() {
+        this(() -> 0, () -> 0, null);
+    }
+
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
