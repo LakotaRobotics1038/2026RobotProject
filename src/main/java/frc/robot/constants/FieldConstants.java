@@ -89,24 +89,29 @@ public final class FieldConstants {
 
     public static Translation2d targetPosition(Translation2d robotPose) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        if (robotPose.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION) {
-            Rectangle2d leftAllianceBoundingBox;
-            Rectangle2d rightAllianceBoundingBox;
-            if (alliance == Alliance.Blue) {
-                leftAllianceBoundingBox = LEFT_ALLIANCE;
-                rightAllianceBoundingBox = RIGHT_ALLIANCE;
-            } else {
-                leftAllianceBoundingBox = LEFT_ALLIANCE.transformBy(
-                        new Transform2d(FlippingUtil.fieldSizeX - LEFT_ALLIANCE.getXWidth(), 0, Rotation2d.kZero));
-                rightAllianceBoundingBox = RIGHT_ALLIANCE.transformBy(
-                        new Transform2d(FlippingUtil.fieldSizeX - RIGHT_ALLIANCE.getXWidth(), 0, Rotation2d.kZero));
-            }
-            Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPose);
-            Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPose);
+        // if (robotPose.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION) {
+        // Rectangle2d leftAllianceBoundingBox;
+        // Rectangle2d rightAllianceBoundingBox;
+        // if (alliance == Alliance.Blue) {
+        // leftAllianceBoundingBox = LEFT_ALLIANCE;
+        // rightAllianceBoundingBox = RIGHT_ALLIANCE;
+        // } else {
+        // leftAllianceBoundingBox = LEFT_ALLIANCE.transformBy(
+        // new Transform2d(FlippingUtil.fieldSizeX - LEFT_ALLIANCE.getXWidth(), 0,
+        // Rotation2d.kZero));
+        // rightAllianceBoundingBox = RIGHT_ALLIANCE.transformBy(
+        // new Transform2d(FlippingUtil.fieldSizeX - RIGHT_ALLIANCE.getXWidth(), 0,
+        // Rotation2d.kZero));
+        // }
+        // Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPose);
+        // Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPose);
 
-            return leftNear.getDistance(robotPose) <= rightNear.getDistance(robotPose) ? leftNear : rightNear;
-        } else {
-            return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
-        }
+        // return leftNear.getDistance(robotPose) <= rightNear.getDistance(robotPose) ?
+        // leftNear : rightNear;
+        // } else {
+        // return alliance == Alliance.Blue ? HUB_POSITION :
+        // FlippingUtil.flipFieldPosition(HUB_POSITION);
+        // }
+        return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
     }
 }
