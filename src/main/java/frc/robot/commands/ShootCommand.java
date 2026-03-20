@@ -70,17 +70,17 @@ public class ShootCommand extends Command {
             }
         }
 
-        if (timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
-            if (isUpToSpeed) {
-                kicker.start();
-                acquisition.acquire();
-                if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                    if (timer.get() % 1 <= 0.5) {
-                        acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
-                    } else {
-                        acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
-                    }
+        if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
+            // if (isUpToSpeed) {
+            kicker.start();
+            acquisition.acquire();
+            if (wiggleAcquisitionSupplier.getAsBoolean()) {
+                if (timer.get() % 1 <= 0.5) {
+                    acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
+                } else {
+                    acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
                 }
+                // }
             } else {
                 isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
                         shooter.getFarShooter().isAtTargetRPM();
