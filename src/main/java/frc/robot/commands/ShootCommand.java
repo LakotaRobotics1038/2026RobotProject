@@ -17,6 +17,7 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
@@ -28,7 +29,7 @@ public class ShootCommand extends Command {
 
     public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
         this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
-        addRequirements(acquisition, kicker, shooter);
+        addRequirements(acquisition, kicker, shooter, swagLights);
     }
 
     @Override
@@ -60,6 +61,9 @@ public class ShootCommand extends Command {
                     validPosition = true;
                     break;
                 }
+            }
+            if (!validPosition) {
+                swagLights.setTooCloseState();
             }
         }
 

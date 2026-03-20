@@ -30,16 +30,16 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPMBackward()));
+                        dashboard::nudgeManualShooterRPMBackward));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPMForward()));
+                        dashboard::nudgeManualShooterRPMForward));
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngleBackward()));
+                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleBackward));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngleForward()));
+                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));

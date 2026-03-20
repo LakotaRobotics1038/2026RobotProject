@@ -108,7 +108,9 @@ public class SwagLights implements Subsystem {
         this.operatorState = OperatorStates.ALIGNED;
     }
 
-
+    public void setTooCloseState() {
+        this.operatorState = OperatorStates.TOO_CLOSE;
+    }
 
     public void setDefaultState() {
         this.operatorState = OperatorStates.Default;
