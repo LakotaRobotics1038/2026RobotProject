@@ -7,7 +7,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AdjustHoodsCommand;
-import frc.robot.commands.HubAlignCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -87,10 +87,10 @@ public class DriverJoystick extends XboxController1038 {
 
         this.x().whileTrue(this.driveTrain.setX());
 
-        this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(
+        this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new AlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
-                aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+                aligned -> setRumble(aligned ? AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
         this.leftTrigger().whileTrue(new AdjustHoodsCommand());
         this.rightTrigger().whileTrue(new RetractHoodsCommand());
     }

@@ -26,7 +26,7 @@ public class AdjustHoodsCommand extends Command {
             shooterHoods.getFarHood().setAngle(angle);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getHubDistance(robotPose);
+            double distance = shooter.getFarShooter().getTargetDistance(robotPose);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {

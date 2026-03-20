@@ -15,7 +15,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
 
-public class HubAlignCommand extends Command {
+public class AlignCommand extends Command {
     private static final double P = 4.0;
     private static final double I = 0.005;
     private static final double D = 0.01;
@@ -33,7 +33,7 @@ public class HubAlignCommand extends Command {
     private final PIDController rotationController = new PIDController(P, I, D);
     private Boolean alignedToHub;
 
-    public HubAlignCommand(DoubleSupplier forwardSpeedSupplier,
+    public AlignCommand(DoubleSupplier forwardSpeedSupplier,
             DoubleSupplier sidewaysSpeedSupplier,
             BooleanConsumer alignmentStateConsumer) {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
@@ -86,8 +86,8 @@ public class HubAlignCommand extends Command {
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
-        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
-        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
+        double nearShooterTargetAngle = shooter.getNearShooter().getTargetAngle(robotPose);
+        double farShooterTargetAngle = shooter.getFarShooter().getTargetAngle(robotPose);
 
         // Converts both aim angles into vectors, add them, and turns the result back
         // into an angle. This gives the bisector between the near and far shooter

@@ -10,13 +10,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class SimpleRightAuto extends Auton {
-    public SimpleRightAuto(Optional<DriverStation.Alliance> alliance) throws FileVersionException, IOException, ParseException {
+    public SimpleRightAuto(Optional<DriverStation.Alliance> alliance)
+            throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED),
                 followPathCommand(Paths.getRight1Path()),
                 new AdjustHoodsCommand().raceWith(
-                        new HubAlignCommand(() -> 0, () -> 0, null)
+                        new AlignCommand(() -> 0, () -> 0, null)
                                 .andThen(new ShootCommand().withTimeout(5))));
     }
 }
