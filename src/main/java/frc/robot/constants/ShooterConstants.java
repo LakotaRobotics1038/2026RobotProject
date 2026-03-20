@@ -7,19 +7,18 @@ import edu.wpi.first.math.util.Units;
 
 public final class ShooterConstants {
     public record ShooterModuleConstants(
-            int leftMotorCanId,
-            int rightMotorCanId,
+            int motorCanId,
             Translation2d translation) {
     }
 
     public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             5,
-            6,
+            // 6,
             new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)));
 
     public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
             12,
-            13,
+            // 13,
             new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
 
     public static final double OPERATING_TOLERANCE = 75;

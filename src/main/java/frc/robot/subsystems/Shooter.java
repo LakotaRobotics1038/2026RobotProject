@@ -56,8 +56,7 @@ public class Shooter extends SubsystemBase {
      * Base shooter module.
      */
     public static class ShooterModule {
-        private final SparkFlex leftMotor;
-        private final SparkFlex rightMotor;
+        private final SparkFlex motor;
         private final SparkClosedLoopController controller;
         private final RelativeEncoder encoder;
         private final Translation2d translation;
@@ -75,18 +74,13 @@ public class Shooter extends SubsystemBase {
                     .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
                     .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
 
-            SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
-            leftMotorConfig.inverted(true).apply(baseConfig);
-            leftMotor = new SparkFlex(moduleConstants.leftMotorCanId(), SparkLowLevel.MotorType.kBrushless);
-            leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+            SparkFlexConfig motorConfig = new SparkFlexConfig();
+            motorConfig.inverted(true).apply(baseConfig);
+            motor = new SparkFlex(moduleConstants.motorCanId(), SparkLowLevel.MotorType.kBrushless);
+            motor.configure(motorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-            SparkFlexConfig rightMotorConfig = new SparkFlexConfig();
-            rightMotorConfig.apply(baseConfig).follow(leftMotor, true);
-            rightMotor = new SparkFlex(moduleConstants.rightMotorCanId(), SparkLowLevel.MotorType.kBrushless);
-            rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-            controller = leftMotor.getClosedLoopController();
-            encoder = leftMotor.getEncoder();
+            controller = motor.getClosedLoopController();
+            encoder = motor.getEncoder();
 
             translation = moduleConstants.translation();
         }
@@ -104,8 +98,7 @@ public class Shooter extends SubsystemBase {
          * Stops the shooter.
          */
         public void stop() {
-            leftMotor.stopMotor();
-            rightMotor.stopMotor();
+            motor.stopMotor();
         }
 
         /**
