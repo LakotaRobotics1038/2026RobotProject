@@ -30,17 +30,16 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
+                        () -> dashboard.nudgeManualShooterRPMBackward()));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(-ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
-
+                        () -> dashboard.nudgeManualShooterRPMForward()));
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngle(-ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
+                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngleBackward()));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngle(-ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
+                .onTrue(new InstantCommand(() -> dashboard.nudgeManualShooterHoodAngleForward()));
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
@@ -48,7 +47,10 @@ public class OperatorJoystick extends XboxController1038 {
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
-        this.b().onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
+        this.b().onTrue(new InstantCommand(() -> {
+            dashboard.resetManualShooterRPM();
+            dashboard.resetManualShooterHoodAngle();
+        }));
 
         // new Trigger(this::isInTrench)
         // .and(() -> DriverStation.isTeleopEnabled())
@@ -62,10 +64,10 @@ public class OperatorJoystick extends XboxController1038 {
         this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
     }
 
-    private boolean isInTrench() {
-        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        return RectangleUtils.inRect(
-                FieldConstants.TRENCH_RECTANGLES,
-                robotPos);
-    }
+    // private boolean isInTrench() {
+    // Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
+    // return RectangleUtils.inRect(
+    // FieldConstants.TRENCH_RECTANGLES,
+    // robotPos);
+    // }
 }

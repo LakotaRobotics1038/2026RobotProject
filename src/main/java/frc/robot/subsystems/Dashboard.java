@@ -67,7 +67,8 @@ public class Dashboard extends SubsystemBase {
                 SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM),
                 ShooterConstants.MANUAL_SHOOTER_MIN_RPM,
                 ShooterConstants.MANUAL_SHOOTER_MAX_RPM);
-        manualShooterHoodAngle = MathUtil.clamp(SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle),
+        manualShooterHoodAngle = MathUtil.clamp(
+                SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle),
                 ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
                 ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
 
@@ -124,16 +125,28 @@ public class Dashboard extends SubsystemBase {
         return manualShooterHoodAngle;
     }
 
-    public void nudgeManualShooterRPM(double deltaRPM) {
-        setManualShooterRPM(manualShooterRPM + deltaRPM);
+    public void nudgeManualShooterRPMBackward() {
+        setManualShooterRPM(manualShooterRPM - ShooterConstants.MANUAL_SHOOTER_RPM_STEP);
     }
 
-    public void nudgeManualShooterHoodAngle(double deltaHoodAngle) {
-        manualShooterHoodAngle = manualShooterHoodAngle + deltaHoodAngle;
+    public void nudgeManualShooterRPMForward() {
+        setManualShooterRPM(manualShooterRPM + ShooterConstants.MANUAL_SHOOTER_RPM_STEP);
     }
 
     public void resetManualShooterRPM() {
         setManualShooterRPM(ShooterConstants.MANUAL_SHOOTER_RPM);
+    }
+
+    public void nudgeManualShooterHoodAngleBackward() {
+        manualShooterHoodAngle -= ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT;
+    }
+
+    public void nudgeManualShooterHoodAngleForward() {
+        manualShooterHoodAngle += ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT;
+    }
+
+    public void resetManualShooterHoodAngle() {
+        manualShooterHoodAngle = ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE;
     }
 
     private void setManualShooterRPM(double manualShooterRPM) {
