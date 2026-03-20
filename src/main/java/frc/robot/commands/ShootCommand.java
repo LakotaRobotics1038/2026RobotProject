@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -65,7 +64,7 @@ public class ShootCommand extends Command {
             }
             if (!validPosition) {
                 swagLights.setTooCloseState();
-            } else if (swagLights.getDefaultState() == OperatorStates.TOO_CLOSE) {
+            } else {
                 swagLights.setDefaultState();
             }
         }

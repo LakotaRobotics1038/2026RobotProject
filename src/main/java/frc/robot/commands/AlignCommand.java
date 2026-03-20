@@ -13,7 +13,6 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
-import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class AlignCommand extends Command {
     private static final double P = 4.0;
@@ -83,10 +82,7 @@ public class AlignCommand extends Command {
         driveTrain.setControl(
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
-        if (swagLights.getDefaultState() == OperatorStates.ALIGNING
-                || swagLights.getDefaultState() == OperatorStates.ALIGNED) {
-            swagLights.setDefaultState();
-        }
+        swagLights.setDefaultState();
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
