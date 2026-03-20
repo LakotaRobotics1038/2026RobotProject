@@ -18,6 +18,8 @@ public final class AcquisitionConstants {
     public static final double PIVOT_MAX_TRENCH_ANGLE_DEGREES = 50.0;
     public static final double PIVOT_MIN_ANGLE = 0;
     public static final double PIVOT_MAX_ANGLE = 105;
+    public static final double PIVOT_MIN_WIGGLE = 30;
+    public static final double PIVOT_MAX_WIGGLE = 75;
 
     public static final double INTAKE_ACQUIRE_DUTY_CYCLE = 1;
     public static final double INTAKE_DISPOSE_DUTY_CYCLE = -0.5;
