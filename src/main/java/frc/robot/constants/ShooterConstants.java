@@ -57,7 +57,7 @@ public final class ShooterConstants {
             new ShooterConstants.ShooterFormula(
                     59,
                     397.69,
-                    1799.3,
+                    1949.3,
                     2.286,
                     10000.0));
 
