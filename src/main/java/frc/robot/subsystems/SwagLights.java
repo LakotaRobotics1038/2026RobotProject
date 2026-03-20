@@ -115,4 +115,8 @@ public class SwagLights implements Subsystem {
     public void setDefaultState() {
         this.operatorState = OperatorStates.Default;
     }
+
+    public OperatorStates getDefaultState() {
+        return operatorState;
+    }
 }

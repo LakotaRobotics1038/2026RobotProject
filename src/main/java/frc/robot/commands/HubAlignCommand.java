@@ -13,6 +13,7 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class HubAlignCommand extends Command {
     private static final double P = 4.0;
@@ -30,7 +31,7 @@ public class HubAlignCommand extends Command {
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
     private final PIDController rotationController = new PIDController(P, I, D);
-    private boolean alignedToHub = false;
+    private Boolean alignedToHub;
 
     public HubAlignCommand(DoubleSupplier forwardSpeedSupplier,
             DoubleSupplier sidewaysSpeedSupplier,
@@ -78,6 +79,10 @@ public class HubAlignCommand extends Command {
         driveTrain.setControl(
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
+        if (swagLights.getDefaultState() == OperatorStates.ALIGNING
+                || swagLights.getDefaultState() == OperatorStates.ALIGNED) {
+            swagLights.setDefaultState();
+        }
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
@@ -94,8 +99,13 @@ public class HubAlignCommand extends Command {
     }
 
     private void updateAlignmentState(boolean isAligned) {
-        if (alignedToHub != isAligned) {
+        if (alignedToHub == null || alignedToHub != isAligned) {
             alignedToHub = isAligned;
+            if (alignedToHub) {
+                swagLights.setAlignedState();
+            } else {
+                swagLights.setAligningState();
+            }
             if (alignmentStateConsumer != null) {
                 alignmentStateConsumer.accept(alignedToHub);
             }

@@ -47,7 +47,7 @@ public class OperatorJoystick extends XboxController1038 {
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
-        this.b().onTrue(new InstantCommand(() -> {
+        this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();
         }));
