@@ -22,6 +22,7 @@ public class ShootCommand extends Command {
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
+    private double startingPivotDegrees = acquisition.getPivotPosition();
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
@@ -37,6 +38,7 @@ public class ShootCommand extends Command {
     public void initialize() {
         timer.restart();
         isUpToSpeed = false;
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
     }
 
     @Override
@@ -75,10 +77,10 @@ public class ShootCommand extends Command {
             kicker.start();
             acquisition.acquire();
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % 1 <= 0.5) {
-                    acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
+                if (timer.get() % 1.5 <= 0.75) {
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
                 } else {
-                    acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
                 }
                 // }
             } else {
@@ -103,5 +105,6 @@ public class ShootCommand extends Command {
         kicker.stop();
         acquisition.stopIntake();
         timer.stop();
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
     }
 }

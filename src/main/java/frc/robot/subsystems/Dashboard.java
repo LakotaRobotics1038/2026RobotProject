@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
@@ -28,6 +29,8 @@ public class Dashboard extends SubsystemBase {
     private boolean manualModeEnabled = false;
     private double manualShooterRPM = ShooterConstants.MANUAL_SHOOTER_RPM;
     private double manualShooterHoodAngle = ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE;
+    private double acquisitionMinWiggle = AcquisitionConstants.PIVOT_MIN_WIGGLE;
+    private double acquisitionMaxWiggle = AcquisitionConstants.PIVOT_MAX_WIGGLE;
 
     // Singleton Setup
     private static Dashboard instance;
@@ -46,6 +49,8 @@ public class Dashboard extends SubsystemBase {
         SmartDashboard.putBoolean(DashboardConstants.MANUAL_MODE_ENABLED, manualModeEnabled);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_RPM, manualShooterRPM);
         SmartDashboard.putNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle);
+        SmartDashboard.putNumber(DashboardConstants.ACQUISITION_MIN_WIGGLE, acquisitionMinWiggle);
+        SmartDashboard.putNumber(DashboardConstants.ACQUISITION_MAX_WIGGLE, acquisitionMaxWiggle);
         SmartDashboard.putData(field);
 
         for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
@@ -71,6 +76,10 @@ public class Dashboard extends SubsystemBase {
                 SmartDashboard.getNumber(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE, manualShooterHoodAngle),
                 ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
                 ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        acquisitionMinWiggle = SmartDashboard.getNumber(DashboardConstants.ACQUISITION_MIN_WIGGLE,
+                acquisitionMinWiggle);
+        acquisitionMaxWiggle = SmartDashboard.getNumber(DashboardConstants.ACQUISITION_MAX_WIGGLE,
+                acquisitionMaxWiggle);
 
         SmartDashboard.putNumber(DashboardConstants.ROBOT_X, driveTrain.getX());
         SmartDashboard.putNumber(DashboardConstants.ROBOT_Y, driveTrain.getY());
@@ -147,6 +156,14 @@ public class Dashboard extends SubsystemBase {
 
     public void resetManualShooterHoodAngle() {
         manualShooterHoodAngle = ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE;
+    }
+
+    public double getAcquisitionMinWiggle() {
+        return acquisitionMinWiggle;
+    }
+
+    public double getAcquisitionMaxWiggle() {
+        return acquisitionMaxWiggle;
     }
 
     private void setManualShooterRPM(double manualShooterRPM) {
