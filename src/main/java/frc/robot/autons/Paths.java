@@ -32,4 +32,14 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Right 1");
     }
+
+    public static PathPlannerPath getDepotLeft1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot Left 1");
+    }
+
+    public static PathPlannerPath getDepotLeft2Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Depot Left 2");
+    }
 }

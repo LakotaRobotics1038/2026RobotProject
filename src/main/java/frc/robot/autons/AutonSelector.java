@@ -13,7 +13,8 @@ public class AutonSelector {
         LeftAuto,
         SimpleLeftAuto,
         SimpleMiddleAuto,
-        SimpleRightAuto
+        SimpleRightAuto,
+        DepotLeftAuto
     }
 
     // Choosers
@@ -39,7 +40,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Left Auto Simple", AutonChoices.SimpleLeftAuto);
         this.autoChooser.addOption("Middle Auto Simple", AutonChoices.SimpleMiddleAuto);
         this.autoChooser.addOption("Right Auto Simple", AutonChoices.SimpleRightAuto);
-
+        this.autoChooser.addOption("Depot Left Auto", AutonChoices.DepotLeftAuto);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -62,6 +63,8 @@ public class AutonSelector {
                     return new SimpleMiddleAuto(alliance);
                 case SimpleRightAuto:
                     return new SimpleRightAuto(alliance);
+                case DepotLeftAuto:
+                    return new DepotLeftAuto(alliance);
                 default:
                     return null;
             }

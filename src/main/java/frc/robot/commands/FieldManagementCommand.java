@@ -1,14 +1,21 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleConsumer;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class FieldManagementCommand extends Command {
-    public static final double SECONDS_BEFORE_HUB_ACTIVATION = 5;
+    public static final double SECONDS_BEFORE_HUB_ACTIVATION = 3;
 
     private Boolean enabledFirst = null;
     private boolean hubEnablingSoon = false;
+    private final DoubleConsumer hubActivationFeedback;
+
+    public FieldManagementCommand(DoubleConsumer hubActivationFeedback) {
+        this.hubActivationFeedback = hubActivationFeedback;
+    }
 
     @Override
     public void execute() {
@@ -25,8 +32,22 @@ public class FieldManagementCommand extends Command {
             double matchTime = DriverStation.getMatchTime();
             boolean currentlyEnabled = isHubEnabledAt(matchTime);
             boolean enabledSoon = isHubEnabledAt(matchTime - SECONDS_BEFORE_HUB_ACTIVATION);
+            boolean wasEnablingSoon = hubEnablingSoon;
             hubEnablingSoon = !currentlyEnabled && enabledSoon;
+            if (hubEnablingSoon) {
+                double elapsed = 130 - matchTime;
+                double timeToActivation = 25 - (elapsed % 25);
+                double rumblePower = 1.0 - (timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION);
+                hubActivationFeedback.accept(rumblePower);
+            } else if (wasEnablingSoon) {
+                hubActivationFeedback.accept(0);
+            }
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        hubActivationFeedback.accept(0);
     }
 
     private boolean isHubEnabledAt(double matchTime) {

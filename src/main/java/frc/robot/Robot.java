@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autons.Auton;
 import frc.robot.autons.AutonSelector;
+import frc.robot.commands.FieldManagementCommand;
 import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -110,6 +111,10 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         Dashboard.getInstance().clearTrajectory();
         driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
+        CommandScheduler.getInstance().schedule(new FieldManagementCommand(rumblePower -> {
+            DriverJoystick.getInstance().setRumble(rumblePower);
+            OperatorJoystick.getInstance().setRumble(rumblePower);
+        }));
     }
 
     @Override
