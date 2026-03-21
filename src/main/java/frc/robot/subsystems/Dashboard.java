@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.autons.AutonSelector.AutonChoice;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
@@ -22,7 +22,7 @@ import frc.robot.constants.ShooterHoodsConstants;
 
 public class Dashboard extends SubsystemBase {
     // Choosers
-    private final SendableChooser<AutonChoices> autoChooser = new SendableChooser<>();
+    private final SendableChooser<AutonChoice> autoChooser = new SendableChooser<>();
     private final SendableChooser<Double> delayChooser = new SendableChooser<>();
 
     // Singleton Setup
@@ -77,7 +77,7 @@ public class Dashboard extends SubsystemBase {
      *
      * @return The sendable chooser
      */
-    public SendableChooser<AutonChoices> getAutoChooser() {
+    public SendableChooser<AutonChoice> getAutoChooser() {
         return autoChooser;
     }
 

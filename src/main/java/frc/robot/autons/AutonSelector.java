@@ -1,6 +1,9 @@
 package frc.robot.autons;
 
+import java.io.IOException;
 import java.util.Optional;
+
+import org.json.simple.parser.ParseException;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -8,17 +11,43 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
-    public enum AutonChoices {
-        NoAuto,
-        LeftAuto,
-        SimpleLeftAuto,
-        SimpleMiddleAuto,
-        SimpleRightAuto,
-        DepotLeftAuto
+    @FunctionalInterface
+    private interface AutonFactory {
+        Auton create(Optional<Alliance> alliance) throws IOException, ParseException;
+    }
+
+    public enum AutonChoice {
+        NO_AUTO("No Auto", null),
+        LEFT_AUTO("Left Auto", alliance -> new LeftAuto(alliance)),
+        SIMPLE_LEFT_AUTO("Simple Left Auto", alliance -> new SimpleLeftAuto(alliance)),
+        SIMPLE_MIDDLE_AUTO("Simple Middle Auto", alliance -> new SimpleMiddleAuto(alliance)),
+        SIMPLE_RIGHT_AUTO("Simple Right Auto", alliance -> new SimpleRightAuto(alliance)),
+        DEPOT_LEFT_AUTO("Depot Left Auto", alliance -> new DepotLeftAuto(alliance));
+
+        private final String name;
+        private final AutonFactory factory;
+
+        AutonChoice(String name, AutonFactory factory) {
+            this.name = name;
+            this.factory = factory;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Auton getAuton(Optional<Alliance> alliance) {
+            try {
+                return factory != null ? factory.create(alliance) : null;
+            } catch (IOException | ParseException e) {
+                System.out.println("Choose Auton Failed " + e);
+                return null;
+            }
+        }
     }
 
     // Choosers
-    SendableChooser<AutonChoices> autoChooser;
+    SendableChooser<AutonChoice> autoChooser;
     SendableChooser<Double> delayChooser;
 
     // Singleton Setup
@@ -35,12 +64,11 @@ public class AutonSelector {
     private AutonSelector() {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
-        this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Left Auto Simple", AutonChoices.SimpleLeftAuto);
-        this.autoChooser.addOption("Middle Auto Simple", AutonChoices.SimpleMiddleAuto);
-        this.autoChooser.addOption("Right Auto Simple", AutonChoices.SimpleRightAuto);
-        this.autoChooser.addOption("Depot Left Auto", AutonChoices.DepotLeftAuto);
+        AutonChoice[] choices = AutonChoice.values();
+        this.autoChooser.setDefaultOption(choices[0].getName(), choices[0]);
+        for (int i = 1; i < choices.length; i++) {
+            this.autoChooser.addOption(choices[i].getName(), choices[i]);
+        }
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -53,25 +81,7 @@ public class AutonSelector {
     public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         System.out.println(this.autoChooser.getSelected());
-        try {
-            switch (this.autoChooser.getSelected()) {
-                case LeftAuto:
-                    return new LeftAuto(alliance);
-                case SimpleLeftAuto:
-                    return new SimpleLeftAuto(alliance);
-                case SimpleMiddleAuto:
-                    return new SimpleMiddleAuto(alliance);
-                case SimpleRightAuto:
-                    return new SimpleRightAuto(alliance);
-                case DepotLeftAuto:
-                    return new DepotLeftAuto(alliance);
-                default:
-                    return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Choose Auton Failed " + e);
-            return null;
-        }
+        return this.autoChooser.getSelected().getAuton(alliance);
     }
 
     public double chooseDelay() {
