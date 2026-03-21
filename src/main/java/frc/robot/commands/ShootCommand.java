@@ -60,8 +60,8 @@ public class ShootCommand extends Command {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double targetRPM = formula.getShooterRPM(distance);
                     shooter.getFarShooter().start(targetRPM);
-                    // shooter.getNearShooter()
-                    // .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+                    shooter.getNearShooter()
+                            .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
                     validPosition = true;
                     break;
                 }
