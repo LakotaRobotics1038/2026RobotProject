@@ -25,6 +25,7 @@ public class DepotLeftAuto extends Auton {
                         .alongWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
                                 new AcquisitionRunCommand(Mode.INTAKE)),
                 new WaitCommand(5),
+                new AcquisitionRunCommand(Mode.STOP),
                 followPathCommand(Paths.getDepotLeft2Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
