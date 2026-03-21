@@ -48,7 +48,8 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+            // shooter.getNearShooter().start(targetRPM *
+            // ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
         } else {
