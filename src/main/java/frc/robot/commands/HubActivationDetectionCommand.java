@@ -6,14 +6,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class FieldManagementCommand extends Command {
+public class HubActivationDetectionCommand extends Command {
     public static final double SECONDS_BEFORE_HUB_ACTIVATION = 3;
 
     private Boolean enabledFirst = null;
     private boolean hubEnablingSoon = false;
     private final DoubleConsumer hubActivationFeedback;
 
-    public FieldManagementCommand(DoubleConsumer hubActivationFeedback) {
+    public HubActivationDetectionCommand(DoubleConsumer hubActivationFeedback) {
         this.hubActivationFeedback = hubActivationFeedback;
     }
 

@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
-import java.util.zip.ZipEntry;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -48,8 +47,8 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            // shooter.getNearShooter().start(targetRPM *
-            // ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+            shooter.getNearShooter().start(targetRPM *
+                    ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
         } else {
