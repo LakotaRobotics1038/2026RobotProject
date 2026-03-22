@@ -18,6 +18,7 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.SwagLights.LEDState;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
@@ -65,10 +66,11 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         System.out.println("Robot Disabled");
         DriverStationJNI.getControlWord(controlWordCache);
+        LEDState.ENABLED.setActive(false);
         if (controlWordCache.getEStop()) {
-            swagLights.setEStop();
+            LEDState.EMERGENCY_STOP.setActive(true);
         } else {
-            swagLights.setDisabled(true);
+            LEDState.DISABLED.setActive(true);
         }
     }
 
@@ -78,7 +80,8 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledExit() {
-        swagLights.setDisabled(false);
+        LEDState.DISABLED.setActive(false);
+        LEDState.ENABLED.setActive(true);
     }
 
     @Override
@@ -110,6 +113,11 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         Dashboard.getInstance().clearTrajectory();
         driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
+        // CommandScheduler.getInstance().schedule(new
+        // FieldManagementCommand(rumblePower -> {
+        // DriverJoystick.getInstance().setRumble(rumblePower);
+        // OperatorJoystick.getInstance().setRumble(rumblePower);
+        // }));
     }
 
     @Override

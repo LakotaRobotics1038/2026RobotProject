@@ -7,11 +7,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.SwagLights.LEDState;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -24,6 +21,7 @@ public class ShootCommand extends Command {
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
+    private double startingPivotDegrees = acquisition.getPivotPosition();
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
@@ -39,6 +37,7 @@ public class ShootCommand extends Command {
     public void initialize() {
         timer.restart();
         isUpToSpeed = false;
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
     }
 
     @Override
@@ -48,12 +47,13 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+            shooter.getNearShooter().start(targetRPM *
+                    ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getHubDistance(robotPose);
+            double distance = shooter.getFarShooter().getTargetDistance(robotPose);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
@@ -65,19 +65,20 @@ public class ShootCommand extends Command {
                     break;
                 }
             }
+            LEDState.TOO_CLOSE.setActive(!validPosition);
         }
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
-            if (isUpToSpeed) {
-                kicker.start();
-                acquisition.acquire();
-                if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                    if (timer.get() % 1 <= 0.5) {
-                        acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
-                    } else {
-                        acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
-                    }
+            // if (isUpToSpeed) {
+            kicker.start();
+            acquisition.acquire();
+            if (wiggleAcquisitionSupplier.getAsBoolean()) {
+                if (timer.get() % 1.5 <= 0.75) {
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
+                } else {
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
                 }
+                // }
             } else {
                 isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
                         shooter.getFarShooter().isAtTargetRPM();
@@ -100,5 +101,7 @@ public class ShootCommand extends Command {
         kicker.stop();
         acquisition.stopIntake();
         timer.stop();
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        LEDState.TOO_CLOSE.setActive(false);
     }
 }

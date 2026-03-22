@@ -73,6 +73,7 @@ public class ShooterHoods extends SubsystemBase {
         public void enable() {
             servoChannel.setPowered(true);
             servoChannel.setEnabled(true);
+            setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
         }
 
         /**
