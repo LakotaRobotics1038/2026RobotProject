@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.SwagLights.LEDState;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -17,7 +18,6 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
-    private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
@@ -30,7 +30,7 @@ public class ShootCommand extends Command {
 
     public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
         this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
-        addRequirements(acquisition, kicker, shooter, swagLights);
+        addRequirements(acquisition, kicker, shooter);
     }
 
     @Override
@@ -65,11 +65,7 @@ public class ShootCommand extends Command {
                     break;
                 }
             }
-            if (!validPosition) {
-                swagLights.setTooCloseState();
-            } else {
-                swagLights.setDefaultState();
-            }
+            LEDState.TOO_CLOSE.setActive(!validPosition);
         }
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
@@ -106,5 +102,6 @@ public class ShootCommand extends Command {
         acquisition.stopIntake();
         timer.stop();
         acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        LEDState.TOO_CLOSE.setActive(false);
     }
 }
