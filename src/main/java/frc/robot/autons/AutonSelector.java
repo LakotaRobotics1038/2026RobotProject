@@ -11,10 +11,10 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftAuto,
-        SimpleLeftAuto,
-        SimpleMiddleAuto,
-        SimpleRightAuto,
-        DepotLeftAuto
+        LeftAutoShoot,
+        MiddleAutoShoot,
+        RightAutoShoot,
+        LeftAutoDepotShoot
     }
 
     // Choosers
@@ -37,10 +37,10 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Left Auto Simple", AutonChoices.SimpleLeftAuto);
-        this.autoChooser.addOption("Middle Auto Simple", AutonChoices.SimpleMiddleAuto);
-        this.autoChooser.addOption("Right Auto Simple", AutonChoices.SimpleRightAuto);
-        this.autoChooser.addOption("Depot Left Auto", AutonChoices.DepotLeftAuto);
+        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
+        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
+        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
+        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -57,13 +57,13 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftAuto:
                     return new LeftAuto(alliance);
-                case SimpleLeftAuto:
+                case LeftAutoShoot:
                     return new SimpleLeftAuto(alliance);
-                case SimpleMiddleAuto:
+                case MiddleAutoShoot:
                     return new SimpleMiddleAuto(alliance);
-                case SimpleRightAuto:
+                case RightAutoShoot:
                     return new SimpleRightAuto(alliance);
-                case DepotLeftAuto:
+                case LeftAutoDepotShoot:
                     return new DepotLeftAuto(alliance);
                 default:
                     return null;
