@@ -18,11 +18,11 @@ public class AutonSelector {
 
     public enum AutonChoice {
         NO_AUTO("No Auto", null),
-        LEFT_AUTO("Left Auto", alliance -> new LeftAuto(alliance)),
-        SIMPLE_LEFT_AUTO("Simple Left Auto", alliance -> new SimpleLeftAuto(alliance)),
-        SIMPLE_MIDDLE_AUTO("Simple Middle Auto", alliance -> new SimpleMiddleAuto(alliance)),
-        SIMPLE_RIGHT_AUTO("Simple Right Auto", alliance -> new SimpleRightAuto(alliance)),
-        DEPOT_LEFT_AUTO("Depot Left Auto", alliance -> new DepotLeftAuto(alliance));
+        LEFT_AUTO("Left Auto", LeftAuto::new),
+        SIMPLE_LEFT_AUTO("Simple Left Auto", SimpleLeftAuto::new),
+        SIMPLE_MIDDLE_AUTO("Simple Middle Auto", SimpleMiddleAuto::new),
+        SIMPLE_RIGHT_AUTO("Simple Right Auto", SimpleRightAuto::new),
+        DEPOT_LEFT_AUTO("Depot Left Auto", DepotLeftAuto::new);
 
         private final String name;
         private final AutonFactory factory;
