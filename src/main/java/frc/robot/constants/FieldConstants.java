@@ -19,8 +19,6 @@ public final class FieldConstants {
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
     private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
-    private static final double HUB_LEFT_Y = HUB_CENTER_Y - HUB_LENGTH / 2 - FUEL_DIAMETER;
-    private static final double HUB_RIGHT_Y = HUB_CENTER_Y + HUB_LENGTH / 2 + FUEL_DIAMETER;
 
     public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 
@@ -79,13 +77,6 @@ public final class FieldConstants {
             BLUE_RIGHT_TRENCH,
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
-
-    private static final Rectangle2d LEFT_ALLIANCE = new Rectangle2d(
-            new Translation2d(0, 0),
-            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, HUB_LEFT_Y));
-    private static final Rectangle2d RIGHT_ALLIANCE = new Rectangle2d(
-            new Translation2d(0, HUB_RIGHT_Y),
-            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, FlippingUtil.fieldSizeY));
 
     public static Translation2d targetPosition() {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
