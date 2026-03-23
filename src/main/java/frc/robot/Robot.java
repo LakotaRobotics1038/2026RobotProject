@@ -69,7 +69,9 @@ public class Robot extends TimedRobot {
         LEDState.ENABLED.setActive(false);
         if (controlWordCache.getEStop()) {
             LEDState.EMERGENCY_STOP.setActive(true);
+            LEDState.DISABLED.setActive(false);
         } else {
+            LEDState.EMERGENCY_STOP.setActive(false);
             LEDState.DISABLED.setActive(true);
         }
     }
