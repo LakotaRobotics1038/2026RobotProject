@@ -58,13 +58,13 @@ public class AutonSelector {
                 case LeftAuto:
                     return new LeftAuto(alliance);
                 case LeftAutoShoot:
-                    return new SimpleLeftAuto(alliance);
+                    return new LeftAutoShoot(alliance);
                 case MiddleAutoShoot:
-                    return new SimpleMiddleAuto(alliance);
+                    return new MiddleAutoShoot(alliance);
                 case RightAutoShoot:
-                    return new SimpleRightAuto(alliance);
+                    return new RightAutoShoot(alliance);
                 case LeftAutoDepotShoot:
-                    return new DepotLeftAuto(alliance);
+                    return new LeftAutoDepotShoot(alliance);
                 default:
                     return null;
             }

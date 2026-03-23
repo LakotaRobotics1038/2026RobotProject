@@ -9,8 +9,8 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Optional;
 
-public class SimpleRightAuto extends Auton {
-    public SimpleRightAuto(Optional<DriverStation.Alliance> alliance)
+public class RightAutoShoot extends Auton {
+    public RightAutoShoot(Optional<DriverStation.Alliance> alliance)
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(

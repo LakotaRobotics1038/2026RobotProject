@@ -12,8 +12,8 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Optional;
 
-public class SimpleMiddleAuto extends Auton {
-    public SimpleMiddleAuto(Optional<DriverStation.Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class MiddleAutoShoot extends Auton {
+    public MiddleAutoShoot(Optional<DriverStation.Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getMiddle1Path()),
