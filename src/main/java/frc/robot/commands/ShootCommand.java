@@ -16,6 +16,8 @@ import frc.robot.subsystems.SwagLights.LEDState;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
+    private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
+    private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
     private final Acquisition acquisition = Acquisition.getInstance();
     private final Kicker kicker = Kicker.getInstance();
@@ -76,7 +78,7 @@ public class ShootCommand extends Command {
             kicker.start();
             acquisition.acquire();
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % 1.5 <= 0.75) {
+                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
                     acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
                 } else {
                     acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
