@@ -52,6 +52,7 @@ public class ShootCommand extends Command {
                     ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
+            LEDState.TOO_CLOSE.setActive(false);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             double distance = shooter.getFarShooter().getTargetDistance(robotPose);
