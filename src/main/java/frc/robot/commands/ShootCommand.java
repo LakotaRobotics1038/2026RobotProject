@@ -21,7 +21,7 @@ public class ShootCommand extends Command {
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private boolean isUpToSpeed;
-    private double startingPivotDegrees = acquisition.getPivotPosition();
+    private double startingPivotDegrees;
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
@@ -37,6 +37,7 @@ public class ShootCommand extends Command {
     public void initialize() {
         timer.restart();
         isUpToSpeed = false;
+        startingPivotDegrees = acquisition.getPivotPosition();
         acquisition.setPivot(AcquisitionSetpoint.LOWERED);
     }
 
