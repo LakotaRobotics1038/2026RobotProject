@@ -7,12 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.SwagLights.LEDState;
+import frc.robot.subsystems.*;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -24,6 +19,7 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
     private double startingPivotDegrees;
@@ -56,7 +52,9 @@ public class ShootCommand extends Command {
                     ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
-            LEDState.TOO_CLOSE.setActive(false);
+            if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+                swagLights.setDefaultState();
+            }
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             double distance = shooter.getFarShooter().getTargetDistance(robotPose);
@@ -71,7 +69,11 @@ public class ShootCommand extends Command {
                     break;
                 }
             }
-            LEDState.TOO_CLOSE.setActive(!validPosition);
+            if (!validPosition) {
+                swagLights.setTooCloseState();
+            } else if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+                swagLights.setDefaultState();
+            }
         }
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
@@ -103,6 +105,8 @@ public class ShootCommand extends Command {
         acquisition.stopIntake();
         timer.stop();
         acquisition.setPivot(AcquisitionSetpoint.LOWERED);
-        LEDState.TOO_CLOSE.setActive(false);
+        if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+            swagLights.setDefaultState();
+        }
     }
 }

@@ -4,8 +4,38 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class SwagLights implements Subsystem {
+    // Enums
+    public enum RobotStates {
+        Enabled("D"),
+        Disabled("D"),
+        EmergencyStop("E");
+
+        public final String value;
+
+        private RobotStates(String value) {
+            this.value = value;
+        }
+    }
+
+    public enum OperatorStates {
+        Default("D"),
+        Aligning("A"),
+        Aligned("S"),
+        TooClose("C");
+
+        public final String value;
+
+        private OperatorStates(String value) {
+            this.value = value;
+        }
+    }
+
     // Inputs and Outputs
-    private final SerialPort serialPort;
+    private SerialPort serialPort;
+
+    // States
+    private RobotStates robotState = RobotStates.Disabled;
+    private OperatorStates operatorState = OperatorStates.Default;
 
     // Singleton Setup
     private static SwagLights instance;
@@ -28,13 +58,22 @@ public class SwagLights implements Subsystem {
 
     @Override
     public void periodic() {
-        LEDState activeState = LEDState.DISABLED;
-        for (LEDState state : LEDState.values()) {
-            if (state.isActive() && state.getPriority() >= activeState.getPriority()) {
-                activeState = state;
-            }
+        if (this.robotState == RobotStates.Enabled) {
+            setLedStates(
+                    this.robotState.value,
+                    this.operatorState.value);
+        } else {
+            setLedStates(this.robotState.value);
         }
-        serialPort.writeString(String.valueOf(activeState.getValue()));
+    }
+
+    /**
+     * Write an array of strings to the serial bus as a single sting
+     *
+     * @param values
+     */
+    private void setLedStates(String... values) {
+        serialPort.writeString(String.join("", values));
     }
 
     /**
@@ -45,38 +84,43 @@ public class SwagLights implements Subsystem {
         serialPort.close();
     }
 
-    public enum LEDState {
-        EMERGENCY_STOP('E', Integer.MAX_VALUE),
-        TOO_CLOSE('C', 3),
-        ALIGNED('S', 2),
-        ALIGNING('A', 1),
-        ENABLED('D', 0),
-        DISABLED('D', 0);
+    public RobotStates getRobotState() {
+        return robotState;
+    }
 
-        private final char value;
-        private final int priority;
-        private boolean active;
+    public OperatorStates getOperatorState() {
+        return operatorState;
+    }
 
-        LEDState(char value, int priority) {
-            this.value = value;
-            this.priority = priority;
-            this.active = false;
-        }
+    /**
+     * Tells the swag lights the robot is disabled
+     *
+     * @param isDisabled
+     */
+    public void setDisabled(boolean isDisabled) {
+        this.robotState = isDisabled ? RobotStates.Disabled : RobotStates.Enabled;
+    }
 
-        public char getValue() {
-            return value;
-        }
+    /**
+     * Tells the swag lights the robot is e-stopped
+     */
+    public void setEStop() {
+        this.robotState = RobotStates.EmergencyStop;
+    }
 
-        public int getPriority() {
-            return priority;
-        }
+    public void setAligningState() {
+        this.operatorState = OperatorStates.Aligning;
+    }
 
-        public boolean isActive() {
-            return active;
-        }
+    public void setAlignedState() {
+        this.operatorState = OperatorStates.Aligned;
+    }
 
-        public void setActive(boolean active) {
-            this.active = active;
-        }
+    public void setTooCloseState() {
+        this.operatorState = OperatorStates.TooClose;
+    }
+
+    public void setDefaultState() {
+        this.operatorState = OperatorStates.Default;
     }
 }

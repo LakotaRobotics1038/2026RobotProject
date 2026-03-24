@@ -12,7 +12,7 @@ import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwagLights.LEDState;
+import frc.robot.subsystems.SwagLights;
 
 public class AlignCommand extends Command {
     private static final double P = 4.0;
@@ -25,6 +25,7 @@ public class AlignCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Shooter shooter = Shooter.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
@@ -41,7 +42,7 @@ public class AlignCommand extends Command {
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
         rotationController.setTolerance(ALIGNMENT_TOLERANCE_RAD);
 
-        addRequirements(driveTrain);
+        addRequirements(driveTrain, swagLights);
     }
 
     public AlignCommand() {
@@ -81,8 +82,7 @@ public class AlignCommand extends Command {
         driveTrain.setControl(
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
-        LEDState.ALIGNED.setActive(false);
-        LEDState.ALIGNING.setActive(false);
+        swagLights.setDefaultState();
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
@@ -101,8 +101,11 @@ public class AlignCommand extends Command {
     private void updateAlignmentState(boolean isAligned) {
         if (alignedToHub == null || alignedToHub != isAligned) {
             alignedToHub = isAligned;
-            LEDState.ALIGNED.setActive(alignedToHub);
-            LEDState.ALIGNING.setActive(!alignedToHub);
+            if (alignedToHub) {
+                swagLights.setAlignedState();
+            } else {
+                swagLights.setAligningState();
+            }
             if (alignmentStateConsumer != null) {
                 alignmentStateConsumer.accept(alignedToHub);
             }

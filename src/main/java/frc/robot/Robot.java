@@ -18,7 +18,6 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.SwagLights.LEDState;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
@@ -66,13 +65,11 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         System.out.println("Robot Disabled");
         DriverStationJNI.getControlWord(controlWordCache);
-        LEDState.ENABLED.setActive(false);
+        swagLights.setDisabled(true);
         if (controlWordCache.getEStop()) {
-            LEDState.EMERGENCY_STOP.setActive(true);
-            LEDState.DISABLED.setActive(false);
+            swagLights.setEStop();
         } else {
-            LEDState.EMERGENCY_STOP.setActive(false);
-            LEDState.DISABLED.setActive(true);
+            swagLights.setDisabled(false);
         }
     }
 
@@ -82,8 +79,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledExit() {
-        LEDState.DISABLED.setActive(false);
-        LEDState.ENABLED.setActive(true);
+
     }
 
     @Override
