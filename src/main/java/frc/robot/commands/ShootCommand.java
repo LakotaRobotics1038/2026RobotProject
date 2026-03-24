@@ -13,6 +13,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -58,7 +59,7 @@ public class ShootCommand extends Command {
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
             if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-                swagLights.setDefaultState();
+                swagLights.setOperatorState(OperatorStates.Default);
             }
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
@@ -75,9 +76,9 @@ public class ShootCommand extends Command {
                 }
             }
             if (!validPosition) {
-                swagLights.setTooCloseState();
+                swagLights.setOperatorState(OperatorStates.TooClose);
             } else if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-                swagLights.setDefaultState();
+                swagLights.setOperatorState(OperatorStates.Default);
             }
         }
 
@@ -111,7 +112,7 @@ public class ShootCommand extends Command {
         timer.stop();
         acquisition.setPivot(AcquisitionSetpoint.LOWERED);
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-            swagLights.setDefaultState();
+            swagLights.setOperatorState(OperatorStates.Default);
         }
     }
 }

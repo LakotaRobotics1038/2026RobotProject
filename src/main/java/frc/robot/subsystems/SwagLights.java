@@ -99,36 +99,4 @@ public class SwagLights implements Subsystem {
     public void setOperatorState(OperatorStates operatorState) {
         this.operatorState = operatorState;
     }
-
-    /**
-     * Tells the swag lights the robot is disabled
-     *
-     * @param isDisabled
-     */
-    public void setDisabled(boolean isDisabled) {
-        this.robotState = isDisabled ? RobotStates.Disabled : RobotStates.Enabled;
-    }
-
-    /**
-     * Tells the swag lights the robot is e-stopped
-     */
-    public void setEStop() {
-        this.robotState = RobotStates.EmergencyStop;
-    }
-
-    public void setAligningState() {
-        this.operatorState = OperatorStates.Aligning;
-    }
-
-    public void setAlignedState() {
-        this.operatorState = OperatorStates.Aligned;
-    }
-
-    public void setTooCloseState() {
-        this.operatorState = OperatorStates.TooClose;
-    }
-
-    public void setDefaultState() {
-        this.operatorState = OperatorStates.Default;
-    }
 }
