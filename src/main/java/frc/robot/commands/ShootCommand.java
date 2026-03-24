@@ -7,7 +7,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwagLights;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
