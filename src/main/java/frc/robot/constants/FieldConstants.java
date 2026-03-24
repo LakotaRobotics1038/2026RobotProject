@@ -9,10 +9,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 
 public final class FieldConstants {
-
     private static final double HUB_EDGE_DISTANCE_FROM_DRIVER_STATION = Units.inchesToMeters(158.6);
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
@@ -76,7 +76,8 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    public static Translation2d hubPosition(Alliance alliance) {
+    public static Translation2d targetPosition() {
+        Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
         return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
     }
 }

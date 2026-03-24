@@ -12,7 +12,11 @@ public class AutonSelector {
         NoAuto,
         LeftAuto,
         MiddleAuto,
-        RightAuto
+        RightAuto,
+        LeftAutoShoot,
+        MiddleAutoShoot,
+        RightAutoShoot,
+        LeftAutoDepotShoot
     }
 
     // Choosers
@@ -37,6 +41,10 @@ public class AutonSelector {
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
         this.autoChooser.addOption("Middle Auto", AutonChoices.MiddleAuto);
         this.autoChooser.addOption("Right Auto", AutonChoices.RightAuto);
+        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
+        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
+        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
+        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -57,6 +65,14 @@ public class AutonSelector {
                     return new MiddleAuto(alliance);
                 case RightAuto:
                     return new RightAuto(alliance);
+                case LeftAutoShoot:
+                    return new LeftAutoShoot(alliance);
+                case MiddleAutoShoot:
+                    return new MiddleAutoShoot(alliance);
+                case RightAutoShoot:
+                    return new RightAutoShoot(alliance);
+                case LeftAutoDepotShoot:
+                    return new LeftAutoDepotShoot(alliance);
                 default:
                     return null;
             }
