@@ -17,6 +17,7 @@ import frc.robot.constants.SwerveConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.RobotStates;
 import frc.robot.subsystems.Vision;
 
 public class Robot extends TimedRobot {
@@ -66,9 +67,9 @@ public class Robot extends TimedRobot {
         System.out.println("Robot Disabled");
         DriverStationJNI.getControlWord(controlWordCache);
         if (controlWordCache.getEStop()) {
-            swagLights.setEStop();
+            swagLights.setRobotState(RobotStates.EmergencyStop);
         } else {
-            swagLights.setDisabled(true);
+            swagLights.setRobotState(RobotStates.Disabled);
         }
     }
 
@@ -78,7 +79,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledExit() {
-
+        swagLights.setRobotState(RobotStates.Enabled);
     }
 
     @Override

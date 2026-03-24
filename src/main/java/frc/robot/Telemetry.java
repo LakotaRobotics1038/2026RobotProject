@@ -30,7 +30,9 @@ public class Telemetry {
      */
     public Telemetry(double maxSpeed) {
         MAX_SPEED = maxSpeed;
-        SignalLogger.start();
+        if (SignalLogger.setPath("/media/sda1/ctre-logs/").isOK()) {
+            SignalLogger.start();
+        }
     }
 
     /* What to publish over networktables for telemetry */
