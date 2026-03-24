@@ -28,11 +28,11 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMBackward));
+                        dashboard::nudgeManualShooterRPMForward));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMForward));
+                        dashboard::nudgeManualShooterRPMBackward));
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleBackward));
 
@@ -40,7 +40,7 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().onTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
