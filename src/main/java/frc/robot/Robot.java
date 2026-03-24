@@ -65,11 +65,10 @@ public class Robot extends TimedRobot {
     public void disabledInit() {
         System.out.println("Robot Disabled");
         DriverStationJNI.getControlWord(controlWordCache);
-        swagLights.setDisabled(true);
         if (controlWordCache.getEStop()) {
             swagLights.setEStop();
         } else {
-            swagLights.setDisabled(false);
+            swagLights.setDisabled(true);
         }
     }
 
