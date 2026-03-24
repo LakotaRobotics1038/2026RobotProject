@@ -19,7 +19,9 @@ public class SwagLights implements Subsystem {
 
     public enum OperatorStates {
         Default("X"),
-        ReadyState("G");
+        Aligning("A"),
+        Aligned("S"),
+        TooClose("C");
 
         public final String value;
 
@@ -82,27 +84,19 @@ public class SwagLights implements Subsystem {
         serialPort.close();
     }
 
-    /**
-     * Tells the swag lights the robot is disabled
-     *
-     * @param isDisabled
-     */
-    public void setDisabled(boolean isDisabled) {
-        this.robotState = isDisabled ? RobotStates.Disabled : RobotStates.Enabled;
+    public RobotStates getRobotState() {
+        return robotState;
     }
 
-    /**
-     * Tells the swag lights the robot is e-stopped
-     */
-    public void setEStop() {
-        this.robotState = RobotStates.EmergencyStop;
+    public void setRobotState(RobotStates robotState) {
+        this.robotState = robotState;
     }
 
-    public void setReadyState() {
-        this.operatorState = OperatorStates.ReadyState;
+    public OperatorStates getOperatorState() {
+        return operatorState;
     }
 
-    public void setDefaultState() {
-        this.operatorState = OperatorStates.Default;
+    public void setOperatorState(OperatorStates operatorState) {
+        this.operatorState = operatorState;
     }
 }

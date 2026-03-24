@@ -12,18 +12,23 @@ import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
+    private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
+    private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
     private final Acquisition acquisition = Acquisition.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
-    private boolean isUpToSpeed;
+    private double startingPivotDegrees;
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
@@ -38,7 +43,8 @@ public class ShootCommand extends Command {
     @Override
     public void initialize() {
         timer.restart();
-        isUpToSpeed = false;
+        startingPivotDegrees = acquisition.getPivotPosition();
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
     }
 
     @Override
@@ -48,12 +54,16 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooter.getNearShooter().start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+            shooter.getNearShooter().start(targetRPM *
+                    ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
             shooter.getFarShooter().start(targetRPM);
             validPosition = true;
+            if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+                swagLights.setOperatorState(OperatorStates.Default);
+            }
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getHubDistance(robotPose);
+            double distance = shooter.getFarShooter().getTargetDistance(robotPose);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
@@ -65,22 +75,22 @@ public class ShootCommand extends Command {
                     break;
                 }
             }
+            if (!validPosition) {
+                swagLights.setOperatorState(OperatorStates.TooClose);
+            } else if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+                swagLights.setOperatorState(OperatorStates.Default);
+            }
         }
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
-            if (isUpToSpeed) {
-                kicker.start();
-                acquisition.acquire();
-                if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                    if (timer.get() % 1 <= 0.5) {
-                        acquisition.setPivot(AcquisitionSetpoint.LOW_RAISE);
-                    } else {
-                        acquisition.setPivot(AcquisitionSetpoint.HIGH_RAISE);
-                    }
+            kicker.start();
+            acquisition.acquire();
+            if (wiggleAcquisitionSupplier.getAsBoolean()) {
+                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
+                } else {
+                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
                 }
-            } else {
-                isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
-                        shooter.getFarShooter().isAtTargetRPM();
             }
         } else {
             kicker.stop();
@@ -100,5 +110,9 @@ public class ShootCommand extends Command {
         kicker.stop();
         acquisition.stopIntake();
         timer.stop();
+        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+            swagLights.setOperatorState(OperatorStates.Default);
+        }
     }
 }

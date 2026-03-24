@@ -11,6 +11,10 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftAuto,
+        LeftAutoShoot,
+        MiddleAutoShoot,
+        RightAutoShoot,
+        LeftAutoDepotShoot
     }
 
     // Choosers
@@ -33,6 +37,10 @@ public class AutonSelector {
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
+        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
+        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
+        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
+        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
@@ -49,6 +57,14 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftAuto:
                     return new LeftAuto(alliance);
+                case LeftAutoShoot:
+                    return new LeftAutoShoot(alliance);
+                case MiddleAutoShoot:
+                    return new MiddleAutoShoot(alliance);
+                case RightAutoShoot:
+                    return new RightAutoShoot(alliance);
+                case LeftAutoDepotShoot:
+                    return new LeftAutoDepotShoot(alliance);
                 default:
                     return null;
             }
