@@ -44,7 +44,16 @@
       "linkedName": "left4"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5882352941176469,
+      "rotationDegrees": -45.0
+    },
+    {
+      "waypointRelativePos": 1.625668449197863,
+      "rotationDegrees": -45.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -58,7 +67,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.50420689809205
+    "rotation": -144.18987985749482
   },
   "reversed": false,
   "folder": null,
