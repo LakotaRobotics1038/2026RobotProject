@@ -81,14 +81,15 @@ classDiagram
     + values() AutonChoices[]
   }
   class AutonSelector {
-    - AutonSelector()
-    ~ SendableChooser~AutonChoices~ autoChooser
+    - SendableChooser~AutonChoices~ autoChooser
+    - SendableChooser~Double~ delayChooser
     - AutonSelector instance
-    ~ SendableChooser~Double~ delayChooser
+    - AutonSelector()
     + chooseDelay() double
     + getInstance() AutonSelector
     + chooseAuton() Auton
   }
+
   class Dashboard {
     - Dashboard()
     - SendableChooser~Double~ delayChooser
