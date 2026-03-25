@@ -1,13 +1,13 @@
 classDiagram
   direction BT
   class Acquisition {
-    - instance : Acquisition 
-    - intakeMotor : SparkMax 
+    - instance : Acquisition
+    - intakeMotor : SparkMax
     - pivotMotor : SparkMax
-    - intakeEncoder : RelativeEncoder 
-    - pivotEncoder : AbsoluteEncoder 
-    - intakeController : SparkClosedLoopController 
-    - pivotController : SparkClosedLoopController 
+    - intakeEncoder : RelativeEncoder
+    - pivotEncoder : AbsoluteEncoder
+    - intakeController : SparkClosedLoopController
+    - pivotController : SparkClosedLoopController
     - Acquisition()
     + acquire() void
     + dispose() void
@@ -23,7 +23,7 @@ classDiagram
   class AcquisitionConstants {
     + INTAKE_ACQUIRE_DUTY_CYCLE : double
     + INTAKE_DISPOSE_DUTY_CYCLE : double
-    + INTAKE_MOTOR_CAN_ID : int 
+    + INTAKE_MOTOR_CAN_ID : int
     + PIVOT_ALLOWED_ERROR_DEGREES : double
     + PIVOT_D : double
     + PIVOT_ENCODER_CONVERSION_FACTOR : double
@@ -39,7 +39,7 @@ classDiagram
     <<enumeration>>
     HIGH_RAISE
     LOWERED
-    LOW_RAISE 
+    LOW_RAISE
     RAISED
     + getDegrees() double
     + values() AcquisitionSetpoint[]
@@ -277,13 +277,13 @@ classDiagram
     ~ RightTaxi(Optional~Alliance~)
   }
   class Robot {
-    + Robot()
     - ControlWord controlWordCache
     - Auton autonomousCommand
     - AutonSelector autonSelector
     - SwagLights swagLights
     - DriveTrain driveTrain
     - Vision vision
+    + Robot()
     + autonomousPeriodic() void
     + testPeriodic() void
     + autonomousInit() void
