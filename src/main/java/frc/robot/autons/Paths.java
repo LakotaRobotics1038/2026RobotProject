@@ -73,6 +73,11 @@ public class Paths {
         return PathPlannerPath.fromPathFile("Right 4");
     }
 
+    public static PathPlannerPath getRightShoot1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Right Shoot 1");
+    }
+
     public static PathPlannerPath getDepotLeft1Path()
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Depot Left 1");

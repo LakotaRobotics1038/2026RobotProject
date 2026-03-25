@@ -18,7 +18,7 @@ public class RightAutoShoot extends Auton {
         super(alliance);
         super.addCommands(
                 new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED),
-                followPathCommand(Paths.getRight1Path()),
+                followPathCommand(Paths.getRightShoot1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
                                 .andThen(new ShootCommand().withTimeout(5))));
