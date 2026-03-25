@@ -18,24 +18,25 @@ public class AcquisitionRunCommand extends Command {
     public void initialize() {
         if (mode == Mode.INTAKE) {
             acquisition.acquire();
-            kicker.reverse();
-        } else if (mode == Mode.DISPOSE) {
-            acquisition.dispose();
-            kicker.reverse();
         } else {
-            acquisition.stopIntake();
-            kicker.stop();
+            acquisition.dispose();
         }
+        kicker.reverse();
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        acquisition.stopIntake();
+        kicker.stop();
     }
 
     public enum Mode {
         INTAKE,
-        DISPOSE,
-        STOP
+        DISPOSE
     }
 }

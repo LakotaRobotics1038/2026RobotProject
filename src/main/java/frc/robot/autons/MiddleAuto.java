@@ -20,12 +20,12 @@ public class MiddleAuto extends Auton {
         super.addCommands(
                 followPathCommand(Paths.getMiddle1Path()),
                 followPathCommand(Paths.getMiddle2Path()).alongWith(
-                        new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
-                        new AcquisitionRunCommand(Mode.INTAKE)),
-                followPathCommand(Paths.getMiddle3Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
-                new ShootCommand().withTimeout(2),
-                followPathCommand(Paths.getMiddle4Path()).alongWith(new AcquisitionRunCommand(Mode.INTAKE)),
-                followPathCommand(Paths.getMiddle5Path()).alongWith(new AcquisitionRunCommand(Mode.STOP)),
+                        new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)),
+                new AcquisitionRunCommand(Mode.INTAKE).raceWith(
+                        followPathCommand(Paths.getMiddle3Path()),
+                        new ShootCommand().withTimeout(2),
+                        followPathCommand(Paths.getMiddle4Path()).alongWith(new AcquisitionRunCommand(Mode.INTAKE))),
+                followPathCommand(Paths.getMiddle5Path()),
                 new ShootCommand().withTimeout(2));
     }
 }
