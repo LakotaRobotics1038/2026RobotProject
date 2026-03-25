@@ -19,9 +19,9 @@ public class MiddleAuto extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getMiddle1Path()),
-                followPathCommand(Paths.getMiddle2Path()).alongWith(
+                followPathCommand(Paths.getMiddle2Path()).raceWith(
                         new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
-                                .andThen(new AcquisitionRunCommand(Mode.INTAKE).withTimeout(2))),
+                                .andThen(new AcquisitionRunCommand(Mode.INTAKE))),
                 followPathCommand(Paths.getMiddle3Path()),
                 new ShootCommand().withTimeout(2),
                 followPathCommand(Paths.getMiddle4Path()).raceWith(new AcquisitionRunCommand(Mode.INTAKE)),
