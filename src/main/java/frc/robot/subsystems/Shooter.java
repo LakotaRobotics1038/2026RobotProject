@@ -9,10 +9,10 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.NeoMotorConstants;
@@ -132,7 +132,7 @@ public class Shooter extends SubsystemBase {
          * @return Whether the shooter is at the target RPM.
          */
         public boolean isAtTargetRPM() {
-            return Math.abs(getRPM() - getTargetRPM()) <= ShooterConstants.OPERATING_TOLERANCE;
+            return MathUtil.isNear(getRPM(), getTargetRPM(), ShooterConstants.OPERATING_TOLERANCE);
         }
 
         /**
@@ -141,11 +141,11 @@ public class Shooter extends SubsystemBase {
          * @param robotPose Robot pose in field coordinates.
          * @return Distance from this module to the hub.
          */
-        public double getHubDistance(Pose2d robotPose) {
-            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
+        public double getTargetDistance(Pose2d robotPose) {
+            Translation2d targetPosition = FieldConstants.targetPosition();
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            return fieldPosition.getDistance(hubPosition);
+            return fieldPosition.getDistance(targetPosition);
         }
 
         /**
@@ -154,11 +154,11 @@ public class Shooter extends SubsystemBase {
          * @param robotPose Current robot pose in field coordinates.
          * @return Angle in radians from the module toward the hub.
          */
-        public double getHubAngle(Pose2d robotPose) {
-            Translation2d hubPosition = FieldConstants.hubPosition(DriverStation.getAlliance().orElse(Alliance.Blue));
+        public double getTargetAngle(Pose2d robotPose) {
+            Translation2d targetPosition = FieldConstants.targetPosition();
             Translation2d moduleFieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
-            Translation2d toTargetFromModule = hubPosition.minus(moduleFieldPosition);
+            Translation2d toTargetFromModule = targetPosition.minus(moduleFieldPosition);
             return toTargetFromModule.getAngle().getRadians();
         }
 

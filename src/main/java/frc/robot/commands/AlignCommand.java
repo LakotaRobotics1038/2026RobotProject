@@ -12,8 +12,10 @@ import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.OperatorStates;
 
-public class HubAlignCommand extends Command {
+public class AlignCommand extends Command {
     private static final double P = 4.0;
     private static final double I = 0.005;
     private static final double D = 0.01;
@@ -24,13 +26,14 @@ public class HubAlignCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final Shooter shooter = Shooter.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
     private final PIDController rotationController = new PIDController(P, I, D);
-    private boolean alignedToHub = false;
+    private Boolean alignedToHub;
 
-    public HubAlignCommand(DoubleSupplier forwardSpeedSupplier,
+    public AlignCommand(DoubleSupplier forwardSpeedSupplier,
             DoubleSupplier sidewaysSpeedSupplier,
             BooleanConsumer alignmentStateConsumer) {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
@@ -40,12 +43,17 @@ public class HubAlignCommand extends Command {
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
         rotationController.setTolerance(ALIGNMENT_TOLERANCE_RAD);
 
-        addRequirements(driveTrain);
+        addRequirements(driveTrain, swagLights);
+    }
+
+    public AlignCommand() {
+        this(() -> 0, () -> 0, null);
     }
 
     @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
+
         double targetHeadingRadians = getAlignedTargetHeading(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
@@ -62,18 +70,25 @@ public class HubAlignCommand extends Command {
 
     @Override
     public boolean isFinished() {
+        if (this.alignmentStateConsumer == null) {
+            return rotationController.atSetpoint();
+        }
+
         return false;
     }
 
     @Override
     public void end(boolean interrupted) {
         rotationController.reset();
+        driveTrain.setControl(
+                driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
+        swagLights.setOperatorState(SwagLights.OperatorStates.Default);
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
-        double nearShooterTargetAngle = shooter.getNearShooter().getHubAngle(robotPose);
-        double farShooterTargetAngle = shooter.getFarShooter().getHubAngle(robotPose);
+        double nearShooterTargetAngle = shooter.getNearShooter().getTargetAngle(robotPose);
+        double farShooterTargetAngle = shooter.getFarShooter().getTargetAngle(robotPose);
 
         // Converts both aim angles into vectors, add them, and turns the result back
         // into an angle. This gives the bisector between the near and far shooter
@@ -85,9 +100,16 @@ public class HubAlignCommand extends Command {
     }
 
     private void updateAlignmentState(boolean isAligned) {
-        if (alignedToHub != isAligned) {
+        if (alignedToHub == null || alignedToHub != isAligned) {
             alignedToHub = isAligned;
-            alignmentStateConsumer.accept(alignedToHub);
+            if (alignedToHub) {
+                swagLights.setOperatorState(OperatorStates.Aligned);
+            } else {
+                swagLights.setOperatorState(OperatorStates.Aligning);
+            }
+            if (alignmentStateConsumer != null) {
+                alignmentStateConsumer.accept(alignedToHub);
+            }
             dashboard.setHubAligned(isAligned);
         }
     }

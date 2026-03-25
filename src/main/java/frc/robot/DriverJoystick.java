@@ -5,17 +5,12 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.RetractHoodsCommand;
-import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.AdjustHoodsCommand;
-import frc.robot.commands.ClimbCommand;
-import frc.robot.commands.HubAlignCommand;
-import frc.robot.constants.ClimbConstants;
+import frc.robot.commands.AlignCommand;
+import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
-import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
@@ -81,39 +76,21 @@ public class DriverJoystick extends XboxController1038 {
             return driveTrain.drive(forward, -sideways, -rotate, true);
         }));
 
-        shooterHoods.setDefaultCommand(new AdjustHoodsCommand());
+        shooterHoods.setDefaultCommand(new RetractHoodsCommand());
 
         this.driveTrain.registerTelemetry(logger::telemeterize);
 
         // Re-orient robot to the field
         this.start().whileTrue(new InstantCommand(driveTrain::seedFieldCentric, driveTrain));
 
-        new Trigger(() -> this.getPOV().equals(PovPositions.Up))
-                .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Down))
-                .onTrue(new InstantCommand(
-                        () -> dashboard.nudgeManualShooterRPM(-ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
-
-        new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(dashboard::resetManualShooterRPM));
-
-        new Trigger(this::isInTrench).and(() -> !dashboard.isManualModeEnabled()).whileTrue(new RetractHoodsCommand())
-                .onTrue(new AcquisitionTrenchRetract());
-
         this.x().whileTrue(this.driveTrain.setX());
 
-        this.leftBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.DOWN));
-        this.rightBumper().onTrue(new ClimbCommand(ClimbConstants.ClimbSetpoint.UP));
-
-        this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new HubAlignCommand(
+        this.leftTrigger().and(() -> !dashboard.isManualModeEnabled()).whileTrue(new AlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
-                aligned -> setRumble(aligned ? HubAlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+                aligned -> setRumble(aligned ? AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+        this.leftTrigger().whileTrue(new AdjustHoodsCommand());
+        this.rightTrigger().whileTrue(new RetractHoodsCommand());
     }
 
     /**
@@ -186,12 +163,5 @@ public class DriverJoystick extends XboxController1038 {
      */
     private boolean signChange(double a, double b) {
         return a > 0 && b < 0 || b > 0 && a < 0;
-    }
-
-    private boolean isInTrench() {
-        Translation2d robotPos = driveTrain.getState().Pose.getTranslation();
-        return RectangleUtils.inRect(
-                FieldConstants.TRENCH_RECTANGLES,
-                robotPos);
     }
 }

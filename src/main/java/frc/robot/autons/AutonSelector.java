@@ -10,8 +10,11 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        LeftTaxi,
-        RightTaxi
+        LeftAuto,
+        LeftAutoShoot,
+        MiddleAutoShoot,
+        RightAutoShoot,
+        LeftAutoDepotShoot
     }
 
     // Choosers
@@ -33,26 +36,18 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Left Taxi", AutonChoices.LeftTaxi);
-        this.autoChooser.addOption("Right Taxi", AutonChoices.RightTaxi);
+        this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
+        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
+        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
+        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
+        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
 
         this.delayChooser.setDefaultOption("0 Seconds", 0.0);
-        this.delayChooser.addOption("1 Second", 1.0);
-        this.delayChooser.addOption("2 Seconds", 2.0);
-        this.delayChooser.addOption("3 Seconds", 3.0);
-        this.delayChooser.addOption("4 Seconds", 4.0);
-        this.delayChooser.addOption("5 Seconds", 5.0);
-        this.delayChooser.addOption("6 Seconds", 6.0);
-        this.delayChooser.addOption("7 Seconds", 7.0);
-        this.delayChooser.addOption("8 Seconds", 8.0);
-        this.delayChooser.addOption("9 Seconds", 9.0);
-        this.delayChooser.addOption("10 Seconds", 10.0);
-        this.delayChooser.addOption("11 Seconds", 11.0);
-        this.delayChooser.addOption("12 Seconds", 12.0);
-        this.delayChooser.addOption("13 Seconds", 13.0);
-        this.delayChooser.addOption("14 Seconds", 14.0);
+        for (int i = 1; i <= 14; i++) {
+            this.delayChooser.addOption(i + " Seconds", (double) i);
+        }
     }
 
     public Auton chooseAuton() {
@@ -60,10 +55,16 @@ public class AutonSelector {
         System.out.println(this.autoChooser.getSelected());
         try {
             switch (this.autoChooser.getSelected()) {
-                case LeftTaxi:
-                    return new LeftTaxi(alliance);
-                case RightTaxi:
-                    return new RightTaxi(alliance);
+                case LeftAuto:
+                    return new LeftAuto(alliance);
+                case LeftAutoShoot:
+                    return new LeftAutoShoot(alliance);
+                case MiddleAutoShoot:
+                    return new MiddleAutoShoot(alliance);
+                case RightAutoShoot:
+                    return new RightAutoShoot(alliance);
+                case LeftAutoDepotShoot:
+                    return new LeftAutoDepotShoot(alliance);
                 default:
                     return null;
             }

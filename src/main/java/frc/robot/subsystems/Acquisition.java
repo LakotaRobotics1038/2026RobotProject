@@ -109,7 +109,8 @@ public class Acquisition extends SubsystemBase {
      * Gets if the pivot motor is at the setpoint.
      */
     public boolean pivotAtSetpoint() {
-        return pivotController.isAtSetpoint();
+        return MathUtil.isNear(pivotController.getSetpoint(), getPivotPosition(),
+                AcquisitionConstants.PIVOT_OPERATING_TOLERANCE);
     }
 
     public double getIntakeRPM() {
