@@ -3,28 +3,13 @@ package frc.robot.constants;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 
 public final class ShooterConstants {
-    public record ShooterModuleConstants(
-            int leftMotorCanId,
-            int rightMotorCanId,
-            Translation2d translation) {
-    }
-
-    public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            5,
-            6,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)));
-
-    public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            12,
-            13,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
+    public static final int SHOOTER_MOTOR_1_CAN_ID = 0;
+    public static final int SHOOTER_MOTOR_2_CAN_ID = 0;
+    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d();
 
     public static final double OPERATING_TOLERANCE = 75;
-
-    public static final double NEAR_SHOOTER_PERCENTAGE = 0.95;
 
     public static final double P = 0.000175;
     public static final double I = 0.0;

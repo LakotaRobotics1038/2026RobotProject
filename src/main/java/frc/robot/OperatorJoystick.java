@@ -6,7 +6,6 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;

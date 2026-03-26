@@ -54,23 +54,19 @@ public class ShootCommand extends Command {
         if (dashboard.isManualModeEnabled()) {
             double targetRPM = dashboard.getManualShooterRPM();
 
-            shooter.getNearShooter().start(targetRPM *
-                    ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
-            shooter.getFarShooter().start(targetRPM);
+            shooter.start(targetRPM);
             validPosition = true;
             if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
                 swagLights.setOperatorState(OperatorStates.Default);
             }
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getTargetDistance(robotPose);
+            double distance = shooter.getTargetDistance(robotPose);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double targetRPM = formula.getShooterRPM(distance);
-                    shooter.getFarShooter().start(targetRPM);
-                    shooter.getNearShooter()
-                            .start(targetRPM * ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
+                    shooter.start(targetRPM);
                     validPosition = true;
                     break;
                 }
@@ -86,7 +82,8 @@ public class ShootCommand extends Command {
             kicker.start();
             acquisition.acquire();
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
+                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME
+                        + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
                     acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
                 } else {
                     acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
@@ -105,8 +102,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.getFarShooter().stop();
-        shooter.getNearShooter().stop();
+        shooter.stop();
         kicker.stop();
         acquisition.stopIntake();
         timer.stop();
