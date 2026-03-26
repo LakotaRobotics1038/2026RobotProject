@@ -19,10 +19,13 @@ public class LeftAuto extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getLeft1Path())
-                        .raceWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED).andThen(new AcquisitionRunCommand(Mode.INTAKE))),
+                /*
+                 * .raceWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
+                 * .andThen(new AcquisitionRunCommand(Mode.INTAKE)))
+                 */,
                 followPathCommand(Paths.getLeft2Path()),
                 new ShootCommand().withTimeout(2),
-                followPathCommand(Paths.getLeft3Path()).raceWith(new AcquisitionRunCommand(Mode.INTAKE)),
+                followPathCommand(Paths.getLeft3Path())/* .raceWith(new AcquisitionRunCommand(Mode.INTAKE)) */,
                 followPathCommand(Paths.getLeft4Path()),
                 new ShootCommand().withTimeout(2));
     }

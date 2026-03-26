@@ -19,11 +19,13 @@ public class RightAuto extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getRight1Path())
-                        .raceWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
-                                .andThen(new AcquisitionRunCommand(Mode.INTAKE))),
+                /*
+                 * .raceWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
+                 * .andThen(new AcquisitionRunCommand(Mode.INTAKE)))
+                 */,
                 followPathCommand(Paths.getRight2Path()),
                 new ShootCommand().withTimeout(2),
-                followPathCommand(Paths.getRight3Path()).raceWith(new AcquisitionRunCommand(Mode.INTAKE)),
+                followPathCommand(Paths.getRight3Path())/* .raceWith(new AcquisitionRunCommand(Mode.INTAKE)) */,
                 followPathCommand(Paths.getRight4Path()),
                 new ShootCommand().withTimeout(2));
     }
