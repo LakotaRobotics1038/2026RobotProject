@@ -59,4 +59,8 @@ public class Extension extends SubsystemBase {
     public boolean getReverseLimitSwitchPressed() {
         return motor.getReverseLimitSwitch().isPressed();
     }
+
+    public double getPosition() {
+        return motor.getEncoder().getPosition();
+    }
 }

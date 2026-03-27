@@ -36,4 +36,8 @@ public class Intake extends SubsystemBase {
     public void stop() {
         motor.stopMotor();
     }
+
+    public double getRPM() {
+        return motor.getEncoder().getVelocity();
+    }
 }
