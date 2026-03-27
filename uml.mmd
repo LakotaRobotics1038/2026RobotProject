@@ -14,8 +14,8 @@ classDiagram
     + getInstance() Acquisition
     + getIntakeRPM() double
     + getPivotPosition() double
-    + setPivot(AcquisitionSetpoint setpoint) void
-    + setPivotDegrees(double degrees) void
+    + setPivot(setpoint: AcquisitionSetpoint) void
+    + setPivotDegrees(degrees: double) void
     + stopIntake() void
     + stopPivot() void
     + pivotAtSetpoint() boolean
@@ -43,7 +43,7 @@ classDiagram
     RAISED
     + getDegrees() double
     + values() AcquisitionSetpoint[]
-    + valueOf(String) AcquisitionSetpoint
+    + valueOf(name: String) AcquisitionSetpoint
   }
   class AutoConstants {
     + D_CONTROLLER : double
@@ -60,24 +60,26 @@ classDiagram
     + THETA_CONTROLLER_CONSTRAINTS : TrapezoidProfile.Constraints
   }
   class Auton {
-    - initialPose : Pose2d
-    # driveTrain : DriveTrain
     # alliance : Alliance
-    + Auton(Optional~Alliance~)
+    # driveTrain : DriveTrain
+    - initialPose : Pose2d
+    + Auton(alliance: Optional~Alliance~)
     + getInitialPose() Pose2d
-    - setInitialPose(Pose2d) void
-    # setInitialPose(PathPlannerTrajectory) void
-    # setInitialPose(PathPlannerTrajectory, Rotation2d) void
-    + followPathCommand(PathPlannerPath) Command
+    + followPathCommand(path: PathPlannerPath) Command
+    - setInitialPose(initialPose: Pose2d )
+    # setInitialPose(initialTrajectory: PathPlannerTrajectory)
+    # setInitialPose(initialTrajectory: PathPlannerTrajectory , rotationOffset: Rotation2d)
   }
   class AutonChoices {
     <<enumeration>>
-    + AutonChoices()
-    +  NoAuto
-    +  LeftTaxi
-    +  RightTaxi
-    + valueOf(String) AutonChoices
+    LeftAuto
+    LeftAutoDepotShoot
+    LeftAutoShoot
+    MiddleAutoShoot
+    NoAuto
+    RightAutoShoot   
     + values() AutonChoices[]
+    + valueOf(name: String) AutonChoices
   }
   class AutonSelector {
     - SendableChooser~AutonChoices~ autoChooser
@@ -88,7 +90,6 @@ classDiagram
     + getInstance() AutonSelector
     + chooseAuton() Auton
   }
-
   class Dashboard {
     - Dashboard()
     - SendableChooser~Double~ delayChooser
