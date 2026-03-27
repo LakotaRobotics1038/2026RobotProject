@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.3154369349520505,
-        "y": 4.327508510826416
+        "x": 3.374539972159157,
+        "y": 4.331475345529928
       },
       "isLocked": false,
       "linkedName": "MiddleStart"
@@ -20,8 +20,8 @@
         "y": 4.859545454545455
       },
       "prevControl": {
-        "x": 3.5064792142284187,
-        "y": 4.7663325723584435
+        "x": 3.3550623069493164,
+        "y": 4.0413558688424
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -178.94922648825784
   },
   "useDefaultConstraints": true
 }

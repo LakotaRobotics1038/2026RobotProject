@@ -12,12 +12,14 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.AcquisitionRunCommand.Mode;
+import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
 public class MiddleAuto extends Auton {
     public MiddleAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
+                new AcquisitionTrenchRetract(),
                 followPathCommand(Paths.getMiddle1Path()),
                 followPathCommand(Paths.getMiddle2Path())
                 /*
@@ -26,9 +28,9 @@ public class MiddleAuto extends Auton {
                  * .andThen(new AcquisitionRunCommand(Mode.INTAKE)))
                  */,
                 followPathCommand(Paths.getMiddle3Path()),
-                new ShootCommand().withTimeout(2),
+                new ShootCommand().withTimeout(4),
                 followPathCommand(Paths.getMiddle4Path())/* .raceWith(new AcquisitionRunCommand(Mode.INTAKE)) */,
                 followPathCommand(Paths.getMiddle5Path()),
-                new ShootCommand().withTimeout(2));
+                new ShootCommand().withTimeout(4));
     }
 }

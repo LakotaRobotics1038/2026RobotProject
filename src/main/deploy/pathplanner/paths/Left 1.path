@@ -44,7 +44,12 @@
       "linkedName": "left1"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.7439613526570056,
+      "rotationDegrees": 180.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -64,7 +69,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -0.7629448927549514
+    "rotation": -179.14490260373333
   },
   "useDefaultConstraints": true
 }
