@@ -43,16 +43,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
-    private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
-    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_RIGHT_CAM_NAME);
-    private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
+    private final PhotonCamera leftCam = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
+    private final PhotonCamera rightCam = new PhotonCamera(VisionConstants.ROBOT_TO_RIGHT_CAM_NAME);
+    private final PhotonPoseEstimator leftCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_LEFT_CAM);
-    private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
+    private final PhotonPoseEstimator rightCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_RIGHT_CAM);
-    private Matrix<N3, N1> frontCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
-    private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
-    private final Consumer<Matrix<N3, N1>> frontStdDevSetter = stdDevs -> frontCurStdDevs = stdDevs;
-    private final Consumer<Matrix<N3, N1>> backStdDevSetter = stdDevs -> backCurStdDevs = stdDevs;
+    private Matrix<N3, N1> leftCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private Matrix<N3, N1> rightCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private final Consumer<Matrix<N3, N1>> leftStdDevSetter = stdDevs -> leftCurStdDevs = stdDevs;
+    private final Consumer<Matrix<N3, N1>> rightStdDevSetter = stdDevs -> rightCurStdDevs = stdDevs;
 
     private static Vision instance;
 
@@ -68,7 +68,8 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
-    private Vision() {}
+    private Vision() {
+    }
 
     private Optional<EstimatedRobotPose> estimateCameraPose(
             PhotonCamera camera,
@@ -98,8 +99,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> frontCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(frontCam, frontCamPhotonEstimator, frontCurStdDevs,
-                frontStdDevSetter);
+        return estimateCameraPose(leftCam, leftCamPhotonEstimator, leftCurStdDevs,
+                leftStdDevSetter);
     }
 
     /**
@@ -112,8 +113,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs,
-                backStdDevSetter);
+        return estimateCameraPose(rightCam, rightCamPhotonEstimator, rightCurStdDevs,
+                rightStdDevSetter);
     }
 
     /**
@@ -177,7 +178,7 @@ public class Vision extends SubsystemBase {
      * This should only be used when there are targets visible.
      */
     public Matrix<N3, N1> getFrontEstimationStdDevs() {
-        return frontCurStdDevs;
+        return leftCurStdDevs;
     }
 
     /**
@@ -187,6 +188,6 @@ public class Vision extends SubsystemBase {
      * This should only be used when there are targets visible.
      */
     public Matrix<N3, N1> getBackEstimationStdDevs() {
-        return backCurStdDevs;
+        return rightCurStdDevs;
     }
 }
