@@ -21,33 +21,35 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final SparkMax motor1 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_1_CAN_ID,
+    private final SparkMax leftTop = new SparkMax(ShooterConstants.SHOOTER_MOTOR_LEFT_TOP_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax motor2 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_2_CAN_ID,
+    private final SparkMax leftBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax motor3 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_3_CAN_ID,
+    private final SparkMax rightTop = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_TOP_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax motor4 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_4_CAN_ID,
+    private final SparkMax rightBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
 
-    private final SparkClosedLoopController controller = motor1.getClosedLoopController();
-    private final RelativeEncoder encoder = motor1.getEncoder();
+    private final SparkClosedLoopController controller = leftTop.getClosedLoopController();
+    private final RelativeEncoder encoder = leftTop.getEncoder();
 
     private Shooter() {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
-        baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
+        baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast).inverted(true)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
                 .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
 
-        motor1.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftTop.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        SparkFlexConfig followerConfig = new SparkFlexConfig();
-        followerConfig.apply(baseConfig).follow(motor1);
+        SparkFlexConfig leftFollowerConfig = new SparkFlexConfig();
+        leftFollowerConfig.apply(baseConfig).follow(leftTop);
+        SparkFlexConfig rightFollowerConfig = new SparkFlexConfig();
+        rightFollowerConfig.apply(baseConfig).follow(leftTop, true);
 
-        motor2.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        motor3.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        motor4.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        leftBottom.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightTop.configure(rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        rightBottom.configure(rightFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Shooter getInstance() {
@@ -70,7 +72,7 @@ public class Shooter extends SubsystemBase {
      * Stops the shooter.
      */
     public void stop() {
-        motor1.stopMotor();
+        leftTop.stopMotor();
     }
 
     /**

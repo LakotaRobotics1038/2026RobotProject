@@ -5,10 +5,10 @@ import java.util.List;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public final class ShooterConstants {
-    public static final int SHOOTER_MOTOR_1_CAN_ID = 0;
-    public static final int SHOOTER_MOTOR_2_CAN_ID = 0;
-    public static final int SHOOTER_MOTOR_3_CAN_ID = 0;
-    public static final int SHOOTER_MOTOR_4_CAN_ID = 0;
+    public static final int SHOOTER_MOTOR_LEFT_TOP_CAN_ID = 0;
+    public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 0;
+    public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 0;
+    public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 0;
     public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d();
 
     public static final double OPERATING_TOLERANCE = 75;
