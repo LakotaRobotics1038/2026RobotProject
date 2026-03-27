@@ -22,8 +22,7 @@ public class AdjustHoodsCommand extends Command {
     public void execute() {
         if (dashboard.isManualModeEnabled()) {
             double angle = dashboard.getManualShooterHoodAngle();
-            shooterHoods.getNearHood().setAngle(angle);
-            shooterHoods.getFarHood().setAngle(angle);
+            shooterHoods.setAngle(angle);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             double distance = shooter.getTargetDistance(robotPose);
@@ -31,8 +30,7 @@ public class AdjustHoodsCommand extends Command {
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double angle = formula.getAngle();
-                    shooterHoods.getFarHood().setAngle(angle);
-                    shooterHoods.getNearHood().setAngle(angle);
+                    shooterHoods.setAngle(angle);
                     break;
                 }
             }

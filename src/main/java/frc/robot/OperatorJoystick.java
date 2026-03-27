@@ -2,14 +2,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AcquisitionRunCommand;
+import frc.robot.commands.ExtensionCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.utils.Direction;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
@@ -38,17 +38,17 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        this.leftBumper().whileTrue(new IntakeCommand(Direction.FORWARD));
+        this.rightBumper().whileTrue(new IntakeCommand(Direction.REVERSE));
 
-        this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
-        this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
+        this.y().onTrue(new ExtensionCommand(Direction.FORWARD));
+        this.a().onTrue(new ExtensionCommand(Direction.REVERSE));
         this.x().whileTrue(new RetractHoodsCommand());
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();
         }));
 
-        this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
+        this.rightTrigger().whileTrue(new ShootCommand());
     }
 }

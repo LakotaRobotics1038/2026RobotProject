@@ -8,6 +8,7 @@ import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.KickerConstants;
@@ -21,7 +22,7 @@ public class Kicker extends SubsystemBase {
 
     private Kicker() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.inverted(true).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+        config.idleMode(IdleMode.kCoast).inverted(true).smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
                 .pid(KickerConstants.P, KickerConstants.I, KickerConstants.D).feedForward
                 .sva(KickerConstants.S, KickerConstants.V, KickerConstants.A);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

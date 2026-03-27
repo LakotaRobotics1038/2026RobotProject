@@ -11,6 +11,8 @@ public final class ShooterHoodsConstants {
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.NEO_550_FREE_SPEED_RPM;
     public static final double A = 0;
 
+    public static final double HOOD_ENCODER_CONVERSION_FACTOR = 360;
+
     public static final double SHOOTER_NO_RETRACTION_ANGLE = 54.0;
     public static final double SHOOTER_FULL_RETRACTION_ANGLE = 73.0;
 

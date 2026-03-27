@@ -2,11 +2,12 @@ package frc.robot.autons;
 
 import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
+import frc.robot.commands.ExtensionCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionConstants;
+import frc.robot.utils.Direction;
+
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class RightAutoShoot extends Auton {
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED),
+                new ExtensionCommand(Direction.FORWARD),
                 followPathCommand(Paths.getRight1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()

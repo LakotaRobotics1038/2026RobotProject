@@ -11,9 +11,6 @@ public final class DashboardConstants {
     public static final String MANUAL_MODE_ENABLED = "Manual Mode";
     public static final String MANUAL_SHOOTER_RPM = "Manual Shoot RPM";
     public static final String MANUAL_SHOOTER_HOOD_ANGLE = "Manual Shooter Hood Angle";
-    public static final String ACQUISITION_MIN_WIGGLE = "Acquisition Min Wiggle";
-    public static final String ACQUISITION_MAX_WIGGLE = "Acquisition Max Wiggle";
-    public static final String ENABLE_ACQUISITION_PIVOT = "Enable Acquisition Pivot";
 
     public static String shooterSlopeKey(double angle) {
         return "Shooter Slope " + (int) angle;

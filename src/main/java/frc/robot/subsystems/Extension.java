@@ -1,0 +1,62 @@
+package frc.robot.subsystems;
+
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.LimitSwitchConfig.Behavior;
+import com.revrobotics.spark.config.LimitSwitchConfig.Type;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.ExtensionConstants;
+
+public class Extension extends SubsystemBase {
+    private static Extension instance;
+    private SparkMax motor = new SparkMax(ExtensionConstants.MOTOR_CAN_ID,
+            SparkFlex.MotorType.kBrushless);
+    private SparkClosedLoopController controller = motor.getClosedLoopController();
+
+    private Extension() {
+        SparkFlexConfig baseConfig = new SparkFlexConfig();
+        baseConfig.idleMode(IdleMode.kBrake);
+
+        SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
+        leftMotorConfig.apply(baseConfig).limitSwitch
+                .forwardLimitSwitchType(Type.kNormallyOpen)
+                .forwardLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition)
+                .reverseLimitSwitchType(Type.kNormallyOpen)
+                .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
+        motor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    }
+
+    public static Extension getInstance() {
+        if (instance == null) {
+            instance = new Extension();
+        }
+        return instance;
+    }
+
+    public void forward() {
+        controller.setSetpoint(ExtensionConstants.FORWARD_POWER, ControlType.kDutyCycle);
+    }
+
+    public void backward() {
+        controller.setSetpoint(ExtensionConstants.BACKWARD_POWER, ControlType.kDutyCycle);
+    }
+
+    public void stop() {
+        controller.setSetpoint(0, ControlType.kDutyCycle);
+    }
+
+    public boolean getForwardLimitSwitchPressed() {
+        return motor.getForwardLimitSwitch().isPressed();
+    }
+
+    public boolean getReverseLimitSwitchPressed() {
+        return motor.getReverseLimitSwitch().isPressed();
+    }
+}

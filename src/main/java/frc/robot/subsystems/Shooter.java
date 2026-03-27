@@ -5,8 +5,8 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
@@ -21,9 +21,13 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final SparkFlex motor1 = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_1_CAN_ID,
+    private final SparkMax motor1 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_1_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkFlex motor2 = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_2_CAN_ID,
+    private final SparkMax motor2 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_2_CAN_ID,
+            SparkLowLevel.MotorType.kBrushless);
+    private final SparkMax motor3 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_3_CAN_ID,
+            SparkLowLevel.MotorType.kBrushless);
+    private final SparkMax motor4 = new SparkMax(ShooterConstants.SHOOTER_MOTOR_4_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
 
     private final SparkClosedLoopController controller = motor1.getClosedLoopController();
@@ -42,6 +46,8 @@ public class Shooter extends SubsystemBase {
         followerConfig.apply(baseConfig).follow(motor1);
 
         motor2.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor3.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor4.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Shooter getInstance() {

@@ -13,8 +13,7 @@ public class RetractHoodsCommand extends Command {
 
     @Override
     public void initialize() {
-        shooterHoods.getNearHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
-        shooterHoods.getFarHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        shooterHoods.setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
     }
 
     @Override
