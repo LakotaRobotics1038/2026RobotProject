@@ -91,17 +91,27 @@ classDiagram
     + chooseAuton() Auton
   }
   class Dashboard {
+    - autoChooser : SendableChooser~AutonChoices~
+    - delayChooser : SendableChooser~Double~
+    - instance : Dashboard
     - Dashboard()
-    - SendableChooser~Double~ delayChooser
-    - Field2d field
-    - SendableChooser~AutonChoices~ autoChooser
-    - DriveTrain driveTrain
-    - Dashboard instance
+    + clearTrajectory() void
+    + getAcquisitionMinWiggle() double
+    + getAcquisitionMaxWiggle() double
+    + getAutoChooser() SendableChooser~AutonChoices~
     + getDelayChooser() SendableChooser~Double~
     + getInstance() Dashboard
-    + clearTrajectory() void
-    + getAutoChooser() SendableChooser~AutonChoices~
+    + getManualShooterHoodAngle() double
+    + getManualShooterRPM() double
+    + isManualModeEnabled() boolean
+    + nudgeManualShooterHoodAngleBackward() void
+    + nudgeManualShooterHoodAngleForward() void
+    + nudgeManualShooterRPMBackward() void
+    + nudgeManualShooterRPMForward() void
     + periodic() void
+    + resetManualShooterHoodAngle() void
+    + resetManualShooterRPM() void
+    + setHubAligned(hubAligned : boolean) void
   }
   class DashboardConstants {
     + DashboardConstants()
