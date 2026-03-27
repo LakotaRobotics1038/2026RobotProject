@@ -16,9 +16,7 @@ public class Indexer extends SubsystemBase {
 
     private Indexer() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.idleMode(IdleMode.kCoast).closedLoop.pid(IndexerConstants.P, IndexerConstants.I,
-                IndexerConstants.D).feedForward
-                .sva(IndexerConstants.S, IndexerConstants.V, IndexerConstants.A);
+        config.idleMode(IdleMode.kCoast);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
