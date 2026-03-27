@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
-import frc.robot.subsystems.Dashboard;
+import frc.robot.constants.DashboardConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
@@ -24,7 +24,6 @@ public class ShootCommand extends Command {
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier wiggleAcquisitionSupplier;
@@ -51,8 +50,8 @@ public class ShootCommand extends Command {
     public void execute() {
         boolean validPosition = false;
 
-        if (dashboard.isManualModeEnabled()) {
-            double targetRPM = dashboard.getManualShooterRPM();
+        if (DashboardConstants.MANUAL_MODE_ENABLED.get()) {
+            double targetRPM = DashboardConstants.MANUAL_SHOOTER_RPM.get();
 
             shooter.getNearShooter().start(targetRPM *
                     ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
@@ -87,9 +86,9 @@ public class ShootCommand extends Command {
             acquisition.acquire();
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
                 if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
+                    acquisition.setPivotDegrees(startingPivotDegrees + DashboardConstants.ACQUISITION_MIN_WIGGLE.get());
                 } else {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
+                    acquisition.setPivotDegrees(startingPivotDegrees + DashboardConstants.ACQUISITION_MAX_WIGGLE.get());
                 }
             }
         } else {

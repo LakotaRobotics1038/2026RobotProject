@@ -10,11 +10,12 @@ import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
-import frc.robot.subsystems.Dashboard;
+import frc.robot.constants.ShooterConstants;
+import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.constants.DashboardConstants;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
-    private final Dashboard dashboard = Dashboard.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -28,16 +29,26 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMForward));
+                        () -> DashboardConstants.MANUAL_SHOOTER_RPM.set(
+                                DashboardConstants.MANUAL_SHOOTER_RPM.get()
+                                        + ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMBackward));
+                        () -> DashboardConstants.MANUAL_SHOOTER_RPM.set(
+                                DashboardConstants.MANUAL_SHOOTER_RPM.get()
+                                        - ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleBackward));
+                .onTrue(new InstantCommand(
+                        () -> DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                                DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.get()
+                                        - ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
+                .onTrue(new InstantCommand(
+                        () -> DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                                DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.get()
+                                        + ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
 
         this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
@@ -46,8 +57,9 @@ public class OperatorJoystick extends XboxController1038 {
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
         this.start().onTrue(new InstantCommand(() -> {
-            dashboard.resetManualShooterRPM();
-            dashboard.resetManualShooterHoodAngle();
+            DashboardConstants.MANUAL_SHOOTER_RPM.set(ShooterConstants.MANUAL_SHOOTER_RPM);
+            DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                    ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
         }));
 
         this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
