@@ -18,3 +18,8 @@ Positive y is left of that.
          |
          |
 ```
+
+Rotation is measured in radians.
+The constructor accepts roll, pitch, and yaw.
+
+![Yaw, Pitch, and Roll](https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fwww.crazepony.com%2Fassets%2Fimg%2Fpitch-yaw-roll.png&f=1&nofb=1&ipt=9ed5966667e8938c18ac0feefb77c9cf00316dcf2c4cda1cd600b0cf9fa03d47)
