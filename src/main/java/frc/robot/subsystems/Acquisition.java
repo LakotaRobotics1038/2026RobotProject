@@ -4,6 +4,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
@@ -13,9 +14,9 @@ import frc.robot.constants.AcquisitionConstants;
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
     private final SparkFlex leftMotor = new SparkFlex(AcquisitionConstants.LEFT_MOTOR_CAN_ID,
-            SparkFlex.MotorType.kBrushless);
+            MotorType.kBrushless);
     private final SparkFlex rightMotor = new SparkFlex(AcquisitionConstants.RIGHT_MOTOR_CAN_ID,
-            SparkFlex.MotorType.kBrushless);
+            MotorType.kBrushless);
     private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
 
     private Acquisition() {
