@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 public final class ExtensionConstants {
-    public static final int MOTOR_CAN_ID = 0;
+    public static final int MOTOR_CAN_ID = 4;
 
     public static final double P = 0;
     public static final double I = 0;
