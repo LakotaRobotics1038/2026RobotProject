@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-public class ExtensionConstants {
+public final class ExtensionConstants {
     public static final int MOTOR_CAN_ID = 0;
 
     public static final double P = 0;
