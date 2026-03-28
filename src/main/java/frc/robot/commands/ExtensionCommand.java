@@ -24,7 +24,11 @@ public class ExtensionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        return extension.getForwardLimitSwitchPressed() || extension.getReverseLimitSwitchPressed();
+        if (direction == Direction.FORWARD) {
+            return extension.getForwardLimitSwitchPressed();
+        } else {
+            return extension.getReverseLimitSwitchPressed();
+        }
     }
 
     @Override
