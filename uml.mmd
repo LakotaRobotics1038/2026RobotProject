@@ -819,18 +819,18 @@ classDiagram
 
   Robot --|> TimedRobot
   XboxController1038 --|> CommandXboxController
-  PovPositions +-- XboxController1038
+  PovPositions *-- XboxController1038
   DriverJoystick --|> XboxController1038
   OperatorJoystick --|> XboxController1038
-  ShooterModule +-- Shooter
-  Hood +-- ShooterHoods
-  DashboardValue +-- Dashboard
-  ShooterFormula +-- ShooterConstants
-  ShooterModuleConstants +-- ShooterConstants
-  AutonChoices +-- AutonSelector
-  Mode +-- AcquisitionRunCommand
-  RobotStates +-- SwagLights
-  OperatorStates +-- SwagLights
+  ShooterModule *-- Shooter
+  Hood *-- ShooterHoods
+  DashboardValue *-- Dashboard
+  ShooterFormula *-- ShooterConstants
+  ShooterModuleConstants *-- ShooterConstants
+  AutonChoices *-- AutonSelector
+  Mode *-- AcquisitionRunCommand
+  RobotStates *-- SwagLights
+  OperatorStates *-- SwagLights
 
   Auton --|> SequentialCommandGroup
   LeftAuto --|> Auton
