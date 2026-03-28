@@ -14,13 +14,13 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ExtensionConstants;
 
-public class Extension extends SubsystemBase {
-    private static Extension instance;
+public class HopperExtension extends SubsystemBase {
+    private static HopperExtension instance;
     private SparkMax motor = new SparkMax(ExtensionConstants.MOTOR_CAN_ID,
             SparkFlex.MotorType.kBrushless);
     private SparkClosedLoopController controller = motor.getClosedLoopController();
 
-    private Extension() {
+    private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
         config.idleMode(IdleMode.kBrake).limitSwitch
                 .forwardLimitSwitchType(Type.kNormallyOpen)
@@ -30,9 +30,9 @@ public class Extension extends SubsystemBase {
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public static Extension getInstance() {
+    public static HopperExtension getInstance() {
         if (instance == null) {
-            instance = new Extension();
+            instance = new HopperExtension();
         }
         return instance;
     }

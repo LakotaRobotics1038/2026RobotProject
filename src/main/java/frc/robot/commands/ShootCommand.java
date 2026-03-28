@@ -56,7 +56,7 @@ public class ShootCommand extends Command {
 
         if (validPosition) {
             kicker.start();
-            indexer.start();
+            indexer.in();
         } else {
             kicker.stop();
             indexer.stop();

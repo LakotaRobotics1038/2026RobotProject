@@ -10,15 +10,15 @@ import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
-import frc.robot.commands.ExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.ShootCommand;
-import frc.robot.utils.Direction;
 
 public class LeftAutoShoot extends Auton {
     public LeftAutoShoot(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new ExtensionCommand(Direction.FORWARD),
+                new HopperExtensionCommand(ExtensionDirection.FORWARD),
                 followPathCommand(Paths.getLeft1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()

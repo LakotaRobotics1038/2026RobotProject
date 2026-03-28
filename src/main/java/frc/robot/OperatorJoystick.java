@@ -2,14 +2,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.ExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.IntakeCommand.IntakeDirection;
+import frc.robot.commands.RetractHoodCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
-import frc.robot.utils.Direction;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
@@ -38,12 +39,12 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
-        this.leftBumper().whileTrue(new IntakeCommand(Direction.FORWARD));
-        this.rightBumper().whileTrue(new IntakeCommand(Direction.REVERSE));
+        this.leftBumper().whileTrue(new IntakeCommand(IntakeDirection.INTAKE));
+        this.rightBumper().whileTrue(new IntakeCommand(IntakeDirection.DISPOSE));
 
-        this.y().onTrue(new ExtensionCommand(Direction.FORWARD));
-        this.a().onTrue(new ExtensionCommand(Direction.REVERSE));
-        this.x().whileTrue(new RetractHoodsCommand());
+        this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.FORWARD));
+        this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.BACKWARD));
+        this.x().whileTrue(new RetractHoodCommand());
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();

@@ -1,21 +1,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Extension;
-import frc.robot.utils.Direction;
+import frc.robot.subsystems.HopperExtension;
 
-public class ExtensionCommand extends Command {
-    private final Extension extension = Extension.getInstance();
-    private final Direction direction;
+public class HopperExtensionCommand extends Command {
+    private final HopperExtension extension = HopperExtension.getInstance();
+    private final ExtensionDirection direction;
 
-    public ExtensionCommand(Direction direction) {
+    public HopperExtensionCommand(ExtensionDirection direction) {
         this.direction = direction;
         addRequirements(extension);
     }
 
     @Override
     public void initialize() {
-        if (direction == Direction.FORWARD) {
+        if (direction == ExtensionDirection.FORWARD) {
             extension.forward();
         } else {
             extension.backward();
@@ -24,7 +23,7 @@ public class ExtensionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (direction == Direction.FORWARD) {
+        if (direction == ExtensionDirection.FORWARD) {
             return extension.getForwardLimitSwitchPressed();
         } else {
             return extension.getReverseLimitSwitchPressed();
@@ -34,5 +33,10 @@ public class ExtensionCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         extension.stop();
+    }
+
+    public enum ExtensionDirection {
+        FORWARD,
+        BACKWARD
     }
 }

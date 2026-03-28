@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.constants.ShooterHoodConstants;
 
 public class Dashboard extends SubsystemBase {
     // Choosers
@@ -114,16 +114,16 @@ public class Dashboard extends SubsystemBase {
 
     public void nudgeManualShooterHoodAngleBackward() {
         DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(
-                getManualShooterHoodAngle() - ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT);
+                getManualShooterHoodAngle() - ShooterHoodConstants.MANUAL_SHOOTER_ANGLE_INCREMENT);
     }
 
     public void nudgeManualShooterHoodAngleForward() {
         DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(
-                getManualShooterHoodAngle() + ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT);
+                getManualShooterHoodAngle() + ShooterHoodConstants.MANUAL_SHOOTER_ANGLE_INCREMENT);
     }
 
     public void resetManualShooterHoodAngle() {
-        DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
+        DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
     }
 
     public enum DashboardValue {
@@ -142,9 +142,9 @@ public class Dashboard extends SubsystemBase {
                 ShooterConstants.MANUAL_SHOOTER_RPM),
         MANUAL_SHOOTER_HOOD_ANGLE(DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE,
                 v -> MathUtil.clamp((double) v,
-                        ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
-                        ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
-                ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE),
+                        ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
+                        ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE),
+                ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE),
         FIELD(new Field2d(),
                 v -> ((Field2d) v).setRobotPose(
                         DriveTrain.getInstance().getState().Pose));

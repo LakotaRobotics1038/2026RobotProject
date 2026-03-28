@@ -6,10 +6,10 @@ import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterHoods;
+import frc.robot.subsystems.ShooterHood;
 
 public class AdjustHoodsCommand extends Command {
-    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
+    private final ShooterHood shooterHoods = ShooterHood.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();

@@ -10,26 +10,26 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.constants.ShooterHoodConstants;
 
-public class ShooterHoods extends SubsystemBase {
-    private static ShooterHoods instance;
+public class ShooterHood extends SubsystemBase {
+    private static ShooterHood instance;
 
-    private final SparkMax leftMotor = new SparkMax(ShooterHoodsConstants.LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
-    private final SparkMax rightMotor = new SparkMax(ShooterHoodsConstants.RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkMax leftMotor = new SparkMax(ShooterHoodConstants.LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkMax rightMotor = new SparkMax(ShooterHoodConstants.RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
 
     private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
     private final AbsoluteEncoder encoder = leftMotor.getAbsoluteEncoder();
 
-    private ShooterHoods() {
+    private ShooterHood() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();
-        baseConfig.idleMode(SparkMaxConfig.IdleMode.kBrake).closedLoop.pid(ShooterHoodsConstants.P,
-                ShooterHoodsConstants.I, ShooterHoodsConstants.D).feedForward
-                .sva(ShooterHoodsConstants.S, ShooterHoodsConstants.V, ShooterHoodsConstants.A);
+        baseConfig.idleMode(SparkMaxConfig.IdleMode.kBrake).closedLoop.pid(ShooterHoodConstants.P,
+                ShooterHoodConstants.I, ShooterHoodConstants.D).feedForward
+                .sva(ShooterHoodConstants.S, ShooterHoodConstants.V, ShooterHoodConstants.A);
 
         SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
         leftMotorConfig.apply(baseConfig).inverted(true).absoluteEncoder
-                .positionConversionFactor(ShooterHoodsConstants.HOOD_ENCODER_CONVERSION_FACTOR);
+                .positionConversionFactor(ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
         leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkMaxConfig rightMotorConfig = new SparkMaxConfig();
@@ -37,9 +37,9 @@ public class ShooterHoods extends SubsystemBase {
         rightMotor.configure(rightMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public static ShooterHoods getInstance() {
+    public static ShooterHood getInstance() {
         if (instance == null) {
-            instance = new ShooterHoods();
+            instance = new ShooterHood();
         }
         return instance;
     }

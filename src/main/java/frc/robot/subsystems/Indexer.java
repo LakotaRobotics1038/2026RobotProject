@@ -28,11 +28,11 @@ public class Indexer extends SubsystemBase {
         return instance;
     }
 
-    public void start() {
+    public void in() {
         motor.set(IndexerConstants.FORWARD_POWER);
     }
 
-    public void backward() {
+    public void out() {
         motor.set(IndexerConstants.BACKWARD_POWER);
     }
 
