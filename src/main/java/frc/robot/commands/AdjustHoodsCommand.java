@@ -3,10 +3,10 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterHoods;
+import frc.robot.utils.dashboard.DashboardValue;
 
 public class AdjustHoodsCommand extends Command {
     private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
@@ -19,8 +19,8 @@ public class AdjustHoodsCommand extends Command {
 
     @Override
     public void execute() {
-        if (DashboardConstants.MANUAL_MODE_ENABLED.get()) {
-            double angle = DashboardConstants.MANUAL_SHOOTER_HOOD_ANGLE.get();
+        if (DashboardValue.MANUAL_MODE_ENABLED.get()) {
+            double angle = DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.get();
             shooterHoods.getNearHood().setAngle(angle);
             shooterHoods.getFarHood().setAngle(angle);
         } else {

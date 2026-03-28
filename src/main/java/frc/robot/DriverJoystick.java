@@ -11,11 +11,11 @@ import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ShooterHoods;
 import frc.robot.utils.RectangleUtils;
+import frc.robot.utils.dashboard.DashboardValue;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
@@ -58,7 +58,7 @@ public class DriverJoystick extends XboxController1038 {
         super(IOConstants.DRIVER_CONTROLLER_PORT);
 
         driveTrain.setDefaultCommand(this.driveTrain.applyRequest(() -> {
-            if (!DashboardConstants.MANUAL_MODE_ENABLED.get()) {
+            if (!DashboardValue.MANUAL_MODE_ENABLED.get()) {
                 SwerveDrivetrain.SwerveDriveState state = driveTrain.getState();
                 Translation2d robotPos = state.Pose.getTranslation();
                 double vx = state.Speeds.vxMetersPerSecond;
@@ -84,7 +84,7 @@ public class DriverJoystick extends XboxController1038 {
 
         this.x().whileTrue(this.driveTrain.setX());
 
-        this.leftTrigger().and(() -> !DashboardConstants.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
+        this.leftTrigger().and(() -> !DashboardValue.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
                 aligned -> setRumble(aligned ? AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
