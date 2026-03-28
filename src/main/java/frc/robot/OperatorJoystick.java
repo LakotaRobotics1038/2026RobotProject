@@ -11,10 +11,12 @@ import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.PrototypeAcq;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
+    private final PrototypeAcq prototypeAcq = PrototypeAcq.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -45,6 +47,8 @@ public class OperatorJoystick extends XboxController1038 {
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
         this.x().whileTrue(new RetractHoodsCommand());
+        this.b().onTrue(new InstantCommand(() -> prototypeAcq.start()))
+                .onFalse(new InstantCommand(() -> prototypeAcq.stop()));
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();
