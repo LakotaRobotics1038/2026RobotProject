@@ -18,4 +18,7 @@ public final class ShooterHoodConstants {
 
     public static final double MANUAL_SHOOTER_DEFAULT_ANGLE = 59;
     public static final double MANUAL_SHOOTER_ANGLE_INCREMENT = 2;
+
+    public static final double MIN_ANGLE = 43.517;
+    public static final double MAX_ANGLE = 67.255;
 }

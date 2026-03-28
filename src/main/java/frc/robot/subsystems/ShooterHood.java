@@ -9,6 +9,7 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.ShooterHoodConstants;
 
@@ -45,7 +46,8 @@ public class ShooterHood extends SubsystemBase {
     }
 
     public void setAngle(double angle) {
-        controller.setSetpoint(angle, ControlType.kPosition);
+        controller.setSetpoint(MathUtil.clamp(angle, ShooterHoodConstants.MIN_ANGLE, ShooterHoodConstants.MAX_ANGLE),
+                ControlType.kPosition);
     }
 
     public double getAngle() {

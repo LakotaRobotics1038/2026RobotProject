@@ -12,7 +12,7 @@ public final class IntakeConstants {
     public static final double A = 0.0;
 
     public static final double INTAKE_RPM = 4500.0;
-    public static final double DISPOSE_RPM = -2500.0;
+    public static final double DISPOSE_RPM = -4500.0;
 
     public static final double FORWARD_POWER = 0.3;
     public static final double BACKWARD_POWER = -0.3;
