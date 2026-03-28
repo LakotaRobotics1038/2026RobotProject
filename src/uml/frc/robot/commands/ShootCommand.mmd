@@ -1,0 +1,23 @@
+classDiagram
+  direction LR
+
+  class ShootCommand {
+    - HOOD_SERVO_MOVE_TIME$ double
+    - ACQUISITION_LOWER_WIGGLE_TIME$ double
+    - ACQUISITION_RAISE_WIGGLE_TIME$ double
+    - acquisition Acquisition
+    - kicker Kicker
+    - shooter Shooter
+    - driveTrain DriveTrain
+    - dashboard Dashboard
+    - swagLights SwagLights
+    - timer Timer
+    - wiggleAcquisitionSupplier BooleanSupplier
+    - startingPivotDegrees double
+    + ShootCommand()
+    + ShootCommand(BooleanSupplier)
+    + initialize() void
+    + execute() void
+    + isFinished() boolean
+    + end(boolean) void
+  }

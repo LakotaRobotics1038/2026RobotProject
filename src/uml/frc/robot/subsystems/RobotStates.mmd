@@ -1,0 +1,11 @@
+classDiagram
+  direction LR
+
+  class RobotStates {
+    <<enumeration>>
+    Enabled
+    Disabled
+    EmergencyStop
+    + value String
+    - RobotStates(String)
+  }
