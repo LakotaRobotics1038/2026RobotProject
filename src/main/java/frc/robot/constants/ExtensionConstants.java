@@ -10,6 +10,6 @@ public final class ExtensionConstants {
     public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
     public static final double A = 0;
 
-    public static double FORWARD_POWER = 0.3;
-    public static double BACKWARD_POWER = -0.3;
+    public static final double FORWARD_POWER = 0.3;
+    public static final double BACKWARD_POWER = -0.3;
 }
