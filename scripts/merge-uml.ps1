@@ -34,9 +34,24 @@ function Get-ClassBlockLines {
     return ,$block.ToArray()
 }
 
-$frcFiles = @(Get-ChildItem -Path (Join-Path $umlRoot 'frc') -Recurse -Filter '*.mmd' -File -ErrorAction SilentlyContinue | Sort-Object FullName)
-$eduFiles = @(Get-ChildItem -Path (Join-Path $umlRoot 'edu') -Recurse -Filter '*.mmd' -File -ErrorAction SilentlyContinue | Sort-Object FullName)
-$classFiles = @($frcFiles) + @($eduFiles)
+ # Collect *.mmd files from both 'frc' and 'edu' and sort them by the normalized relative path
+ $paths = @()
+ if (Test-Path (Join-Path $umlRoot 'frc')) { $paths += (Join-Path $umlRoot 'frc') }
+ if (Test-Path (Join-Path $umlRoot 'edu')) { $paths += (Join-Path $umlRoot 'edu') }
+ $classFiles = @()
+ if ($paths.Count -gt 0) {
+     # Build objects with a 'Rel' property normalized to forward slashes and sort by that
+     $classFiles = @(Get-ChildItem -Path $paths -Recurse -Filter '*.mmd' -File -ErrorAction SilentlyContinue |
+        ForEach-Object {
+            $rel = $_.FullName.Substring($umlRoot.Length + 1) -replace '\\','/'
+            [PSCustomObject]@{ FullName = $_.FullName; Rel = $rel }
+        } |
+        # Use case-sensitive sort to match Unix 'sort' behavior where uppercase sorts before lowercase
+    # Sort by lowercase Rel to perform a case-insensitive, deterministic ordering that matches the shell script
+    Sort-Object -Property @{Expression = { $_.Rel.ToLowerInvariant() }} |
+         ForEach-Object { Get-Item $_.FullName }
+     )
+ }
 
 $chunks = [System.Collections.ArrayList]::new()
 foreach ($f in $classFiles) {
@@ -61,7 +76,7 @@ $relLines = if (Test-Path $relFile) {
 
 $sb = [System.Text.StringBuilder]::new()
 [void]$sb.AppendLine('classDiagram')
-[void]$sb.AppendLine('  %% AUTO-GENERATED - do not edit by hand. Run: scripts/merge-uml.ps1 or gradlew mergeUml')
+[void]$sb.AppendLine('  %% AUTO-GENERATED - do not edit by hand. Run: gradlew mergeUml')
 [void]$sb.AppendLine('  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)')
 [void]$sb.AppendLine('  direction LR')
 [void]$sb.AppendLine('')

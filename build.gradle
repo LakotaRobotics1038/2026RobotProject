@@ -111,6 +111,17 @@ tasks.register('mergeUml', Exec) {
     group = 'documentation'
     description = 'Assemble src/uml/uml.mmd from per-class diagrams and relationships.mmd'
     workingDir rootDir
-    commandLine 'powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
-            file('scripts/merge-uml.ps1')
+    // Run PowerShell script on Windows, otherwise run the Unix shell script
+    def osName = System.getProperty('os.name').toLowerCase()
+    if (osName.contains('win')) {
+        commandLine 'powershell', '-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', file('scripts/merge-uml.ps1')
+    } else {
+        // Ensure script is executable and run with bash for portability
+        def sh = file('scripts/merge-uml.sh')
+        if (!sh.exists()) {
+            throw new GradleException("Unix merge script not found: $sh")
+        }
+        // On some environments the script may not be executable; run via bash explicitly
+        commandLine 'bash', sh
+    }
 }

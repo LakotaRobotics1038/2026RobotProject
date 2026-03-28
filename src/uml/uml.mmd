@@ -1,7 +1,27 @@
 classDiagram
-  %% AUTO-GENERATED - do not edit by hand. Run: scripts/merge-uml.ps1 or gradlew mergeUml
+  %% AUTO-GENERATED - do not edit by hand. Run: gradlew mergeUml
   %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
   direction LR
+
+  %% --- edu/wpi/first/wpilibj/TimedRobot.mmd ---
+  class TimedRobot {
+    <<WPILib>>
+  }
+
+  %% --- edu/wpi/first/wpilibj2/command/Command.mmd ---
+  class Command {
+    <<WPILib>>
+  }
+
+  %% --- edu/wpi/first/wpilibj2/command/CommandXboxController.mmd ---
+  class CommandXboxController {
+    <<WPILib>>
+  }
+
+  %% --- edu/wpi/first/wpilibj2/command/SequentialCommandGroup.mmd ---
+  class SequentialCommandGroup {
+    <<WPILib>>
+  }
 
   %% --- frc/robot/autons/Auton.mmd ---
   class Auton {
@@ -853,26 +873,6 @@ classDiagram
     - drivingThroughRect(Rectangle2d,Translation2d,double,double)$ boolean
     - isInRect(Rectangle2d,Translation2d)$ boolean
     - isWithinRobotRadius(Translation2d,Translation2d)$ boolean
-  }
-
-  %% --- edu/wpi/first/wpilibj/TimedRobot.mmd ---
-  class TimedRobot {
-    <<WPILib>>
-  }
-
-  %% --- edu/wpi/first/wpilibj2/command/Command.mmd ---
-  class Command {
-    <<WPILib>>
-  }
-
-  %% --- edu/wpi/first/wpilibj2/command/CommandXboxController.mmd ---
-  class CommandXboxController {
-    <<WPILib>>
-  }
-
-  %% --- edu/wpi/first/wpilibj2/command/SequentialCommandGroup.mmd ---
-  class SequentialCommandGroup {
-    <<WPILib>>
   }
 
   Robot --|> TimedRobot
