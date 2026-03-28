@@ -45,7 +45,7 @@ public class HopperExtension extends SubsystemBase {
     }
 
     public void backward() {
-        controller.setSetpoint(HopperExtensionConstants.FORWARD_RPM, ControlType.kVelocity);
+        controller.setSetpoint(HopperExtensionConstants.BACKWARD_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
