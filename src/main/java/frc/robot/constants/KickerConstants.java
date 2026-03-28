@@ -1,8 +1,6 @@
 package frc.robot.constants;
 
 public class KickerConstants {
-    private KickerConstants() {
-    }
 
     public static final int CAN_ID = 14;
 
