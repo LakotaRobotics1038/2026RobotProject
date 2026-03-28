@@ -2,8 +2,13 @@ name: Merge UML
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
