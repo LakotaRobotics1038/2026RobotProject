@@ -4,7 +4,7 @@ Member notation uses **UML-style** spacing in Mermaid: `visibility name type` fo
 
 Association lines at the bottom of the diagram are **simplified**: command→subsystem and joystick→subsystem links are omitted because they are already listed as fields on each class; inheritance, inner types, and Robot-level wiring are kept.
 
-The canonical Mermaid source is [`src/uml/uml.mmd`](src/uml/uml.mmd). Per-class diagrams live in [`src/uml/`](src/uml/) as separate `.mmd` files.
+The canonical Mermaid source is [`src/uml/uml.mmd`](src/uml/uml.mmd). Per-class diagrams live under [`src/uml/`](src/uml/) in the same folder layout as Java packages (e.g. [`src/uml/frc/robot/Robot.mmd`](src/uml/frc/robot/Robot.mmd); WPILib stubs under [`src/uml/edu/wpi/first/...`](src/uml/edu/wpi/first/wpilibj/TimedRobot.mmd)).
 
 ```mermaid
 classDiagram
