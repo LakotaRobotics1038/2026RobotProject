@@ -6,7 +6,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
-import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.LimitSwitchConfig.Behavior;
 import com.revrobotics.spark.config.LimitSwitchConfig.Type;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -21,16 +21,13 @@ public class Extension extends SubsystemBase {
     private SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private Extension() {
-        SparkFlexConfig baseConfig = new SparkFlexConfig();
-        baseConfig.idleMode(IdleMode.kBrake);
-
-        SparkFlexConfig leftMotorConfig = new SparkFlexConfig();
-        leftMotorConfig.apply(baseConfig).limitSwitch
+        SparkMaxConfig config = new SparkMaxConfig();
+        config.idleMode(IdleMode.kBrake).limitSwitch
                 .forwardLimitSwitchType(Type.kNormallyOpen)
                 .forwardLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition)
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
-        motor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Extension getInstance() {
