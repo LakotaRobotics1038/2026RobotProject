@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
@@ -12,7 +13,7 @@ import frc.robot.constants.IndexerConstants;
 public class Indexer extends SubsystemBase {
     private static Indexer instance;
 
-    private final SparkFlex motor = new SparkFlex(IndexerConstants.MOTOR_CAN_ID, SparkFlex.MotorType.kBrushless);
+    private final SparkFlex motor = new SparkFlex(IndexerConstants.MOTOR_CAN_ID, MotorType.kBrushless);
 
     private Indexer() {
         SparkFlexConfig config = new SparkFlexConfig();
