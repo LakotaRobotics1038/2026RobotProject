@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class OperatorStates {
+    <<enumeration>>
+    Default
+    Aligning
+    Aligned
+    TooClose
+    + value String
+    - OperatorStates(String)
+  }
