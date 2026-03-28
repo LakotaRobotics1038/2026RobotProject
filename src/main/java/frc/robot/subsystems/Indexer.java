@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.SparkBase.ControlType;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
@@ -14,6 +16,7 @@ public class Indexer extends SubsystemBase {
     private static Indexer instance;
 
     private final SparkFlex motor = new SparkFlex(IndexerConstants.MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private Indexer() {
         SparkFlexConfig config = new SparkFlexConfig();
@@ -29,11 +32,11 @@ public class Indexer extends SubsystemBase {
     }
 
     public void in() {
-        motor.set(IndexerConstants.FORWARD_POWER);
+        controller.setSetpoint(IndexerConstants.FORWARD_POWER, ControlType.kDutyCycle);
     }
 
     public void out() {
-        motor.set(IndexerConstants.BACKWARD_POWER);
+        controller.setSetpoint(IndexerConstants.BACKWARD_POWER, ControlType.kDutyCycle);
     }
 
     public void stop() {
