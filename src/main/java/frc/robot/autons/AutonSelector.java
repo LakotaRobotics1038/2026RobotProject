@@ -19,10 +19,10 @@ public class AutonSelector {
     public enum AutonChoice {
         NO_AUTO("No Auto", null),
         LEFT_AUTO("Left Auto", LeftAuto::new),
-        LEFT_AUTO_SHOOT("Left Auto Shoot", SimpleLeftAuto::new),
-        MIDDLE_AUTO_SHOOT("Middle Auto Shoot", SimpleMiddleAuto::new),
-        RIGHT_AUTO_SHOOT("Right Auto Shoot", SimpleRightAuto::new),
-        LEFT_AUTO_DEPOT_SHOOT("Left Auto Depot Shoot", DepotLeftAuto::new);
+        LEFT_AUTO_SHOOT("Left Auto Shoot", LeftAutoShoot::new),
+        MIDDLE_AUTO_SHOOT("Middle Auto Shoot", MiddleAutoShoot::new),
+        RIGHT_AUTO_SHOOT("Right Auto Shoot", RightAutoShoot::new),
+        LEFT_AUTO_DEPOT_SHOOT("Left Auto Depot Shoot", LeftAutoDepotShoot::new);
 
         private final String name;
         private final AutonFactory factory;
