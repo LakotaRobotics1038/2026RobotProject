@@ -38,9 +38,12 @@ public class PrototypeAcq extends SubsystemBase {
         return instance;
     }
 
-    public void start() {
-        // motor.set(PrototypeAcqConstants.ACQUISITION_ACQUIRE_SPEED);
+    public void intake() {
         controller.setSetpoint(PrototypeAcqConstants.ACQUISITION_ACQUIRE_SPEED, ControlType.kDutyCycle);
+    }
+
+    public void dispose() {
+        controller.setSetpoint(PrototypeAcqConstants.ACQUISITION_DISPOSE_SPEED, ControlType.kDutyCycle);
     }
 
     public void stop() {

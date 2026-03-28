@@ -4,15 +4,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.commands.RetractHoodsCommand;
 import frc.robot.commands.RunPrototypeAcquisitionCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.PrototypeAcq;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
@@ -41,13 +38,13 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE));
+        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE))
+                .whileTrue(new RunPrototypeAcquisitionCommand(RunPrototypeAcquisitionCommand.Mode.DISPOSE));
+        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))
+                .whileTrue(new RunPrototypeAcquisitionCommand(RunPrototypeAcquisitionCommand.Mode.INTAKE));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        // Acquisition prototype
-        this.x().whileTrue(new RunPrototypeAcquisitionCommand());
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();

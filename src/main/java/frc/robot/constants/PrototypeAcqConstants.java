@@ -8,4 +8,5 @@ public final class PrototypeAcqConstants {
     public static final double ACQUISITION_D = 0;
 
     public static final double ACQUISITION_ACQUIRE_SPEED = 0.5;
+    public static final double ACQUISITION_DISPOSE_SPEED = -0.5;
 }
