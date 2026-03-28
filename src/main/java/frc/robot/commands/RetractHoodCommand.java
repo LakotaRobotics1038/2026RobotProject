@@ -5,15 +5,15 @@ import frc.robot.constants.ShooterHoodConstants;
 import frc.robot.subsystems.ShooterHood;
 
 public class RetractHoodCommand extends Command {
-    private final ShooterHood shooterHoods = ShooterHood.getInstance();
+    private final ShooterHood shooterHood = ShooterHood.getInstance();
 
     public RetractHoodCommand() {
-        addRequirements(shooterHoods);
+        addRequirements(shooterHood);
     }
 
     @Override
     public void initialize() {
-        shooterHoods.setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        shooterHood.setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
     }
 
     @Override

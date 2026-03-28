@@ -21,7 +21,7 @@ public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
-    private final ShooterHood shooterHoods = ShooterHood.getInstance();
+    private final ShooterHood shooterHood = ShooterHood.getInstance();
 
     // Commands
     // NONE
@@ -76,7 +76,7 @@ public class DriverJoystick extends XboxController1038 {
             return driveTrain.drive(forward, -sideways, -rotate, true);
         }));
 
-        shooterHoods.setDefaultCommand(new RetractHoodCommand());
+        shooterHood.setDefaultCommand(new RetractHoodCommand());
 
         this.driveTrain.registerTelemetry(logger::telemeterize);
 

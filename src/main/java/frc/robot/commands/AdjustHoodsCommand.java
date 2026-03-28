@@ -9,20 +9,20 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ShooterHood;
 
 public class AdjustHoodsCommand extends Command {
-    private final ShooterHood shooterHoods = ShooterHood.getInstance();
+    private final ShooterHood shooterHood = ShooterHood.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
 
     public AdjustHoodsCommand() {
-        addRequirements(shooterHoods);
+        addRequirements(shooterHood);
     }
 
     @Override
     public void execute() {
         if (dashboard.isManualModeEnabled()) {
             double angle = dashboard.getManualShooterHoodAngle();
-            shooterHoods.setAngle(angle);
+            shooterHood.setAngle(angle);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
             double distance = shooter.getTargetDistance(robotPose);
@@ -30,7 +30,7 @@ public class AdjustHoodsCommand extends Command {
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double angle = formula.getAngle();
-                    shooterHoods.setAngle(angle);
+                    shooterHood.setAngle(angle);
                     break;
                 }
             }
