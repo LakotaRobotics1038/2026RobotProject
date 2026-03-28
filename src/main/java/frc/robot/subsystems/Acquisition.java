@@ -14,8 +14,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
@@ -28,15 +26,12 @@ public class Acquisition extends SubsystemBase {
     private final RelativeEncoder intakeEncoder = intakeMotor.getEncoder();
     private final AbsoluteEncoder pivotEncoder = pivotMotor.getAbsoluteEncoder();
 
-    private PIDController pivotPIDController = new PIDController(0, 0, 0);
-
     private final SparkClosedLoopController pivotController = pivotMotor.getClosedLoopController();
     private final SparkClosedLoopController intakeController = intakeMotor.getClosedLoopController();
 
     private static Acquisition instance = null;
 
     private Acquisition() {
-        SmartDashboard.putData("Pivot PID", pivotPIDController);
         SparkMaxConfig baseConfig = new SparkMaxConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
@@ -56,13 +51,6 @@ public class Acquisition extends SubsystemBase {
         SparkMaxConfig intakeConfig = new SparkMaxConfig();
         intakeConfig.apply(baseConfig).idleMode(IdleMode.kCoast);
         intakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    }
-
-    @Override
-    public void periodic() {
-        // pivotPIDController = (PIDController) SmartDashboard.getData("Pivot PID");
-        // double output = pivotPIDController.calculate(getPivotPosition());
-        // pivotMotor.set(output);
     }
 
     /**

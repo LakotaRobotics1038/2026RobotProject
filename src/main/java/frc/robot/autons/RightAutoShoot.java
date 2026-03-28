@@ -12,12 +12,13 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.util.Optional;
 
-public class SimpleMiddleAuto extends Auton {
-    public SimpleMiddleAuto(Optional<DriverStation.Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class RightAutoShoot extends Auton {
+    public RightAutoShoot(Optional<DriverStation.Alliance> alliance)
+            throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getMiddle1Path()),
                 new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED),
+                followPathCommand(Paths.getRight1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
                                 .andThen(new ShootCommand().withTimeout(5))));

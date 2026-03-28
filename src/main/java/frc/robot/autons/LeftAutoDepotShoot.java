@@ -9,17 +9,21 @@ import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionPivotCommand;
+import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 
-public class SimpleLeftAuto extends Auton {
-    public SimpleLeftAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class LeftAutoDepotShoot extends Auton {
+    public LeftAutoDepotShoot(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
-                followPathCommand(Paths.getLeft1Path()),
+                followPathCommand(Paths.getDepotLeft1Path())
+                        .alongWith(new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED)
+                                .andThen(new AcquisitionRunCommand(Mode.INTAKE).withTimeout(5))),
+                followPathCommand(Paths.getDepotLeft2Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
                                 .andThen(new ShootCommand().withTimeout(5))));
