@@ -106,7 +106,7 @@ tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
 
-// Rebuild src/uml/uml.mmd from per-class *.mmd + relationships.mmd (Mermaid has no #include)
+// Rebuild src/uml/uml.mmd from per-class *.mmd + relationships.mmd
 tasks.register('mergeUml', Exec) {
     group = 'documentation'
     description = 'Assemble src/uml/uml.mmd from per-class diagrams and relationships.mmd'
