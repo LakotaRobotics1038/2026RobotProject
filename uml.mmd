@@ -114,12 +114,20 @@ classDiagram
     + setHubAligned(hubAligned : boolean) void
   }
   class DashboardConstants {
-    + DashboardConstants()
-    + String DELAY_CHOICES
-    + String ROBOT_Y
-    + String ROBOT_X
-    + String ROBOT_ROT
-    + String AUTON_CHOICES
+    + ACQUISITION_MIN_WIGGLE : String
+    + String ACQUISITION_MAX_WIGGLE : String
+    + String AUTON_CHOICES : String
+    + String DELAY_CHOICES : String
+    + String ENABLE_ACQUISITION_PIVOT : String
+    + String HUB_ALIGNED : String
+    + String MANUAL_MODE_ENABLED : String
+    + String MANUAL_SHOOTER_HOOD_ANGLE : String
+    + String MANUAL_SHOOTER_RPM : String
+    + String ROBOT_ROT : String
+    + String ROBOT_X : String
+    + String ROBOT_Y : String
+    + shooterSlopeKey(angle : double) String
+    + shooterYInterceptKey(angle : double) String
   }
   class DriveConstants {
     + DriveConstants()
