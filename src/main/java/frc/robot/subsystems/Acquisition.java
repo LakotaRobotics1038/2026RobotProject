@@ -8,20 +8,21 @@ import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.IntakeConstants;
+import frc.robot.constants.AcquisitionConstants;
 
-public class Intake extends SubsystemBase {
-    private static Intake instance;
-    private final SparkFlex leftMotor = new SparkFlex(IntakeConstants.LEFT_MOTOR_CAN_ID,
+public class Acquisition extends SubsystemBase {
+    private static Acquisition instance;
+    private final SparkFlex leftMotor = new SparkFlex(AcquisitionConstants.LEFT_MOTOR_CAN_ID,
             SparkFlex.MotorType.kBrushless);
-    private final SparkFlex rightMotor = new SparkFlex(IntakeConstants.RIGHT_MOTOR_CAN_ID,
+    private final SparkFlex rightMotor = new SparkFlex(AcquisitionConstants.RIGHT_MOTOR_CAN_ID,
             SparkFlex.MotorType.kBrushless);
     private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
 
-    private Intake() {
+    private Acquisition() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(IntakeConstants.P, IntakeConstants.I,
-                IntakeConstants.D).feedForward.sva(IntakeConstants.S, IntakeConstants.V, IntakeConstants.A);
+        config.idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P, AcquisitionConstants.I,
+                AcquisitionConstants.D).feedForward
+                .sva(AcquisitionConstants.S, AcquisitionConstants.V, AcquisitionConstants.A);
         leftMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkFlexConfig followerConfig = new SparkFlexConfig();
@@ -29,19 +30,19 @@ public class Intake extends SubsystemBase {
         rightMotor.configure(followerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public static Intake getInstance() {
+    public static Acquisition getInstance() {
         if (instance == null) {
-            instance = new Intake();
+            instance = new Acquisition();
         }
         return instance;
     }
 
     public void intake() {
-        controller.setSetpoint(IntakeConstants.INTAKE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
     }
 
     public void dispose() {
-        controller.setSetpoint(IntakeConstants.DISPOSE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {

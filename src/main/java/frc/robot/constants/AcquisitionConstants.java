@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-public final class IntakeConstants {
+public final class AcquisitionConstants {
     public static final int LEFT_MOTOR_CAN_ID = 0;
     public static final int RIGHT_MOTOR_CAN_ID = 0;
 
@@ -13,7 +13,4 @@ public final class IntakeConstants {
 
     public static final double INTAKE_RPM = 4500.0;
     public static final double DISPOSE_RPM = -4500.0;
-
-    public static final double FORWARD_POWER = 0.3;
-    public static final double BACKWARD_POWER = -0.3;
 }

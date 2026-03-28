@@ -12,8 +12,8 @@ import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeCommand.IntakeDirection;
+import frc.robot.commands.AcquisitionCommand;
+import frc.robot.commands.AcquisitionCommand.IntakeDirection;
 import frc.robot.commands.ShootCommand;
 
 public class LeftAutoDepotShoot extends Auton {
@@ -22,7 +22,7 @@ public class LeftAutoDepotShoot extends Auton {
         super.addCommands(
                 followPathCommand(Paths.getDepotLeft1Path())
                         .raceWith(new HopperExtensionCommand(ExtensionDirection.FORWARD)
-                                .andThen(new IntakeCommand(IntakeDirection.INTAKE))),
+                                .andThen(new AcquisitionCommand(IntakeDirection.INTAKE))),
                 followPathCommand(Paths.getDepotLeft2Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()

@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeCommand.IntakeDirection;
+import frc.robot.commands.AcquisitionCommand;
+import frc.robot.commands.AcquisitionCommand.IntakeDirection;
 import frc.robot.commands.RetractHoodCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.IOConstants;
@@ -39,8 +39,8 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
-        this.leftBumper().whileTrue(new IntakeCommand(IntakeDirection.INTAKE));
-        this.rightBumper().whileTrue(new IntakeCommand(IntakeDirection.DISPOSE));
+        this.leftBumper().whileTrue(new AcquisitionCommand(IntakeDirection.INTAKE));
+        this.rightBumper().whileTrue(new AcquisitionCommand(IntakeDirection.DISPOSE));
 
         this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.FORWARD));
         this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.BACKWARD));

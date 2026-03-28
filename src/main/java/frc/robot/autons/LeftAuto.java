@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeCommand.IntakeDirection;
+import frc.robot.commands.AcquisitionCommand;
+import frc.robot.commands.AcquisitionCommand.IntakeDirection;
 import frc.robot.commands.ShootCommand;
 
 public class LeftAuto extends Auton {
@@ -21,7 +21,7 @@ public class LeftAuto extends Auton {
         super.addCommands(
                 new HopperExtensionCommand(ExtensionDirection.FORWARD),
                 followPathCommand(Paths.getLeftStartPath())
-                        .raceWith(new IntakeCommand(IntakeDirection.INTAKE)),
+                        .raceWith(new AcquisitionCommand(IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getMiddleAcquireToShootPath()),
                 new AlignCommand(() -> 0, () -> 0, null),
                 new ShootCommand().withTimeout(5));
