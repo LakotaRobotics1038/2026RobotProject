@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -16,9 +16,9 @@ import frc.robot.constants.HopperExtensionConstants;
 
 public class HopperExtension extends SubsystemBase {
     private static HopperExtension instance;
-    private SparkMax motor = new SparkMax(HopperExtensionConstants.MOTOR_CAN_ID,
-            SparkFlex.MotorType.kBrushless);
-    private SparkClosedLoopController controller = motor.getClosedLoopController();
+    private final SparkMax motor = new SparkMax(HopperExtensionConstants.MOTOR_CAN_ID,
+            MotorType.kBrushless);
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
