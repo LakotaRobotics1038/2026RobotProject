@@ -3,7 +3,6 @@ package frc.robot.autons;
 import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AcquisitionTrenchRetract;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
