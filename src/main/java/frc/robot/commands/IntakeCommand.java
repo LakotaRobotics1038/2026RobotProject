@@ -15,9 +15,9 @@ public class IntakeCommand extends Command {
     @Override
     public void initialize() {
         if (direction == IntakeDirection.INTAKE) {
-            intake.forward();
+            intake.intake();
         } else {
-            intake.backward();
+            intake.dispose();
         }
     }
 

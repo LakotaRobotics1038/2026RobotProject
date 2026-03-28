@@ -20,7 +20,8 @@ public class Intake extends SubsystemBase {
 
     private Intake() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.idleMode(SparkFlexConfig.IdleMode.kCoast);
+        config.idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(IntakeConstants.P, IntakeConstants.I,
+                IntakeConstants.D).feedForward.sva(IntakeConstants.S, IntakeConstants.V, IntakeConstants.A);
         leftMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkFlexConfig followerConfig = new SparkFlexConfig();
@@ -35,12 +36,12 @@ public class Intake extends SubsystemBase {
         return instance;
     }
 
-    public void forward() {
-        controller.setSetpoint(IntakeConstants.FORWARD_POWER, ControlType.kDutyCycle);
+    public void intake() {
+        controller.setSetpoint(IntakeConstants.INTAKE_RPM, ControlType.kVelocity);
     }
 
-    public void backward() {
-        controller.setSetpoint(IntakeConstants.BACKWARD_POWER, ControlType.kDutyCycle);
+    public void dispose() {
+        controller.setSetpoint(IntakeConstants.DISPOSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
