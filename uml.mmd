@@ -338,6 +338,34 @@ classDiagram
     + getFarShooter() ShooterModule
     + getInstance() Shooter
   }
+  class ShooterHub {
+    - instance : ShooterHub
+    - servoHub : ServoHub
+    - ShooterHub()
+    + getInstance() ShooterHood
+    + getNearShooterHood() Hood
+    + getFarShooterHood() Hood
+  }
+
+  class Hood {
+    - servoChannel : ServoChannel
+    - pulseRange : ServoChannelConfig.PulseRang
+    - Hood(channelId : ChannelId, pulseRange : ServoChannelConfig.PulseRange, servoHubConfig : ServoHubConfig)
+    + enable() : void
+    + setAngle() : void
+  }
+
+  class ShooterHubConstants {
+    + SERVO_HUB_CAN_ID int
+    + NEAR_HOOD_CHANNEL_ID : ServoChannel.ChannelId
+    + NEAR_HOOD_PULSE_RANGE : ServoChannelConfig.PulseRange
+    + FAR_HOOD_CHANNEL_ID : ServoChannel.ChannelId
+    + FAR_HOOD_PULSE_RANGE : ServoChannelConfig.PulseRange
+    + SHOOTER_NO_RETRACTION_ANGLE : double
+    + SHOOTER_FULL_RETRACTION_ANGLE : double
+    + MANUAL_SHOOTER_DEFAULT_ANGLE : double
+    + MANUAL_SHOOTER_ANGLE_INCREMENT : double
+  }
   class ShooterConstants {
     + ShooterConstants()
     + double VELOCITY_CONVERSION_FACTOR
