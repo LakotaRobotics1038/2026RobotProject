@@ -8,7 +8,7 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkLowLevel;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
     private final RelativeEncoder encoder = leftTop.getEncoder();
 
     private Shooter() {
-        SparkFlexConfig baseConfig = new SparkFlexConfig();
+        SparkMaxConfig baseConfig = new SparkMaxConfig();
         baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast).inverted(true)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
@@ -42,9 +42,9 @@ public class Shooter extends SubsystemBase {
 
         leftTop.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        SparkFlexConfig leftFollowerConfig = new SparkFlexConfig();
+        SparkMaxConfig leftFollowerConfig = new SparkMaxConfig();
         leftFollowerConfig.apply(baseConfig).follow(leftTop);
-        SparkFlexConfig rightFollowerConfig = new SparkFlexConfig();
+        SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
         rightFollowerConfig.apply(baseConfig).follow(leftTop, true);
 
         leftBottom.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
