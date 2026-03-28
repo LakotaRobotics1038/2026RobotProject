@@ -1,0 +1,26 @@
+classDiagram
+  direction LR
+
+  class Telemetry {
+    - MAX_SPEED double
+    - inst NetworkTableInstance
+    - driveStateTable NetworkTable
+    - drivePose StructPublisher~Pose2d~
+    - driveSpeeds StructPublisher~ChassisSpeeds~
+    - driveModuleStates StructArrayPublisher~SwerveModuleState~
+    - driveModuleTargets StructArrayPublisher~SwerveModuleState~
+    - driveModulePositions StructArrayPublisher~SwerveModulePosition~
+    - driveTimestamp DoublePublisher
+    - driveOdometryFrequency DoublePublisher
+    - table NetworkTable
+    - fieldPub DoubleArrayPublisher
+    - fieldTypePub StringPublisher
+    - moduleMechanisms Mechanism2d[]
+    - moduleSpeeds MechanismLigament2d[]
+    - moduleDirections MechanismLigament2d[]
+    - poseArray double[]
+    - moduleStatesArray double[]
+    - moduleTargetsArray double[]
+    + Telemetry(maxSpeed double)
+    + telemeterize(SwerveDriveState state) void
+  }
