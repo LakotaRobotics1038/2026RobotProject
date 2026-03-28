@@ -1,0 +1,24 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class AcquisitionConstants {
+    <<final>>
+    - AcquisitionConstants()
+    + PIVOT_MOTOR_CAN_ID$ int
+    + INTAKE_MOTOR_CAN_ID$ int
+    + PIVOT_P$ double
+    + PIVOT_I$ double
+    + PIVOT_D$ double
+    + PIVOT_ENCODER_CONVERSION_FACTOR$ double
+    + PIVOT_ALLOWED_ERROR_DEGREES$ double
+    + PIVOT_OPERATING_TOLERANCE$ double
+    + PIVOT_POWER$ double
+    + PIVOT_MAX_TRENCH_ANGLE_DEGREES$ double
+    + PIVOT_MIN_ANGLE$ double
+    + PIVOT_MAX_ANGLE$ double
+    + PIVOT_MIN_WIGGLE$ double
+    + PIVOT_MAX_WIGGLE$ double
+    + INTAKE_ACQUIRE_DUTY_CYCLE$ double
+    + INTAKE_DISPOSE_DUTY_CYCLE$ double
+  }

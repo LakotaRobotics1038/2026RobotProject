@@ -1,0 +1,27 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class Dashboard {
+    - autoChooser SendableChooser~AutonChoices~
+    - delayChooser SendableChooser~Double~
+    - instance$ Dashboard
+    - Dashboard()
+    + getInstance()$ Dashboard
+    + periodic() void
+    + clearTrajectory() void
+    + getAutoChooser() SendableChooser~AutonChoices~
+    + getDelayChooser() SendableChooser~Double~
+    + setHubAligned(boolean) void
+    + isManualModeEnabled() boolean
+    + getManualShooterRPM() double
+    + getManualShooterHoodAngle() double
+    + nudgeManualShooterRPMBackward() void
+    + nudgeManualShooterRPMForward() void
+    + resetManualShooterRPM() void
+    + nudgeManualShooterHoodAngleBackward() void
+    + nudgeManualShooterHoodAngleForward() void
+    + resetManualShooterHoodAngle() void
+    + getAcquisitionMinWiggle() double
+    + getAcquisitionMaxWiggle() double
+  }

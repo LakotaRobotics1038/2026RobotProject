@@ -1,0 +1,23 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class Vision {
+    - frontCam PhotonCamera
+    - backCam PhotonCamera
+    - frontCamPhotonEstimator PhotonPoseEstimator
+    - backCamPhotonEstimator PhotonPoseEstimator
+    - frontCurStdDevs Matrix~N3,N1~
+    - backCurStdDevs Matrix~N3,N1~
+    - frontStdDevSetter Consumer
+    - backStdDevSetter Consumer
+    - instance$ Vision
+    - Vision()
+    - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix,Consumer) Optional
+    - updateEstimationStdDevs(PhotonPoseEstimator,Optional,List) Matrix
+    + getInstance()$ Vision
+    + frontCamGetEstimatedGlobalPose() Optional
+    + backCamGetEstimatedGlobalPose() Optional
+    + getFrontEstimationStdDevs() Matrix
+    + getBackEstimationStdDevs() Matrix
+  }

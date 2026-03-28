@@ -1,0 +1,37 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class DriveTrain {
+    - SIM_LOOP_PERIOD$ double
+    - BLUE_ALLIANCE_PERSPECTIVE_ROTATION$ Rotation2d
+    - RED_ALLIANCE_PERSPECTIVE_ROTATION$ Rotation2d
+    - instance$ DriveTrain
+    - fieldCentricDriveRequest SwerveRequest.FieldCentric
+    - robotCentricDriveRequest SwerveRequest.RobotCentric
+    - brakeRequest SwerveRequest.SwerveDriveBrake
+    - translationCharacterization SwerveRequest.SysIdSwerveTranslation
+    - steerCharacterization SwerveRequest.SysIdSwerveSteerGains
+    - rotationCharacterization SwerveRequest.SysIdSwerveRotation
+    - sysIdRoutineTranslation SysIdRoutine
+    - sysIdRoutineToApply SysIdRoutine
+    - sysIdRoutineSteer SysIdRoutine
+    - sysIdRoutineRotation SysIdRoutine
+    - simNotifier Notifier
+    - lastSimTime double
+    - hasAppliedOperatorPerspective boolean
+    - DriveTrain()
+    + getInstance()$ DriveTrain
+    + drive(double,double,double,boolean) SwerveRequest
+    + setX() Command
+    + applyRequest(Supplier~SwerveRequest~) Command
+    + sysIdQuasistatic(SysIdRoutine.Direction) Command
+    + sysIdDynamic(SysIdRoutine.Direction) Command
+    + addVisionMeasurement(Pose2d,double) void
+    + addVisionMeasurement(Pose2d,double,Matrix~N3,N1~) void
+    + periodic() void
+    - startSimThread() void
+    + getX() double
+    + getY() double
+    + getRotation() double
+  }

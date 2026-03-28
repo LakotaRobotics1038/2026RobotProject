@@ -1,0 +1,16 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class ShooterHoodsConstants {
+    <<final>>
+    + SERVO_HUB_CAN_ID$ int
+    + NEAR_HOOD_CHANNEL_ID$ ChannelId
+    + NEAR_HOOD_PULSE_RANGE$ PulseRange
+    + FAR_HOOD_CHANNEL_ID$ ChannelId
+    + FAR_HOOD_PULSE_RANGE$ PulseRange
+    + SHOOTER_NO_RETRACTION_ANGLE$ double
+    + SHOOTER_FULL_RETRACTION_ANGLE$ double
+    + MANUAL_SHOOTER_DEFAULT_ANGLE$ double
+    + MANUAL_SHOOTER_ANGLE_INCREMENT$ double
+  }

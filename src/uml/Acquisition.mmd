@@ -1,0 +1,24 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class Acquisition {
+    - pivotMotor SparkMax
+    - intakeMotor SparkMax
+    - intakeEncoder RelativeEncoder
+    - pivotEncoder AbsoluteEncoder
+    - pivotController SparkClosedLoopController
+    - intakeController SparkClosedLoopController
+    - instance$ Acquisition
+    - Acquisition()
+    + getInstance()$ Acquisition
+    + setPivot(AcquisitionSetpoint) void
+    + setPivotDegrees(double) void
+    + acquire() void
+    + dispose() void
+    + stopIntake() void
+    + stopPivot() void
+    + pivotAtSetpoint() boolean
+    + getIntakeRPM() double
+    + getPivotPosition() double
+  }

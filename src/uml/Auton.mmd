@@ -1,0 +1,16 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class Auton {
+    <<abstract>>
+    - initialPose Pose2d
+    # driveTrain DriveTrain
+    # alliance Alliance
+    + Auton(Optional~Alliance~)
+    - setInitialPose(Pose2d) void
+    # setInitialPose(PathPlannerTrajectory) void
+    # setInitialPose(PathPlannerTrajectory,Rotation2d) void
+    + getInitialPose() Pose2d
+    + followPathCommand(PathPlannerPath) Command
+  }

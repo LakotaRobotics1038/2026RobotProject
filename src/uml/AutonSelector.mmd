@@ -1,0 +1,13 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class AutonSelector {
+    SendableChooser~AutonChoices~ autoChooser
+    SendableChooser~Double~ delayChooser
+    - instance$ AutonSelector
+    - AutonSelector()
+    + getInstance()$ AutonSelector
+    + chooseAuton() Auton
+    + chooseDelay() double
+  }

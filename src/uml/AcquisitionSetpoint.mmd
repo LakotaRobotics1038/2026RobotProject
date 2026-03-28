@@ -1,0 +1,14 @@
+classDiagram
+  %% LR layout reduces vertical crossing; associations below are simplified (see class members for full deps)
+  direction LR
+
+  class AcquisitionSetpoint {
+    <<enumeration>>
+    RAISED
+    LOW_RAISE
+    HIGH_RAISE
+    LOWERED
+    - degrees double
+    - AcquisitionSetpoint(double)
+    + getDegrees() double
+  }
