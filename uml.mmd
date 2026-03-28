@@ -130,20 +130,18 @@ classDiagram
     + shooterYInterceptKey(angle : double) String
   }
   class DriveConstants {
-    + DriveConstants()
-    + double ROBOT_SIZE_RADIUS
-    + double BUMP_APPROACH_SPEED_THRESHOLD
-    + double DEFAULT_MAX_POWER
-    - double ROBOT_MAX_LENGTH
-    + double MAX_SPEED
-    + Matrix~N3, N1~ ODOMETRY_STD_DEV
-    + double OVERDRIVE_POWER
-    + double BUMP_SLOWDOWN_POWER
-    + double WHEEL_BASE
-    + double FINE_ADJUSTMENT_PERCENT
-    + double MAX_ANGULAR_RATE
-    + double TRACK_WIDTH
-    + Matrix~N3, N1~ VISION_STD_DEVS
+    + BUMP_APPROACH_SPEED_THRESHOLD : double
+    + BUMP_SLOWDOWN_POWER : double
+    + DEFAULT_MAX_POWER : double
+    + FINE_ADJUSTMENT_PERCENT : double
+    + MAX_SPEED : double
+    + MAX_ANGULAR_RATE : double
+    + ODOMETRY_STD_DEV : Matrix<N3, N1>
+    - ROBOT_MAX_LENGTH : double
+    + ROBOT_SIZE_RADIUS : double
+    + TRACK_WIDTH : double
+    + VISION_STD_DEVS : Matrix<N3, N1>
+    + WHEEL_BASE : double
   }
   class DriveTrain {
     - DriveTrain()
