@@ -1,0 +1,28 @@
+classDiagram
+  direction LR
+
+  class DashboardValue {
+    <<enumeration>>
+    ROBOT_X
+    ROBOT_Y
+    ROBOT_ROT
+    HUB_ALIGNED
+    MANUAL_MODE_ENABLED
+    MANUAL_SHOOTER_RPM
+    MANUAL_SHOOTER_HOOD_ANGLE
+    ACQUISITION_MIN_WIGGLE
+    ACQUISITION_MAX_WIGGLE
+    FIELD
+    - supplier Supplier~Object~
+    - transformer UnaryOperator~Object~
+    - periodicAction Consumer~Object~
+    - entry NetworkTableEntry
+    - value Object
+    - DashboardValue(String,Supplier,Object)
+    - DashboardValue(String,Object)
+    - DashboardValue(String,UnaryOperator,Object)
+    - DashboardValue(Sendable,Consumer)
+    + get() Object
+    + set(Object) void
+    - periodic() void
+  }

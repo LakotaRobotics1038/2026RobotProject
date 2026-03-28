@@ -1,0 +1,41 @@
+name: Merge UML
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.ref }}-uml
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  merge-uml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Run mergeUml
+        run: ./gradlew mergeUml
+
+      - name: Commit UML changes if any
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: update uml.mmd via mergeUml workflow
+          file_pattern: src/uml/uml.mmd

@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class AcquisitionRunCommand {
+    - acquisition Acquisition
+    - kicker Kicker
+    - mode Mode
+    + AcquisitionRunCommand(Mode)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }

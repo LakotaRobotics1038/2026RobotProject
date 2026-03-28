@@ -1,0 +1,27 @@
+classDiagram
+  direction LR
+
+  class AlignCommand {
+    - P$ double
+    - I$ double
+    - D$ double
+    - MAX_ROTATION_POWER$ double
+    - ALIGNMENT_TOLERANCE_RAD$ double
+    + HUB_ALIGNMENT_RUMBLE_INTENSITY$ double
+    - driveTrain DriveTrain
+    - dashboard Dashboard
+    - shooter Shooter
+    - swagLights SwagLights
+    - forwardSpeedSupplier DoubleSupplier
+    - sidewaysSpeedSupplier DoubleSupplier
+    - alignmentStateConsumer BooleanConsumer
+    - rotationController PIDController
+    - alignedToHub Boolean
+    + AlignCommand(DoubleSupplier,DoubleSupplier,BooleanConsumer)
+    + AlignCommand()
+    + execute() void
+    + isFinished() boolean
+    + end(boolean) void
+    - getAlignedTargetHeading(Pose2d) double
+    - updateAlignmentState(boolean) void
+  }
