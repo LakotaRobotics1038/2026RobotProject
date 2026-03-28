@@ -6,14 +6,16 @@ import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.PrototypeAcqConstants;
 
-public class PrototypeAcq {
+public class PrototypeAcq extends SubsystemBase {
 
     private SparkFlex motor = new SparkFlex(PrototypeAcqConstants.ACQ_MOTOR_CAN_ID, MotorType.kBrushless);
     private SparkClosedLoopController controller = motor.getClosedLoopController();
@@ -37,7 +39,8 @@ public class PrototypeAcq {
     }
 
     public void start() {
-        motor.set(PrototypeAcqConstants.ACQUISITION_ACQUIRE_SPEED);
+        // motor.set(PrototypeAcqConstants.ACQUISITION_ACQUIRE_SPEED);
+        controller.setSetpoint(PrototypeAcqConstants.ACQUISITION_ACQUIRE_SPEED, ControlType.kDutyCycle);
     }
 
     public void stop() {

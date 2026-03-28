@@ -7,5 +7,5 @@ public final class PrototypeAcqConstants {
     public static final double ACQUISITION_I = 0;
     public static final double ACQUISITION_D = 0;
 
-    public static final double ACQUISITION_ACQUIRE_SPEED = 4500;
+    public static final double ACQUISITION_ACQUIRE_SPEED = 0.5;
 }

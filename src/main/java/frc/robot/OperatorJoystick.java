@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.RunPrototypeAcquisitionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.AcquisitionRunCommand.Mode;
 import frc.robot.constants.AcquisitionConstants;
@@ -16,7 +17,6 @@ import frc.robot.subsystems.PrototypeAcq;
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
     private final Dashboard dashboard = Dashboard.getInstance();
-    private final PrototypeAcq prototypeAcq = PrototypeAcq.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -46,9 +46,8 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
-        this.x().whileTrue(new RetractHoodsCommand());
-        this.b().onTrue(new InstantCommand(() -> prototypeAcq.start()))
-                .onFalse(new InstantCommand(() -> prototypeAcq.stop()));
+        // Acquisition prototype
+        this.x().whileTrue(new RunPrototypeAcquisitionCommand());
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();
