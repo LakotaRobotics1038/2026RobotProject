@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 public final class PrototypeAcqConstants {
-    public static final int ACQ_MOTOR_CAN_ID = 0;
+    public static final int ACQ_MOTOR_CAN_ID = 15;
 
     public static final double ACQUISITION_P = 0.005;
     public static final double ACQUISITION_I = 0;
