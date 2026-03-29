@@ -2,7 +2,7 @@ package frc.robot.constants;
 
 public class KickerConstants {
 
-    public static final int CAN_ID = 20;
+    public static final int CAN_ID = 14;
 
     public static final double P = 0.0;
     public static final double I = 0.0;
