@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  generate-uml:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,8 +32,30 @@ jobs:
       - name: Generate UML with UMLDoclet
         run: ./gradlew generateUml --console=plain
 
+      - name: Upload UML artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: uml-docs
+          path: docs/uml/
+
+  commit:
+    needs: generate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Download UML artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: uml-docs
+          path: docs/uml/
+
       - name: Commit UML changes if any
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "docs: update generated UML diagrams"
           file_pattern: "docs/uml/**"
+

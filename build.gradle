@@ -147,6 +147,8 @@ tasks.register('generateUml', Javadoc) {
         // Generate SVG diagrams (scalable, renders in GitHub)
         addStringOption('umlImageFormat', 'svg')
         memberLevel = JavadocMemberLevel.PRIVATE
+        // Link to Java 17 API docs
+        links 'https://docs.oracle.com/en/java/javase/17/docs/api/'
         // Quiet mode to reduce noise
         addBooleanOption('quiet', true)
     }
