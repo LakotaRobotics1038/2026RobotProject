@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.MathUtil;
@@ -101,5 +103,9 @@ public class Dashboard extends SubsystemBase {
             formula.setYIntercept(SmartDashboard.getNumber(
                     DashboardConstants.shooterYInterceptKey(formula.getAngle()), formula.getYIntercept()));
         }
+    }
+
+    public void clearFieldTrajectory() {
+        Dashboard.FIELD.get().getObject("traj").setPoses(new ArrayList<>());
     }
 }

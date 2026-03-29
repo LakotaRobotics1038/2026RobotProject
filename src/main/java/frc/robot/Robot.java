@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
 import edu.wpi.first.hal.ControlWord;
 import edu.wpi.first.hal.DriverStationJNI;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -111,7 +109,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Dashboard.FIELD.get().getObject("traj").setPoses(new ArrayList<>());
+        Dashboard.getInstance().clearFieldTrajectory();
         driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
     }
 
