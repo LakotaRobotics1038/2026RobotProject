@@ -7,11 +7,9 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.AcquisitionConstants;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
 import frc.robot.utils.dashboard.DashboardValue;
@@ -80,12 +78,6 @@ public class Dashboard extends SubsystemBase {
     }
 
     private Dashboard() {
-        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-            SmartDashboard.putNumber(DashboardConstants.shooterSlopeKey(formula.getAngle()), formula.getSlope());
-            SmartDashboard.putNumber(DashboardConstants.shooterYInterceptKey(formula.getAngle()),
-                    formula.getYIntercept());
-        }
-
         Field2d field = FIELD.get();
         PathPlannerLogging.setLogTargetPoseCallback((pose) -> field.getObject("target pose").setPose(pose));
         PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("poses").setPoses(poses));
@@ -95,13 +87,6 @@ public class Dashboard extends SubsystemBase {
     public void periodic() {
         for (DashboardValue<?> value : DashboardValue.values()) {
             value.periodic();
-        }
-
-        for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-            formula.setSlope(SmartDashboard.getNumber(
-                    DashboardConstants.shooterSlopeKey(formula.getAngle()), formula.getSlope()));
-            formula.setYIntercept(SmartDashboard.getNumber(
-                    DashboardConstants.shooterYInterceptKey(formula.getAngle()), formula.getYIntercept()));
         }
     }
 
