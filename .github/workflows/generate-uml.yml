@@ -1,0 +1,39 @@
+name: Generate UML
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.ref }}-generate-uml
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  generate-uml:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Generate UML with UMLDoclet
+        run: ./gradlew generateUml --console=plain
+
+      - name: Commit UML changes if any
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "docs: update generated UML diagrams"
+          file_pattern: "docs/uml/**"
