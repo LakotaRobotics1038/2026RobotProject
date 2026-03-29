@@ -64,9 +64,38 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Constant Field</div>
 <div class="table-header col-last">Value</div>
-<div class="col-first even-row-color"><code id="frc.robot.commands.AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY">public&nbsp;static&nbsp;final&nbsp;double</code></div>
-<div class="col-second even-row-color"><code><a href="frc/robot/commands/AlignCommand.html#HUB_ALIGNMENT_RUMBLE_INTENSITY">HUB_ALIGNMENT_RUMBLE_INTENSITY</a></code></div>
-<div class="col-last even-row-color"><code>0.8</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.commands.AlignCommand.D">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/commands/AlignCommand.html#D">D</a></code></div>
+<div class="col-last even-row-color"><code>0.01</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.commands.AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY">public&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/commands/AlignCommand.html#HUB_ALIGNMENT_RUMBLE_INTENSITY">HUB_ALIGNMENT_RUMBLE_INTENSITY</a></code></div>
+<div class="col-last odd-row-color"><code>0.8</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.commands.AlignCommand.I">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/commands/AlignCommand.html#I">I</a></code></div>
+<div class="col-last even-row-color"><code>0.005</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.commands.AlignCommand.MAX_ROTATION_POWER">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/commands/AlignCommand.html#MAX_ROTATION_POWER">MAX_ROTATION_POWER</a></code></div>
+<div class="col-last odd-row-color"><code>1.0</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.commands.AlignCommand.P">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/commands/AlignCommand.html#P">P</a></code></div>
+<div class="col-last even-row-color"><code>4.0</code></div>
+</div>
+</li>
+<li>
+<div class="caption"><span>frc.robot.commands.<a href="frc/robot/commands/ShootCommand.html" title="class in frc.robot.commands">ShootCommand</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="frc.robot.commands.ShootCommand.ACQUISITION_LOWER_WIGGLE_TIME">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/commands/ShootCommand.html#ACQUISITION_LOWER_WIGGLE_TIME">ACQUISITION_LOWER_WIGGLE_TIME</a></code></div>
+<div class="col-last even-row-color"><code>0.75</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.commands.ShootCommand.ACQUISITION_RAISE_WIGGLE_TIME">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/commands/ShootCommand.html#ACQUISITION_RAISE_WIGGLE_TIME">ACQUISITION_RAISE_WIGGLE_TIME</a></code></div>
+<div class="col-last odd-row-color"><code>0.75</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.commands.ShootCommand.HOOD_SERVO_MOVE_TIME">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/commands/ShootCommand.html#HOOD_SERVO_MOVE_TIME">HOOD_SERVO_MOVE_TIME</a></code></div>
+<div class="col-last even-row-color"><code>0.5</code></div>
 </div>
 </li>
 </ul>
@@ -227,6 +256,17 @@ loadScripts(document, 'script');</script>
 </div>
 </li>
 <li>
+<div class="caption"><span>frc.robot.constants.<a href="frc/robot/constants/FieldConstants.html" title="class in frc.robot.constants">FieldConstants</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.FieldConstants.RIGHT_TRENCH_Y_OFFSET">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/FieldConstants.html#RIGHT_TRENCH_Y_OFFSET">RIGHT_TRENCH_Y_OFFSET</a></code></div>
+<div class="col-last even-row-color"><code>0.0</code></div>
+</div>
+</li>
+<li>
 <div class="caption"><span>frc.robot.constants.<a href="frc/robot/constants/IOConstants.html" title="class in frc.robot.constants">IOConstants</a></span></div>
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -381,6 +421,92 @@ loadScripts(document, 'script');</script>
 </div>
 </li>
 <li>
+<div class="caption"><span>frc.robot.constants.<a href="frc/robot/constants/SwerveConstants.html" title="class in frc.robot.constants">SwerveConstants</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_LEFT_DRIVE_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_LEFT_DRIVE_MOTOR_ID">BACK_LEFT_DRIVE_MOTOR_ID</a></code></div>
+<div class="col-last even-row-color"><code>8</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_LEFT_ENCODER_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_LEFT_ENCODER_ID">BACK_LEFT_ENCODER_ID</a></code></div>
+<div class="col-last odd-row-color"><code>32</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_LEFT_ENCODER_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_LEFT_ENCODER_INVERTED">BACK_LEFT_ENCODER_INVERTED</a></code></div>
+<div class="col-last even-row-color"><code>false</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_LEFT_STEER_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_LEFT_STEER_MOTOR_ID">BACK_LEFT_STEER_MOTOR_ID</a></code></div>
+<div class="col-last odd-row-color"><code>9</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_LEFT_STEER_MOTOR_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_LEFT_STEER_MOTOR_INVERTED">BACK_LEFT_STEER_MOTOR_INVERTED</a></code></div>
+<div class="col-last even-row-color"><code>true</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_RIGHT_DRIVE_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_RIGHT_DRIVE_MOTOR_ID">BACK_RIGHT_DRIVE_MOTOR_ID</a></code></div>
+<div class="col-last odd-row-color"><code>10</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_RIGHT_ENCODER_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_RIGHT_ENCODER_ID">BACK_RIGHT_ENCODER_ID</a></code></div>
+<div class="col-last even-row-color"><code>31</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_RIGHT_ENCODER_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_RIGHT_ENCODER_INVERTED">BACK_RIGHT_ENCODER_INVERTED</a></code></div>
+<div class="col-last odd-row-color"><code>false</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_RIGHT_STEER_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_RIGHT_STEER_MOTOR_ID">BACK_RIGHT_STEER_MOTOR_ID</a></code></div>
+<div class="col-last even-row-color"><code>11</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.BACK_RIGHT_STEER_MOTOR_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#BACK_RIGHT_STEER_MOTOR_INVERTED">BACK_RIGHT_STEER_MOTOR_INVERTED</a></code></div>
+<div class="col-last odd-row-color"><code>true</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.COUPLE_RATIO">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#COUPLE_RATIO">COUPLE_RATIO</a></code></div>
+<div class="col-last even-row-color"><code>4.5</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.DRIVE_GEAR_RATIO">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#DRIVE_GEAR_RATIO">DRIVE_GEAR_RATIO</a></code></div>
+<div class="col-last odd-row-color"><code>6.394736842105262</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_LEFT_DRIVE_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_LEFT_DRIVE_MOTOR_ID">FRONT_LEFT_DRIVE_MOTOR_ID</a></code></div>
+<div class="col-last even-row-color"><code>2</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_LEFT_ENCODER_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_LEFT_ENCODER_ID">FRONT_LEFT_ENCODER_ID</a></code></div>
+<div class="col-last odd-row-color"><code>33</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_LEFT_ENCODER_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_LEFT_ENCODER_INVERTED">FRONT_LEFT_ENCODER_INVERTED</a></code></div>
+<div class="col-last even-row-color"><code>false</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_LEFT_STEER_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_LEFT_STEER_MOTOR_ID">FRONT_LEFT_STEER_MOTOR_ID</a></code></div>
+<div class="col-last odd-row-color"><code>1</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_LEFT_STEER_MOTOR_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_LEFT_STEER_MOTOR_INVERTED">FRONT_LEFT_STEER_MOTOR_INVERTED</a></code></div>
+<div class="col-last even-row-color"><code>true</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_RIGHT_DRIVE_MOTOR_ID">FRONT_RIGHT_DRIVE_MOTOR_ID</a></code></div>
+<div class="col-last odd-row-color"><code>18</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_RIGHT_ENCODER_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_RIGHT_ENCODER_ID">FRONT_RIGHT_ENCODER_ID</a></code></div>
+<div class="col-last even-row-color"><code>30</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_RIGHT_ENCODER_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_RIGHT_ENCODER_INVERTED">FRONT_RIGHT_ENCODER_INVERTED</a></code></div>
+<div class="col-last odd-row-color"><code>false</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_RIGHT_STEER_MOTOR_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_RIGHT_STEER_MOTOR_ID">FRONT_RIGHT_STEER_MOTOR_ID</a></code></div>
+<div class="col-last even-row-color"><code>19</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.FRONT_RIGHT_STEER_MOTOR_INVERTED">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#FRONT_RIGHT_STEER_MOTOR_INVERTED">FRONT_RIGHT_STEER_MOTOR_INVERTED</a></code></div>
+<div class="col-last odd-row-color"><code>true</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.INVERT_LEFT_SIDE">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#INVERT_LEFT_SIDE">INVERT_LEFT_SIDE</a></code></div>
+<div class="col-last even-row-color"><code>false</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.INVERT_RIGHT_SIDE">private&nbsp;static&nbsp;final&nbsp;boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#INVERT_RIGHT_SIDE">INVERT_RIGHT_SIDE</a></code></div>
+<div class="col-last odd-row-color"><code>true</code></div>
+<div class="col-first even-row-color"><code id="frc.robot.constants.SwerveConstants.PIGEON_ID">private&nbsp;static&nbsp;final&nbsp;int</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#PIGEON_ID">PIGEON_ID</a></code></div>
+<div class="col-last even-row-color"><code>22</code></div>
+<div class="col-first odd-row-color"><code id="frc.robot.constants.SwerveConstants.STEER_GEAR_RATIO">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second odd-row-color"><code><a href="frc/robot/constants/SwerveConstants.html#STEER_GEAR_RATIO">STEER_GEAR_RATIO</a></code></div>
+<div class="col-last odd-row-color"><code>12.1</code></div>
+</div>
+</li>
+<li>
 <div class="caption"><span>frc.robot.constants.<a href="frc/robot/constants/VisionConstants.html" title="class in frc.robot.constants">VisionConstants</a></span></div>
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -443,6 +569,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code id="frc.robot.constants.VisionConstants.WIDTH">public&nbsp;static&nbsp;final&nbsp;double</code></div>
 <div class="col-second even-row-color"><code><a href="frc/robot/constants/VisionConstants.html#WIDTH">WIDTH</a></code></div>
 <div class="col-last even-row-color"><code>800.0</code></div>
+</div>
+</li>
+</ul>
+<ul class="block-list">
+<li>
+<div class="caption"><span>frc.robot.subsystems.<a href="frc/robot/subsystems/DriveTrain.html" title="class in frc.robot.subsystems">DriveTrain</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Constant Field</div>
+<div class="table-header col-last">Value</div>
+<div class="col-first even-row-color"><code id="frc.robot.subsystems.DriveTrain.SIM_LOOP_PERIOD">private&nbsp;static&nbsp;final&nbsp;double</code></div>
+<div class="col-second even-row-color"><code><a href="frc/robot/subsystems/DriveTrain.html#SIM_LOOP_PERIOD">SIM_LOOP_PERIOD</a></code></div>
+<div class="col-last even-row-color"><code>0.005</code></div>
 </div>
 </li>
 </ul>

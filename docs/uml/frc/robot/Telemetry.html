@@ -44,13 +44,13 @@ loadScripts(document, 'script');</script>
 <ul class="sub-nav-list">
 <li>Summary:&nbsp;</li>
 <li>Nested&nbsp;|&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-summary">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-summary">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-summary">Method</a></li>
 </ul>
 <ul class="sub-nav-list">
 <li>Detail:&nbsp;</li>
-<li>Field&nbsp;|&nbsp;</li>
+<li><a href="#field-detail">Field</a>&nbsp;|&nbsp;</li>
 <li><a href="#constructor-detail">Constr</a>&nbsp;|&nbsp;</li>
 <li><a href="#method-detail">Method</a></li>
 </ul>
@@ -81,6 +81,75 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- =========== FIELD SUMMARY =========== -->
+<li>
+<section class="field-summary" id="field-summary">
+<h2>Field Summary</h2>
+<div class="caption"><span>Fields</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Field</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModulePosition&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#driveModulePositions" class="member-name-link">driveModulePositions</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModuleState&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#driveModuleStates" class="member-name-link">driveModuleStates</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModuleState&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#driveModuleTargets" class="member-name-link">driveModuleTargets</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.networktables.DoublePublisher</code></div>
+<div class="col-second odd-row-color"><code><a href="#driveOdometryFrequency" class="member-name-link">driveOdometryFrequency</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.StructPublisher&lt;edu.wpi.first.math.geometry.Pose2d&gt;</code></div>
+<div class="col-second even-row-color"><code><a href="#drivePose" class="member-name-link">drivePose</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.networktables.StructPublisher&lt;edu.wpi.first.math.kinematics.ChassisSpeeds&gt;</code></div>
+<div class="col-second odd-row-color"><code><a href="#driveSpeeds" class="member-name-link">driveSpeeds</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.NetworkTable</code></div>
+<div class="col-second even-row-color"><code><a href="#driveStateTable" class="member-name-link">driveStateTable</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.networktables.DoublePublisher</code></div>
+<div class="col-second odd-row-color"><code><a href="#driveTimestamp" class="member-name-link">driveTimestamp</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.DoubleArrayPublisher</code></div>
+<div class="col-second even-row-color"><code><a href="#fieldPub" class="member-name-link">fieldPub</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.networktables.StringPublisher</code></div>
+<div class="col-second odd-row-color"><code><a href="#fieldTypePub" class="member-name-link">fieldTypePub</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.NetworkTableInstance</code></div>
+<div class="col-second even-row-color"><code><a href="#inst" class="member-name-link">inst</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#MAX_SPEED" class="member-name-link">MAX_SPEED</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d[]</code></div>
+<div class="col-second even-row-color"><code><a href="#moduleDirections" class="member-name-link">moduleDirections</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.wpilibj.smartdashboard.Mechanism2d[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#moduleMechanisms" class="member-name-link">moduleMechanisms</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d[]</code></div>
+<div class="col-second even-row-color"><code><a href="#moduleSpeeds" class="member-name-link">moduleSpeeds</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final double[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#moduleStatesArray" class="member-name-link">moduleStatesArray</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final double[]</code></div>
+<div class="col-second even-row-color"><code><a href="#moduleTargetsArray" class="member-name-link">moduleTargetsArray</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final double[]</code></div>
+<div class="col-second odd-row-color"><code><a href="#poseArray" class="member-name-link">poseArray</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.networktables.NetworkTable</code></div>
+<div class="col-second even-row-color"><code><a href="#table" class="member-name-link">table</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+</div>
+</section>
+</li>
 <!-- ======== CONSTRUCTOR SUMMARY ======== -->
 <li>
 <section class="constructor-summary" id="constructor-summary">
@@ -125,6 +194,128 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="details">
 <ul class="details-list">
+<!-- ============ FIELD DETAIL =========== -->
+<li>
+<section class="field-details" id="field-detail">
+<h2>Field Details</h2>
+<ul class="member-list">
+<li>
+<section class="detail" id="MAX_SPEED">
+<h3>MAX_SPEED</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">MAX_SPEED</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="inst">
+<h3>inst</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.NetworkTableInstance</span>&nbsp;<span class="element-name">inst</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveStateTable">
+<h3>driveStateTable</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.NetworkTable</span>&nbsp;<span class="element-name">driveStateTable</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="drivePose">
+<h3>drivePose</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StructPublisher&lt;edu.wpi.first.math.geometry.Pose2d&gt;</span>&nbsp;<span class="element-name">drivePose</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveSpeeds">
+<h3>driveSpeeds</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StructPublisher&lt;edu.wpi.first.math.kinematics.ChassisSpeeds&gt;</span>&nbsp;<span class="element-name">driveSpeeds</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveModuleStates">
+<h3>driveModuleStates</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModuleState&gt;</span>&nbsp;<span class="element-name">driveModuleStates</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveModuleTargets">
+<h3>driveModuleTargets</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModuleState&gt;</span>&nbsp;<span class="element-name">driveModuleTargets</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveModulePositions">
+<h3>driveModulePositions</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StructArrayPublisher&lt;edu.wpi.first.math.kinematics.SwerveModulePosition&gt;</span>&nbsp;<span class="element-name">driveModulePositions</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveTimestamp">
+<h3>driveTimestamp</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.DoublePublisher</span>&nbsp;<span class="element-name">driveTimestamp</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="driveOdometryFrequency">
+<h3>driveOdometryFrequency</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.DoublePublisher</span>&nbsp;<span class="element-name">driveOdometryFrequency</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="table">
+<h3>table</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.NetworkTable</span>&nbsp;<span class="element-name">table</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="fieldPub">
+<h3>fieldPub</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.DoubleArrayPublisher</span>&nbsp;<span class="element-name">fieldPub</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="fieldTypePub">
+<h3>fieldTypePub</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.networktables.StringPublisher</span>&nbsp;<span class="element-name">fieldTypePub</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="moduleMechanisms">
+<h3>moduleMechanisms</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj.smartdashboard.Mechanism2d[]</span>&nbsp;<span class="element-name">moduleMechanisms</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="moduleSpeeds">
+<h3>moduleSpeeds</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d[]</span>&nbsp;<span class="element-name">moduleSpeeds</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="moduleDirections">
+<h3>moduleDirections</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d[]</span>&nbsp;<span class="element-name">moduleDirections</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="poseArray">
+<h3>poseArray</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">poseArray</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="moduleStatesArray">
+<h3>moduleStatesArray</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">moduleStatesArray</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="moduleTargetsArray">
+<h3>moduleTargetsArray</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">double[]</span>&nbsp;<span class="element-name">moduleTargetsArray</span></div>
+</section>
+</li>
+</ul>
+</section>
+</li>
 <!-- ========= CONSTRUCTOR DETAIL ======== -->
 <li>
 <section class="constructor-details" id="constructor-detail">

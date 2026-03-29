@@ -146,9 +146,7 @@ tasks.register('generateUml', Javadoc) {
         doclet = 'nl.talsmasoftware.umldoclet.UMLDoclet'
         // Generate SVG diagrams (scalable, renders in GitHub)
         addStringOption('umlImageFormat', 'svg')
-        // Exclude private members for cleaner diagrams
-        addBooleanOption('umlIncludePrivateFields', false)
-        addBooleanOption('umlIncludePrivateMethods', false)
+        memberLevel = JavadocMemberLevel.PRIVATE
         // Quiet mode to reduce noise
         addBooleanOption('quiet', true)
     }

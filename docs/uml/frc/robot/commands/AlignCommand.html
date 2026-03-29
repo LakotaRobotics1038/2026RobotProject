@@ -105,8 +105,50 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static final double</code></div>
-<div class="col-second even-row-color"><code><a href="#HUB_ALIGNMENT_RUMBLE_INTENSITY" class="member-name-link">HUB_ALIGNMENT_RUMBLE_INTENSITY</a></code></div>
+<div class="col-first even-row-color"><code>private <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></code></div>
+<div class="col-second even-row-color"><code><a href="#alignedToHub" class="member-name-link">alignedToHub</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private static final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#ALIGNMENT_TOLERANCE_RAD" class="member-name-link">ALIGNMENT_TOLERANCE_RAD</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final edu.wpi.first.util.function.BooleanConsumer</code></div>
+<div class="col-second even-row-color"><code><a href="#alignmentStateConsumer" class="member-name-link">alignmentStateConsumer</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private static final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#D" class="member-name-link">D</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final <a href="../subsystems/Dashboard.html" title="class in frc.robot.subsystems">Dashboard</a></code></div>
+<div class="col-second even-row-color"><code><a href="#dashboard" class="member-name-link">dashboard</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final <a href="../subsystems/DriveTrain.html" title="class in frc.robot.subsystems">DriveTrain</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#driveTrain" class="member-name-link">driveTrain</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a></code></div>
+<div class="col-second even-row-color"><code><a href="#forwardSpeedSupplier" class="member-name-link">forwardSpeedSupplier</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>static final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#HUB_ALIGNMENT_RUMBLE_INTENSITY" class="member-name-link">HUB_ALIGNMENT_RUMBLE_INTENSITY</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private static final double</code></div>
+<div class="col-second even-row-color"><code><a href="#I" class="member-name-link">I</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private static final double</code></div>
+<div class="col-second odd-row-color"><code><a href="#MAX_ROTATION_POWER" class="member-name-link">MAX_ROTATION_POWER</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private static final double</code></div>
+<div class="col-second even-row-color"><code><a href="#P" class="member-name-link">P</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final edu.wpi.first.math.controller.PIDController</code></div>
+<div class="col-second odd-row-color"><code><a href="#rotationController" class="member-name-link">rotationController</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final <a href="../subsystems/Shooter.html" title="class in frc.robot.subsystems">Shooter</a></code></div>
+<div class="col-second even-row-color"><code><a href="#shooter" class="member-name-link">shooter</a></code></div>
+<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>private final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a></code></div>
+<div class="col-second odd-row-color"><code><a href="#sidewaysSpeedSupplier" class="member-name-link">sidewaysSpeedSupplier</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>private final <a href="../subsystems/SwagLights.html" title="class in frc.robot.subsystems">SwagLights</a></code></div>
+<div class="col-second even-row-color"><code><a href="#swagLights" class="member-name-link">swagLights</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
 </div>
 </section>
@@ -145,8 +187,14 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#execute()" class="member-name-link">execute</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>private double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAlignedTargetHeading(edu.wpi.first.math.geometry.Pose2d)" class="member-name-link">getAlignedTargetHeading</a><wbr>(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isFinished()" class="member-name-link">isFinished</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>private void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateAlignmentState(boolean)" class="member-name-link">updateAlignmentState</a><wbr>(boolean&nbsp;isAligned)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
@@ -169,6 +217,68 @@ loadScripts(document, 'script');</script>
 <h2>Field Details</h2>
 <ul class="member-list">
 <li>
+<section class="detail" id="P">
+<h3>P</h3>
+<div class="member-signature"><span class="modifiers">private static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">P</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#frc.robot.commands.AlignCommand.P">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="I">
+<h3>I</h3>
+<div class="member-signature"><span class="modifiers">private static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">I</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#frc.robot.commands.AlignCommand.I">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="D">
+<h3>D</h3>
+<div class="member-signature"><span class="modifiers">private static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">D</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#frc.robot.commands.AlignCommand.D">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="MAX_ROTATION_POWER">
+<h3>MAX_ROTATION_POWER</h3>
+<div class="member-signature"><span class="modifiers">private static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">MAX_ROTATION_POWER</span></div>
+<dl class="notes">
+<dt>See Also:</dt>
+<dd>
+<ul class="see-list">
+<li><a href="../../../constant-values.html#frc.robot.commands.AlignCommand.MAX_ROTATION_POWER">Constant Field Values</a></li>
+</ul>
+</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="ALIGNMENT_TOLERANCE_RAD">
+<h3>ALIGNMENT_TOLERANCE_RAD</h3>
+<div class="member-signature"><span class="modifiers">private static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">ALIGNMENT_TOLERANCE_RAD</span></div>
+</section>
+</li>
+<li>
 <section class="detail" id="HUB_ALIGNMENT_RUMBLE_INTENSITY">
 <h3>HUB_ALIGNMENT_RUMBLE_INTENSITY</h3>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">HUB_ALIGNMENT_RUMBLE_INTENSITY</span></div>
@@ -180,6 +290,60 @@ loadScripts(document, 'script');</script>
 </ul>
 </dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="driveTrain">
+<h3>driveTrain</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../subsystems/DriveTrain.html" title="class in frc.robot.subsystems">DriveTrain</a></span>&nbsp;<span class="element-name">driveTrain</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="dashboard">
+<h3>dashboard</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../subsystems/Dashboard.html" title="class in frc.robot.subsystems">Dashboard</a></span>&nbsp;<span class="element-name">dashboard</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="shooter">
+<h3>shooter</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../subsystems/Shooter.html" title="class in frc.robot.subsystems">Shooter</a></span>&nbsp;<span class="element-name">shooter</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="swagLights">
+<h3>swagLights</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../subsystems/SwagLights.html" title="class in frc.robot.subsystems">SwagLights</a></span>&nbsp;<span class="element-name">swagLights</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="forwardSpeedSupplier">
+<h3>forwardSpeedSupplier</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a></span>&nbsp;<span class="element-name">forwardSpeedSupplier</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="sidewaysSpeedSupplier">
+<h3>sidewaysSpeedSupplier</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/function/DoubleSupplier.html" title="class or interface in java.util.function" class="external-link">DoubleSupplier</a></span>&nbsp;<span class="element-name">sidewaysSpeedSupplier</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="alignmentStateConsumer">
+<h3>alignmentStateConsumer</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.util.function.BooleanConsumer</span>&nbsp;<span class="element-name">alignmentStateConsumer</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="rotationController">
+<h3>rotationController</h3>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type">edu.wpi.first.math.controller.PIDController</span>&nbsp;<span class="element-name">rotationController</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="alignedToHub">
+<h3>alignedToHub</h3>
+<div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a></span>&nbsp;<span class="element-name">alignedToHub</span></div>
 </section>
 </li>
 </ul>
@@ -240,6 +404,18 @@ loadScripts(document, 'script');</script>
 <dt>Overrides:</dt>
 <dd><code>end</code>&nbsp;in class&nbsp;<code>edu.wpi.first.wpilibj2.command.Command</code></dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="getAlignedTargetHeading(edu.wpi.first.math.geometry.Pose2d)">
+<h3>getAlignedTargetHeading</h3>
+<div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getAlignedTargetHeading</span><wbr><span class="parameters">(edu.wpi.first.math.geometry.Pose2d&nbsp;robotPose)</span></div>
+</section>
+</li>
+<li>
+<section class="detail" id="updateAlignmentState(boolean)">
+<h3>updateAlignmentState</h3>
+<div class="member-signature"><span class="modifiers">private</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateAlignmentState</span><wbr><span class="parameters">(boolean&nbsp;isAligned)</span></div>
 </section>
 </li>
 </ul>
