@@ -9,11 +9,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
-import frc.robot.utils.dashboard.DashboardValue;
 
 public class AlignCommand extends Command {
     private static final double P = 4.0;
@@ -110,7 +110,7 @@ public class AlignCommand extends Command {
             if (alignmentStateConsumer != null) {
                 alignmentStateConsumer.accept(alignedToHub);
             }
-            DashboardValue.HUB_ALIGNED.set(isAligned);
+            Dashboard.HUB_ALIGNED.set(isAligned);
         }
     }
 }

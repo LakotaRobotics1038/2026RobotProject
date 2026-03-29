@@ -21,7 +21,6 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.RobotStates;
 import frc.robot.subsystems.Vision;
-import frc.robot.utils.dashboard.DashboardValue;
 
 public class Robot extends TimedRobot {
     // Singleton Instances
@@ -112,7 +111,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        DashboardValue.FIELD.get().getObject("traj").setPoses(new ArrayList<>());
+        Dashboard.FIELD.get().getObject("traj").setPoses(new ArrayList<>());
         driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
     }
 

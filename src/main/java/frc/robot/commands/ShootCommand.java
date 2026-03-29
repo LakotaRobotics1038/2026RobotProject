@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
-import frc.robot.utils.dashboard.DashboardValue;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
@@ -50,8 +50,8 @@ public class ShootCommand extends Command {
     public void execute() {
         boolean validPosition = false;
 
-        if (DashboardValue.MANUAL_MODE_ENABLED.get()) {
-            double targetRPM = DashboardValue.MANUAL_SHOOTER_RPM.get();
+        if (Dashboard.MANUAL_MODE_ENABLED.get()) {
+            double targetRPM = Dashboard.MANUAL_SHOOTER_RPM.get();
 
             shooter.getNearShooter().start(targetRPM *
                     ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
@@ -87,9 +87,9 @@ public class ShootCommand extends Command {
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
                 if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME
                         + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    acquisition.setPivotDegrees(startingPivotDegrees + DashboardValue.ACQUISITION_MIN_WIGGLE.get());
+                    acquisition.setPivotDegrees(startingPivotDegrees + Dashboard.ACQUISITION_MIN_WIGGLE.get());
                 } else {
-                    acquisition.setPivotDegrees(startingPivotDegrees + DashboardValue.ACQUISITION_MAX_WIGGLE.get());
+                    acquisition.setPivotDegrees(startingPivotDegrees + Dashboard.ACQUISITION_MAX_WIGGLE.get());
                 }
             }
         } else {
