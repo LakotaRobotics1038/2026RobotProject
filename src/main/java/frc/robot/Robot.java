@@ -105,7 +105,6 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             CommandScheduler.getInstance().cancel(autonomousCommand);
         }
-        driveTrain.drive(0, 0, 0, true);
     }
 
     @Override
