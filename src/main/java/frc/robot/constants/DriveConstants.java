@@ -37,9 +37,9 @@ public final class DriveConstants {
     // 3/4 of a rotation angular velocity per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
 
-    private static final double P = 4.0;
-    private static final double I = 0.005;
-    private static final double D = 0.01;
+    private static final double P = 8.0;
+    private static final double I = 0.0;
+    private static final double D = 0.0;
     private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
     public static final double MAX_ROTATION_POWER = 1.0;
     public static final PIDController ROTATION_CONTROLLER = new PIDController(P, I, D);

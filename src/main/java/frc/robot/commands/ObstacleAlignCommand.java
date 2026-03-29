@@ -13,8 +13,10 @@ import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class ObstacleAlignCommand extends Command {
-    private static final double QUARTER_TURN = Math.PI / 2;
-    private static final double EIGHTH_TURN = Math.PI / 4;
+    private static final double TRENCH_TURN = Math.PI;
+    private static final double TRENCH_TURN_OFFSET = 0;
+    private static final double BUMP_TURN = Math.PI / 2;
+    private static final double BUMP_TURN_OFFSET = Math.PI / 4;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
@@ -34,9 +36,9 @@ public class ObstacleAlignCommand extends Command {
 
         double targetHeading;
         if (isInTrench(robotPosition)) {
-            targetHeading = snapToNearest(currentHeading, QUARTER_TURN, 0);
+            targetHeading = snapToNearest(currentHeading, TRENCH_TURN, TRENCH_TURN_OFFSET);
         } else {
-            targetHeading = snapToNearest(currentHeading, QUARTER_TURN, EIGHTH_TURN);
+            targetHeading = snapToNearest(currentHeading, BUMP_TURN, BUMP_TURN_OFFSET);
         }
 
         double rotationOutput = DriveConstants.ROTATION_CONTROLLER.calculate(currentHeading, targetHeading);
