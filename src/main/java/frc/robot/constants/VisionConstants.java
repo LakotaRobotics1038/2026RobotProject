@@ -21,7 +21,7 @@ public final class VisionConstants {
 
     public static final double WIDTH = 800;
     public static final double HEIGHT = 600;
-    public static final double FOV = 70;
+    public static final double FOV = 100;
 
     public static final double DRIVE_P = 0.005;
     public static final double DRIVE_I = 0;
