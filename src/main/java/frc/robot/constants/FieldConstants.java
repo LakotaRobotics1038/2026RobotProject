@@ -22,7 +22,7 @@ public final class FieldConstants {
 
     private static final double BUMP_WIDTH = Units.inchesToMeters(73);
     private static final double BUMP_DEPTH = Units.inchesToMeters(44.4);
-    private static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
+    public static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
 
     private static final double LEFT_TRENCH_Y_OFFSET = FlippingUtil.fieldSizeY - TRENCH_WIDTH;
     private static final double RIGHT_TRENCH_Y_OFFSET = 0;
