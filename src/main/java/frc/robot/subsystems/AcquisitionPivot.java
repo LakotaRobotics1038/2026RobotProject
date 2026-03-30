@@ -70,6 +70,9 @@ public class AcquisitionPivot extends SubsystemBase {
                 ControlType.kPosition);
     }
 
+    /**
+     * Stops the pivot motor.
+     */
     public void stopPivot() {
         motor.stopMotor();
     }
