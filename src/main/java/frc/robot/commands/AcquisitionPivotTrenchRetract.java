@@ -13,7 +13,7 @@ public class AcquisitionPivotTrenchRetract extends Command {
 
     @Override
     public void initialize() {
-        pivot.setPivotDegrees(
+        pivot.setAngle(
                 Math.min(pivot.getPivotPosition(), AcquisitionPivotConstants.MAX_TRENCH_ANGLE_DEGREES));
     }
 

@@ -61,10 +61,10 @@ public class AcquisitionPivot extends SubsystemBase {
      * @param setpoint The setpoint for the pivot motor to go to.
      */
     public void setPivot(PivotSetpoint setpoint) {
-        setPivotDegrees(setpoint.getDegrees());
+        setAngle(setpoint.getDegrees());
     }
 
-    public void setPivotDegrees(double degrees) {
+    public void setAngle(double degrees) {
         pivotController.setSetpoint(
                 MathUtil.clamp(degrees, AcquisitionPivotConstants.MIN_ANGLE, AcquisitionPivotConstants.MAX_ANGLE),
                 ControlType.kPosition);

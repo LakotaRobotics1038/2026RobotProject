@@ -90,9 +90,9 @@ public class ShootCommand extends Command {
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
                 if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME
                         + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    pivot.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
+                    pivot.setAngle(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
                 } else {
-                    pivot.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
+                    pivot.setAngle(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
                 }
             }
         } else {
