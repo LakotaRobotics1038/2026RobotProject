@@ -17,6 +17,8 @@ public final class FieldConstants {
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
     private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
+    private static final double HUB_LEFT_Y = HUB_CENTER_Y - HUB_LENGTH / 2;
+    private static final double HUB_RIGHT_Y = HUB_CENTER_Y + HUB_LENGTH / 2;
 
     public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 
@@ -76,8 +78,36 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    public static Translation2d targetPosition() {
+    private static final Rectangle2d LEFT_ALLIANCE = new Rectangle2d(
+            new Translation2d(0, 0),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, HUB_LEFT_Y));
+
+    private static final Rectangle2d RIGHT_ALLIANCE = new Rectangle2d(
+            new Translation2d(0, HUB_RIGHT_Y),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, FlippingUtil.fieldSizeY));
+
+    public static Translation2d targetPosition(Translation2d robotPosition) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+        if (robotPosition.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH) {
+            Rectangle2d leftAllianceBoundingBox;
+            Rectangle2d rightAllianceBoundingBox;
+            if (alliance == Alliance.Blue) {
+                leftAllianceBoundingBox = LEFT_ALLIANCE;
+                rightAllianceBoundingBox = RIGHT_ALLIANCE;
+            } else {
+                leftAllianceBoundingBox = LEFT_ALLIANCE.transformBy(
+                        new Transform2d(FlippingUtil.fieldSizeX - LEFT_ALLIANCE.getXWidth(), 0,
+                                Rotation2d.kZero));
+                rightAllianceBoundingBox = RIGHT_ALLIANCE.transformBy(
+                        new Transform2d(FlippingUtil.fieldSizeX - RIGHT_ALLIANCE.getXWidth(), 0,
+                                Rotation2d.kZero));
+            }
+            Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPosition);
+            Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPosition);
+
+            return leftNear.getDistance(robotPosition) <= rightNear.getDistance(robotPosition) ? leftNear : rightNear;
+        } else {
+            return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+        }
     }
 }
