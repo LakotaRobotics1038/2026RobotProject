@@ -34,7 +34,7 @@ public class Indexer extends SubsystemBase {
 
     /**
      * Runs the indexer motor forward at the speed in
-     * {@link IndexerConstants.ACQUIRE_DUTY_CYCLE}.
+     * {@link IndexerConstants#ACQUIRE_DUTY_CYCLE}.
      */
     public void start() {
         controller.setSetpoint(IndexerConstants.ACQUIRE_DUTY_CYCLE, ControlType.kDutyCycle);
@@ -42,7 +42,7 @@ public class Indexer extends SubsystemBase {
 
     /**
      * Runs the indexer motor in reverse at the speed in
-     * {@link IndexerConstants.DISPOSE_DUTY_CYCLE}.
+     * {@link IndexerConstants#DISPOSE_DUTY_CYCLE}.
      */
     public void reverse() {
         controller.setSetpoint(IndexerConstants.DISPOSE_DUTY_CYCLE, ControlType.kDutyCycle);
