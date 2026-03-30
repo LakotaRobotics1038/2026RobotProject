@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 import com.pathplanner.lib.util.FlippingUtil;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,10 +22,14 @@ public class ObstacleAlignCommand extends Command {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
+    private final PIDController rotationController = new PIDController(DriveConstants.P, DriveConstants.I,
+            DriveConstants.D);
 
     public ObstacleAlignCommand(DoubleSupplier forwardSpeedSupplier, DoubleSupplier sidewaysSpeedSupplier) {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
         this.sidewaysSpeedSupplier = sidewaysSpeedSupplier;
+        rotationController.enableContinuousInput(-Math.PI, Math.PI);
+        rotationController.setTolerance(DriveConstants.ALIGNMENT_TOLERANCE_RAD);
         addRequirements(driveTrain);
     }
 
@@ -41,7 +46,7 @@ public class ObstacleAlignCommand extends Command {
             targetHeading = snapToNearest(currentHeading, BUMP_TURN, BUMP_TURN_OFFSET);
         }
 
-        double rotationOutput = DriveConstants.ROTATION_CONTROLLER.calculate(currentHeading, targetHeading);
+        double rotationOutput = rotationController.calculate(currentHeading, targetHeading);
         double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE,
                 -DriveConstants.MAX_ROTATION_POWER,
                 DriveConstants.MAX_ROTATION_POWER);
@@ -52,7 +57,7 @@ public class ObstacleAlignCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        DriveConstants.ROTATION_CONTROLLER.reset();
+        rotationController.reset();
         driveTrain.setControl(driveTrain.drive(forwardSpeedSupplier.getAsDouble(),
                 -sidewaysSpeedSupplier.getAsDouble(), 0, true));
     }

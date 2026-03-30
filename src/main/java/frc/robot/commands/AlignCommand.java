@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +25,8 @@ public class AlignCommand extends Command {
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
+    private final PIDController rotationController = new PIDController(HUB_ALIGNMENT_RUMBLE_INTENSITY,
+            HUB_ALIGNMENT_RUMBLE_INTENSITY, HUB_ALIGNMENT_RUMBLE_INTENSITY);
     private Boolean alignedToHub;
 
     public AlignCommand(DoubleSupplier forwardSpeedSupplier,
@@ -32,6 +35,8 @@ public class AlignCommand extends Command {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
         this.sidewaysSpeedSupplier = sidewaysSpeedSupplier;
         this.alignmentStateConsumer = alignmentStateConsumer;
+        rotationController.enableContinuousInput(-Math.PI, Math.PI);
+        rotationController.setTolerance(DriveConstants.ALIGNMENT_TOLERANCE_RAD);
 
         addRequirements(driveTrain, swagLights);
     }
@@ -47,9 +52,9 @@ public class AlignCommand extends Command {
         double targetHeadingRadians = getAlignedTargetHeading(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
-        double rotationOutput = DriveConstants.ROTATION_CONTROLLER.calculate(currentHeadingRadians,
+        double rotationOutput = rotationController.calculate(currentHeadingRadians,
                 targetHeadingRadians);
-        updateAlignmentState(DriveConstants.ROTATION_CONTROLLER.atSetpoint());
+        updateAlignmentState(rotationController.atSetpoint());
 
         double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE,
                 -DriveConstants.MAX_ROTATION_POWER,
@@ -63,7 +68,7 @@ public class AlignCommand extends Command {
     @Override
     public boolean isFinished() {
         if (this.alignmentStateConsumer == null) {
-            return DriveConstants.ROTATION_CONTROLLER.atSetpoint();
+            return rotationController.atSetpoint();
         }
 
         return false;
@@ -71,7 +76,7 @@ public class AlignCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        DriveConstants.ROTATION_CONTROLLER.reset();
+        rotationController.reset();
         driveTrain.setControl(
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);

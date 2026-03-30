@@ -6,7 +6,6 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
@@ -37,14 +36,9 @@ public final class DriveConstants {
     // 3/4 of a rotation angular velocity per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
 
-    private static final double P = 8.0;
-    private static final double I = 0.0;
-    private static final double D = 0.0;
-    private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
+    public static final double P = 8.0;
+    public static final double I = 0.0;
+    public static final double D = 0.0;
+    public static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
     public static final double MAX_ROTATION_POWER = 1.0;
-    public static final PIDController ROTATION_CONTROLLER = new PIDController(P, I, D);
-    static {
-        ROTATION_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
-        ROTATION_CONTROLLER.setTolerance(ALIGNMENT_TOLERANCE_RAD);
-    }
 }
