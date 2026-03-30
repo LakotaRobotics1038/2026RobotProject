@@ -15,11 +15,11 @@ public class AcquisitionPivotCommand extends Command {
 
     @Override
     public void initialize() {
-        acquisition.setPivot(setpoint);
+        acquisition.setAngleSetpoint(setpoint);
     }
 
     @Override
     public boolean isFinished() {
-        return acquisition.pivotAtSetpoint();
+        return acquisition.isAtSetpoint();
     }
 }

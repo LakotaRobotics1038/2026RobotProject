@@ -45,8 +45,8 @@ public class ShootCommand extends Command {
     @Override
     public void initialize() {
         timer.restart();
-        startingPivotDegrees = pivot.getPivotPosition();
-        pivot.setPivot(PivotSetpoint.LOWERED);
+        startingPivotDegrees = pivot.getPosition();
+        pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
     }
 
     @Override
@@ -113,7 +113,7 @@ public class ShootCommand extends Command {
         kicker.stop();
         indexer.stop();
         timer.stop();
-        pivot.setPivot(PivotSetpoint.LOWERED);
+        pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
             swagLights.setOperatorState(OperatorStates.Default);
         }
