@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionPivotTrenchRetract;
-import frc.robot.commands.IndexerCommand;
-import frc.robot.commands.AlignCommand;
+import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.AcquisitionCommand.Mode;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
@@ -26,10 +25,10 @@ public class LeftAuto extends Auton {
                         .raceWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(Mode.INTAKE))),
                 followPathCommand(Paths.getLeft2Path()),
-                new ShootCommand().withTimeout(4),
+                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(Mode.INTAKE)),
                 followPathCommand(Paths.getLeft4Path()),
-                new ShootCommand().withTimeout(4));
+                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
     }
 }

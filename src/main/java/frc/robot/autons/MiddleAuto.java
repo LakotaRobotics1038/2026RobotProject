@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionPivotTrenchRetract;
+import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
@@ -24,10 +25,10 @@ public class MiddleAuto extends Auton {
                         new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))),
                 followPathCommand(Paths.getMiddle3Path()),
-                new ShootCommand().withTimeout(4),
+                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getMiddle4Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getMiddle5Path()),
-                new ShootCommand().withTimeout(4));
+                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
     }
 }
