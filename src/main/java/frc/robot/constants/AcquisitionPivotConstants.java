@@ -15,13 +15,10 @@ public final class AcquisitionPivotConstants {
     public static final double MAX_TRENCH_ANGLE = 50.0;
     public static final double MIN_ANGLE = 0;
     public static final double MAX_ANGLE = 105;
-    public static final double MIN_WIGGLE = 30;
-    public static final double MAX_WIGGLE = 75;
+    public static final double TILT = 30;
 
     public enum PivotSetpoint {
         RAISED(MAX_ANGLE),
-        LOW_RAISE(30),
-        HIGH_RAISE(55),
         LOWERED(MIN_ANGLE);
 
         private final double degrees;
