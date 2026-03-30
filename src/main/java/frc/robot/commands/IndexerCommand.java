@@ -18,11 +18,10 @@ public class IndexerCommand extends Command {
     public void initialize() {
         if (mode == Mode.INTAKE) {
             indexer.start();
-            kicker.reverse();
         } else {
             indexer.reverse();
-            kicker.start();
         }
+        kicker.reverse();
     }
 
     @Override
