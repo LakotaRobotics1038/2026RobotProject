@@ -28,6 +28,7 @@ public class ShootCommand extends Command {
     private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier tiltAcquisitionSupplier;
+    private boolean isUpToSpeed;
 
     public ShootCommand() {
         this.tiltAcquisitionSupplier = () -> false;
@@ -42,6 +43,7 @@ public class ShootCommand extends Command {
     @Override
     public void initialize() {
         timer.restart();
+        isUpToSpeed = false;
         pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
     }
 
@@ -81,10 +83,15 @@ public class ShootCommand extends Command {
         }
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
-            kicker.start();
-            indexer.start();
-            if (tiltAcquisitionSupplier.getAsBoolean()) {
-                pivot.setAngle(dashboard.getAcquisitionTilt());
+            if (isUpToSpeed) {
+                kicker.start();
+                indexer.start();
+                if (tiltAcquisitionSupplier.getAsBoolean()) {
+                    pivot.setAngle(dashboard.getAcquisitionTilt());
+                }
+            } else {
+                isUpToSpeed = shooter.getNearShooter().isAtTargetRPM() &&
+                        shooter.getFarShooter().isAtTargetRPM();
             }
         } else {
             kicker.stop();
