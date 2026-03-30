@@ -7,7 +7,8 @@ public final class AcquisitionPivotConstants {
     public static final double I = 0;
     public static final double D = 0;
 
-    public static final double ENCODER_CONVERSION_FACTOR = 360 / 2;
+    private static final double GEAR_RATIO = 2.0;
+    public static final double ENCODER_CONVERSION_FACTOR = 360 / GEAR_RATIO;
     public static final double ALLOWED_ERROR_DEGREES = 2.0;
     public static final double OPERATING_TOLERANCE = 5.0;
     public static final double POWER = 0.85;
