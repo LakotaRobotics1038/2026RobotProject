@@ -2,9 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AcquisitionRunCommand;
-import frc.robot.commands.RunPrototypeAcquisitionCommand;
+import frc.robot.commands.PivotCommand;
+import frc.robot.commands.IndexerCommand;
+import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.PivotConstants;
 import frc.robot.constants.IOConstants;
@@ -38,13 +38,13 @@ public class OperatorJoystick extends XboxController1038 {
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
-        this.leftBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.DISPOSE))
-                .whileTrue(new RunPrototypeAcquisitionCommand(RunPrototypeAcquisitionCommand.Mode.DISPOSE));
-        this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))
-                .whileTrue(new RunPrototypeAcquisitionCommand(RunPrototypeAcquisitionCommand.Mode.INTAKE));
+        this.leftBumper().whileTrue(new IndexerCommand(IndexerCommand.Mode.DISPOSE))
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE));
+        this.rightBumper().whileTrue(new IndexerCommand(IndexerCommand.Mode.INTAKE))
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE));
 
-        this.y().onTrue(new AcquisitionPivotCommand(PivotConstants.PivotSetpoint.RAISED));
-        this.a().onTrue(new AcquisitionPivotCommand(PivotConstants.PivotSetpoint.LOWERED));
+        this.y().onTrue(new PivotCommand(PivotConstants.PivotSetpoint.RAISED));
+        this.a().onTrue(new PivotCommand(PivotConstants.PivotSetpoint.LOWERED));
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();

@@ -2,7 +2,7 @@ package frc.robot.autons;
 
 import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation;
-import frc.robot.commands.AcquisitionPivotCommand;
+import frc.robot.commands.PivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
@@ -18,7 +18,7 @@ public class MiddleAutoShoot extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getMiddle1Path()),
-                new AcquisitionPivotCommand(PivotConstants.PivotSetpoint.LOWERED),
+                new PivotCommand(PivotConstants.PivotSetpoint.LOWERED),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
                                 .andThen(new ShootCommand().withTimeout(5))));

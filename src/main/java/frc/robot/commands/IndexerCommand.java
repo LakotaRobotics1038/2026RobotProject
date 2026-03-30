@@ -1,25 +1,25 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Kicker;
 
-public class AcquisitionRunCommand extends Command {
-    private final Acquisition acquisition = Acquisition.getInstance();
+public class IndexerCommand extends Command {
+    private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Mode mode;
 
-    public AcquisitionRunCommand(Mode mode) {
+    public IndexerCommand(Mode mode) {
         this.mode = mode;
-        addRequirements(acquisition, kicker);
+        addRequirements(indexer, kicker);
     }
 
     @Override
     public void initialize() {
         if (mode == Mode.INTAKE) {
-            acquisition.intake();
+            indexer.start();
         } else {
-            acquisition.dispose();
+            indexer.stop();
         }
         kicker.reverse();
     }
@@ -31,7 +31,7 @@ public class AcquisitionRunCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        acquisition.stop();
+        indexer.stop();
         kicker.stop();
     }
 
