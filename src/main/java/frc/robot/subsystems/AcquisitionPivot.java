@@ -14,43 +14,43 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.PivotConstants;
-import frc.robot.constants.PivotConstants.PivotSetpoint;
+import frc.robot.constants.AcquisitionPivotConstants;
+import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 import frc.robot.constants.NeoMotorConstants;
 
-public class Pivot extends SubsystemBase {
-    private final SparkMax motor = new SparkMax(PivotConstants.MOTOR_CAN_ID, MotorType.kBrushless);
+public class AcquisitionPivot extends SubsystemBase {
+    private final SparkMax motor = new SparkMax(AcquisitionPivotConstants.MOTOR_CAN_ID, MotorType.kBrushless);
 
     private final AbsoluteEncoder pivotEncoder = motor.getAbsoluteEncoder();
 
     private final SparkClosedLoopController pivotController = motor.getClosedLoopController();
 
-    private static Pivot instance = null;
+    private static AcquisitionPivot instance = null;
 
-    private Pivot() {
+    private AcquisitionPivot() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
         pivotConfig.apply(baseConfig).inverted(true).idleMode(IdleMode.kBrake).closedLoop
-                .outputRange(-PivotConstants.POWER, PivotConstants.POWER)
+                .outputRange(-AcquisitionPivotConstants.POWER, AcquisitionPivotConstants.POWER)
                 .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                .pid(PivotConstants.P, PivotConstants.I,
-                        PivotConstants.D)
-                .allowedClosedLoopError(PivotConstants.ALLOWED_ERROR_DEGREES,
+                .pid(AcquisitionPivotConstants.P, AcquisitionPivotConstants.I,
+                        AcquisitionPivotConstants.D)
+                .allowedClosedLoopError(AcquisitionPivotConstants.ALLOWED_ERROR_DEGREES,
                         ClosedLoopSlot.kSlot0);
-        pivotConfig.absoluteEncoder.positionConversionFactor(PivotConstants.ENCODER_CONVERSION_FACTOR)
+        pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionPivotConstants.ENCODER_CONVERSION_FACTOR)
                 .inverted(true);
 
         motor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     /**
-     * Gets the instance of Acquisition. Instantiates Acquisition if null.
+     * Gets the instance of the pivot. Instantiates the pivot if null.
      */
-    public static Pivot getInstance() {
+    public static AcquisitionPivot getInstance() {
         if (instance == null) {
-            instance = new Pivot();
+            instance = new AcquisitionPivot();
         }
         return instance;
     }
@@ -66,7 +66,7 @@ public class Pivot extends SubsystemBase {
 
     public void setPivotDegrees(double degrees) {
         pivotController.setSetpoint(
-                MathUtil.clamp(degrees, PivotConstants.MIN_ANGLE, PivotConstants.MAX_ANGLE),
+                MathUtil.clamp(degrees, AcquisitionPivotConstants.MIN_ANGLE, AcquisitionPivotConstants.MAX_ANGLE),
                 ControlType.kPosition);
     }
 
@@ -79,7 +79,7 @@ public class Pivot extends SubsystemBase {
      */
     public boolean pivotAtSetpoint() {
         return MathUtil.isNear(pivotController.getSetpoint(), getPivotPosition(),
-                PivotConstants.OPERATING_TOLERANCE);
+                AcquisitionPivotConstants.OPERATING_TOLERANCE);
     }
 
     /**

@@ -1,9 +1,6 @@
 package frc.robot.constants;
 
-public final class PivotConstants {
-    private PivotConstants() {
-    }
-
+public final class AcquisitionPivotConstants {
     public static final int MOTOR_CAN_ID = 4;
 
     public static final double P = 0.005;

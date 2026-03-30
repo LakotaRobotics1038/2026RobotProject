@@ -5,9 +5,9 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.PivotConstants.PivotSetpoint;
+import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.AcquisitionPivot;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
@@ -21,7 +21,7 @@ public class ShootCommand extends Command {
     private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
     private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
-    private final Pivot pivot = Pivot.getInstance();
+    private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();
     private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
@@ -34,12 +34,12 @@ public class ShootCommand extends Command {
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
-        addRequirements(pivot, kicker, shooter);
+        addRequirements(pivot, kicker, shooter, indexer);
     }
 
     public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
         this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
-        addRequirements(pivot, kicker, shooter);
+        addRequirements(pivot, kicker, shooter, indexer);
     }
 
     @Override

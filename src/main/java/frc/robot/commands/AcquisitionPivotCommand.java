@@ -1,14 +1,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.PivotConstants.PivotSetpoint;
-import frc.robot.subsystems.Pivot;
+import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
+import frc.robot.subsystems.AcquisitionPivot;
 
-public class PivotCommand extends Command {
-    private final Pivot acquisition = Pivot.getInstance();
+public class AcquisitionPivotCommand extends Command {
+    private final AcquisitionPivot acquisition = AcquisitionPivot.getInstance();
     private final PivotSetpoint setpoint;
 
-    public PivotCommand(PivotSetpoint setpoint) {
+    public AcquisitionPivotCommand(PivotSetpoint setpoint) {
         this.setpoint = setpoint;
         addRequirements(acquisition);
     }
