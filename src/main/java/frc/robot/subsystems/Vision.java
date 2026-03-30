@@ -113,8 +113,8 @@ public class Vision extends SubsystemBase {
      *         used for estimation.
      */
     public Optional<EstimatedRobotPose> backCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(rightCam, rightCamPhotonEstimator, rightCurStdDevs,
-                rightStdDevSetter);
+        return estimateCameraPose(backCam, backCamPhotonEstimator, backCurStdDevs,
+                backStdDevSetter);
     }
 
     /**
@@ -188,6 +188,6 @@ public class Vision extends SubsystemBase {
      * This should only be used when there are targets visible.
      */
     public Matrix<N3, N1> getBackEstimationStdDevs() {
-        return rightCurStdDevs;
+        return backCurStdDevs;
     }
 }
