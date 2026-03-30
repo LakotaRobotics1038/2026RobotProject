@@ -188,8 +188,6 @@ classDiagram
   %% --- frc/robot/commands/ShootCommand.mmd ---
   class ShootCommand {
     - HOOD_SERVO_MOVE_TIME$ double
-    - ACQUISITION_LOWER_WIGGLE_TIME$ double
-    - ACQUISITION_RAISE_WIGGLE_TIME$ double
     - pivot AcquisitionPivot
     - indexer Indexer
     - kicker Kicker
@@ -198,8 +196,7 @@ classDiagram
     - dashboard Dashboard
     - swagLights SwagLights
     - timer Timer
-    - wiggleAcquisitionSupplier BooleanSupplier
-    - startingPivotDegrees double
+    - tiltAcquisitionSupplier BooleanSupplier
     + ShootCommand()
     + ShootCommand(BooleanSupplier)
     + initialize() void
@@ -212,8 +209,11 @@ classDiagram
   class AcquisitionConstants {
     <<final>>
     + MOTOR_CAN_ID$ int
-    + ACQUIRE_POWER$ double
-    + DISPOSE_POWER$ double
+    + P$ double
+    + I$ double
+    + D$ double
+    + ACQUIRE_RPM$ double
+    + DISPOSE_RPM$ double
   }
 
   %% --- frc/robot/constants/AcquisitionPivotConstants.mmd ---
@@ -231,8 +231,7 @@ classDiagram
     + MAX_TRENCH_ANGLE$ double
     + MIN_ANGLE$ double
     + MAX_ANGLE$ double
-    + MIN_WIGGLE$ double
-    + MAX_WIGGLE$ double
+    + TILT$ double
   }
 
   %% --- frc/robot/constants/AutoConstants.mmd ---
@@ -264,8 +263,7 @@ classDiagram
     + MANUAL_MODE_ENABLED$ String
     + MANUAL_SHOOTER_RPM$ String
     + MANUAL_SHOOTER_HOOD_ANGLE$ String
-    + ACQUISITION_MIN_WIGGLE$ String
-    + ACQUISITION_MAX_WIGGLE$ String
+    + ACQUISITION_TILT$ String
     + ENABLE_ACQUISITION_PIVOT$ String
     + shooterSlopeKey(double)$ String
     + shooterYInterceptKey(double)$ String
@@ -365,8 +363,6 @@ classDiagram
   class PivotSetpoint {
     <<enumeration>>
     RAISED
-    LOW_RAISE
-    HIGH_RAISE
     LOWERED
     - degrees double
     - PivotSetpoint(double)
@@ -677,8 +673,7 @@ classDiagram
     + nudgeManualShooterHoodAngleBackward() void
     + nudgeManualShooterHoodAngleForward() void
     + resetManualShooterHoodAngle() void
-    + getAcquisitionMinWiggle() double
-    + getAcquisitionMaxWiggle() double
+    + getAcquisitionTilt() double
   }
 
   %% --- frc/robot/subsystems/DashboardValue.mmd ---
@@ -691,8 +686,7 @@ classDiagram
     MANUAL_MODE_ENABLED
     MANUAL_SHOOTER_RPM
     MANUAL_SHOOTER_HOOD_ANGLE
-    ACQUISITION_MIN_WIGGLE
-    ACQUISITION_MAX_WIGGLE
+    ACQUISITION_TILT
     FIELD
     - supplier Supplier~Object~
     - transformer UnaryOperator~Object~
