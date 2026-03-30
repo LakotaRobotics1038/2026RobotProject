@@ -3,8 +3,6 @@ classDiagram
 
   class ShootCommand {
     - HOOD_SERVO_MOVE_TIME$ double
-    - ACQUISITION_LOWER_WIGGLE_TIME$ double
-    - ACQUISITION_RAISE_WIGGLE_TIME$ double
     - pivot AcquisitionPivot
     - indexer Indexer
     - kicker Kicker
@@ -13,8 +11,7 @@ classDiagram
     - dashboard Dashboard
     - swagLights SwagLights
     - timer Timer
-    - wiggleAcquisitionSupplier BooleanSupplier
-    - startingPivotDegrees double
+    - tiltAcquisitionSupplier BooleanSupplier
     + ShootCommand()
     + ShootCommand(BooleanSupplier)
     + initialize() void
