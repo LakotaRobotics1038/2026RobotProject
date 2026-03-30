@@ -862,22 +862,22 @@ classDiagram
 
   %% --- frc/robot/subsystems/Vision.mmd ---
   class Vision {
-    - frontCam PhotonCamera
+    - leftCamera PhotonCamera
     - backCam PhotonCamera
-    - frontCamPhotonEstimator PhotonPoseEstimator
+    - leftCamPhotonEstimator PhotonPoseEstimator
     - backCamPhotonEstimator PhotonPoseEstimator
-    - frontCurStdDevs Matrix~N3,N1~
+    - leftCurStdDevs Matrix~N3,N1~
     - backCurStdDevs Matrix~N3,N1~
-    - frontStdDevSetter Consumer
+    - leftStdDevSetter Consumer
     - backStdDevSetter Consumer
     - instance$ Vision
     - Vision()
     - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix,Consumer) Optional
     - updateEstimationStdDevs(PhotonPoseEstimator,Optional,List) Matrix
     + getInstance()$ Vision
-    + frontCamGetEstimatedGlobalPose() Optional
+    + leftCamGetEstimatedGlobalPose() Optional
     + backCamGetEstimatedGlobalPose() Optional
-    + getFrontEstimationStdDevs() Matrix
+    + getLeftEstimationStdDevs() Matrix
     + getBackEstimationStdDevs() Matrix
   }
 
