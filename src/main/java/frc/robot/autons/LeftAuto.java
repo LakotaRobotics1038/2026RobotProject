@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionPivotTrenchRetract;
@@ -25,6 +26,7 @@ public class LeftAuto extends Auton {
                         .raceWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(Mode.INTAKE))),
                 followPathCommand(Paths.getLeft2Path()),
+                new WaitCommand(2),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(Mode.INTAKE)),
