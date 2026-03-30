@@ -44,11 +44,11 @@ import frc.robot.constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
     private final PhotonCamera frontCam = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
-    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_RIGHT_CAM_NAME);
+    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
     private final PhotonPoseEstimator frontCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_LEFT_CAM);
     private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            VisionConstants.ROBOT_TO_RIGHT_CAM);
+            VisionConstants.ROBOT_TO_BACK_CAM);
     private Matrix<N3, N1> frontCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private final Consumer<Matrix<N3, N1>> frontStdDevSetter = stdDevs -> frontCurStdDevs = stdDevs;
@@ -68,7 +68,8 @@ public class Vision extends SubsystemBase {
         return instance;
     }
 
-    private Vision() {}
+    private Vision() {
+    }
 
     private Optional<EstimatedRobotPose> estimateCameraPose(
             PhotonCamera camera,
