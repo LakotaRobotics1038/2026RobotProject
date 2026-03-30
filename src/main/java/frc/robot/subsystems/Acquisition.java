@@ -51,6 +51,9 @@ public class Acquisition extends SubsystemBase {
         controller.setSetpoint(AcquisitionConstants.DISPOSE_SPEED, ControlType.kDutyCycle);
     }
 
+    /**
+     * Stops the acquisition.
+     */
     public void stop() {
         motor.stopMotor();
     }
