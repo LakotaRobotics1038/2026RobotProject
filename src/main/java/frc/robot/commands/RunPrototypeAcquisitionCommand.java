@@ -1,23 +1,23 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.PrototypeAcq;
+import frc.robot.subsystems.Acquisition;
 
 public class RunPrototypeAcquisitionCommand extends Command {
-    private final PrototypeAcq prototypeAcq = PrototypeAcq.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
     private final Mode mode;
 
     public RunPrototypeAcquisitionCommand(Mode mode) {
         this.mode = mode;
-        addRequirements(prototypeAcq);
+        addRequirements(acquisition);
     }
 
     @Override
     public void initialize() {
         if (mode == Mode.INTAKE) {
-            prototypeAcq.intake();
+            acquisition.intake();
         } else if (mode == Mode.DISPOSE) {
-            prototypeAcq.dispose();
+            acquisition.dispose();
         }
     }
 
@@ -29,7 +29,7 @@ public class RunPrototypeAcquisitionCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        prototypeAcq.stop();
+        acquisition.stop();
     }
 
     public enum Mode {

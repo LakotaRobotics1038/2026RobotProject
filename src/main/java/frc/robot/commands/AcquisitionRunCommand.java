@@ -17,7 +17,7 @@ public class AcquisitionRunCommand extends Command {
     @Override
     public void initialize() {
         if (mode == Mode.INTAKE) {
-            acquisition.acquire();
+            acquisition.intake();
         } else {
             acquisition.dispose();
         }
@@ -31,7 +31,7 @@ public class AcquisitionRunCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        acquisition.stopIntake();
+        acquisition.stop();
         kicker.stop();
     }
 

@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
-import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.PivotConstants;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
@@ -155,9 +155,9 @@ public class Dashboard extends SubsystemBase {
                         ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
                 ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE),
         ACQUISITION_MIN_WIGGLE(DashboardConstants.ACQUISITION_MIN_WIGGLE,
-                AcquisitionConstants.PIVOT_MIN_WIGGLE),
+                PivotConstants.MIN_WIGGLE),
         ACQUISITION_MAX_WIGGLE(DashboardConstants.ACQUISITION_MAX_WIGGLE,
-                AcquisitionConstants.PIVOT_MAX_WIGGLE),
+                PivotConstants.MAX_WIGGLE),
         FIELD(new Field2d(),
                 v -> ((Field2d) v).setRobotPose(
                         DriveTrain.getInstance().getState().Pose));

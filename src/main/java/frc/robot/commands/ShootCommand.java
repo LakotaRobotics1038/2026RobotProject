@@ -5,11 +5,12 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
+import frc.robot.constants.PivotConstants.PivotSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Pivot;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
@@ -20,7 +21,8 @@ public class ShootCommand extends Command {
     private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
     private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
-    private final Acquisition acquisition = Acquisition.getInstance();
+    private final Pivot pivot = Pivot.getInstance();
+    private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
@@ -32,19 +34,19 @@ public class ShootCommand extends Command {
 
     public ShootCommand() {
         this.wiggleAcquisitionSupplier = () -> false;
-        addRequirements(acquisition, kicker, shooter);
+        addRequirements(pivot, kicker, shooter);
     }
 
     public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
         this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
-        addRequirements(acquisition, kicker, shooter);
+        addRequirements(pivot, kicker, shooter);
     }
 
     @Override
     public void initialize() {
         timer.restart();
-        startingPivotDegrees = acquisition.getPivotPosition();
-        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        startingPivotDegrees = pivot.getPivotPosition();
+        pivot.setPivot(PivotSetpoint.LOWERED);
     }
 
     @Override
@@ -84,17 +86,18 @@ public class ShootCommand extends Command {
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             kicker.start();
-            acquisition.acquire();
+            indexer.start();
             if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
+                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME
+                        + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
+                    pivot.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
                 } else {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
+                    pivot.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
                 }
             }
         } else {
             kicker.stop();
-            acquisition.stopIntake();
+            indexer.stop();
         }
     }
 
@@ -108,9 +111,9 @@ public class ShootCommand extends Command {
         shooter.getFarShooter().stop();
         shooter.getNearShooter().stop();
         kicker.stop();
-        acquisition.stopIntake();
+        indexer.stop();
         timer.stop();
-        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        pivot.setPivot(PivotSetpoint.LOWERED);
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
             swagLights.setOperatorState(OperatorStates.Default);
         }

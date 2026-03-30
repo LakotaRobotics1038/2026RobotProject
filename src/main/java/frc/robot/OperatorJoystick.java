@@ -6,7 +6,7 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.RunPrototypeAcquisitionCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.PivotConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
@@ -43,8 +43,8 @@ public class OperatorJoystick extends XboxController1038 {
         this.rightBumper().whileTrue(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE))
                 .whileTrue(new RunPrototypeAcquisitionCommand(RunPrototypeAcquisitionCommand.Mode.INTAKE));
 
-        this.y().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.RAISED));
-        this.a().onTrue(new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED));
+        this.y().onTrue(new AcquisitionPivotCommand(PivotConstants.PivotSetpoint.RAISED));
+        this.a().onTrue(new AcquisitionPivotCommand(PivotConstants.PivotSetpoint.LOWERED));
         this.start().onTrue(new InstantCommand(() -> {
             dashboard.resetManualShooterRPM();
             dashboard.resetManualShooterHoodAngle();

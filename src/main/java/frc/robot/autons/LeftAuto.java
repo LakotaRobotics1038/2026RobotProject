@@ -12,13 +12,13 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AcquisitionRunCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
+import frc.robot.constants.PivotConstants.PivotSetpoint;
 
 public class LeftAuto extends Auton {
     public LeftAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(AcquisitionSetpoint.LOWERED),
+                new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
                 followPathCommand(Paths.getLeftStartPath())
                         .raceWith(new AcquisitionRunCommand(AcquisitionRunCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getMiddleAcquireToShootPath()),
