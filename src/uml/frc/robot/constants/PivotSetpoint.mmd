@@ -1,0 +1,13 @@
+classDiagram
+  direction LR
+
+  class PivotSetpoint {
+    <<enumeration>>
+    RAISED
+    LOW_RAISE
+    HIGH_RAISE
+    LOWERED
+    - degrees double
+    - PivotSetpoint(double)
+    + getDegrees() double
+  }

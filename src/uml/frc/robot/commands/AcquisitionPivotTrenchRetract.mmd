@@ -1,10 +1,9 @@
 classDiagram
   direction LR
 
-  class AcquisitionPivotCommand {
+  class AcquisitionPivotTrenchRetract {
     - pivot AcquisitionPivot
-    - setpoint PivotSetpoint
-    + AcquisitionPivotCommand(PivotSetpoint)
+    + AcquisitionPivotTrenchRetract()
     + initialize() void
     + isFinished() boolean
   }

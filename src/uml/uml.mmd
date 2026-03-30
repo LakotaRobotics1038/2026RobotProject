@@ -95,30 +95,29 @@ classDiagram
     + RightAutoShoot(Optional~Alliance~)
   }
 
-  %% --- frc/robot/commands/AcquisitionPivotCommand.mmd ---
-  class AcquisitionPivotCommand {
+  %% --- frc/robot/commands/AcquisitionCommand.mmd ---
+  class AcquisitionCommand {
     - acquisition Acquisition
-    - setpoint AcquisitionSetpoint
-    + AcquisitionPivotCommand(AcquisitionSetpoint)
-    + initialize() void
-    + isFinished() boolean
-  }
-
-  %% --- frc/robot/commands/AcquisitionRunCommand.mmd ---
-  class AcquisitionRunCommand {
-    - acquisition Acquisition
-    - kicker Kicker
     - mode Mode
-    + AcquisitionRunCommand(Mode)
+    + AcquisitionCommand(Mode)
     + initialize() void
     + isFinished() boolean
     + end(boolean) void
   }
 
-  %% --- frc/robot/commands/AcquisitionTrenchRetract.mmd ---
-  class AcquisitionTrenchRetract {
-    - acquisition Acquisition
-    + AcquisitionTrenchRetract()
+  %% --- frc/robot/commands/AcquisitionPivotCommand.mmd ---
+  class AcquisitionPivotCommand {
+    - pivot AcquisitionPivot
+    - setpoint PivotSetpoint
+    + AcquisitionPivotCommand(PivotSetpoint)
+    + initialize() void
+    + isFinished() boolean
+  }
+
+  %% --- frc/robot/commands/AcquisitionPivotTrenchRetract.mmd ---
+  class AcquisitionPivotTrenchRetract {
+    - pivot AcquisitionPivot
+    + AcquisitionPivotTrenchRetract()
     + initialize() void
     + isFinished() boolean
   }
@@ -160,6 +159,17 @@ classDiagram
     - updateAlignmentState(boolean) void
   }
 
+  %% --- frc/robot/commands/IndexerCommand.mmd ---
+  class IndexerCommand {
+    - indexer Indexer
+    - kicker Kicker
+    - mode Mode
+    + IndexerCommand(Mode)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }
+
   %% --- frc/robot/commands/Mode.mmd ---
   class Mode {
     <<enumeration>>
@@ -180,7 +190,8 @@ classDiagram
     - HOOD_SERVO_MOVE_TIME$ double
     - ACQUISITION_LOWER_WIGGLE_TIME$ double
     - ACQUISITION_RAISE_WIGGLE_TIME$ double
-    - acquisition Acquisition
+    - pivot AcquisitionPivot
+    - indexer Indexer
     - kicker Kicker
     - shooter Shooter
     - driveTrain DriveTrain
@@ -200,35 +211,28 @@ classDiagram
   %% --- frc/robot/constants/AcquisitionConstants.mmd ---
   class AcquisitionConstants {
     <<final>>
-    - AcquisitionConstants()
-    + PIVOT_MOTOR_CAN_ID$ int
-    + INTAKE_MOTOR_CAN_ID$ int
-    + PIVOT_P$ double
-    + PIVOT_I$ double
-    + PIVOT_D$ double
-    + PIVOT_ENCODER_CONVERSION_FACTOR$ double
-    + PIVOT_ALLOWED_ERROR_DEGREES$ double
-    + PIVOT_OPERATING_TOLERANCE$ double
-    + PIVOT_POWER$ double
-    + PIVOT_MAX_TRENCH_ANGLE_DEGREES$ double
-    + PIVOT_MIN_ANGLE$ double
-    + PIVOT_MAX_ANGLE$ double
-    + PIVOT_MIN_WIGGLE$ double
-    + PIVOT_MAX_WIGGLE$ double
-    + INTAKE_ACQUIRE_DUTY_CYCLE$ double
-    + INTAKE_DISPOSE_DUTY_CYCLE$ double
+    + MOTOR_CAN_ID$ int
+    + ACQUIRE_POWER$ double
+    + DISPOSE_POWER$ double
   }
 
-  %% --- frc/robot/constants/AcquisitionSetpoint.mmd ---
-  class AcquisitionSetpoint {
-    <<enumeration>>
-    RAISED
-    LOW_RAISE
-    HIGH_RAISE
-    LOWERED
-    - degrees double
-    - AcquisitionSetpoint(double)
-    + getDegrees() double
+  %% --- frc/robot/constants/AcquisitionPivotConstants.mmd ---
+  class AcquisitionPivotConstants {
+    <<final>>
+    + MOTOR_CAN_ID$ int
+    + P$ double
+    + I$ double
+    + D$ double
+    - GEAR_RATIO$ double
+    + ENCODER_CONVERSION_FACTOR$ double
+    + ALLOWED_ERROR_DEGREES$ double
+    + OPERATING_TOLERANCE$ double
+    + POWER$ double
+    + MAX_TRENCH_ANGLE$ double
+    + MIN_ANGLE$ double
+    + MAX_ANGLE$ double
+    + MIN_WIGGLE$ double
+    + MAX_WIGGLE$ double
   }
 
   %% --- frc/robot/constants/AutoConstants.mmd ---
@@ -315,6 +319,14 @@ classDiagram
     + targetPosition()$ Translation2d
   }
 
+  %% --- frc/robot/constants/IndexerConstants.mmd ---
+  class IndexerConstants {
+    <<final>>
+    + MOTOR_CAN_ID$ int
+    + ACQUIRE_DUTY_CYCLE$ double
+    + DISPOSE_DUTY_CYCLE$ double
+  }
+
   %% --- frc/robot/constants/IOConstants.mmd ---
   class IOConstants {
     <<final>>
@@ -347,6 +359,18 @@ classDiagram
     + MIN_POWER$ double
     + MAX_POWER$ double
     + BATTERY_VOLTAGE$ double
+  }
+
+  %% --- frc/robot/constants/PivotSetpoint.mmd ---
+  class PivotSetpoint {
+    <<enumeration>>
+    RAISED
+    LOW_RAISE
+    HIGH_RAISE
+    LOWERED
+    - degrees double
+    - PivotSetpoint(double)
+    + getDegrees() double
   }
 
   %% --- frc/robot/constants/ShooterConstants.mmd ---
@@ -607,24 +631,29 @@ classDiagram
 
   %% --- frc/robot/subsystems/Acquisition.mmd ---
   class Acquisition {
-    - pivotMotor SparkMax
-    - intakeMotor SparkMax
-    - intakeEncoder RelativeEncoder
-    - pivotEncoder AbsoluteEncoder
-    - pivotController SparkClosedLoopController
-    - intakeController SparkClosedLoopController
     - instance$ Acquisition
+    - motor SparkFlex
+    - controller SparkClosedLoopController
     - Acquisition()
     + getInstance()$ Acquisition
-    + setPivot(AcquisitionSetpoint) void
-    + setPivotDegrees(double) void
-    + acquire() void
+    + intake() void
     + dispose() void
-    + stopIntake() void
+    + stop() void
+  }
+
+  %% --- frc/robot/subsystems/AcquisitionPivot.mmd ---
+  class AcquisitionPivot {
+    - instance$ AcquisitionPivot
+    - motor SparkMax
+    - pivotEncoder AbsoluteEncoder
+    - pivotController SparkClosedLoopController
+    - AcquisitionPivot()
+    + getInstance()$ AcquisitionPivot
+    + setAngleSetpoint(PivotSetpoint) void
+    + setAngle(double) void
     + stopPivot() void
-    + pivotAtSetpoint() boolean
-    + getIntakeRPM() double
-    + getPivotPosition() double
+    + isAtSetpoint() boolean
+    + getPosition() double
   }
 
   %% --- frc/robot/subsystems/Dashboard.mmd ---
@@ -722,6 +751,18 @@ classDiagram
     - Hood(ChannelId,PulseRange,ServoHubConfig)
     + enable() void
     + setAngle(double) void
+  }
+
+  %% --- frc/robot/subsystems/Indexer.mmd ---
+  class Indexer {
+    - instance$ Indexer
+    - motor SparkMax
+    - controller SparkClosedLoopController
+    - Indexer()
+    + getInstance()$ Indexer
+    + start() void
+    + reverse() void
+    + stop() void
   }
 
   %% --- frc/robot/subsystems/Kicker.mmd ---
@@ -886,7 +927,9 @@ classDiagram
   ShooterFormula *-- ShooterConstants
   ShooterModuleConstants *-- ShooterConstants
   AutonChoices *-- AutonSelector
-  Mode *-- AcquisitionRunCommand
+  Mode *-- AcquisitionCommand
+  Mode *-- IndexerCommand
+  PivotSetpoint *-- AcquisitionPivotConstants
   RobotStates *-- SwagLights
   OperatorStates *-- SwagLights
 
@@ -901,9 +944,10 @@ classDiagram
   AlignCommand --|> Command
   AdjustHoodsCommand --|> Command
   RetractHoodsCommand --|> Command
-  AcquisitionRunCommand --|> Command
+  AcquisitionCommand --|> Command
   AcquisitionPivotCommand --|> Command
-  AcquisitionTrenchRetract --|> Command
+  AcquisitionPivotTrenchRetract --|> Command
+  IndexerCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector

@@ -9,7 +9,9 @@
   ShooterFormula *-- ShooterConstants
   ShooterModuleConstants *-- ShooterConstants
   AutonChoices *-- AutonSelector
-  Mode *-- AcquisitionRunCommand
+  Mode *-- AcquisitionCommand
+  Mode *-- IndexerCommand
+  PivotSetpoint *-- AcquisitionPivotConstants
   RobotStates *-- SwagLights
   OperatorStates *-- SwagLights
 
@@ -24,9 +26,10 @@
   AlignCommand --|> Command
   AdjustHoodsCommand --|> Command
   RetractHoodsCommand --|> Command
-  AcquisitionRunCommand --|> Command
+  AcquisitionCommand --|> Command
   AcquisitionPivotCommand --|> Command
-  AcquisitionTrenchRetract --|> Command
+  AcquisitionPivotTrenchRetract --|> Command
+  IndexerCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector

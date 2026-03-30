@@ -2,22 +2,12 @@ classDiagram
   direction LR
 
   class Acquisition {
-    - pivotMotor SparkMax
-    - intakeMotor SparkMax
-    - intakeEncoder RelativeEncoder
-    - pivotEncoder AbsoluteEncoder
-    - pivotController SparkClosedLoopController
-    - intakeController SparkClosedLoopController
     - instance$ Acquisition
+    - motor SparkFlex
+    - controller SparkClosedLoopController
     - Acquisition()
     + getInstance()$ Acquisition
-    + setPivot(AcquisitionSetpoint) void
-    + setPivotDegrees(double) void
-    + acquire() void
+    + intake() void
     + dispose() void
-    + stopIntake() void
-    + stopPivot() void
-    + pivotAtSetpoint() boolean
-    + getIntakeRPM() double
-    + getPivotPosition() double
+    + stop() void
   }
