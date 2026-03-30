@@ -24,7 +24,6 @@ public class AcquisitionCommand extends Command {
     @Override
     public boolean isFinished() {
         return false;
-
     }
 
     @Override

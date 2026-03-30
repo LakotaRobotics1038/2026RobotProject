@@ -22,9 +22,7 @@ public class Acquisition extends SubsystemBase {
     private Acquisition() {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
-                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                .pid(AcquisitionConstants.P, AcquisitionConstants.I,
-                        AcquisitionConstants.D);
+                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT);
         motor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
