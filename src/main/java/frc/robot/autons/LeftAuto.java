@@ -8,10 +8,12 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.AcquisitionCommand.Mode;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
 public class LeftAuto extends Auton {
@@ -20,7 +22,8 @@ public class LeftAuto extends Auton {
         super.addCommands(
                 new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
                 followPathCommand(Paths.getLeftStartPath())
-                        .raceWith(new IndexerCommand(IndexerCommand.Mode.INTAKE)),
+                        .raceWith(new AcquisitionCommand(Mode.INTAKE)
+                                .alongWith(new IndexerCommand(IndexerCommand.Mode.INTAKE))),
                 followPathCommand(Paths.getMiddleAcquireToShootPath()),
                 new AlignCommand(() -> 0, () -> 0, null),
                 new ShootCommand().withTimeout(5));
