@@ -80,7 +80,7 @@ public class AcquisitionPivot extends SubsystemBase {
     /**
      * Gets if the pivot motor is at the setpoint.
      */
-    public boolean pivotAtSetpoint() {
+    public boolean isAtSetpoint() {
         return MathUtil.isNear(pivotController.getSetpoint(), getPivotPosition(),
                 AcquisitionPivotConstants.OPERATING_TOLERANCE);
     }
@@ -88,7 +88,7 @@ public class AcquisitionPivot extends SubsystemBase {
     /**
      * Gets the position of the pivot encoder.
      */
-    public double getPivotPosition() {
+    public double getPosition() {
         return pivotEncoder.getPosition();
     }
 }
