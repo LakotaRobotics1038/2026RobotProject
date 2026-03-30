@@ -35,7 +35,7 @@ public class Acquisition extends SubsystemBase {
 
     /**
      * Runs the acquisition motor forward at the speed in
-     * {@link AcquisitionConstants.ACQUIRE_SPEED}.
+     * {@link AcquisitionConstants#ACQUIRE_SPEED}.
      */
     public void intake() {
         controller.setSetpoint(AcquisitionConstants.ACQUIRE_SPEED, ControlType.kDutyCycle);
@@ -43,7 +43,7 @@ public class Acquisition extends SubsystemBase {
 
     /**
      * Runs the acquisition motor in reverse at the speed in
-     * {@link AcquisitionConstants.DISPOSE_SPEED}.
+     * {@link AcquisitionConstants#DISPOSE_SPEED}.
      */
     public void dispose() {
         controller.setSetpoint(AcquisitionConstants.DISPOSE_SPEED, ControlType.kDutyCycle);
