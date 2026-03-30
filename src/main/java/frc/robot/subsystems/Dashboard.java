@@ -127,12 +127,8 @@ public class Dashboard extends SubsystemBase {
         DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
     }
 
-    public double getAcquisitionMinWiggle() {
-        return (double) DashboardValue.ACQUISITION_MIN_WIGGLE.get();
-    }
-
-    public double getAcquisitionMaxWiggle() {
-        return (double) DashboardValue.ACQUISITION_MAX_WIGGLE.get();
+    public double getAcquisitionTilt() {
+        return (double) DashboardValue.ACQUISITION_TILT.get();
     }
 
     public enum DashboardValue {
@@ -154,10 +150,8 @@ public class Dashboard extends SubsystemBase {
                         ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
                         ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
                 ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE),
-        ACQUISITION_MIN_WIGGLE(DashboardConstants.ACQUISITION_MIN_WIGGLE,
-                AcquisitionPivotConstants.MIN_WIGGLE),
-        ACQUISITION_MAX_WIGGLE(DashboardConstants.ACQUISITION_MAX_WIGGLE,
-                AcquisitionPivotConstants.MAX_WIGGLE),
+        ACQUISITION_TILT(DashboardConstants.ACQUISITION_TILT,
+                AcquisitionPivotConstants.TILT),
         FIELD(new Field2d(),
                 v -> ((Field2d) v).setRobotPose(
                         DriveTrain.getInstance().getState().Pose));

@@ -18,8 +18,6 @@ import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
-    private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
-    private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
     private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();
     private final Indexer indexer = Indexer.getInstance();
@@ -29,23 +27,21 @@ public class ShootCommand extends Command {
     private final Dashboard dashboard = Dashboard.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
-    private final BooleanSupplier wiggleAcquisitionSupplier;
-    private double startingPivotDegrees;
+    private final BooleanSupplier tiltAcquisitionSupplier;
 
     public ShootCommand() {
-        this.wiggleAcquisitionSupplier = () -> false;
+        this.tiltAcquisitionSupplier = () -> false;
         addRequirements(pivot, kicker, shooter, indexer);
     }
 
-    public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
-        this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
+    public ShootCommand(BooleanSupplier tiltAcquisitionSupplier) {
+        this.tiltAcquisitionSupplier = tiltAcquisitionSupplier;
         addRequirements(pivot, kicker, shooter, indexer);
     }
 
     @Override
     public void initialize() {
         timer.restart();
-        startingPivotDegrees = pivot.getPosition();
         pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
     }
 
@@ -87,13 +83,8 @@ public class ShootCommand extends Command {
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             kicker.start();
             indexer.start();
-            if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME
-                        + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    pivot.setAngle(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
-                } else {
-                    pivot.setAngle(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
-                }
+            if (tiltAcquisitionSupplier.getAsBoolean()) {
+                pivot.setAngle(dashboard.getAcquisitionTilt());
             }
         } else {
             kicker.stop();

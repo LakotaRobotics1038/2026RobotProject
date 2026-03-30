@@ -22,7 +22,8 @@ public class Acquisition extends SubsystemBase {
     private Acquisition() {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
-                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT);
+                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
+                .pid(AcquisitionConstants.P, AcquisitionConstants.I, AcquisitionConstants.D);
         motor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -35,18 +36,18 @@ public class Acquisition extends SubsystemBase {
 
     /**
      * Runs the acquisition motor forward at the speed in
-     * {@link AcquisitionConstants#ACQUIRE_POWER}.
+     * {@link AcquisitionConstants#ACQUIRE_RPM}.
      */
     public void intake() {
-        controller.setSetpoint(AcquisitionConstants.ACQUIRE_POWER, ControlType.kDutyCycle);
+        controller.setSetpoint(AcquisitionConstants.ACQUIRE_RPM, ControlType.kVelocity);
     }
 
     /**
      * Runs the acquisition motor in reverse at the speed in
-     * {@link AcquisitionConstants#DISPOSE_POWER}.
+     * {@link AcquisitionConstants#DISPOSE_RPM}.
      */
     public void dispose() {
-        controller.setSetpoint(AcquisitionConstants.DISPOSE_POWER, ControlType.kDutyCycle);
+        controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM, ControlType.kVelocity);
     }
 
     /**
