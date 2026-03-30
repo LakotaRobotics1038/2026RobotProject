@@ -1,0 +1,16 @@
+classDiagram
+  direction LR
+
+  class AcquisitionPivot {
+    - instance$ AcquisitionPivot
+    - motor SparkMax
+    - pivotEncoder AbsoluteEncoder
+    - pivotController SparkClosedLoopController
+    - AcquisitionPivot()
+    + getInstance()$ AcquisitionPivot
+    + setAngleSetpoint(PivotSetpoint) void
+    + setAngle(double) void
+    + stopPivot() void
+    + isAtSetpoint() boolean
+    + getPosition() double
+  }

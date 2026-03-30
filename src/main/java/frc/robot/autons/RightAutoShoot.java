@@ -6,7 +6,9 @@ import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.AcquisitionPivotConstants;
+import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
+
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class RightAutoShoot extends Auton {
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(AcquisitionConstants.AcquisitionSetpoint.LOWERED),
+                new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
                 followPathCommand(Paths.getRightShoot1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()

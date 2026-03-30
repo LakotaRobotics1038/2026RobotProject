@@ -43,16 +43,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
-    private final PhotonCamera leftCam = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
-    private final PhotonCamera rightCam = new PhotonCamera(VisionConstants.ROBOT_TO_RIGHT_CAM_NAME);
+    private final PhotonCamera leftCamera = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
+    private final PhotonCamera backCam = new PhotonCamera(VisionConstants.ROBOT_TO_BACK_CAM_NAME);
     private final PhotonPoseEstimator leftCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
             VisionConstants.ROBOT_TO_LEFT_CAM);
-    private final PhotonPoseEstimator rightCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
-            VisionConstants.ROBOT_TO_RIGHT_CAM);
+    private final PhotonPoseEstimator backCamPhotonEstimator = new PhotonPoseEstimator(VisionConstants.TAG_LAYOUT,
+            VisionConstants.ROBOT_TO_BACK_CAM);
     private Matrix<N3, N1> leftCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
-    private Matrix<N3, N1> rightCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
+    private Matrix<N3, N1> backCurStdDevs = VisionConstants.SINGLE_TAG_STD_DEVS;
     private final Consumer<Matrix<N3, N1>> leftStdDevSetter = stdDevs -> leftCurStdDevs = stdDevs;
-    private final Consumer<Matrix<N3, N1>> rightStdDevSetter = stdDevs -> rightCurStdDevs = stdDevs;
+    private final Consumer<Matrix<N3, N1>> backStdDevSetter = stdDevs -> backCurStdDevs = stdDevs;
 
     private static Vision instance;
 
@@ -98,8 +98,8 @@ public class Vision extends SubsystemBase {
      *         timestamp, and targets
      *         used for estimation.
      */
-    public Optional<EstimatedRobotPose> frontCamGetEstimatedGlobalPose() {
-        return estimateCameraPose(leftCam, leftCamPhotonEstimator, leftCurStdDevs,
+    public Optional<EstimatedRobotPose> leftCamGetEstimatedGlobalPose() {
+        return estimateCameraPose(leftCamera, leftCamPhotonEstimator, leftCurStdDevs,
                 leftStdDevSetter);
     }
 
@@ -173,11 +173,11 @@ public class Vision extends SubsystemBase {
 
     /**
      * Returns the latest standard deviations of the estimated pose from
-     * {@link #frontCamGetEstimatedGlobalPose}.
+     * {@link #leftCamGetEstimatedGlobalPose}.
      * For use with {@link edu.wpi.first.math.estimator.SwerveDrivePoseEstimator}.
      * This should only be used when there are targets visible.
      */
-    public Matrix<N3, N1> getFrontEstimationStdDevs() {
+    public Matrix<N3, N1> getLeftEstimationStdDevs() {
         return leftCurStdDevs;
     }
 
