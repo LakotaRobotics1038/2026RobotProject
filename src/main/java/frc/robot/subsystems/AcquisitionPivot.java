@@ -19,13 +19,11 @@ import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 import frc.robot.constants.NeoMotorConstants;
 
 public class AcquisitionPivot extends SubsystemBase {
+    private static AcquisitionPivot instance;
+
     private final SparkMax motor = new SparkMax(AcquisitionPivotConstants.MOTOR_CAN_ID, MotorType.kBrushless);
-
     private final AbsoluteEncoder pivotEncoder = motor.getAbsoluteEncoder();
-
     private final SparkClosedLoopController pivotController = motor.getClosedLoopController();
-
-    private static AcquisitionPivot instance = null;
 
     private AcquisitionPivot() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();

@@ -14,10 +14,10 @@ import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.AcquisitionConstants;
 
 public class Acquisition extends SubsystemBase {
-
-    private SparkFlex motor = new SparkFlex(AcquisitionConstants.MOTOR_CAN_ID, MotorType.kBrushless);
-    private SparkClosedLoopController controller = motor.getClosedLoopController();
     private static Acquisition instance;
+
+    private final SparkFlex motor = new SparkFlex(AcquisitionConstants.MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private Acquisition() {
         SparkFlexConfig baseConfig = new SparkFlexConfig();
