@@ -3,16 +3,13 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
-import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionPivotConstants;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
@@ -23,24 +20,23 @@ public class AcquisitionPivot extends SubsystemBase {
 
     private final SparkMax motor = new SparkMax(AcquisitionPivotConstants.MOTOR_CAN_ID, MotorType.kBrushless);
     private final AbsoluteEncoder pivotEncoder = motor.getAbsoluteEncoder();
-    private final SparkClosedLoopController pivotController = motor.getClosedLoopController();
+    private final PIDController pidController = new PIDController(AcquisitionPivotConstants.P,
+            AcquisitionPivotConstants.I,
+            AcquisitionPivotConstants.D);
+    private boolean enabled = false;
 
     private AcquisitionPivot() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT);
 
         SparkMaxConfig pivotConfig = new SparkMaxConfig();
-        pivotConfig.apply(baseConfig).inverted(true).idleMode(IdleMode.kBrake).closedLoop
-                .outputRange(-AcquisitionPivotConstants.POWER, AcquisitionPivotConstants.POWER)
-                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                .pid(AcquisitionPivotConstants.P, AcquisitionPivotConstants.I,
-                        AcquisitionPivotConstants.D)
-                .allowedClosedLoopError(AcquisitionPivotConstants.ALLOWED_ERROR_DEGREES,
-                        ClosedLoopSlot.kSlot0);
+        pivotConfig.apply(baseConfig).inverted(true).idleMode(IdleMode.kBrake);
         pivotConfig.absoluteEncoder.positionConversionFactor(AcquisitionPivotConstants.ENCODER_CONVERSION_FACTOR)
                 .inverted(true);
 
         motor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+        pidController.setTolerance(AcquisitionPivotConstants.ALLOWED_ERROR_DEGREES);
     }
 
     /**
@@ -63,9 +59,20 @@ public class AcquisitionPivot extends SubsystemBase {
     }
 
     public void setAngle(double degrees) {
-        pivotController.setSetpoint(
-                MathUtil.clamp(degrees, AcquisitionPivotConstants.MIN_ANGLE, AcquisitionPivotConstants.MAX_ANGLE),
-                ControlType.kPosition);
+        setEnabled(true);
+        pidController.setSetpoint(
+                MathUtil.clamp(degrees, AcquisitionPivotConstants.MIN_ANGLE, AcquisitionPivotConstants.MAX_ANGLE));
+    }
+
+    @Override
+    public void periodic() {
+        if (enabled) {
+            double output = MathUtil.clamp(pidController.calculate(getPosition()),
+                    -AcquisitionPivotConstants.POWER, AcquisitionPivotConstants.POWER);
+            motor.set(output);
+        } else {
+            stopPivot();
+        }
     }
 
     /**
@@ -79,8 +86,7 @@ public class AcquisitionPivot extends SubsystemBase {
      * Gets if the pivot motor is at the setpoint.
      */
     public boolean isAtSetpoint() {
-        return MathUtil.isNear(pivotController.getSetpoint(), getPosition(),
-                AcquisitionPivotConstants.OPERATING_TOLERANCE);
+        return pidController.atSetpoint();
     }
 
     /**
@@ -88,5 +94,9 @@ public class AcquisitionPivot extends SubsystemBase {
      */
     public double getPosition() {
         return pivotEncoder.getPosition();
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
