@@ -25,5 +25,5 @@ For the code:
 ```
 
 * Roll: Rotation around the X-axis. Positive roll rotates the camera counter-clockwise (tilting it to the left).
-* Pitch: Rotation around the Y-axi. Positive pitch rotates the camera counter-clockwise (tilting it downwards).
+* Pitch: Rotation around the Y-axis. Positive pitch rotates the camera counter-clockwise (tilting it downwards).
 * Yaw: Rotation around the Z-axis. Positive yaw rotates the camera counter-clockwise (turning it to the left).
