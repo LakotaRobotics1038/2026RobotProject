@@ -88,7 +88,8 @@ public final class FieldConstants {
 
     public static Translation2d targetPosition(Translation2d robotPosition) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        if (robotPosition.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH) {
+        if (alliance == Alliance.Blue ? robotPosition.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH
+                : robotPosition.getX() < flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH)) {
             Rectangle2d leftAllianceBoundingBox;
             Rectangle2d rightAllianceBoundingBox;
             if (alliance == Alliance.Blue) {
@@ -96,10 +97,10 @@ public final class FieldConstants {
                 rightAllianceBoundingBox = RIGHT_ALLIANCE;
             } else {
                 leftAllianceBoundingBox = LEFT_ALLIANCE.transformBy(
-                        new Transform2d(FlippingUtil.fieldSizeX - LEFT_ALLIANCE.getXWidth(), 0,
+                        new Transform2d(flipX(LEFT_ALLIANCE.getXWidth()), 0,
                                 Rotation2d.kZero));
                 rightAllianceBoundingBox = RIGHT_ALLIANCE.transformBy(
-                        new Transform2d(FlippingUtil.fieldSizeX - RIGHT_ALLIANCE.getXWidth(), 0,
+                        new Transform2d(flipX(RIGHT_ALLIANCE.getXWidth()), 0,
                                 Rotation2d.kZero));
             }
             Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPosition);
@@ -109,5 +110,13 @@ public final class FieldConstants {
         } else {
             return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
         }
+    }
+
+    public static double flipX(double x) {
+        return FlippingUtil.fieldSizeX - x;
+    }
+
+    public static final double flipY(double y) {
+        return FlippingUtil.fieldSizeY - y;
     }
 }
