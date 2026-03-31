@@ -49,6 +49,6 @@ public class OperatorJoystick extends XboxController1038 {
             dashboard.resetManualShooterHoodAngle();
         }));
 
-        this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
+        this.rightTrigger().whileTrue(new ShootCommand((timer) -> this.b().getAsBoolean()));
     }
 }
