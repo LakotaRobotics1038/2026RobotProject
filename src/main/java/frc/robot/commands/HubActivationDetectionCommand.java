@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.DoubleConsumer;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -34,6 +35,7 @@ public class HubActivationDetectionCommand extends Command {
             boolean enabledSoon = isHubEnabledAt(matchTime - SECONDS_BEFORE_HUB_ACTIVATION);
             boolean wasEnablingSoon = hubEnablingSoon;
             hubEnablingSoon = !currentlyEnabled && enabledSoon;
+
             if (hubEnablingSoon) {
                 double elapsed = 130 - matchTime;
                 double timeToActivation = elapsed % 25;
@@ -52,7 +54,9 @@ public class HubActivationDetectionCommand extends Command {
 
     private boolean isHubEnabledAt(double matchTime) {
         if (matchTime < 130 && matchTime > 30) {
-            boolean toggleHubEnabled = (int) (130 - matchTime) / 25 % 2 == 0;
+            int elapsedInt = (int) (130 - matchTime);
+            int interval = (elapsedInt / 25) % 2; // 0 for even intervals, 1 for odd
+            boolean toggleHubEnabled = (interval == 0);
             return toggleHubEnabled == enabledFirst;
         }
         return true;
