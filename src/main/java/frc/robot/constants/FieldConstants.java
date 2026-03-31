@@ -26,14 +26,13 @@ public final class FieldConstants {
     private static final double BUMP_DEPTH = Units.inchesToMeters(44.4);
     private static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
 
-    private static final double LEFT_TRENCH_Y_OFFSET = FlippingUtil.fieldSizeY - TRENCH_WIDTH;
+    private static final double LEFT_TRENCH_Y_OFFSET = flipY(TRENCH_WIDTH);
     private static final double RIGHT_TRENCH_Y_OFFSET = 0;
 
     private static final double LEFT_BUMP_Y_OFFSET = LEFT_TRENCH_Y_OFFSET - BUMP_WIDTH;
     private static final double RIGHT_BUMP_Y_OFFSET = TRENCH_WIDTH;
 
-    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
-            - BUMP_DEPTH;
+    private static final double RED_SIDE_DISTANCE = flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + BUMP_DEPTH);
 
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
@@ -78,13 +77,19 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    private static final Rectangle2d LEFT_ALLIANCE = new Rectangle2d(
+    private static final Rectangle2d BLUE_LEFT_ALLIANCE = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, HUB_LEFT_Y));
 
-    private static final Rectangle2d RIGHT_ALLIANCE = new Rectangle2d(
+    private static final Rectangle2d BLUE_RIGHT_ALLIANCE = new Rectangle2d(
             new Translation2d(0, HUB_RIGHT_Y),
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, FlippingUtil.fieldSizeY));
+    private static final Rectangle2d RED_LEFT_ALLIANCE = BLUE_LEFT_ALLIANCE.transformBy(new Transform2d(
+            new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
+            Rotation2d.kZero));
+    private static final Rectangle2d RED_RIGHT_ALLIANCE = BLUE_RIGHT_ALLIANCE.transformBy(new Transform2d(
+            new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
+            Rotation2d.kZero));
 
     public static Translation2d targetPosition(Translation2d robotPosition) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
@@ -93,15 +98,11 @@ public final class FieldConstants {
             Rectangle2d leftAllianceBoundingBox;
             Rectangle2d rightAllianceBoundingBox;
             if (alliance == Alliance.Blue) {
-                leftAllianceBoundingBox = LEFT_ALLIANCE;
-                rightAllianceBoundingBox = RIGHT_ALLIANCE;
+                leftAllianceBoundingBox = BLUE_LEFT_ALLIANCE;
+                rightAllianceBoundingBox = BLUE_RIGHT_ALLIANCE;
             } else {
-                leftAllianceBoundingBox = LEFT_ALLIANCE.transformBy(
-                        new Transform2d(flipX(LEFT_ALLIANCE.getXWidth()), 0,
-                                Rotation2d.kZero));
-                rightAllianceBoundingBox = RIGHT_ALLIANCE.transformBy(
-                        new Transform2d(flipX(RIGHT_ALLIANCE.getXWidth()), 0,
-                                Rotation2d.kZero));
+                leftAllianceBoundingBox = RED_LEFT_ALLIANCE;
+                rightAllianceBoundingBox = RED_RIGHT_ALLIANCE;
             }
             Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPosition);
             Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPosition);
