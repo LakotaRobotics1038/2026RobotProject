@@ -36,8 +36,8 @@ public class HubActivationDetectionCommand extends Command {
             hubEnablingSoon = !currentlyEnabled && enabledSoon;
             if (hubEnablingSoon) {
                 double elapsed = 130 - matchTime;
-                double timeToActivation = 25 - (elapsed % 25);
-                double rumblePower = 1.0 - (timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION);
+                double timeToActivation = elapsed % 25;
+                double rumblePower = timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION;
                 hubActivationFeedback.accept(rumblePower);
             } else if (wasEnablingSoon) {
                 hubActivationFeedback.accept(0);
