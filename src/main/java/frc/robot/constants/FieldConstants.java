@@ -17,6 +17,8 @@ public final class FieldConstants {
     private static final double HUB_LENGTH = Units.inchesToMeters(47);
     private static final double HUB_CENTER_X = HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH / 2;
     private static final double HUB_CENTER_Y = FlippingUtil.fieldSizeY / 2;
+    private static final double HUB_LEFT_Y = HUB_CENTER_Y - HUB_LENGTH / 2;
+    private static final double HUB_RIGHT_Y = HUB_CENTER_Y + HUB_LENGTH / 2;
 
     public static final Translation2d HUB_POSITION = new Translation2d(HUB_CENTER_X, HUB_CENTER_Y);
 
@@ -24,14 +26,13 @@ public final class FieldConstants {
     private static final double BUMP_DEPTH = Units.inchesToMeters(44.4);
     public static final double TRENCH_WIDTH = Units.inchesToMeters(65.65);
 
-    private static final double LEFT_TRENCH_Y_OFFSET = FlippingUtil.fieldSizeY - TRENCH_WIDTH;
+    private static final double LEFT_TRENCH_Y_OFFSET = flipY(TRENCH_WIDTH);
     private static final double RIGHT_TRENCH_Y_OFFSET = 0;
 
     private static final double LEFT_BUMP_Y_OFFSET = LEFT_TRENCH_Y_OFFSET - BUMP_WIDTH;
     private static final double RIGHT_BUMP_Y_OFFSET = TRENCH_WIDTH;
 
-    private static final double RED_SIDE_DISTANCE = FlippingUtil.fieldSizeX - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION
-            - BUMP_DEPTH;
+    private static final double RED_SIDE_DISTANCE = flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + BUMP_DEPTH);
 
     private static final Rectangle2d BUMP = new Rectangle2d(
             new Translation2d(0, 0),
@@ -76,8 +77,47 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    public static Translation2d targetPosition() {
+    private static final Rectangle2d BLUE_LEFT_OBSTACLES = new Rectangle2d(
+            new Translation2d(0, 0),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, HUB_LEFT_Y));
+
+    private static final Rectangle2d BLUE_RIGHT_OBSTACLES = new Rectangle2d(
+            new Translation2d(0, HUB_RIGHT_Y),
+            new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, FlippingUtil.fieldSizeY));
+    private static final Rectangle2d RED_LEFT_ALLIANCE = BLUE_LEFT_OBSTACLES.transformBy(new Transform2d(
+            new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
+            Rotation2d.kZero));
+    private static final Rectangle2d RED_RIGHT_OBSTACLES = BLUE_RIGHT_OBSTACLES.transformBy(new Transform2d(
+            new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
+            Rotation2d.kZero));
+
+    public static Translation2d targetPosition(Translation2d robotPosition) {
         Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
-        return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+        if (alliance == Alliance.Blue ? robotPosition.getX() > HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH
+                : robotPosition.getX() < flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION + HUB_LENGTH)) {
+            Rectangle2d leftAllianceBoundingBox;
+            Rectangle2d rightAllianceBoundingBox;
+            if (alliance == Alliance.Blue) {
+                leftAllianceBoundingBox = BLUE_LEFT_OBSTACLES;
+                rightAllianceBoundingBox = BLUE_RIGHT_OBSTACLES;
+            } else {
+                leftAllianceBoundingBox = RED_LEFT_ALLIANCE;
+                rightAllianceBoundingBox = RED_RIGHT_OBSTACLES;
+            }
+            Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPosition);
+            Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPosition);
+
+            return leftNear.getDistance(robotPosition) <= rightNear.getDistance(robotPosition) ? leftNear : rightNear;
+        } else {
+            return alliance == Alliance.Blue ? HUB_POSITION : FlippingUtil.flipFieldPosition(HUB_POSITION);
+        }
+    }
+
+    public static double flipX(double x) {
+        return FlippingUtil.fieldSizeX - x;
+    }
+
+    public static double flipY(double y) {
+        return FlippingUtil.fieldSizeY - y;
     }
 }
