@@ -61,6 +61,6 @@ public class OperatorJoystick extends XboxController1038 {
                     ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
         }));
 
-        this.rightTrigger().whileTrue(new ShootCommand((timer) -> this.b().getAsBoolean()));
+        this.rightTrigger().whileTrue(new ShootCommand(timer -> this.b().getAsBoolean()));
     }
 }

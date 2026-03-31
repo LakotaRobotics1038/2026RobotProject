@@ -41,7 +41,7 @@ public class Acquisition extends SubsystemBase {
     public void intake() {
         // controller.setSetpoint(AcquisitionConstants.ACQUIRE_RPM,
         // ControlType.kVelocity);
-        controller.setSetpoint(0.75, ControlType.kDutyCycle);
+        controller.setSetpoint(1.0, ControlType.kDutyCycle);
     }
 
     /**

@@ -87,6 +87,8 @@ public class ShootCommand extends Command {
             acquisition.intake();
             if (tiltAcquisitionSupplier.apply(timer)) {
                 pivot.setAngle(Dashboard.ACQUISITION_TILT.get());
+            } else {
+                pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
             }
         } else {
             kicker.stop();
