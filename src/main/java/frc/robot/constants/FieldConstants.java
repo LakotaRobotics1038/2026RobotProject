@@ -117,7 +117,7 @@ public final class FieldConstants {
         return FlippingUtil.fieldSizeX - x;
     }
 
-    public static final double flipY(double y) {
+    public static double flipY(double y) {
         return FlippingUtil.fieldSizeY - y;
     }
 }
