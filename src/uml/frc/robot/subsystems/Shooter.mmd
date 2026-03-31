@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class Shooter {
+    - instance$ Shooter
+    - nearShooter ShooterModule
+    - farShooter ShooterModule
+    - Shooter()
+    + getInstance()$ Shooter
+    + getNearShooter() ShooterModule
+    + getFarShooter() ShooterModule
+  }

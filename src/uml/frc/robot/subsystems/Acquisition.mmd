@@ -1,0 +1,13 @@
+classDiagram
+  direction LR
+
+  class Acquisition {
+    - instance$ Acquisition
+    - motor SparkFlex
+    - controller SparkClosedLoopController
+    - Acquisition()
+    + getInstance()$ Acquisition
+    + intake() void
+    + dispose() void
+    + stop() void
+  }

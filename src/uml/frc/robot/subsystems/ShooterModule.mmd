@@ -1,0 +1,19 @@
+classDiagram
+  direction LR
+
+  class ShooterModule {
+    <<inner static>>
+    - leftMotor SparkFlex
+    - rightMotor SparkFlex
+    - controller SparkClosedLoopController
+    - encoder RelativeEncoder
+    - translation Translation2d
+    - ShooterModule(ShooterModuleConstants)
+    + start(double rpm) void
+    + stop() void
+    + getRPM() double
+    + getTargetRPM() double
+    + isAtTargetRPM() boolean
+    + getTargetDistance(Pose2d) double
+    + getTargetAngle(Pose2d) double
+  }

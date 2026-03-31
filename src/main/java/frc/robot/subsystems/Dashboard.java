@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.autons.AutonSelector.AutonChoice;
-import frc.robot.constants.AcquisitionConstants;
+import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.constants.AcquisitionPivotConstants;
 import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
@@ -127,12 +127,8 @@ public class Dashboard extends SubsystemBase {
         DashboardValue.MANUAL_SHOOTER_HOOD_ANGLE.set(ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
     }
 
-    public double getAcquisitionMinWiggle() {
-        return (double) DashboardValue.ACQUISITION_MIN_WIGGLE.get();
-    }
-
-    public double getAcquisitionMaxWiggle() {
-        return (double) DashboardValue.ACQUISITION_MAX_WIGGLE.get();
+    public double getAcquisitionTilt() {
+        return (double) DashboardValue.ACQUISITION_TILT.get();
     }
 
     public enum DashboardValue {
@@ -154,10 +150,8 @@ public class Dashboard extends SubsystemBase {
                         ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
                         ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
                 ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE),
-        ACQUISITION_MIN_WIGGLE(DashboardConstants.ACQUISITION_MIN_WIGGLE,
-                AcquisitionConstants.PIVOT_MIN_WIGGLE),
-        ACQUISITION_MAX_WIGGLE(DashboardConstants.ACQUISITION_MAX_WIGGLE,
-                AcquisitionConstants.PIVOT_MAX_WIGGLE),
+        ACQUISITION_TILT(DashboardConstants.ACQUISITION_TILT,
+                AcquisitionPivotConstants.TILT),
         FIELD(new Field2d(),
                 v -> ((Field2d) v).setRobotPose(
                         DriveTrain.getInstance().getState().Pose));

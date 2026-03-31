@@ -1,0 +1,10 @@
+classDiagram
+  direction LR
+
+  class AcquisitionPivotCommand {
+    - pivot AcquisitionPivot
+    - setpoint PivotSetpoint
+    + AcquisitionPivotCommand(PivotSetpoint)
+    + initialize() void
+    + isFinished() boolean
+  }

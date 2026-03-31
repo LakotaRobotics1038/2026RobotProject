@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class IndexerCommand {
+    - indexer Indexer
+    - kicker Kicker
+    - mode Mode
+    + IndexerCommand(Mode)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }

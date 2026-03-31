@@ -1,0 +1,22 @@
+classDiagram
+  direction LR
+
+  class Vision {
+    - leftCamera PhotonCamera
+    - backCam PhotonCamera
+    - leftCamPhotonEstimator PhotonPoseEstimator
+    - backCamPhotonEstimator PhotonPoseEstimator
+    - leftCurStdDevs Matrix~N3,N1~
+    - backCurStdDevs Matrix~N3,N1~
+    - leftStdDevSetter Consumer
+    - backStdDevSetter Consumer
+    - instance$ Vision
+    - Vision()
+    - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix,Consumer) Optional
+    - updateEstimationStdDevs(PhotonPoseEstimator,Optional,List) Matrix
+    + getInstance()$ Vision
+    + leftCamGetEstimatedGlobalPose() Optional
+    + backCamGetEstimatedGlobalPose() Optional
+    + getLeftEstimationStdDevs() Matrix
+    + getBackEstimationStdDevs() Matrix
+  }

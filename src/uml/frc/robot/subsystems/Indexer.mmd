@@ -1,0 +1,13 @@
+classDiagram
+  direction LR
+
+  class Indexer {
+    - instance$ Indexer
+    - motor SparkMax
+    - controller SparkClosedLoopController
+    - Indexer()
+    + getInstance()$ Indexer
+    + start() void
+    + reverse() void
+    + stop() void
+  }

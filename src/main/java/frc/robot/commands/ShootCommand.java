@@ -5,11 +5,12 @@ import java.util.function.BooleanSupplier;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.AcquisitionConstants.AcquisitionSetpoint;
+import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.AcquisitionPivot;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
@@ -17,34 +18,31 @@ import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
-    private static final double ACQUISITION_LOWER_WIGGLE_TIME = 0.75;
-    private static final double ACQUISITION_RAISE_WIGGLE_TIME = 0.75;
 
-    private final Acquisition acquisition = Acquisition.getInstance();
+    private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();
+    private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Dashboard dashboard = Dashboard.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
-    private final BooleanSupplier wiggleAcquisitionSupplier;
-    private double startingPivotDegrees;
+    private final BooleanSupplier tiltAcquisitionSupplier;
 
     public ShootCommand() {
-        this.wiggleAcquisitionSupplier = () -> false;
-        addRequirements(acquisition, kicker, shooter);
+        this.tiltAcquisitionSupplier = () -> false;
+        addRequirements(pivot, kicker, shooter, indexer);
     }
 
-    public ShootCommand(BooleanSupplier wiggleAcquisitionSupplier) {
-        this.wiggleAcquisitionSupplier = wiggleAcquisitionSupplier;
-        addRequirements(acquisition, kicker, shooter);
+    public ShootCommand(BooleanSupplier tiltAcquisitionSupplier) {
+        this.tiltAcquisitionSupplier = tiltAcquisitionSupplier;
+        addRequirements(pivot, kicker, shooter, indexer);
     }
 
     @Override
     public void initialize() {
         timer.restart();
-        startingPivotDegrees = acquisition.getPivotPosition();
-        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
     }
 
     @Override
@@ -84,17 +82,13 @@ public class ShootCommand extends Command {
 
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             kicker.start();
-            acquisition.acquire();
-            if (wiggleAcquisitionSupplier.getAsBoolean()) {
-                if (timer.get() % (ACQUISITION_LOWER_WIGGLE_TIME + ACQUISITION_RAISE_WIGGLE_TIME) <= ACQUISITION_LOWER_WIGGLE_TIME) {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMinWiggle());
-                } else {
-                    acquisition.setPivotDegrees(startingPivotDegrees + dashboard.getAcquisitionMaxWiggle());
-                }
+            indexer.start();
+            if (tiltAcquisitionSupplier.getAsBoolean()) {
+                pivot.setAngle(dashboard.getAcquisitionTilt());
             }
         } else {
             kicker.stop();
-            acquisition.stopIntake();
+            indexer.stop();
         }
     }
 
@@ -108,9 +102,9 @@ public class ShootCommand extends Command {
         shooter.getFarShooter().stop();
         shooter.getNearShooter().stop();
         kicker.stop();
-        acquisition.stopIntake();
+        indexer.stop();
         timer.stop();
-        acquisition.setPivot(AcquisitionSetpoint.LOWERED);
+        pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
             swagLights.setOperatorState(OperatorStates.Default);
         }

@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class AdjustHoodsCommand {
+    - shooterHoods ShooterHoods
+    - shooter Shooter
+    - driveTrain DriveTrain
+    - dashboard Dashboard
+    + AdjustHoodsCommand()
+    + execute() void
+    + isFinished() boolean
+  }
