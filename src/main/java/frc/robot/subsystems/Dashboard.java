@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.AcquisitionPivotConstants;
-import frc.robot.constants.DashboardConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
 import frc.robot.utils.dashboard.DashboardValue;
@@ -52,12 +51,9 @@ public class Dashboard extends SubsystemBase {
                     ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
                     ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
             ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
-    public static final DashboardValue<Double> ACQUISITION_MIN_WIGGLE = new DashboardValue<>(
-            "Acquisition Min Wiggle",
-            AcquisitionConstants.PIVOT_MIN_WIGGLE);
-    public static final DashboardValue<Double> ACQUISITION_MAX_WIGGLE = new DashboardValue<>(
-            "Acquisition Max Wiggle",
-            AcquisitionConstants.PIVOT_MAX_WIGGLE);
+    public static final DashboardValue<Double> ACQUISITION_TILT = new DashboardValue<>(
+            "Acquisition Tilt",
+            AcquisitionPivotConstants.TILT);
     public static final SendableDashboardValue<Field2d> FIELD = new SendableDashboardValue<>(
             "Field",
             v -> v.setRobotPose(

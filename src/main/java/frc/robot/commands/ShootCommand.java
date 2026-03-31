@@ -83,7 +83,7 @@ public class ShootCommand extends Command {
             kicker.start();
             indexer.start();
             if (tiltAcquisitionSupplier.getAsBoolean()) {
-                pivot.setAngle(dashboard.getAcquisitionTilt());
+                pivot.setAngle(Dashboard.ACQUISITION_TILT.get());
             }
         } else {
             kicker.stop();
