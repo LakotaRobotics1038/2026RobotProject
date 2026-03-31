@@ -2,14 +2,14 @@ classDiagram
   direction LR
 
   class Dashboard {
-    - autoChooser SendableChooser~AutonChoices~
+    - autoChooser SendableChooser~AutonChoice~
     - delayChooser SendableChooser~Double~
     - instance$ Dashboard
     - Dashboard()
     + getInstance()$ Dashboard
     + periodic() void
     + clearTrajectory() void
-    + getAutoChooser() SendableChooser~AutonChoices~
+    + getAutoChooser() SendableChooser~AutonChoice~
     + getDelayChooser() SendableChooser~Double~
     + setHubAligned(boolean) void
     + isManualModeEnabled() boolean

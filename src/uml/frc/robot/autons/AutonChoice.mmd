@@ -1,0 +1,17 @@
+classDiagram
+  direction LR
+
+  class AutonChoice {
+    <<enumeration>>
+    NO_AUTO
+    LEFT_AUTO
+    LEFT_AUTO_SHOOT
+    MIDDLE_AUTO_SHOOT
+    RIGHT_AUTO_SHOOT
+    LEFT_AUTO_DEPOT_SHOOT
+    - name String
+    - factory AutonFactory
+    - AutonChoice(String,AutonFactory)
+    + getName() String
+    + getAuton(Optional~Alliance~) Auton
+  }
