@@ -22,16 +22,14 @@ public class MiddleAuto extends Auton {
         super.addCommands(
                 new AcquisitionPivotTrenchRetract(),
                 followPathCommand(Paths.getMiddle1Path()),
-                followPathCommand(Paths.getMiddle2Path()).alongWith(
+                followPathCommand(Paths.getMiddle2Path()).raceWith(
                         new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))),
-                new AcquisitionCommand(AcquisitionCommand.Mode.STOP),
                 followPathCommand(Paths.getMiddle3Path()),
                 new WaitCommand(2),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getMiddle4Path())
-                        .alongWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
-                new AcquisitionCommand(AcquisitionCommand.Mode.STOP),
+                        .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getMiddle5Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
     }

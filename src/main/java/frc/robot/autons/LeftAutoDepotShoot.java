@@ -22,10 +22,9 @@ public class LeftAutoDepotShoot extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getDepotLeft1Path())
-                        .alongWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
+                        .raceWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)
                                         .alongWith(new IndexerCommand(Mode.INTAKE)))),
-                new AcquisitionCommand(AcquisitionCommand.Mode.STOP),
                 followPathCommand(Paths.getDepotLeft2Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()

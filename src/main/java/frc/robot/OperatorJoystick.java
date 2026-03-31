@@ -38,11 +38,9 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
         this.leftBumper()
-                .onTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE))
-                .onFalse(new AcquisitionCommand(AcquisitionCommand.Mode.STOP));
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE));
         this.rightBumper()
-                .onTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))
-                .onFalse(new AcquisitionCommand(AcquisitionCommand.Mode.STOP));
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.LOWERED));
