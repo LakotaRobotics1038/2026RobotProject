@@ -24,7 +24,6 @@ public class ShootCommand extends Command {
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final Timer timer = new Timer();
     private final BooleanSupplier tiltAcquisitionSupplier;
@@ -49,8 +48,8 @@ public class ShootCommand extends Command {
     public void execute() {
         boolean validPosition = false;
 
-        if (dashboard.isManualModeEnabled()) {
-            double targetRPM = dashboard.getManualShooterRPM();
+        if (Dashboard.MANUAL_MODE_ENABLED.get()) {
+            double targetRPM = Dashboard.MANUAL_SHOOTER_RPM.get();
 
             shooter.getNearShooter().start(targetRPM *
                     ShooterConstants.NEAR_SHOOTER_PERCENTAGE);
@@ -84,7 +83,7 @@ public class ShootCommand extends Command {
             kicker.start();
             indexer.start();
             if (tiltAcquisitionSupplier.getAsBoolean()) {
-                pivot.setAngle(dashboard.getAcquisitionTilt());
+                pivot.setAngle(Dashboard.ACQUISITION_TILT.get());
             }
         } else {
             kicker.stop();

@@ -127,7 +127,6 @@ classDiagram
     - shooterHoods ShooterHoods
     - shooter Shooter
     - driveTrain DriveTrain
-    - dashboard Dashboard
     + AdjustHoodsCommand()
     + execute() void
     + isFinished() boolean
@@ -137,7 +136,6 @@ classDiagram
   class AlignCommand {
     + HUB_ALIGNMENT_RUMBLE_INTENSITY$ double
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - shooter Shooter
     - swagLights SwagLights
     - forwardSpeedSupplier DoubleSupplier
@@ -205,7 +203,6 @@ classDiagram
     - kicker Kicker
     - shooter Shooter
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - swagLights SwagLights
     - timer Timer
     - tiltAcquisitionSupplier BooleanSupplier
@@ -261,24 +258,6 @@ classDiagram
     + D_THETA_CONTROLLER$ double
     + THETA_CONTROLLER_CONSTRAINTS$ TrapezoidProfile.Constraints
     + ROBOT_CONFIG$ Optional~RobotConfig~
-  }
-
-  %% --- frc/robot/constants/DashboardConstants.mmd ---
-  class DashboardConstants {
-    <<final>>
-    + AUTON_CHOICES$ String
-    + DELAY_CHOICES$ String
-    + ROBOT_X$ String
-    + ROBOT_Y$ String
-    + ROBOT_ROT$ String
-    + HUB_ALIGNED$ String
-    + MANUAL_MODE_ENABLED$ String
-    + MANUAL_SHOOTER_RPM$ String
-    + MANUAL_SHOOTER_HOOD_ANGLE$ String
-    + ACQUISITION_TILT$ String
-    + ENABLE_ACQUISITION_PIVOT$ String
-    + shooterSlopeKey(double)$ String
-    + shooterYInterceptKey(double)$ String
   }
 
   %% --- frc/robot/constants/DriveConstants.mmd ---
@@ -410,8 +389,8 @@ classDiagram
   %% --- frc/robot/constants/ShooterFormula.mmd ---
   class ShooterFormula {
     <<static inner>>
-    - slope double
-    - yIntercept double
+    - slope DashboardValue~Double~
+    - yIntercept DashboardValue~Double~
     - min double
     - max double
     - angle double
@@ -556,7 +535,6 @@ classDiagram
   %% --- frc/robot/DriverJoystick.mmd ---
   class DriverJoystick {
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - shooterHoods ShooterHoods
     - maxPower double
     - prevSideways double
@@ -612,7 +590,6 @@ classDiagram
   %% --- frc/robot/OperatorJoystick.mmd ---
   class OperatorJoystick {
     + instance$ OperatorJoystick
-    - dashboard Dashboard
     - OperatorJoystick()
     + getInstance()$ OperatorJoystick
   }
@@ -671,52 +648,22 @@ classDiagram
 
   %% --- frc/robot/subsystems/Dashboard.mmd ---
   class Dashboard {
-    - autoChooser SendableChooser~AutonChoices~
-    - delayChooser SendableChooser~Double~
     - instance$ Dashboard
+    + ROBOT_X$ SuppliedDashboardValue~Double~
+    + ROBOT_Y$ SuppliedDashboardValue~Double~
+    + ROBOT_ROT$ SuppliedDashboardValue~Double~
+    + HUB_ALIGNED$ DashboardValue~Boolean~
+    + MANUAL_MODE_ENABLED$ DashboardValue~Boolean~
+    + MANUAL_SHOOTER_RPM$ EntryDashboardValue~Double~
+    + MANUAL_SHOOTER_HOOD_ANGLE$ EntryDashboardValue~Double~
+    + ACQUISITION_TILT$ DashboardValue~Double~
+    + FIELD$ SendableDashboardValue~Field2d~
+    + AUTO_CHOOSER$ DashboardValue~SendableChooser~
+    + DELAY_CHOOSER$ DashboardValue~SendableChooser~
     - Dashboard()
     + getInstance()$ Dashboard
     + periodic() void
-    + clearTrajectory() void
-    + getAutoChooser() SendableChooser~AutonChoices~
-    + getDelayChooser() SendableChooser~Double~
-    + setHubAligned(boolean) void
-    + isManualModeEnabled() boolean
-    + getManualShooterRPM() double
-    + getManualShooterHoodAngle() double
-    + nudgeManualShooterRPMBackward() void
-    + nudgeManualShooterRPMForward() void
-    + resetManualShooterRPM() void
-    + nudgeManualShooterHoodAngleBackward() void
-    + nudgeManualShooterHoodAngleForward() void
-    + resetManualShooterHoodAngle() void
-    + getAcquisitionTilt() double
-  }
-
-  %% --- frc/robot/subsystems/DashboardValue.mmd ---
-  class DashboardValue {
-    <<enumeration>>
-    ROBOT_X
-    ROBOT_Y
-    ROBOT_ROT
-    HUB_ALIGNED
-    MANUAL_MODE_ENABLED
-    MANUAL_SHOOTER_RPM
-    MANUAL_SHOOTER_HOOD_ANGLE
-    ACQUISITION_TILT
-    FIELD
-    - supplier Supplier~Object~
-    - transformer UnaryOperator~Object~
-    - periodicAction Consumer~Object~
-    - entry NetworkTableEntry
-    - value Object
-    - DashboardValue(String,Supplier,Object)
-    - DashboardValue(String,Object)
-    - DashboardValue(String,UnaryOperator,Object)
-    - DashboardValue(Sendable,Consumer)
-    + get() Object
-    + set(Object) void
-    - periodic() void
+    + clearFieldTrajectory() void
   }
 
   %% --- frc/robot/subsystems/DriveTrain.mmd ---
@@ -917,6 +864,38 @@ classDiagram
     + telemeterize(SwerveDriveState state) void
   }
 
+  %% --- frc/robot/utils/dashboard/DashboardValue.mmd ---
+  class DashboardValue {
+    - allValues$ List~DashboardValue~
+    # entry NetworkTableEntry
+    + DashboardValue(String,T)
+    + values()$ List~DashboardValue~
+    + get() T
+    + set(T) void
+    + periodic() void
+  }
+
+  %% --- frc/robot/utils/dashboard/EntryDashboardValue.mmd ---
+  class EntryDashboardValue {
+    - transformer UnaryOperator~T~
+    + EntryDashboardValue(String,UnaryOperator~T~,T)
+    + set(T) void
+  }
+
+  %% --- frc/robot/utils/dashboard/SendableDashboardValue.mmd ---
+  class SendableDashboardValue {
+    - consumer Consumer~T~
+    + SendableDashboardValue(String,Consumer~T~,T)
+    + periodic() void
+  }
+
+  %% --- frc/robot/utils/dashboard/SuppliedDashboardValue.mmd ---
+  class SuppliedDashboardValue {
+    - supplier Supplier~T~
+    + SuppliedDashboardValue(String,Supplier~T~,T)
+    + periodic() void
+  }
+
   %% --- frc/robot/utils/RectangleUtils.mmd ---
   class RectangleUtils {
     - RectangleUtils()
@@ -934,7 +913,6 @@ classDiagram
   OperatorJoystick --|> XboxController1038
   ShooterModule *-- Shooter
   Hood *-- ShooterHoods
-  DashboardValue *-- Dashboard
   ShooterFormula *-- ShooterConstants
   ShooterModuleConstants *-- ShooterConstants
   AutonChoices *-- AutonSelector
@@ -943,6 +921,9 @@ classDiagram
   PivotSetpoint *-- AcquisitionPivotConstants
   RobotStates *-- SwagLights
   OperatorStates *-- SwagLights
+  EntryDashboardValue --|> DashboardValue
+  SendableDashboardValue --|> DashboardValue
+  SuppliedDashboardValue --|> DashboardValue
 
   Auton --|> SequentialCommandGroup
   LeftAuto --|> Auton

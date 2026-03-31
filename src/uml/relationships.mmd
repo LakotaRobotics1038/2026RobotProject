@@ -5,7 +5,6 @@
   OperatorJoystick --|> XboxController1038
   ShooterModule *-- Shooter
   Hood *-- ShooterHoods
-  DashboardValue *-- Dashboard
   ShooterFormula *-- ShooterConstants
   ShooterModuleConstants *-- ShooterConstants
   AutonChoices *-- AutonSelector
@@ -14,6 +13,9 @@
   PivotSetpoint *-- AcquisitionPivotConstants
   RobotStates *-- SwagLights
   OperatorStates *-- SwagLights
+  EntryDashboardValue --|> DashboardValue
+  SendableDashboardValue --|> DashboardValue
+  SuppliedDashboardValue --|> DashboardValue
 
   Auton --|> SequentialCommandGroup
   LeftAuto --|> Auton
