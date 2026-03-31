@@ -110,7 +110,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopInit() {
-        Dashboard.getInstance().clearTrajectory();
+        Dashboard.getInstance().clearFieldTrajectory();
         driveTrain.configNeutralMode(SwerveConstants.TELEOP_DRIVING_MOTOR_NEUTRAL_MODE);
         CommandScheduler.getInstance().schedule(new HubActivationDetectionCommand(rumblePower -> {
             DriverJoystick.getInstance().setRumble(rumblePower);

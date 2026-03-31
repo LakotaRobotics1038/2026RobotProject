@@ -1,0 +1,18 @@
+classDiagram
+  direction LR
+
+  class ObstacleAlignCommand {
+    - TRENCH_TURN_SNAP_STEP$ double
+    - TRENCH_TURN_SNAP_OFFSET$ double
+    - BUMP_TURN_SNAP_STEP$ double
+    - BUMP_TURN_SNAP_OFFSET$ double
+    - driveTrain DriveTrain
+    - forwardSpeedSupplier DoubleSupplier
+    - sidewaysSpeedSupplier DoubleSupplier
+    - rotationController PIDController
+    + ObstacleAlignCommand(DoubleSupplier,DoubleSupplier)
+    + execute() void
+    + end(boolean) void
+    - isInTrench(Translation2d) boolean
+    - snapToNearest(double,double,double) double
+  }
