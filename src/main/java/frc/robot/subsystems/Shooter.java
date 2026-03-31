@@ -136,13 +136,13 @@ public class Shooter extends SubsystemBase {
         }
 
         /**
-         * Gets the distance from this module to the hub.
+         * Gets the distance from this module to the target.
          *
          * @param robotPose Robot pose in field coordinates.
-         * @return Distance from this module to the hub.
+         * @return Distance from this module to the target.
          */
         public double getTargetDistance(Pose2d robotPose) {
-            Translation2d targetPosition = FieldConstants.targetPosition();
+            Translation2d targetPosition = FieldConstants.targetPosition(robotPose.getTranslation());
             Translation2d fieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
             return fieldPosition.getDistance(targetPosition);
@@ -155,7 +155,7 @@ public class Shooter extends SubsystemBase {
          * @return Angle in radians from the module toward the hub.
          */
         public double getTargetAngle(Pose2d robotPose) {
-            Translation2d targetPosition = FieldConstants.targetPosition();
+            Translation2d targetPosition = FieldConstants.targetPosition(robotPose.getTranslation());
             Translation2d moduleFieldPosition = robotPose.getTranslation()
                     .plus(translation.rotateBy(robotPose.getRotation()));
             Translation2d toTargetFromModule = targetPosition.minus(moduleFieldPosition);

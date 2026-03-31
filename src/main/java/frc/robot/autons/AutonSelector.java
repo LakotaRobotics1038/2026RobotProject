@@ -62,7 +62,7 @@ public class AutonSelector {
     }
 
     private AutonSelector() {
-        this.autoChooser = Dashboard.getInstance().getAutoChooser();
+        this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
         AutonChoice[] choices = AutonChoice.values();
         AutonChoice defaultChoice = AutonChoice.NO_AUTO;
@@ -73,7 +73,7 @@ public class AutonSelector {
             }
         }
 
-        this.delayChooser = Dashboard.getInstance().getDelayChooser();
+        this.delayChooser = Dashboard.DELAY_CHOOSER.get();
 
         this.delayChooser.setDefaultOption("0 Seconds", 0.0);
         for (int i = 1; i <= 14; i++) {
