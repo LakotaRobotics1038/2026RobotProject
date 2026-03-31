@@ -39,8 +39,9 @@ public class Acquisition extends SubsystemBase {
      * {@link AcquisitionConstants#ACQUIRE_RPM}.
      */
     public void intake() {
-        controller.setSetpoint(AcquisitionConstants.ACQUIRE_RPM,
-                ControlType.kVelocity);
+        // controller.setSetpoint(AcquisitionConstants.ACQUIRE_RPM,
+        // ControlType.kVelocity);
+        controller.setSetpoint(0.75, ControlType.kDutyCycle);
     }
 
     /**
@@ -48,8 +49,9 @@ public class Acquisition extends SubsystemBase {
      * {@link AcquisitionConstants#DISPOSE_RPM}.
      */
     public void dispose() {
-        controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM,
-                ControlType.kVelocity);
+        // controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM,
+        // ControlType.kVelocity);
+        controller.setSetpoint(-0.5, ControlType.kDutyCycle);
     }
 
     /**

@@ -30,7 +30,7 @@ public class ShootCommand extends Command {
     private final BooleanSupplier tiltAcquisitionSupplier;
 
     public ShootCommand() {
-        this.tiltAcquisitionSupplier = () -> false;
+        this.tiltAcquisitionSupplier = () -> true;
         addRequirements(pivot, kicker, shooter, indexer);
     }
 
