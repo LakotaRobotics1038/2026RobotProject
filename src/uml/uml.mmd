@@ -135,11 +135,6 @@ classDiagram
 
   %% --- frc/robot/commands/AlignCommand.mmd ---
   class AlignCommand {
-    - P$ double
-    - I$ double
-    - D$ double
-    - MAX_ROTATION_POWER$ double
-    - ALIGNMENT_TOLERANCE_RAD$ double
     + HUB_ALIGNMENT_RUMBLE_INTENSITY$ double
     - driveTrain DriveTrain
     - dashboard Dashboard
@@ -175,6 +170,23 @@ classDiagram
     <<enumeration>>
     INTAKE
     DISPOSE
+  }
+
+  %% --- frc/robot/commands/ObstacleAlignCommand.mmd ---
+  class ObstacleAlignCommand {
+    - TRENCH_TURN_SNAP_STEP$ double
+    - TRENCH_TURN_SNAP_OFFSET$ double
+    - BUMP_TURN_SNAP_STEP$ double
+    - BUMP_TURN_SNAP_OFFSET$ double
+    - driveTrain DriveTrain
+    - forwardSpeedSupplier DoubleSupplier
+    - sidewaysSpeedSupplier DoubleSupplier
+    - rotationController PIDController
+    + ObstacleAlignCommand(DoubleSupplier,DoubleSupplier)
+    + execute() void
+    + end(boolean) void
+    - isInTrench(Translation2d) boolean
+    - snapToNearest(double,double,double) double
   }
 
   %% --- frc/robot/commands/RetractHoodsCommand.mmd ---
@@ -284,6 +296,11 @@ classDiagram
     + FINE_ADJUSTMENT_PERCENT$ double
     + MAX_SPEED$ double
     + MAX_ANGULAR_RATE$ double
+    + P$ double
+    + I$ double
+    + D$ double
+    + ALIGNMENT_TOLERANCE_RAD$ double
+    + MAX_ROTATION_POWER$ double
   }
 
   %% --- frc/robot/constants/FieldConstants.mmd ---
@@ -942,6 +959,7 @@ classDiagram
   AcquisitionPivotCommand --|> Command
   AcquisitionPivotTrenchRetract --|> Command
   IndexerCommand --|> Command
+  ObstacleAlignCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector
