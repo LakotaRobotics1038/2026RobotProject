@@ -1,0 +1,12 @@
+classDiagram
+  direction LR
+
+  class DashboardValue {
+    - allValues$ List~DashboardValue~
+    # entry NetworkTableEntry
+    + DashboardValue(String,T)
+    + values()$ List~DashboardValue~
+    + get() T
+    + set(T) void
+    + periodic() void
+  }
