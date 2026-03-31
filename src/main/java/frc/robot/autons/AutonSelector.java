@@ -39,7 +39,7 @@ public class AutonSelector {
         public Auton getAuton(Optional<Alliance> alliance) {
             try {
                 return factory != null ? factory.create(alliance) : null;
-            } catch (IOException | ParseException e) {
+            } catch (Exception e) {
                 DriverStation.reportError("Choose Auton Failed " + e, true);
                 return null;
             }
