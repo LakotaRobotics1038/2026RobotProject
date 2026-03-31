@@ -24,7 +24,7 @@ public class AlignCommand extends Command {
     public static final double HUB_ALIGNMENT_RUMBLE_INTENSITY = 0.8;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
+
     private final Shooter shooter = Shooter.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
@@ -110,7 +110,7 @@ public class AlignCommand extends Command {
             if (alignmentStateConsumer != null) {
                 alignmentStateConsumer.accept(alignedToHub);
             }
-            dashboard.setHubAligned(isAligned);
+            Dashboard.HUB_ALIGNED.set(isAligned);
         }
     }
 }
