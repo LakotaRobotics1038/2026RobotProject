@@ -83,8 +83,16 @@ public class AutonSelector {
 
     public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
-        System.out.println(this.autoChooser.getSelected());
-        return this.autoChooser.getSelected().getAuton(alliance);
+        AutonChoice selectedChoice = this.autoChooser.getSelected();
+
+        System.out.println(selectedChoice);
+
+        if (selectedChoice == null) {
+            DriverStation.reportError("Selected Auton was null", false);
+            return null;
+        }
+
+        return selectedChoice.getAuton(alliance);
     }
 
     public double chooseDelay() {
