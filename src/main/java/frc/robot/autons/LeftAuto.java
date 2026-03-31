@@ -23,13 +23,15 @@ public class LeftAuto extends Auton {
         super.addCommands(
                 new AcquisitionPivotTrenchRetract(),
                 followPathCommand(Paths.getLeft1Path())
-                        .raceWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
+                        .alongWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
                                 .andThen(new AcquisitionCommand(Mode.INTAKE))),
+                new AcquisitionCommand(Mode.STOP),
                 followPathCommand(Paths.getLeft2Path()),
                 new WaitCommand(2),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getLeft3Path())
-                        .raceWith(new AcquisitionCommand(Mode.INTAKE)),
+                        .alongWith(new AcquisitionCommand(Mode.INTAKE)),
+                new AcquisitionCommand(Mode.STOP),
                 followPathCommand(Paths.getLeft4Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
     }

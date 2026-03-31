@@ -21,12 +21,14 @@ public class RightAuto extends Auton {
         super.addCommands(
                 followPathCommand(Paths.getRight1Path())
                         .alongWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
-                                .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE).withTimeout(5))),
+                                .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))),
+                new AcquisitionCommand(AcquisitionCommand.Mode.STOP),
                 followPathCommand(Paths.getRight2Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 new WaitCommand(2),
                 followPathCommand(Paths.getRight3Path())
-                        .alongWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE).withTimeout(5)),
+                        .alongWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
+                new AcquisitionCommand(AcquisitionCommand.Mode.STOP),
                 followPathCommand(Paths.getRight4Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
     }

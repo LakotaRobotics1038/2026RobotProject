@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants;
@@ -39,9 +38,11 @@ public class OperatorJoystick extends XboxController1038 {
                 .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
 
         this.leftBumper()
-                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE));
+                .onTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE))
+                .onFalse(new AcquisitionCommand(AcquisitionCommand.Mode.STOP));
         this.rightBumper()
-                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE));
+                .onTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))
+                .onFalse(new AcquisitionCommand(AcquisitionCommand.Mode.STOP));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.LOWERED));

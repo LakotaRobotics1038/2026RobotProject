@@ -18,21 +18,19 @@ public class AcquisitionCommand extends Command {
             acquisition.intake();
         } else if (mode == Mode.DISPOSE) {
             acquisition.dispose();
+        } else {
+            acquisition.stop();
         }
     }
 
     @Override
     public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        acquisition.stop();
+        return true;
     }
 
     public enum Mode {
         INTAKE,
-        DISPOSE
+        DISPOSE,
+        STOP
     }
 }
