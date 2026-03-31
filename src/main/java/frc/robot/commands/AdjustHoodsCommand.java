@@ -13,7 +13,6 @@ public class AdjustHoodsCommand extends Command {
     private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
 
     public AdjustHoodsCommand() {
         addRequirements(shooterHoods);
@@ -21,8 +20,8 @@ public class AdjustHoodsCommand extends Command {
 
     @Override
     public void execute() {
-        if (dashboard.isManualModeEnabled()) {
-            double angle = dashboard.getManualShooterHoodAngle();
+        if (Dashboard.MANUAL_MODE_ENABLED.get()) {
+            double angle = Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.get();
             shooterHoods.getNearHood().setAngle(angle);
             shooterHoods.getFarHood().setAngle(angle);
         } else {

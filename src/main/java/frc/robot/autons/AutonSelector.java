@@ -35,7 +35,7 @@ public class AutonSelector {
     }
 
     private AutonSelector() {
-        this.autoChooser = Dashboard.getInstance().getAutoChooser();
+        this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
         this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
@@ -46,7 +46,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
         this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
 
-        this.delayChooser = Dashboard.getInstance().getDelayChooser();
+        this.delayChooser = Dashboard.DELAY_CHOOSER.get();
 
         this.delayChooser.setDefaultOption("0 Seconds", 0.0);
         for (int i = 1; i <= 14; i++) {

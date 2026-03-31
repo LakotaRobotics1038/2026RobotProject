@@ -16,21 +16,17 @@ import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class AlignCommand extends Command {
-    private static final double P = 4.0;
-    private static final double I = 0.005;
-    private static final double D = 0.01;
-    private static final double MAX_ROTATION_POWER = 1.0;
-    private static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
     public static final double HUB_ALIGNMENT_RUMBLE_INTENSITY = 0.8;
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
+
     private final Shooter shooter = Shooter.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
-    private final PIDController rotationController = new PIDController(P, I, D);
+    private final PIDController rotationController = new PIDController(DriveConstants.P, DriveConstants.I,
+            DriveConstants.D);
     private Boolean alignedToHub;
 
     public AlignCommand(DoubleSupplier forwardSpeedSupplier,
@@ -39,9 +35,8 @@ public class AlignCommand extends Command {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
         this.sidewaysSpeedSupplier = sidewaysSpeedSupplier;
         this.alignmentStateConsumer = alignmentStateConsumer;
-
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
-        rotationController.setTolerance(ALIGNMENT_TOLERANCE_RAD);
+        rotationController.setTolerance(DriveConstants.ALIGNMENT_TOLERANCE_RAD);
 
         addRequirements(driveTrain, swagLights);
     }
@@ -57,11 +52,13 @@ public class AlignCommand extends Command {
         double targetHeadingRadians = getAlignedTargetHeading(robotPose);
         double currentHeadingRadians = robotPose.getRotation().getRadians();
 
-        double rotationOutput = rotationController.calculate(currentHeadingRadians, targetHeadingRadians);
+        double rotationOutput = rotationController.calculate(currentHeadingRadians,
+                targetHeadingRadians);
         updateAlignmentState(rotationController.atSetpoint());
 
-        double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE, -MAX_ROTATION_POWER,
-                MAX_ROTATION_POWER);
+        double rotation = MathUtil.clamp(rotationOutput / DriveConstants.MAX_ANGULAR_RATE,
+                -DriveConstants.MAX_ROTATION_POWER,
+                DriveConstants.MAX_ROTATION_POWER);
 
         driveTrain.setControl(driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(),
                 rotation,
@@ -110,7 +107,7 @@ public class AlignCommand extends Command {
             if (alignmentStateConsumer != null) {
                 alignmentStateConsumer.accept(alignedToHub);
             }
-            dashboard.setHubAligned(isAligned);
+            Dashboard.HUB_ALIGNED.set(isAligned);
         }
     }
 }
