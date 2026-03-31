@@ -25,8 +25,8 @@ public class AlignCommand extends Command {
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
     private final BooleanConsumer alignmentStateConsumer;
-    private final PIDController rotationController = new PIDController(HUB_ALIGNMENT_RUMBLE_INTENSITY,
-            HUB_ALIGNMENT_RUMBLE_INTENSITY, HUB_ALIGNMENT_RUMBLE_INTENSITY);
+    private final PIDController rotationController = new PIDController(DriveConstants.P, DriveConstants.I,
+            DriveConstants.D);
     private Boolean alignedToHub;
 
     public AlignCommand(DoubleSupplier forwardSpeedSupplier,
