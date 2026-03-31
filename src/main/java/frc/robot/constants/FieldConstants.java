@@ -77,17 +77,17 @@ public final class FieldConstants {
             RED_LEFT_TRENCH,
             RED_RIGHT_TRENCH);
 
-    private static final Rectangle2d BLUE_LEFT_ALLIANCE = new Rectangle2d(
+    private static final Rectangle2d BLUE_LEFT_OBSTACLES = new Rectangle2d(
             new Translation2d(0, 0),
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, HUB_LEFT_Y));
 
-    private static final Rectangle2d BLUE_RIGHT_ALLIANCE = new Rectangle2d(
+    private static final Rectangle2d BLUE_RIGHT_OBSTACLES = new Rectangle2d(
             new Translation2d(0, HUB_RIGHT_Y),
             new Translation2d(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION, FlippingUtil.fieldSizeY));
-    private static final Rectangle2d RED_LEFT_ALLIANCE = BLUE_LEFT_ALLIANCE.transformBy(new Transform2d(
+    private static final Rectangle2d RED_LEFT_ALLIANCE = BLUE_LEFT_OBSTACLES.transformBy(new Transform2d(
             new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
             Rotation2d.kZero));
-    private static final Rectangle2d RED_RIGHT_ALLIANCE = BLUE_RIGHT_ALLIANCE.transformBy(new Transform2d(
+    private static final Rectangle2d RED_RIGHT_OBSTACLES = BLUE_RIGHT_OBSTACLES.transformBy(new Transform2d(
             new Translation2d(flipX(HUB_EDGE_DISTANCE_FROM_DRIVER_STATION), 0),
             Rotation2d.kZero));
 
@@ -98,11 +98,11 @@ public final class FieldConstants {
             Rectangle2d leftAllianceBoundingBox;
             Rectangle2d rightAllianceBoundingBox;
             if (alliance == Alliance.Blue) {
-                leftAllianceBoundingBox = BLUE_LEFT_ALLIANCE;
-                rightAllianceBoundingBox = BLUE_RIGHT_ALLIANCE;
+                leftAllianceBoundingBox = BLUE_LEFT_OBSTACLES;
+                rightAllianceBoundingBox = BLUE_RIGHT_OBSTACLES;
             } else {
                 leftAllianceBoundingBox = RED_LEFT_ALLIANCE;
-                rightAllianceBoundingBox = RED_RIGHT_ALLIANCE;
+                rightAllianceBoundingBox = RED_RIGHT_OBSTACLES;
             }
             Translation2d leftNear = leftAllianceBoundingBox.nearest(robotPosition);
             Translation2d rightNear = rightAllianceBoundingBox.nearest(robotPosition);
