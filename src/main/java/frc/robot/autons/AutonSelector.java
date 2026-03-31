@@ -40,7 +40,7 @@ public class AutonSelector {
             try {
                 return factory != null ? factory.create(alliance) : null;
             } catch (IOException | ParseException e) {
-                System.out.println("Choose Auton Failed " + e);
+                DriverStation.reportError("Choose Auton Failed " + e, true);
                 return null;
             }
         }
@@ -65,9 +65,12 @@ public class AutonSelector {
         this.autoChooser = Dashboard.getInstance().getAutoChooser();
 
         AutonChoice[] choices = AutonChoice.values();
-        this.autoChooser.setDefaultOption(choices[0].getName(), choices[0]);
-        for (int i = 1; i < choices.length; i++) {
-            this.autoChooser.addOption(choices[i].getName(), choices[i]);
+        AutonChoice defaultChoice = AutonChoice.NO_AUTO;
+        this.autoChooser.setDefaultOption(defaultChoice.getName(), defaultChoice);
+        for (AutonChoice choice : choices) {
+            if (choice != defaultChoice) {
+                this.autoChooser.addOption(choice.getName(), choice);
+            }
         }
 
         this.delayChooser = Dashboard.getInstance().getDelayChooser();
