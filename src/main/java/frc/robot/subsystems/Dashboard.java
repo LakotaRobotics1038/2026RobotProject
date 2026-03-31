@@ -8,7 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.autons.AutonSelector.AutonChoice;
 import frc.robot.constants.AcquisitionPivotConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodsConstants;
@@ -59,7 +59,7 @@ public class Dashboard extends SubsystemBase {
             v -> v.setRobotPose(
                     DriveTrain.getInstance().getState().Pose),
             new Field2d());
-    public static final DashboardValue<SendableChooser<AutonChoices>> AUTO_CHOOSER = new DashboardValue<>(
+    public static final DashboardValue<SendableChooser<AutonChoice>> AUTO_CHOOSER = new DashboardValue<>(
             "Auton Choices",
             new SendableChooser<>());
     public static final DashboardValue<SendableChooser<Double>> DELAY_CHOOSER = new DashboardValue<>(

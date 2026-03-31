@@ -1,6 +1,9 @@
 package frc.robot.autons;
 
+import java.io.IOException;
 import java.util.Optional;
+
+import org.json.simple.parser.ParseException;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -8,17 +11,43 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.subsystems.Dashboard;
 
 public class AutonSelector {
-    public enum AutonChoices {
-        NoAuto,
-        LeftAuto,
-        LeftAutoShoot,
-        MiddleAutoShoot,
-        RightAutoShoot,
-        LeftAutoDepotShoot
+    @FunctionalInterface
+    private interface AutonFactory {
+        Auton create(Optional<Alliance> alliance) throws IOException, ParseException;
+    }
+
+    public enum AutonChoice {
+        NO_AUTO("No Auto", null),
+        LEFT_AUTO("Left Auto", LeftAuto::new),
+        LEFT_AUTO_SHOOT("Left Auto Shoot", LeftAutoShoot::new),
+        MIDDLE_AUTO_SHOOT("Middle Auto Shoot", MiddleAutoShoot::new),
+        RIGHT_AUTO_SHOOT("Right Auto Shoot", RightAutoShoot::new),
+        LEFT_AUTO_DEPOT_SHOOT("Left Auto Depot Shoot", LeftAutoDepotShoot::new);
+
+        private final String name;
+        private final AutonFactory factory;
+
+        AutonChoice(String name, AutonFactory factory) {
+            this.name = name;
+            this.factory = factory;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Auton getAuton(Optional<Alliance> alliance) {
+            try {
+                return factory != null ? factory.create(alliance) : null;
+            } catch (Exception e) {
+                DriverStation.reportError("Choose Auton Failed " + e, true);
+                return null;
+            }
+        }
     }
 
     // Choosers
-    SendableChooser<AutonChoices> autoChooser;
+    SendableChooser<AutonChoice> autoChooser;
     SendableChooser<Double> delayChooser;
 
     // Singleton Setup
@@ -35,12 +64,14 @@ public class AutonSelector {
     private AutonSelector() {
         this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
-        this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
-        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
-        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
-        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
+        AutonChoice[] choices = AutonChoice.values();
+        AutonChoice defaultChoice = AutonChoice.NO_AUTO;
+        this.autoChooser.setDefaultOption(defaultChoice.getName(), defaultChoice);
+        for (AutonChoice choice : choices) {
+            if (choice != defaultChoice) {
+                this.autoChooser.addOption(choice.getName(), choice);
+            }
+        }
 
         this.delayChooser = Dashboard.DELAY_CHOOSER.get();
 
@@ -52,26 +83,16 @@ public class AutonSelector {
 
     public Auton chooseAuton() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
-        System.out.println(this.autoChooser.getSelected());
-        try {
-            switch (this.autoChooser.getSelected()) {
-                case LeftAuto:
-                    return new LeftAuto(alliance);
-                case LeftAutoShoot:
-                    return new LeftAutoShoot(alliance);
-                case MiddleAutoShoot:
-                    return new MiddleAutoShoot(alliance);
-                case RightAutoShoot:
-                    return new RightAutoShoot(alliance);
-                case LeftAutoDepotShoot:
-                    return new LeftAutoDepotShoot(alliance);
-                default:
-                    return null;
-            }
-        } catch (Exception e) {
-            System.out.println("Choose Auton Failed " + e);
+        AutonChoice selectedChoice = this.autoChooser.getSelected();
+
+        System.out.println(selectedChoice);
+
+        if (selectedChoice == null) {
+            DriverStation.reportError("Selected Auton was null", false);
             return null;
         }
+
+        return selectedChoice.getAuton(alliance);
     }
 
     public double chooseDelay() {

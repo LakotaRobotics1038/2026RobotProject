@@ -37,20 +37,31 @@ classDiagram
     + followPathCommand(PathPlannerPath) Command
   }
 
-  %% --- frc/robot/autons/AutonChoices.mmd ---
-  class AutonChoices {
+  %% --- frc/robot/autons/AutonChoice.mmd ---
+  class AutonChoice {
     <<enumeration>>
-    NoAuto
-    LeftAuto
-    LeftAutoShoot
-    MiddleAutoShoot
-    RightAutoShoot
-    LeftAutoDepotShoot
+    NO_AUTO
+    LEFT_AUTO
+    LEFT_AUTO_SHOOT
+    MIDDLE_AUTO_SHOOT
+    RIGHT_AUTO_SHOOT
+    LEFT_AUTO_DEPOT_SHOOT
+    - name String
+    - factory AutonFactory
+    - AutonChoice(String,AutonFactory)
+    + getName() String
+    + getAuton(Optional~Alliance~) Auton
+  }
+
+  %% --- frc/robot/autons/AutonFactory.mmd ---
+  class AutonFactory {
+    <<interface>>
+    + create(Optional~Alliance~) Auton
   }
 
   %% --- frc/robot/autons/AutonSelector.mmd ---
   class AutonSelector {
-    SendableChooser~AutonChoices~ autoChooser
+    SendableChooser~AutonChoice~ autoChooser
     SendableChooser~Double~ delayChooser
     - instance$ AutonSelector
     - AutonSelector()
@@ -658,8 +669,8 @@ classDiagram
     + MANUAL_SHOOTER_HOOD_ANGLE$ EntryDashboardValue~Double~
     + ACQUISITION_TILT$ DashboardValue~Double~
     + FIELD$ SendableDashboardValue~Field2d~
-    + AUTO_CHOOSER$ DashboardValue~SendableChooser~
-    + DELAY_CHOOSER$ DashboardValue~SendableChooser~
+    + AUTO_CHOOSER$ DashboardValue~SendableChooser~AutonChoice~~
+    + DELAY_CHOOSER$ DashboardValue~SendableChooser~Double~~
     - Dashboard()
     + getInstance()$ Dashboard
     + periodic() void
@@ -915,7 +926,8 @@ classDiagram
   Hood *-- ShooterHoods
   ShooterFormula *-- ShooterConstants
   ShooterModuleConstants *-- ShooterConstants
-  AutonChoices *-- AutonSelector
+  AutonChoice *-- AutonSelector
+  AutonFactory *-- AutonSelector
   Mode *-- AcquisitionCommand
   Mode *-- IndexerCommand
   PivotSetpoint *-- AcquisitionPivotConstants
