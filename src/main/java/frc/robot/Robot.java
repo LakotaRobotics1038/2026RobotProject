@@ -51,10 +51,10 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
 
-        vision.frontCamGetEstimatedGlobalPose()
+        vision.leftCamGetEstimatedGlobalPose()
                 .ifPresent(estimatedPose -> driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                         estimatedPose.timestampSeconds,
-                        vision.getFrontEstimationStdDevs()));
+                        vision.getLeftEstimationStdDevs()));
 
         vision.backCamGetEstimatedGlobalPose()
                 .ifPresent(estimatedPose -> driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
