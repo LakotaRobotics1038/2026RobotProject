@@ -21,7 +21,8 @@ public class SwagLights implements Subsystem {
         Default("X"),
         Aligning("P"),
         Aligned("S"),
-        TooClose("C");
+        TooClose("C"),
+        HubActivating("H");
 
         public final String value;
 
