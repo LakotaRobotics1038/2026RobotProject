@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 import java.util.function.DoubleConsumer;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Dashboard;
 
 public class HubActivationDetectionCommand extends Command {
     public static final double SECONDS_BEFORE_HUB_ACTIVATION = 3;
@@ -41,8 +41,10 @@ public class HubActivationDetectionCommand extends Command {
                 double timeToActivation = elapsed % 25;
                 double rumblePower = timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION;
                 hubActivationFeedback.accept(rumblePower);
+                Dashboard.HUB_ACTIVATING.set(true);
             } else if (wasEnablingSoon) {
                 hubActivationFeedback.accept(0);
+                Dashboard.HUB_ACTIVATING.set(false);
             }
         }
     }

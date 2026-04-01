@@ -65,6 +65,9 @@ public class Dashboard extends SubsystemBase {
     public static final DashboardValue<SendableChooser<Double>> DELAY_CHOOSER = new DashboardValue<>(
             "Delay Choices",
             new SendableChooser<>());
+    public static final DashboardValue<Boolean> HUB_ACTIVATING = new DashboardValue<>(
+            "Hub Activating",
+            false);
 
     public static Dashboard getInstance() {
         if (instance == null) {
