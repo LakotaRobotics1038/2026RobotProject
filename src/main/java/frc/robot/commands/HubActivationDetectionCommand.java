@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.subsystems.SwagLights;
 
 public class HubActivationDetectionCommand extends Command {
     public static final double SECONDS_BEFORE_HUB_ACTIVATION = 3;
 
+    private final SwagLights swagLights = SwagLights.getInstance();
     private Boolean enabledFirst = null;
     private boolean hubEnablingSoon = false;
     private final DoubleConsumer hubActivationFeedback;
@@ -42,9 +44,11 @@ public class HubActivationDetectionCommand extends Command {
                 double rumblePower = timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION;
                 hubActivationFeedback.accept(rumblePower);
                 Dashboard.HUB_ACTIVATING.set(true);
+                swagLights.setOperatorState(SwagLights.OperatorStates.HubActivating);
             } else if (wasEnablingSoon) {
                 hubActivationFeedback.accept(0);
                 Dashboard.HUB_ACTIVATING.set(false);
+                swagLights.setOperatorState(SwagLights.OperatorStates.Default);
             }
         }
     }
