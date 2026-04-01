@@ -7,13 +7,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Left 1"
+            "pathName": "Right 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Depot Left 2"
+            "pathName": "Right 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Right 4"
           }
         }
       ]

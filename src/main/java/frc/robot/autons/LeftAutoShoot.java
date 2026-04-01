@@ -19,7 +19,7 @@ public class LeftAutoShoot extends Auton {
         super(alliance);
         super.addCommands(
                 new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
-                followPathCommand(Paths.getLeft1Path()),
+                followPathCommand(Paths.getLeftShoot1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
                                 .andThen(new ShootCommand().withTimeout(5))));

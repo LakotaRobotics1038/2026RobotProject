@@ -3,7 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants;
@@ -50,11 +49,9 @@ public class OperatorJoystick extends XboxController1038 {
                                         + ShooterHoodsConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
 
         this.leftBumper()
-                .whileTrue(new IndexerCommand(IndexerCommand.Mode.DISPOSE)
-                        .alongWith(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE)));
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.DISPOSE));
         this.rightBumper()
-                .whileTrue(new IndexerCommand(IndexerCommand.Mode.INTAKE)
-                        .alongWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)));
+                .whileTrue(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE));
 
         this.y().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.RAISED));
         this.a().onTrue(new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.LOWERED));
@@ -64,6 +61,6 @@ public class OperatorJoystick extends XboxController1038 {
                     ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
         }));
 
-        this.rightTrigger().whileTrue(new ShootCommand(() -> this.b().getAsBoolean()));
+        this.rightTrigger().whileTrue(new ShootCommand(timer -> this.b().getAsBoolean()));
     }
 }

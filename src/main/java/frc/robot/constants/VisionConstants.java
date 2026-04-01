@@ -40,7 +40,7 @@ public final class VisionConstants {
     private static final double LEFT_CAMERA_Z_OFFSET = Units.inchesToMeters(8.402375);
     public static final Transform3d ROBOT_TO_LEFT_CAM = new Transform3d(
             new Translation3d(LEFT_CAMERA_X_OFFSET, LEFT_CAMERA_Y_OFFSET, LEFT_CAMERA_Z_OFFSET),
-            new Rotation3d(0, Math.toRadians(-75), Math.toRadians(90)));
+            new Rotation3d(0, Math.toRadians(-15), Math.toRadians(90)));
     public static final String ROBOT_TO_LEFT_CAM_NAME = "leftCamera";
 
     private static final double BACK_CAMERA_X_OFFSET = Units.inchesToMeters(-12.717781);

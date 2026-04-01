@@ -1,12 +1,13 @@
 package frc.robot.commands;
 
-import java.util.function.BooleanSupplier;
+import java.util.function.Function;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 import frc.robot.constants.ShooterConstants;
+import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.AcquisitionPivot;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
@@ -18,6 +19,7 @@ import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
+    private static final double ACQUISITION_TILT_TIME = 1 + HOOD_SERVO_MOVE_TIME;
 
     private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();
     private final Indexer indexer = Indexer.getInstance();
@@ -25,17 +27,17 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
     private final Timer timer = new Timer();
-    private final BooleanSupplier tiltAcquisitionSupplier;
+    private final Function<Timer, Boolean> tiltAcquisitionSupplier;
 
     public ShootCommand() {
-        this.tiltAcquisitionSupplier = () -> false;
-        addRequirements(pivot, kicker, shooter, indexer);
+        this((timer) -> timer.hasElapsed(ACQUISITION_TILT_TIME));
     }
 
-    public ShootCommand(BooleanSupplier tiltAcquisitionSupplier) {
+    public ShootCommand(Function<Timer, Boolean> tiltAcquisitionSupplier) {
         this.tiltAcquisitionSupplier = tiltAcquisitionSupplier;
-        addRequirements(pivot, kicker, shooter, indexer);
+        addRequirements(pivot, kicker, shooter, indexer, acquisition);
     }
 
     @Override
@@ -82,12 +84,16 @@ public class ShootCommand extends Command {
         if (validPosition && timer.hasElapsed(HOOD_SERVO_MOVE_TIME)) {
             kicker.start();
             indexer.start();
-            if (tiltAcquisitionSupplier.getAsBoolean()) {
+            acquisition.intake();
+            if (tiltAcquisitionSupplier.apply(timer)) {
                 pivot.setAngle(Dashboard.ACQUISITION_TILT.get());
+            } else {
+                pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
             }
         } else {
             kicker.stop();
             indexer.stop();
+            acquisition.stop();
         }
     }
 
@@ -103,6 +109,7 @@ public class ShootCommand extends Command {
         kicker.stop();
         indexer.stop();
         timer.stop();
+        acquisition.stop();
         pivot.setAngleSetpoint(PivotSetpoint.LOWERED);
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
             swagLights.setOperatorState(OperatorStates.Default);
