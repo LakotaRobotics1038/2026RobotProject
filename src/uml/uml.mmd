@@ -42,10 +42,12 @@ classDiagram
     <<enumeration>>
     NoAuto
     LeftAuto
+    MiddleAuto
+    RightAuto
     LeftAutoShoot
     MiddleAutoShoot
     RightAutoShoot
-    LeftAutoDepotShoot
+    MiddleSideDepotAuto
   }
 
   %% --- frc/robot/autons/AutonSelector.mmd ---
@@ -64,14 +66,14 @@ classDiagram
     + LeftAuto(Optional~Alliance~)
   }
 
-  %% --- frc/robot/autons/LeftAutoDepotShoot.mmd ---
-  class LeftAutoDepotShoot {
-    + LeftAutoDepotShoot(Optional~Alliance~)
-  }
-
   %% --- frc/robot/autons/LeftAutoShoot.mmd ---
   class LeftAutoShoot {
     + LeftAutoShoot(Optional~Alliance~)
+  }
+
+  %% --- frc/robot/autons/MiddleAuto.mmd ---
+  class MiddleAuto {
+    + MiddleAuto(Optional~Alliance~)
   }
 
   %% --- frc/robot/autons/MiddleAutoShoot.mmd ---
@@ -79,15 +81,38 @@ classDiagram
     + MiddleAutoShoot(Optional~Alliance~)
   }
 
+  %% --- frc/robot/autons/MiddleSideDepotAuto.mmd ---
+  class MiddleSideDepotAuto {
+    + MiddleSideDepotAuto(Optional~Alliance~)
+  }
+
   %% --- frc/robot/autons/Paths.mmd ---
   class Paths {
-    + getLeftStartPath()$ PathPlannerPath
-    + getMiddleAcquireToShootPath()$ PathPlannerPath
     + getLeft1Path()$ PathPlannerPath
+    + getLeft2Path()$ PathPlannerPath
+    + getLeft3Path()$ PathPlannerPath
+    + getLeft4Path()$ PathPlannerPath
     + getMiddle1Path()$ PathPlannerPath
+    + getMiddle2Path()$ PathPlannerPath
+    + getMiddle3Path()$ PathPlannerPath
+    + getMiddle4Path()$ PathPlannerPath
+    + getMiddle5Path()$ PathPlannerPath
     + getRight1Path()$ PathPlannerPath
+    + getRight2Path()$ PathPlannerPath
+    + getRight3Path()$ PathPlannerPath
+    + getRight4Path()$ PathPlannerPath
+    + getLeftShoot1Path()$ PathPlannerPath
+    + getRightShoot1Path()$ PathPlannerPath
     + getDepotLeft1Path()$ PathPlannerPath
     + getDepotLeft2Path()$ PathPlannerPath
+    + getMiddleSideDepot1Path()$ PathPlannerPath
+    + getMiddleSideDepot2Path()$ PathPlannerPath
+    + getMiddleSideDepot3Path()$ PathPlannerPath
+  }
+
+  %% --- frc/robot/autons/RightAuto.mmd ---
+  class RightAuto {
+    + RightAuto(Optional~Alliance~)
   }
 
   %% --- frc/robot/autons/RightAutoShoot.mmd ---
@@ -150,6 +175,15 @@ classDiagram
     + end(boolean) void
     - getAlignedTargetHeading(Pose2d) double
     - updateAlignmentState(boolean) void
+  }
+
+  %% --- frc/robot/commands/HubActivationDetectionCommand.mmd ---
+  class HubActivationDetectionCommand {
+    + SECONDS_BEFORE_HUB_ACTIVATION : double
+    + HubActivationDetectionCommand(DoubleConsumer)
+    + execute() : void
+    + end(boolean) : void
+    + isHubEnablingSoon() : boolean
   }
 
   %% --- frc/robot/commands/IndexerCommand.mmd ---
@@ -218,11 +252,8 @@ classDiagram
   class AcquisitionConstants {
     <<final>>
     + MOTOR_CAN_ID$ int
-    + P$ double
-    + I$ double
-    + D$ double
-    + ACQUIRE_RPM$ double
-    + DISPOSE_RPM$ double
+    + ACQUIRE_POWER$ double
+    + DISPOSE_POWER$ double
   }
 
   %% --- frc/robot/constants/AcquisitionPivotConstants.mmd ---
@@ -289,10 +320,12 @@ classDiagram
     - HUB_LENGTH$ double
     - HUB_CENTER_X$ double
     - HUB_CENTER_Y$ double
+    - HUB_LEFT_Y$ double
+    - HUB_RIGHT_Y$ double
     + HUB_POSITION$ Translation2d
     - BUMP_WIDTH$ double
     - BUMP_DEPTH$ double
-    - TRENCH_WIDTH$ double
+    + TRENCH_WIDTH$ double
     - LEFT_TRENCH_Y_OFFSET$ double
     - RIGHT_TRENCH_Y_OFFSET$ double
     - LEFT_BUMP_Y_OFFSET$ double
@@ -310,7 +343,13 @@ classDiagram
     - RED_LEFT_TRENCH$ Rectangle2d
     - RED_RIGHT_TRENCH$ Rectangle2d
     + TRENCH_RECTANGLES$ List~Rectangle2d~
+    - BLUE_LEFT_OBSTACLES$ Rectangle2d
+    - BLUE_RIGHT_OBSTACLES$ Rectangle2d
+    - RED_LEFT_ALLIANCE$ Rectangle2d
+    - RED_RIGHT_OBSTACLES$ Rectangle2d
     + targetPosition()$ Translation2d
+    + flipX(double)$ double
+    + flipY(double)$ double
   }
 
   %% --- frc/robot/constants/IndexerConstants.mmd ---
@@ -637,13 +676,16 @@ classDiagram
     - motor SparkMax
     - pivotEncoder AbsoluteEncoder
     - pidController PIDController
+    - enabled boolean
     - AcquisitionPivot()
     + getInstance()$ AcquisitionPivot
     + setAngleSetpoint(PivotSetpoint) void
     + setAngle(double) void
+    + periodic() void
     + stopPivot() void
     + isAtSetpoint() boolean
     + getPosition() double
+    + setEnabled(boolean) void
   }
 
   %% --- frc/robot/subsystems/Dashboard.mmd ---
@@ -658,8 +700,9 @@ classDiagram
     + MANUAL_SHOOTER_HOOD_ANGLE$ EntryDashboardValue~Double~
     + ACQUISITION_TILT$ DashboardValue~Double~
     + FIELD$ SendableDashboardValue~Field2d~
-    + AUTO_CHOOSER$ DashboardValue~SendableChooser~
-    + DELAY_CHOOSER$ DashboardValue~SendableChooser~
+    + AUTO_CHOOSER$ DashboardValue~SendableChooser~AutonChoices~~
+    + DELAY_CHOOSER$ DashboardValue~SendableChooser~Double~~
+    + HUB_ACTIVATING$ DashboardValue~Boolean~
     - Dashboard()
     + getInstance()$ Dashboard
     + periodic() void
@@ -746,6 +789,7 @@ classDiagram
     Aligning
     Aligned
     TooClose
+    HubActivating
     + value String
     - OperatorStates(String)
   }
@@ -867,7 +911,9 @@ classDiagram
   %% --- frc/robot/utils/dashboard/DashboardValue.mmd ---
   class DashboardValue {
     - allValues$ List~DashboardValue~
+    # name String
     # entry NetworkTableEntry
+    # isSendable boolean
     + DashboardValue(String,T)
     + values()$ List~DashboardValue~
     + get() T
@@ -908,19 +954,19 @@ classDiagram
 
   Robot --|> TimedRobot
   XboxController1038 --|> CommandXboxController
-  PovPositions *-- XboxController1038
+  XboxController1038 *-- PovPositions
   DriverJoystick --|> XboxController1038
   OperatorJoystick --|> XboxController1038
-  ShooterModule *-- Shooter
-  Hood *-- ShooterHoods
-  ShooterFormula *-- ShooterConstants
-  ShooterModuleConstants *-- ShooterConstants
-  AutonChoices *-- AutonSelector
-  Mode *-- AcquisitionCommand
-  Mode *-- IndexerCommand
-  PivotSetpoint *-- AcquisitionPivotConstants
-  RobotStates *-- SwagLights
-  OperatorStates *-- SwagLights
+  Shooter *-- ShooterModule
+  ShooterHoods *-- Hood
+  ShooterConstants *-- ShooterFormula
+  ShooterConstants *-- ShooterModuleConstants
+  AutonSelector *-- AutonChoices
+  AcquisitionCommand *-- Mode
+  IndexerCommand *-- Mode
+  AcquisitionPivotConstants *-- PivotSetpoint
+  SwagLights *-- RobotStates
+  SwagLights *-- OperatorStates
   EntryDashboardValue --|> DashboardValue
   SendableDashboardValue --|> DashboardValue
   SuppliedDashboardValue --|> DashboardValue
@@ -930,7 +976,9 @@ classDiagram
   LeftAutoShoot --|> Auton
   MiddleAutoShoot --|> Auton
   RightAutoShoot --|> Auton
-  LeftAutoDepotShoot --|> Auton
+  MiddleAuto --|> Auton
+  MiddleSideDepotAuto --|> Auton
+  RightAuto --|> Auton
 
   ShootCommand --|> Command
   AlignCommand --|> Command
@@ -941,11 +989,72 @@ classDiagram
   AcquisitionPivotTrenchRetract --|> Command
   IndexerCommand --|> Command
   ObstacleAlignCommand --|> Command
+  HubActivationDetectionCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector
   Robot *-- SwagLights
   Robot *-- DriveTrain
   Robot *-- Vision
+  Robot ..> Dashboard
+  Robot ..> DriverJoystick
+  Robot ..> OperatorJoystick
+  Robot ..> HubActivationDetectionCommand
   Robot ..> Auton
   AutonSelector ..> Dashboard
+  AutonSelector ..> LeftAuto
+  AutonSelector ..> MiddleAuto
+  AutonSelector ..> RightAuto
+  AutonSelector ..> LeftAutoShoot
+  AutonSelector ..> MiddleAutoShoot
+  AutonSelector ..> RightAutoShoot
+  AutonSelector ..> MiddleSideDepotAuto
+  Auton ..> DriveTrain
+  Auton ..> AutonSelector
+
+  DriverJoystick ..> DriveTrain
+  DriverJoystick ..> ShooterHoods
+  DriverJoystick ..> Dashboard
+  DriverJoystick ..> Telemetry
+  DriverJoystick ..> AlignCommand
+  DriverJoystick ..> ObstacleAlignCommand
+  DriverJoystick ..> AdjustHoodsCommand
+  DriverJoystick ..> RetractHoodsCommand
+
+  OperatorJoystick ..> Dashboard
+  OperatorJoystick ..> AcquisitionCommand
+  OperatorJoystick ..> AcquisitionPivotCommand
+  OperatorJoystick ..> ShootCommand
+
+  Dashboard ..> DriveTrain
+  Dashboard ..> AutonChoices
+  Dashboard ..> DashboardValue
+  Dashboard ..> EntryDashboardValue
+  Dashboard ..> SendableDashboardValue
+  Dashboard ..> SuppliedDashboardValue
+
+  AcquisitionCommand ..> Acquisition
+  AcquisitionPivotCommand ..> AcquisitionPivot
+  AcquisitionPivotTrenchRetract ..> AcquisitionPivot
+  RetractHoodsCommand ..> ShooterHoods
+  AdjustHoodsCommand ..> Dashboard
+  AdjustHoodsCommand ..> DriveTrain
+  AdjustHoodsCommand ..> Shooter
+  AdjustHoodsCommand ..> ShooterHoods
+  AlignCommand ..> Dashboard
+  AlignCommand ..> DriveTrain
+  AlignCommand ..> Shooter
+  AlignCommand ..> SwagLights
+  IndexerCommand ..> Indexer
+  IndexerCommand ..> Kicker
+  ObstacleAlignCommand ..> DriveTrain
+  ShootCommand ..> Dashboard
+  ShootCommand ..> DriveTrain
+  ShootCommand ..> Shooter
+  ShootCommand ..> SwagLights
+  ShootCommand ..> Acquisition
+  ShootCommand ..> AcquisitionPivot
+  ShootCommand ..> Indexer
+  ShootCommand ..> Kicker
+  HubActivationDetectionCommand ..> Dashboard
+  HubActivationDetectionCommand ..> SwagLights

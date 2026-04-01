@@ -7,10 +7,12 @@ classDiagram
     - HUB_LENGTH$ double
     - HUB_CENTER_X$ double
     - HUB_CENTER_Y$ double
+    - HUB_LEFT_Y$ double
+    - HUB_RIGHT_Y$ double
     + HUB_POSITION$ Translation2d
     - BUMP_WIDTH$ double
     - BUMP_DEPTH$ double
-    - TRENCH_WIDTH$ double
+    + TRENCH_WIDTH$ double
     - LEFT_TRENCH_Y_OFFSET$ double
     - RIGHT_TRENCH_Y_OFFSET$ double
     - LEFT_BUMP_Y_OFFSET$ double
@@ -28,5 +30,11 @@ classDiagram
     - RED_LEFT_TRENCH$ Rectangle2d
     - RED_RIGHT_TRENCH$ Rectangle2d
     + TRENCH_RECTANGLES$ List~Rectangle2d~
+    - BLUE_LEFT_OBSTACLES$ Rectangle2d
+    - BLUE_RIGHT_OBSTACLES$ Rectangle2d
+    - RED_LEFT_ALLIANCE$ Rectangle2d
+    - RED_RIGHT_OBSTACLES$ Rectangle2d
     + targetPosition()$ Translation2d
+    + flipX(double)$ double
+    + flipY(double)$ double
   }
