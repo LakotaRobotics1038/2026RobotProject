@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle 1"
+            "pathName": "Middle Side Depot 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle 2"
+            "pathName": "Middle Side Depot 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Side Depot 3"
           }
         }
       ]

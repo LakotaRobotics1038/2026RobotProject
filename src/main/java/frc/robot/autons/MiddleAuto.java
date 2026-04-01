@@ -20,17 +20,10 @@ public class MiddleAuto extends Auton {
     public MiddleAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotTrenchRetract(),
-                followPathCommand(Paths.getMiddle1Path()),
-                followPathCommand(Paths.getMiddle2Path()).raceWith(
+                followPathCommand(Paths.getMiddle1Path()).andThen(new WaitCommand(4)).raceWith(
                         new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
-                                .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))),
-                followPathCommand(Paths.getMiddle3Path()),
-                new WaitCommand(2),
-                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
-                followPathCommand(Paths.getMiddle4Path())
-                        .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
-                followPathCommand(Paths.getMiddle5Path()),
-                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
+                                .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
+                        followPathCommand(Paths.getMiddle2Path()),
+                        new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4))));
     }
 }

@@ -92,4 +92,19 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Depot Left 2");
     }
+
+    public static PathPlannerPath getMiddleSideDepot1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Middle Side Depot 1");
+    }
+
+    public static PathPlannerPath getMiddleSideDepot2Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Middle Side Depot 2");
+    }
+
+    public static PathPlannerPath getMiddleSideDepot3Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Middle Side Depot 3");
+    }
 }
