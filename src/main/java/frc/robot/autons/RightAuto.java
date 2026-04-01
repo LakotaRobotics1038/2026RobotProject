@@ -8,7 +8,6 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
@@ -19,9 +18,9 @@ public class RightAuto extends Auton {
     public RightAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
+                new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
                 followPathCommand(Paths.getRight1Path())
-                        .raceWith(new AcquisitionPivotCommand(PivotSetpoint.LOWERED)
-                                .andThen(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE))),
+                        .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getRight2Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
                 followPathCommand(Paths.getRight3Path())
