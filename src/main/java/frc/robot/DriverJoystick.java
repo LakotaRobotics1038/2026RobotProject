@@ -107,10 +107,11 @@ public class DriverJoystick extends XboxController1038 {
         }
         double x = sidewaysPower * maxPower;
 
-        double sideways = limitRate(x, prevSideways, sidewaysLimiter);
-        prevSideways = sideways;
+        // double sideways = limitRate(x, prevSideways, sidewaysLimiter);
+        // prevSideways = sideways;
 
-        return sideways;
+        // return sideways;
+        return x;
     }
 
     /**
@@ -126,10 +127,11 @@ public class DriverJoystick extends XboxController1038 {
         }
         double y = forwardPower * maxPower;
 
-        double forward = limitRate(y, prevForward, forwardLimiter);
-        prevForward = forward;
+        // double forward = limitRate(y, prevForward, forwardLimiter);
+        // prevForward = forward;
 
-        return forward;
+        // return forward;
+        return y;
     }
 
     /**
@@ -145,10 +147,11 @@ public class DriverJoystick extends XboxController1038 {
         }
         double z = rotatePower * maxPower;
 
-        double rotate = limitRate(z, prevRotate, rotateLimiter);
-        prevRotate = rotate;
+        // double rotate = limitRate(z, prevRotate, rotateLimiter);
+        // prevRotate = rotate;
 
-        return rotate;
+        // return rotate;
+        return z;
     }
 
     /**
