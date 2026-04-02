@@ -12,6 +12,7 @@ import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionCommand.Mode;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants;
 
@@ -25,7 +26,7 @@ public class MiddleSideDepotAuto extends Auton {
                 followPathCommand(Paths.getMiddleSideDepot2Path())
                         .raceWith(new AcquisitionCommand(Mode.INTAKE)),
                 followPathCommand(Paths.getMiddleSideDepot3Path()),
-                new AdjustHoodsCommand().raceWith(
-                        new ShootCommand().withTimeout(10)));
+                new AlignCommand().andThen(new AdjustHoodsCommand().raceWith(
+                        new ShootCommand().withTimeout(10))));
     }
 }
