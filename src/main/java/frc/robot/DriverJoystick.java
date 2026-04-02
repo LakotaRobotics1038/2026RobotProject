@@ -5,6 +5,7 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ObstacleAlignCommand;
@@ -89,9 +90,13 @@ public class DriverJoystick extends XboxController1038 {
         this.leftTrigger().and(() -> !Dashboard.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue,
-                aligned -> setRumble(aligned ? AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY : 0.0)));
+                aligned -> Robot.isAligned = aligned));
         this.leftTrigger().whileTrue(new AdjustHoodsCommand());
         this.rightTrigger().whileTrue(new RetractHoodsCommand());
+
+        new Trigger(() -> Robot.isAligned)
+                .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
+                .onFalse(new InstantCommand(() -> setRumble(0)));
     }
 
     /**
@@ -107,11 +112,10 @@ public class DriverJoystick extends XboxController1038 {
         }
         double x = sidewaysPower * maxPower;
 
-        // double sideways = limitRate(x, prevSideways, sidewaysLimiter);
-        // prevSideways = sideways;
+        double sideways = limitRate(x, prevSideways, sidewaysLimiter);
+        prevSideways = sideways;
 
-        // return sideways;
-        return x;
+        return sideways;
     }
 
     /**
@@ -127,11 +131,10 @@ public class DriverJoystick extends XboxController1038 {
         }
         double y = forwardPower * maxPower;
 
-        // double forward = limitRate(y, prevForward, forwardLimiter);
-        // prevForward = forward;
+        double forward = limitRate(y, prevForward, forwardLimiter);
+        prevForward = forward;
 
-        // return forward;
-        return y;
+        return forward;
     }
 
     /**
@@ -147,11 +150,10 @@ public class DriverJoystick extends XboxController1038 {
         }
         double z = rotatePower * maxPower;
 
-        // double rotate = limitRate(z, prevRotate, rotateLimiter);
-        // prevRotate = rotate;
+        double rotate = limitRate(z, prevRotate, rotateLimiter);
+        prevRotate = rotate;
 
-        // return rotate;
-        return z;
+        return rotate;
     }
 
     /**

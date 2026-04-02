@@ -34,6 +34,8 @@ public class Robot extends TimedRobot {
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final Vision vision = Vision.getInstance();
 
+    public static boolean isAligned = false;
+
     // Human Interface Devices
 
     @Override

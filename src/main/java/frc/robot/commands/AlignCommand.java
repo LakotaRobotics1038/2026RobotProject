@@ -46,6 +46,13 @@ public class AlignCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        if (alignmentStateConsumer != null) {
+            alignmentStateConsumer.accept(true);
+        }
+    }
+
+    @Override
     public void execute() {
         Pose2d robotPose = driveTrain.getState().Pose;
 
@@ -81,6 +88,9 @@ public class AlignCommand extends Command {
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
         swagLights.setOperatorState(SwagLights.OperatorStates.Default);
+        if (alignmentStateConsumer != null) {
+            alignmentStateConsumer.accept(false);
+        }
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
@@ -103,9 +113,6 @@ public class AlignCommand extends Command {
                 swagLights.setOperatorState(OperatorStates.Aligned);
             } else {
                 swagLights.setOperatorState(OperatorStates.Aligning);
-            }
-            if (alignmentStateConsumer != null) {
-                alignmentStateConsumer.accept(alignedToHub);
             }
             Dashboard.HUB_ALIGNED.set(isAligned);
         }
