@@ -22,6 +22,6 @@ public class LeftAutoShoot extends Auton {
                 followPathCommand(Paths.getLeftShoot1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
-                                .andThen(new ShootCommand().withTimeout(5))));
+                                .andThen(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(5)))));
     }
 }
