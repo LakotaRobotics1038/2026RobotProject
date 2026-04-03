@@ -36,9 +36,9 @@ public class DriverJoystick extends XboxController1038 {
     private double prevRotate = 0;
 
     // Limiters
-    SlewRateLimiter forwardLimiter = new SlewRateLimiter(2.0);
-    SlewRateLimiter sidewaysLimiter = new SlewRateLimiter(2.0);
-    SlewRateLimiter rotateLimiter = new SlewRateLimiter(2.0);
+    SlewRateLimiter forwardLimiter = new SlewRateLimiter(1.5);
+    SlewRateLimiter sidewaysLimiter = new SlewRateLimiter(1.5);
+    SlewRateLimiter rotateLimiter = new SlewRateLimiter(1.5);
 
     LinearFilter forwardFilter = LinearFilter.movingAverage(5);
     LinearFilter sidewaysFilter = LinearFilter.movingAverage(5);
