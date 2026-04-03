@@ -16,8 +16,8 @@ import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants;
 
-public class MiddleSideDepotAuto extends Auton {
-    public MiddleSideDepotAuto(Optional<DriverStation.Alliance> alliance)
+public class DepotAuto extends Auton {
+    public DepotAuto(Optional<DriverStation.Alliance> alliance)
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(

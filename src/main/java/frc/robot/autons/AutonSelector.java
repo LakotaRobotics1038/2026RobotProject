@@ -11,12 +11,11 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftAuto,
-        MiddleAuto,
         RightAuto,
         LeftAutoShoot,
         MiddleAutoShoot,
         RightAutoShoot,
-        MiddleSideDepotAuto
+        DepotAuto
     }
 
     // Choosers
@@ -37,14 +36,13 @@ public class AutonSelector {
     private AutonSelector() {
         this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
-        this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Middle Auto", AutonChoices.MiddleAuto);
         this.autoChooser.addOption("Right Auto", AutonChoices.RightAuto);
         this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
         this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
         this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
-        this.autoChooser.addOption("Middle Side Depot Auto", AutonChoices.MiddleSideDepotAuto);
+        this.autoChooser.setDefaultOption("Depot Auto", AutonChoices.DepotAuto);
 
         this.delayChooser = Dashboard.DELAY_CHOOSER.get();
 
@@ -61,8 +59,6 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftAuto:
                     return new LeftAuto(alliance);
-                case MiddleAuto:
-                    return new MiddleAuto(alliance);
                 case RightAuto:
                     return new RightAuto(alliance);
                 case LeftAutoShoot:
@@ -71,8 +67,8 @@ public class AutonSelector {
                     return new MiddleAutoShoot(alliance);
                 case RightAutoShoot:
                     return new RightAutoShoot(alliance);
-                case MiddleSideDepotAuto:
-                    return new MiddleSideDepotAuto(alliance);
+                case DepotAuto:
+                    return new DepotAuto(alliance);
                 default:
                     return null;
             }
