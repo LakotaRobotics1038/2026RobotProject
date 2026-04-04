@@ -15,18 +15,18 @@ import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
-public class RightAuto extends Auton {
-    public RightAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class LeftTrenchAuto extends Auton {
+    public LeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
-                followPathCommand(Paths.getRight1Path())
+                followPathCommand(Paths.getLeft1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
-                followPathCommand(Paths.getRight2Path()),
+                followPathCommand(Paths.getLeft2Path()),
                 new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)),
-                followPathCommand(Paths.getRight3Path())
+                followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
-                followPathCommand(Paths.getRight4Path()),
+                followPathCommand(Paths.getLeft4Path()),
                 new AlignCommand().andThen(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4))));
     }
 }

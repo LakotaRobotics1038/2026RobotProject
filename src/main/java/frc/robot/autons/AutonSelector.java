@@ -10,11 +10,11 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        LeftAuto,
-        RightAuto,
-        LeftAutoShoot,
-        MiddleAutoShoot,
-        RightAutoShoot,
+        LeftTrenchAuto,
+        RightTrenchAuto,
+        LeftPreloadAuto,
+        MiddlePreloadAuto,
+        RightPreloadAuto,
         DepotAuto
     }
 
@@ -37,11 +37,11 @@ public class AutonSelector {
         this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
         this.autoChooser.addOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Right Auto", AutonChoices.RightAuto);
-        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
-        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
-        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
+        this.autoChooser.addOption("Left Trench Auto", AutonChoices.LeftTrenchAuto);
+        this.autoChooser.addOption("Right Trench Auto", AutonChoices.RightTrenchAuto);
+        this.autoChooser.addOption("Left Preload Only Auto", AutonChoices.LeftPreloadAuto);
+        this.autoChooser.addOption("Middle Preload Only Auto", AutonChoices.MiddlePreloadAuto);
+        this.autoChooser.addOption("Right Preload Only Auto", AutonChoices.RightPreloadAuto);
         this.autoChooser.setDefaultOption("Depot Auto", AutonChoices.DepotAuto);
 
         this.delayChooser = Dashboard.DELAY_CHOOSER.get();
@@ -57,16 +57,16 @@ public class AutonSelector {
         System.out.println(this.autoChooser.getSelected());
         try {
             switch (this.autoChooser.getSelected()) {
-                case LeftAuto:
-                    return new LeftAuto(alliance);
-                case RightAuto:
-                    return new RightAuto(alliance);
-                case LeftAutoShoot:
-                    return new LeftAutoShoot(alliance);
-                case MiddleAutoShoot:
-                    return new MiddleAutoShoot(alliance);
-                case RightAutoShoot:
-                    return new RightAutoShoot(alliance);
+                case LeftTrenchAuto:
+                    return new LeftTrenchAuto(alliance);
+                case RightTrenchAuto:
+                    return new RightTrenchAuto(alliance);
+                case LeftPreloadAuto:
+                    return new LeftPreloadAuto(alliance);
+                case MiddlePreloadAuto:
+                    return new MiddlePreloadAuto(alliance);
+                case RightPreloadAuto:
+                    return new RightPreloadAuto(alliance);
                 case DepotAuto:
                     return new DepotAuto(alliance);
                 default:
