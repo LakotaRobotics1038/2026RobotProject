@@ -79,7 +79,7 @@ public class SwerveConstants {
     private static final TalonFXConfiguration DRIVE_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(
                     new CurrentLimitsConfigs()
-                            .withStatorCurrentLimit(Amps.of(50))
+                            .withStatorCurrentLimit(Amps.of(60))
                             .withStatorCurrentLimitEnable(true));
     private static final TalonFXConfiguration STEER_INITIAL_CONFIGS = new TalonFXConfiguration()
             .withCurrentLimits(
@@ -87,7 +87,7 @@ public class SwerveConstants {
                             // Swerve azimuth does not require much torque output, so we can set a
                             // relatively low
                             // stator current limit to help avoid brownouts without impacting performance.
-                            .withStatorCurrentLimit(Amps.of(40))
+                            .withStatorCurrentLimit(Amps.of(60))
                             .withStatorCurrentLimitEnable(true));
     private static final CANcoderConfiguration ENCODER_INITIAL_CONFIGS = new CANcoderConfiguration();
     // Configs for the Pigeon 2; leave this null to skip applying Pigeon 2 configs
