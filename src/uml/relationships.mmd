@@ -1,18 +1,18 @@
   Robot --|> TimedRobot
   XboxController1038 --|> CommandXboxController
-  PovPositions *-- XboxController1038
+  XboxController1038 *-- PovPositions
   DriverJoystick --|> XboxController1038
   OperatorJoystick --|> XboxController1038
-  ShooterModule *-- Shooter
-  Hood *-- ShooterHoods
-  ShooterFormula *-- ShooterConstants
-  ShooterModuleConstants *-- ShooterConstants
-  AutonChoices *-- AutonSelector
-  Mode *-- AcquisitionCommand
-  Mode *-- IndexerCommand
-  PivotSetpoint *-- AcquisitionPivotConstants
-  RobotStates *-- SwagLights
-  OperatorStates *-- SwagLights
+  Shooter *-- ShooterModule
+  ShooterHoods *-- Hood
+  ShooterConstants *-- ShooterFormula
+  ShooterConstants *-- ShooterModuleConstants
+  AutonSelector *-- AutonChoices
+  AcquisitionCommand *-- Mode
+  IndexerCommand *-- Mode
+  AcquisitionPivotConstants *-- PivotSetpoint
+  SwagLights *-- RobotStates
+  SwagLights *-- OperatorStates
   EntryDashboardValue --|> DashboardValue
   SendableDashboardValue --|> DashboardValue
   SuppliedDashboardValue --|> DashboardValue
@@ -22,7 +22,9 @@
   LeftAutoShoot --|> Auton
   MiddleAutoShoot --|> Auton
   RightAutoShoot --|> Auton
-  LeftAutoDepotShoot --|> Auton
+  MiddleAuto --|> Auton
+  MiddleSideDepotAuto --|> Auton
+  RightAuto --|> Auton
 
   ShootCommand --|> Command
   AlignCommand --|> Command
@@ -33,11 +35,72 @@
   AcquisitionPivotTrenchRetract --|> Command
   IndexerCommand --|> Command
   ObstacleAlignCommand --|> Command
+  HubActivationDetectionCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector
   Robot *-- SwagLights
   Robot *-- DriveTrain
   Robot *-- Vision
+  Robot ..> Dashboard
+  Robot ..> DriverJoystick
+  Robot ..> OperatorJoystick
+  Robot ..> HubActivationDetectionCommand
   Robot ..> Auton
   AutonSelector ..> Dashboard
+  AutonSelector ..> LeftAuto
+  AutonSelector ..> MiddleAuto
+  AutonSelector ..> RightAuto
+  AutonSelector ..> LeftAutoShoot
+  AutonSelector ..> MiddleAutoShoot
+  AutonSelector ..> RightAutoShoot
+  AutonSelector ..> MiddleSideDepotAuto
+  Auton ..> DriveTrain
+  Auton ..> AutonSelector
+
+  DriverJoystick ..> DriveTrain
+  DriverJoystick ..> ShooterHoods
+  DriverJoystick ..> Dashboard
+  DriverJoystick ..> Telemetry
+  DriverJoystick ..> AlignCommand
+  DriverJoystick ..> ObstacleAlignCommand
+  DriverJoystick ..> AdjustHoodsCommand
+  DriverJoystick ..> RetractHoodsCommand
+
+  OperatorJoystick ..> Dashboard
+  OperatorJoystick ..> AcquisitionCommand
+  OperatorJoystick ..> AcquisitionPivotCommand
+  OperatorJoystick ..> ShootCommand
+
+  Dashboard ..> DriveTrain
+  Dashboard ..> AutonChoices
+  Dashboard ..> DashboardValue
+  Dashboard ..> EntryDashboardValue
+  Dashboard ..> SendableDashboardValue
+  Dashboard ..> SuppliedDashboardValue
+
+  AcquisitionCommand ..> Acquisition
+  AcquisitionPivotCommand ..> AcquisitionPivot
+  AcquisitionPivotTrenchRetract ..> AcquisitionPivot
+  RetractHoodsCommand ..> ShooterHoods
+  AdjustHoodsCommand ..> Dashboard
+  AdjustHoodsCommand ..> DriveTrain
+  AdjustHoodsCommand ..> Shooter
+  AdjustHoodsCommand ..> ShooterHoods
+  AlignCommand ..> Dashboard
+  AlignCommand ..> DriveTrain
+  AlignCommand ..> Shooter
+  AlignCommand ..> SwagLights
+  IndexerCommand ..> Indexer
+  IndexerCommand ..> Kicker
+  ObstacleAlignCommand ..> DriveTrain
+  ShootCommand ..> Dashboard
+  ShootCommand ..> DriveTrain
+  ShootCommand ..> Shooter
+  ShootCommand ..> SwagLights
+  ShootCommand ..> Acquisition
+  ShootCommand ..> AcquisitionPivot
+  ShootCommand ..> Indexer
+  ShootCommand ..> Kicker
+  HubActivationDetectionCommand ..> Dashboard
+  HubActivationDetectionCommand ..> SwagLights

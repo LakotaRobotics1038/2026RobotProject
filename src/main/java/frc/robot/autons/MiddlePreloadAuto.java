@@ -1,7 +1,7 @@
 package frc.robot.autons;
 
 import com.pathplanner.lib.util.FileVersionException;
-import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class MiddlePreloadAuto extends Auton {
-    public MiddlePreloadAuto(Optional<DriverStation.Alliance> alliance)
+    public MiddlePreloadAuto(Optional<Alliance> alliance)
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
