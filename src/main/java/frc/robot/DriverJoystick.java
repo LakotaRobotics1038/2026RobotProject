@@ -89,12 +89,11 @@ public class DriverJoystick extends XboxController1038 {
         this.leftBumper().whileTrue(new ObstacleAlignCommand(this::getForwardValue, this::getSidewaysValue));
         this.leftTrigger().and(() -> !Dashboard.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
                 this::getForwardValue,
-                this::getSidewaysValue,
-                aligned -> Robot.isAligned = aligned));
+                this::getSidewaysValue));
         this.leftTrigger().whileTrue(new AdjustHoodsCommand());
         this.rightTrigger().whileTrue(new RetractHoodsCommand());
 
-        new Trigger(() -> Robot.isAligned)
+        new Trigger(() -> Dashboard.HUB_ALIGNING.get())
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
                 .onFalse(new InstantCommand(() -> setRumble(0)));
     }

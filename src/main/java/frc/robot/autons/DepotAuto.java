@@ -26,7 +26,7 @@ public class DepotAuto extends Auton {
                 followPathCommand(Paths.getMiddleSideDepot2Path())
                         .raceWith(new AcquisitionCommand(Mode.INTAKE)),
                 followPathCommand(Paths.getMiddleSideDepot3Path()),
-                new AlignCommand().andThen(new AdjustHoodsCommand().raceWith(
+                new AlignCommand().raceWith(new AdjustHoodsCommand().raceWith(
                         new ShootCommand().withTimeout(10))));
     }
 }

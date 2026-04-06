@@ -33,6 +33,9 @@ public class Dashboard extends SubsystemBase {
             "Rot",
             () -> DriveTrain.getInstance().getRotation(),
             0.0);
+    public static final DashboardValue<Boolean> HUB_ALIGNING = new DashboardValue<>(
+            "Hub Aligning",
+            false);
     public static final DashboardValue<Boolean> HUB_ALIGNED = new DashboardValue<>(
             "Hub Aligned",
             false);

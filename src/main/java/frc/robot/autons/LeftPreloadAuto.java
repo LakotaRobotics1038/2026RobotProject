@@ -22,6 +22,6 @@ public class LeftPreloadAuto extends Auton {
                 followPathCommand(Paths.getLeftShoot1Path()),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
-                                .andThen(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(5)))));
+                                .raceWith(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(5)))));
     }
 }

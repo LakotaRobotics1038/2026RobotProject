@@ -64,7 +64,7 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.rightTrigger().whileTrue(new ShootCommand(timer -> this.b().getAsBoolean()));
 
-        new Trigger(() -> Robot.isAligned)
+        new Trigger(() -> Dashboard.HUB_ALIGNING.get())
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
                 .onFalse(new InstantCommand(() -> setRumble(0)));
     }

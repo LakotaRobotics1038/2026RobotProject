@@ -21,6 +21,6 @@ public class MiddlePreloadAuto extends Auton {
                 new AcquisitionPivotCommand(AcquisitionPivotConstants.PivotSetpoint.LOWERED),
                 new AdjustHoodsCommand().raceWith(
                         new AlignCommand()
-                                .andThen(new ShootCommand().withTimeout(5))));
+                                .raceWith(new ShootCommand().withTimeout(5))));
     }
 }

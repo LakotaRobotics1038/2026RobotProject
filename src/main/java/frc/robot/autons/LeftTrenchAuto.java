@@ -27,6 +27,6 @@ public class LeftTrenchAuto extends Auton {
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getLeft4Path()),
-                new AlignCommand().andThen(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4))));
+                new AlignCommand().raceWith(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4))));
     }
 }
