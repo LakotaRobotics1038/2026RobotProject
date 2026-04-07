@@ -4,7 +4,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.util.function.BooleanConsumer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
@@ -24,17 +23,14 @@ public class AlignCommand extends Command {
     private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
-    private final BooleanConsumer alignmentStateConsumer;
     private final PIDController rotationController = new PIDController(DriveConstants.P, DriveConstants.I,
             DriveConstants.D);
     private Boolean alignedToHub;
 
     public AlignCommand(DoubleSupplier forwardSpeedSupplier,
-            DoubleSupplier sidewaysSpeedSupplier,
-            BooleanConsumer alignmentStateConsumer) {
+            DoubleSupplier sidewaysSpeedSupplier) {
         this.forwardSpeedSupplier = forwardSpeedSupplier;
         this.sidewaysSpeedSupplier = sidewaysSpeedSupplier;
-        this.alignmentStateConsumer = alignmentStateConsumer;
         rotationController.enableContinuousInput(-Math.PI, Math.PI);
         rotationController.setTolerance(DriveConstants.ALIGNMENT_TOLERANCE_RAD);
 
@@ -42,7 +38,12 @@ public class AlignCommand extends Command {
     }
 
     public AlignCommand() {
-        this(() -> 0, () -> 0, null);
+        this(() -> 0, () -> 0);
+    }
+
+    @Override
+    public void initialize() {
+        Dashboard.HUB_ALIGNING.set(true);
     }
 
     @Override
@@ -67,10 +68,6 @@ public class AlignCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (this.alignmentStateConsumer == null) {
-            return rotationController.atSetpoint();
-        }
-
         return false;
     }
 
@@ -81,6 +78,7 @@ public class AlignCommand extends Command {
                 driveTrain.drive(forwardSpeedSupplier.getAsDouble(), -sidewaysSpeedSupplier.getAsDouble(), 0, true));
         updateAlignmentState(false);
         swagLights.setOperatorState(SwagLights.OperatorStates.Default);
+        Dashboard.HUB_ALIGNING.set(false);
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
@@ -103,9 +101,6 @@ public class AlignCommand extends Command {
                 swagLights.setOperatorState(OperatorStates.Aligned);
             } else {
                 swagLights.setOperatorState(OperatorStates.Aligning);
-            }
-            if (alignmentStateConsumer != null) {
-                alignmentStateConsumer.accept(alignedToHub);
             }
             Dashboard.HUB_ALIGNED.set(isAligned);
         }

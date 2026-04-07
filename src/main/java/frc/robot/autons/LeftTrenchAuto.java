@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionPivotCommand;
 import frc.robot.commands.AdjustHoodsCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
-public class LeftAuto extends Auton {
-    public LeftAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class LeftTrenchAuto extends Auton {
+    public LeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
                 new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
@@ -26,6 +27,6 @@ public class LeftAuto extends Auton {
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.Mode.INTAKE)),
                 followPathCommand(Paths.getLeft4Path()),
-                new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4)));
+                new AlignCommand().raceWith(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(4))));
     }
 }

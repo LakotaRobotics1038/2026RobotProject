@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AcquisitionPivotCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.AcquisitionPivotConstants;
@@ -62,5 +63,9 @@ public class OperatorJoystick extends XboxController1038 {
         }));
 
         this.rightTrigger().whileTrue(new ShootCommand(timer -> this.b().getAsBoolean()));
+
+        new Trigger(() -> Dashboard.HUB_ALIGNING.get())
+                .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
+                .onFalse(new InstantCommand(() -> setRumble(0)));
     }
 }
