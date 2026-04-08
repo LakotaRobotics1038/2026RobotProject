@@ -30,16 +30,6 @@ public class DriverJoystick extends XboxController1038 {
     // Instance Variables
     private double maxPower = DriveConstants.DEFAULT_MAX_POWER;
 
-    // Previous Status
-    private double prevSideways = 0;
-    private double prevForward = 0;
-    private double prevRotate = 0;
-
-    // Limiters
-    SlewRateLimiter forwardLimiter = new SlewRateLimiter(1.5);
-    SlewRateLimiter sidewaysLimiter = new SlewRateLimiter(1.5);
-    SlewRateLimiter rotateLimiter = new SlewRateLimiter(1.5);
-
     LinearFilter forwardFilter = LinearFilter.movingAverage(5);
     LinearFilter sidewaysFilter = LinearFilter.movingAverage(5);
 
@@ -109,10 +99,7 @@ public class DriverJoystick extends XboxController1038 {
         sidewaysPower = Math.copySign(sidewaysPower, this.getLeftX());
         double x = sidewaysPower * maxPower;
 
-        double sideways = limitRate(x, prevSideways, sidewaysLimiter);
-        prevSideways = sideways;
-
-        return sideways;
+        return x;
     }
 
     /**
@@ -126,10 +113,7 @@ public class DriverJoystick extends XboxController1038 {
         forwardPower = Math.copySign(forwardPower, this.getLeftY());
         double y = forwardPower * maxPower;
 
-        double forward = limitRate(y, prevForward, forwardLimiter);
-        prevForward = forward;
-
-        return forward;
+        return y;
     }
 
     /**
@@ -143,10 +127,7 @@ public class DriverJoystick extends XboxController1038 {
         rotatePower = Math.copySign(rotatePower, this.getRightX());
         double z = rotatePower * maxPower;
 
-        double rotate = limitRate(z, prevRotate, rotateLimiter);
-        prevRotate = rotate;
-
-        return rotate;
+        return z;
     }
 
     /**
