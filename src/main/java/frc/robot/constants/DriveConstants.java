@@ -35,4 +35,12 @@ public final class DriveConstants {
 
     // 3/4 of a rotation angular velocity per second max
     public static final double MAX_ANGULAR_RATE = RotationsPerSecond.of(0.75).in(RadiansPerSecond);
+
+    public static final double JOYSTICK_EXPONENT = 2.0;
+
+    public static final double P = 8.0;
+    public static final double I = 0.0;
+    public static final double D = 0.0;
+    public static final double ALIGNMENT_TOLERANCE_RAD = Math.toRadians(5.0);
+    public static final double MAX_ROTATION_POWER = 1.0;
 }

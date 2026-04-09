@@ -1,0 +1,11 @@
+classDiagram
+  direction LR
+
+  class AcquisitionCommand {
+    - acquisition Acquisition
+    - mode Mode
+    + AcquisitionCommand(Mode)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }

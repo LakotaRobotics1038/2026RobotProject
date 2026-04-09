@@ -7,19 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Start to Middle Acquire"
+            "pathName": "Left 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Middle to Shoot"
+            "pathName": "Left 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left 4"
           }
         }
       ]
     }
   },
-  "resetOdom": false,
+  "resetOdom": true,
   "folder": null,
   "choreoAuto": false
 }

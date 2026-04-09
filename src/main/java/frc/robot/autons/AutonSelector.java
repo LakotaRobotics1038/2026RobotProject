@@ -10,11 +10,12 @@ import frc.robot.subsystems.Dashboard;
 public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
-        LeftAuto,
-        LeftAutoShoot,
-        MiddleAutoShoot,
-        RightAutoShoot,
-        LeftAutoDepotShoot
+        LeftTrenchAuto,
+        RightTrenchAuto,
+        LeftPreloadAuto,
+        MiddlePreloadAuto,
+        RightPreloadAuto,
+        DepotAuto
     }
 
     // Choosers
@@ -33,16 +34,17 @@ public class AutonSelector {
     }
 
     private AutonSelector() {
-        this.autoChooser = Dashboard.getInstance().getAutoChooser();
+        this.autoChooser = Dashboard.AUTO_CHOOSER.get();
 
-        this.autoChooser.setDefaultOption("No Auto", AutonChoices.NoAuto);
-        this.autoChooser.addOption("Left Auto", AutonChoices.LeftAuto);
-        this.autoChooser.addOption("Left Auto Shoot", AutonChoices.LeftAutoShoot);
-        this.autoChooser.addOption("Middle Auto Shoot", AutonChoices.MiddleAutoShoot);
-        this.autoChooser.addOption("Right Auto Shoot", AutonChoices.RightAutoShoot);
-        this.autoChooser.addOption("Left Auto Depot Shoot", AutonChoices.LeftAutoDepotShoot);
+        this.autoChooser.addOption("No Auto", AutonChoices.NoAuto);
+        this.autoChooser.addOption("Left Trench Auto", AutonChoices.LeftTrenchAuto);
+        this.autoChooser.addOption("Right Trench Auto", AutonChoices.RightTrenchAuto);
+        this.autoChooser.addOption("Left Preload Only Auto", AutonChoices.LeftPreloadAuto);
+        this.autoChooser.addOption("Middle Preload Only Auto", AutonChoices.MiddlePreloadAuto);
+        this.autoChooser.addOption("Right Preload Only Auto", AutonChoices.RightPreloadAuto);
+        this.autoChooser.setDefaultOption("Depot Auto", AutonChoices.DepotAuto);
 
-        this.delayChooser = Dashboard.getInstance().getDelayChooser();
+        this.delayChooser = Dashboard.DELAY_CHOOSER.get();
 
         this.delayChooser.setDefaultOption("0 Seconds", 0.0);
         for (int i = 1; i <= 14; i++) {
@@ -55,16 +57,18 @@ public class AutonSelector {
         System.out.println(this.autoChooser.getSelected());
         try {
             switch (this.autoChooser.getSelected()) {
-                case LeftAuto:
-                    return new LeftAuto(alliance);
-                case LeftAutoShoot:
-                    return new LeftAutoShoot(alliance);
-                case MiddleAutoShoot:
-                    return new MiddleAutoShoot(alliance);
-                case RightAutoShoot:
-                    return new RightAutoShoot(alliance);
-                case LeftAutoDepotShoot:
-                    return new LeftAutoDepotShoot(alliance);
+                case LeftTrenchAuto:
+                    return new LeftTrenchAuto(alliance);
+                case RightTrenchAuto:
+                    return new RightTrenchAuto(alliance);
+                case LeftPreloadAuto:
+                    return new LeftPreloadAuto(alliance);
+                case MiddlePreloadAuto:
+                    return new MiddlePreloadAuto(alliance);
+                case RightPreloadAuto:
+                    return new RightPreloadAuto(alliance);
+                case DepotAuto:
+                    return new DepotAuto(alliance);
                 default:
                     return null;
             }

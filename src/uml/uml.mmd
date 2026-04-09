@@ -42,10 +42,12 @@ classDiagram
     <<enumeration>>
     NoAuto
     LeftAuto
+    MiddleAuto
+    RightAuto
     LeftAutoShoot
     MiddleAutoShoot
     RightAutoShoot
-    LeftAutoDepotShoot
+    MiddleSideDepotAuto
   }
 
   %% --- frc/robot/autons/AutonSelector.mmd ---
@@ -64,14 +66,14 @@ classDiagram
     + LeftAuto(Optional~Alliance~)
   }
 
-  %% --- frc/robot/autons/LeftAutoDepotShoot.mmd ---
-  class LeftAutoDepotShoot {
-    + LeftAutoDepotShoot(Optional~Alliance~)
-  }
-
   %% --- frc/robot/autons/LeftAutoShoot.mmd ---
   class LeftAutoShoot {
     + LeftAutoShoot(Optional~Alliance~)
+  }
+
+  %% --- frc/robot/autons/MiddleAuto.mmd ---
+  class MiddleAuto {
+    + MiddleAuto(Optional~Alliance~)
   }
 
   %% --- frc/robot/autons/MiddleAutoShoot.mmd ---
@@ -79,15 +81,38 @@ classDiagram
     + MiddleAutoShoot(Optional~Alliance~)
   }
 
+  %% --- frc/robot/autons/MiddleSideDepotAuto.mmd ---
+  class MiddleSideDepotAuto {
+    + MiddleSideDepotAuto(Optional~Alliance~)
+  }
+
   %% --- frc/robot/autons/Paths.mmd ---
   class Paths {
-    + getLeftStartPath()$ PathPlannerPath
-    + getMiddleAcquireToShootPath()$ PathPlannerPath
     + getLeft1Path()$ PathPlannerPath
+    + getLeft2Path()$ PathPlannerPath
+    + getLeft3Path()$ PathPlannerPath
+    + getLeft4Path()$ PathPlannerPath
     + getMiddle1Path()$ PathPlannerPath
+    + getMiddle2Path()$ PathPlannerPath
+    + getMiddle3Path()$ PathPlannerPath
+    + getMiddle4Path()$ PathPlannerPath
+    + getMiddle5Path()$ PathPlannerPath
     + getRight1Path()$ PathPlannerPath
+    + getRight2Path()$ PathPlannerPath
+    + getRight3Path()$ PathPlannerPath
+    + getRight4Path()$ PathPlannerPath
+    + getLeftShoot1Path()$ PathPlannerPath
+    + getRightShoot1Path()$ PathPlannerPath
     + getDepotLeft1Path()$ PathPlannerPath
     + getDepotLeft2Path()$ PathPlannerPath
+    + getMiddleSideDepot1Path()$ PathPlannerPath
+    + getMiddleSideDepot2Path()$ PathPlannerPath
+    + getMiddleSideDepot3Path()$ PathPlannerPath
+  }
+
+  %% --- frc/robot/autons/RightAuto.mmd ---
+  class RightAuto {
+    + RightAuto(Optional~Alliance~)
   }
 
   %% --- frc/robot/autons/RightAutoShoot.mmd ---
@@ -95,30 +120,29 @@ classDiagram
     + RightAutoShoot(Optional~Alliance~)
   }
 
-  %% --- frc/robot/commands/AcquisitionPivotCommand.mmd ---
-  class AcquisitionPivotCommand {
+  %% --- frc/robot/commands/AcquisitionCommand.mmd ---
+  class AcquisitionCommand {
     - acquisition Acquisition
-    - setpoint AcquisitionSetpoint
-    + AcquisitionPivotCommand(AcquisitionSetpoint)
-    + initialize() void
-    + isFinished() boolean
-  }
-
-  %% --- frc/robot/commands/AcquisitionRunCommand.mmd ---
-  class AcquisitionRunCommand {
-    - acquisition Acquisition
-    - kicker Kicker
     - mode Mode
-    + AcquisitionRunCommand(Mode)
+    + AcquisitionCommand(Mode)
     + initialize() void
     + isFinished() boolean
     + end(boolean) void
   }
 
-  %% --- frc/robot/commands/AcquisitionTrenchRetract.mmd ---
-  class AcquisitionTrenchRetract {
-    - acquisition Acquisition
-    + AcquisitionTrenchRetract()
+  %% --- frc/robot/commands/AcquisitionPivotCommand.mmd ---
+  class AcquisitionPivotCommand {
+    - pivot AcquisitionPivot
+    - setpoint PivotSetpoint
+    + AcquisitionPivotCommand(PivotSetpoint)
+    + initialize() void
+    + isFinished() boolean
+  }
+
+  %% --- frc/robot/commands/AcquisitionPivotTrenchRetract.mmd ---
+  class AcquisitionPivotTrenchRetract {
+    - pivot AcquisitionPivot
+    + AcquisitionPivotTrenchRetract()
     + initialize() void
     + isFinished() boolean
   }
@@ -128,7 +152,6 @@ classDiagram
     - shooterHoods ShooterHoods
     - shooter Shooter
     - driveTrain DriveTrain
-    - dashboard Dashboard
     + AdjustHoodsCommand()
     + execute() void
     + isFinished() boolean
@@ -136,14 +159,8 @@ classDiagram
 
   %% --- frc/robot/commands/AlignCommand.mmd ---
   class AlignCommand {
-    - P$ double
-    - I$ double
-    - D$ double
-    - MAX_ROTATION_POWER$ double
-    - ALIGNMENT_TOLERANCE_RAD$ double
     + HUB_ALIGNMENT_RUMBLE_INTENSITY$ double
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - shooter Shooter
     - swagLights SwagLights
     - forwardSpeedSupplier DoubleSupplier
@@ -160,11 +177,48 @@ classDiagram
     - updateAlignmentState(boolean) void
   }
 
+  %% --- frc/robot/commands/HubActivationDetectionCommand.mmd ---
+  class HubActivationDetectionCommand {
+    + SECONDS_BEFORE_HUB_ACTIVATION : double
+    + HubActivationDetectionCommand(DoubleConsumer)
+    + execute() : void
+    + end(boolean) : void
+    + isHubEnablingSoon() : boolean
+  }
+
+  %% --- frc/robot/commands/IndexerCommand.mmd ---
+  class IndexerCommand {
+    - indexer Indexer
+    - kicker Kicker
+    - mode Mode
+    + IndexerCommand(Mode)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }
+
   %% --- frc/robot/commands/Mode.mmd ---
   class Mode {
     <<enumeration>>
     INTAKE
     DISPOSE
+  }
+
+  %% --- frc/robot/commands/ObstacleAlignCommand.mmd ---
+  class ObstacleAlignCommand {
+    - TRENCH_TURN_SNAP_STEP$ double
+    - TRENCH_TURN_SNAP_OFFSET$ double
+    - BUMP_TURN_SNAP_STEP$ double
+    - BUMP_TURN_SNAP_OFFSET$ double
+    - driveTrain DriveTrain
+    - forwardSpeedSupplier DoubleSupplier
+    - sidewaysSpeedSupplier DoubleSupplier
+    - rotationController PIDController
+    + ObstacleAlignCommand(DoubleSupplier,DoubleSupplier)
+    + execute() void
+    + end(boolean) void
+    - isInTrench(Translation2d) boolean
+    - snapToNearest(double,double,double) double
   }
 
   %% --- frc/robot/commands/RetractHoodsCommand.mmd ---
@@ -178,17 +232,14 @@ classDiagram
   %% --- frc/robot/commands/ShootCommand.mmd ---
   class ShootCommand {
     - HOOD_SERVO_MOVE_TIME$ double
-    - ACQUISITION_LOWER_WIGGLE_TIME$ double
-    - ACQUISITION_RAISE_WIGGLE_TIME$ double
-    - acquisition Acquisition
+    - pivot AcquisitionPivot
+    - indexer Indexer
     - kicker Kicker
     - shooter Shooter
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - swagLights SwagLights
     - timer Timer
-    - wiggleAcquisitionSupplier BooleanSupplier
-    - startingPivotDegrees double
+    - tiltAcquisitionSupplier BooleanSupplier
     + ShootCommand()
     + ShootCommand(BooleanSupplier)
     + initialize() void
@@ -200,35 +251,27 @@ classDiagram
   %% --- frc/robot/constants/AcquisitionConstants.mmd ---
   class AcquisitionConstants {
     <<final>>
-    - AcquisitionConstants()
-    + PIVOT_MOTOR_CAN_ID$ int
-    + INTAKE_MOTOR_CAN_ID$ int
-    + PIVOT_P$ double
-    + PIVOT_I$ double
-    + PIVOT_D$ double
-    + PIVOT_ENCODER_CONVERSION_FACTOR$ double
-    + PIVOT_ALLOWED_ERROR_DEGREES$ double
-    + PIVOT_OPERATING_TOLERANCE$ double
-    + PIVOT_POWER$ double
-    + PIVOT_MAX_TRENCH_ANGLE_DEGREES$ double
-    + PIVOT_MIN_ANGLE$ double
-    + PIVOT_MAX_ANGLE$ double
-    + PIVOT_MIN_WIGGLE$ double
-    + PIVOT_MAX_WIGGLE$ double
-    + INTAKE_ACQUIRE_DUTY_CYCLE$ double
-    + INTAKE_DISPOSE_DUTY_CYCLE$ double
+    + MOTOR_CAN_ID$ int
+    + ACQUIRE_POWER$ double
+    + DISPOSE_POWER$ double
   }
 
-  %% --- frc/robot/constants/AcquisitionSetpoint.mmd ---
-  class AcquisitionSetpoint {
-    <<enumeration>>
-    RAISED
-    LOW_RAISE
-    HIGH_RAISE
-    LOWERED
-    - degrees double
-    - AcquisitionSetpoint(double)
-    + getDegrees() double
+  %% --- frc/robot/constants/AcquisitionPivotConstants.mmd ---
+  class AcquisitionPivotConstants {
+    <<final>>
+    + MOTOR_CAN_ID$ int
+    + P$ double
+    + I$ double
+    + D$ double
+    - GEAR_RATIO$ double
+    + ENCODER_CONVERSION_FACTOR$ double
+    + ALLOWED_ERROR_DEGREES$ double
+    + OPERATING_TOLERANCE$ double
+    + POWER$ double
+    + MAX_TRENCH_ANGLE$ double
+    + MIN_ANGLE$ double
+    + MAX_ANGLE$ double
+    + TILT$ double
   }
 
   %% --- frc/robot/constants/AutoConstants.mmd ---
@@ -248,25 +291,6 @@ classDiagram
     + ROBOT_CONFIG$ Optional~RobotConfig~
   }
 
-  %% --- frc/robot/constants/DashboardConstants.mmd ---
-  class DashboardConstants {
-    <<final>>
-    + AUTON_CHOICES$ String
-    + DELAY_CHOICES$ String
-    + ROBOT_X$ String
-    + ROBOT_Y$ String
-    + ROBOT_ROT$ String
-    + HUB_ALIGNED$ String
-    + MANUAL_MODE_ENABLED$ String
-    + MANUAL_SHOOTER_RPM$ String
-    + MANUAL_SHOOTER_HOOD_ANGLE$ String
-    + ACQUISITION_MIN_WIGGLE$ String
-    + ACQUISITION_MAX_WIGGLE$ String
-    + ENABLE_ACQUISITION_PIVOT$ String
-    + shooterSlopeKey(double)$ String
-    + shooterYInterceptKey(double)$ String
-  }
-
   %% --- frc/robot/constants/DriveConstants.mmd ---
   class DriveConstants {
     <<final>>
@@ -282,6 +306,11 @@ classDiagram
     + FINE_ADJUSTMENT_PERCENT$ double
     + MAX_SPEED$ double
     + MAX_ANGULAR_RATE$ double
+    + P$ double
+    + I$ double
+    + D$ double
+    + ALIGNMENT_TOLERANCE_RAD$ double
+    + MAX_ROTATION_POWER$ double
   }
 
   %% --- frc/robot/constants/FieldConstants.mmd ---
@@ -291,10 +320,12 @@ classDiagram
     - HUB_LENGTH$ double
     - HUB_CENTER_X$ double
     - HUB_CENTER_Y$ double
+    - HUB_LEFT_Y$ double
+    - HUB_RIGHT_Y$ double
     + HUB_POSITION$ Translation2d
     - BUMP_WIDTH$ double
     - BUMP_DEPTH$ double
-    - TRENCH_WIDTH$ double
+    + TRENCH_WIDTH$ double
     - LEFT_TRENCH_Y_OFFSET$ double
     - RIGHT_TRENCH_Y_OFFSET$ double
     - LEFT_BUMP_Y_OFFSET$ double
@@ -312,7 +343,21 @@ classDiagram
     - RED_LEFT_TRENCH$ Rectangle2d
     - RED_RIGHT_TRENCH$ Rectangle2d
     + TRENCH_RECTANGLES$ List~Rectangle2d~
+    - BLUE_LEFT_OBSTACLES$ Rectangle2d
+    - BLUE_RIGHT_OBSTACLES$ Rectangle2d
+    - RED_LEFT_ALLIANCE$ Rectangle2d
+    - RED_RIGHT_OBSTACLES$ Rectangle2d
     + targetPosition()$ Translation2d
+    + flipX(double)$ double
+    + flipY(double)$ double
+  }
+
+  %% --- frc/robot/constants/IndexerConstants.mmd ---
+  class IndexerConstants {
+    <<final>>
+    + MOTOR_CAN_ID$ int
+    + ACQUIRE_DUTY_CYCLE$ double
+    + DISPOSE_DUTY_CYCLE$ double
   }
 
   %% --- frc/robot/constants/IOConstants.mmd ---
@@ -349,6 +394,16 @@ classDiagram
     + BATTERY_VOLTAGE$ double
   }
 
+  %% --- frc/robot/constants/PivotSetpoint.mmd ---
+  class PivotSetpoint {
+    <<enumeration>>
+    RAISED
+    LOWERED
+    - degrees double
+    - PivotSetpoint(double)
+    + getDegrees() double
+  }
+
   %% --- frc/robot/constants/ShooterConstants.mmd ---
   class ShooterConstants {
     <<final>>
@@ -373,8 +428,8 @@ classDiagram
   %% --- frc/robot/constants/ShooterFormula.mmd ---
   class ShooterFormula {
     <<static inner>>
-    - slope double
-    - yIntercept double
+    - slope DashboardValue~Double~
+    - yIntercept DashboardValue~Double~
     - min double
     - max double
     - angle double
@@ -507,11 +562,11 @@ classDiagram
     - LEFT_CAMERA_Z_OFFSET$ double
     + ROBOT_TO_LEFT_CAM$ Transform3d
     + ROBOT_TO_LEFT_CAM_NAME$ String
-    - RIGHT_CAMERA_X_OFFSET$ double
-    - RIGHT_CAMERA_Y_OFFSET$ double
-    - RIGHT_CAMERA_Z_OFFSET$ double
-    + ROBOT_TO_RIGHT_CAM$ Transform3d
-    + ROBOT_TO_RIGHT_CAM_NAME$ String
+    - BACK_CAMERA_X_OFFSET$ double
+    - BACK_CAMERA_Y_OFFSET$ double
+    - BACK_CAMERA_Z_OFFSET$ double
+    + ROBOT_TO_BACK_CAM$ Transform3d
+    + ROBOT_TO_BACK_CAM_NAME$ String
     + SINGLE_TAG_STD_DEVS$ Matrix~N3,N1~
     + MULTI_TAG_STD_DEVS$ Matrix~N3,N1~
   }
@@ -519,7 +574,6 @@ classDiagram
   %% --- frc/robot/DriverJoystick.mmd ---
   class DriverJoystick {
     - driveTrain DriveTrain
-    - dashboard Dashboard
     - shooterHoods ShooterHoods
     - maxPower double
     - prevSideways double
@@ -575,7 +629,6 @@ classDiagram
   %% --- frc/robot/OperatorJoystick.mmd ---
   class OperatorJoystick {
     + instance$ OperatorJoystick
-    - dashboard Dashboard
     - OperatorJoystick()
     + getInstance()$ OperatorJoystick
   }
@@ -607,76 +660,53 @@ classDiagram
 
   %% --- frc/robot/subsystems/Acquisition.mmd ---
   class Acquisition {
-    - pivotMotor SparkMax
-    - intakeMotor SparkMax
-    - intakeEncoder RelativeEncoder
-    - pivotEncoder AbsoluteEncoder
-    - pivotController SparkClosedLoopController
-    - intakeController SparkClosedLoopController
     - instance$ Acquisition
+    - motor SparkFlex
+    - controller SparkClosedLoopController
     - Acquisition()
     + getInstance()$ Acquisition
-    + setPivot(AcquisitionSetpoint) void
-    + setPivotDegrees(double) void
-    + acquire() void
+    + intake() void
     + dispose() void
-    + stopIntake() void
+    + stop() void
+  }
+
+  %% --- frc/robot/subsystems/AcquisitionPivot.mmd ---
+  class AcquisitionPivot {
+    - instance$ AcquisitionPivot
+    - motor SparkMax
+    - pivotEncoder AbsoluteEncoder
+    - pidController PIDController
+    - enabled boolean
+    - AcquisitionPivot()
+    + getInstance()$ AcquisitionPivot
+    + setAngleSetpoint(PivotSetpoint) void
+    + setAngle(double) void
+    + periodic() void
     + stopPivot() void
-    + pivotAtSetpoint() boolean
-    + getIntakeRPM() double
-    + getPivotPosition() double
+    + isAtSetpoint() boolean
+    + getPosition() double
+    + setEnabled(boolean) void
   }
 
   %% --- frc/robot/subsystems/Dashboard.mmd ---
   class Dashboard {
-    - autoChooser SendableChooser~AutonChoices~
-    - delayChooser SendableChooser~Double~
     - instance$ Dashboard
+    + ROBOT_X$ SuppliedDashboardValue~Double~
+    + ROBOT_Y$ SuppliedDashboardValue~Double~
+    + ROBOT_ROT$ SuppliedDashboardValue~Double~
+    + HUB_ALIGNED$ DashboardValue~Boolean~
+    + MANUAL_MODE_ENABLED$ DashboardValue~Boolean~
+    + MANUAL_SHOOTER_RPM$ EntryDashboardValue~Double~
+    + MANUAL_SHOOTER_HOOD_ANGLE$ EntryDashboardValue~Double~
+    + ACQUISITION_TILT$ DashboardValue~Double~
+    + FIELD$ SendableDashboardValue~Field2d~
+    + AUTO_CHOOSER$ DashboardValue~SendableChooser~AutonChoices~~
+    + DELAY_CHOOSER$ DashboardValue~SendableChooser~Double~~
+    + HUB_ACTIVATING$ DashboardValue~Boolean~
     - Dashboard()
     + getInstance()$ Dashboard
     + periodic() void
-    + clearTrajectory() void
-    + getAutoChooser() SendableChooser~AutonChoices~
-    + getDelayChooser() SendableChooser~Double~
-    + setHubAligned(boolean) void
-    + isManualModeEnabled() boolean
-    + getManualShooterRPM() double
-    + getManualShooterHoodAngle() double
-    + nudgeManualShooterRPMBackward() void
-    + nudgeManualShooterRPMForward() void
-    + resetManualShooterRPM() void
-    + nudgeManualShooterHoodAngleBackward() void
-    + nudgeManualShooterHoodAngleForward() void
-    + resetManualShooterHoodAngle() void
-    + getAcquisitionMinWiggle() double
-    + getAcquisitionMaxWiggle() double
-  }
-
-  %% --- frc/robot/subsystems/DashboardValue.mmd ---
-  class DashboardValue {
-    <<enumeration>>
-    ROBOT_X
-    ROBOT_Y
-    ROBOT_ROT
-    HUB_ALIGNED
-    MANUAL_MODE_ENABLED
-    MANUAL_SHOOTER_RPM
-    MANUAL_SHOOTER_HOOD_ANGLE
-    ACQUISITION_MIN_WIGGLE
-    ACQUISITION_MAX_WIGGLE
-    FIELD
-    - supplier Supplier~Object~
-    - transformer UnaryOperator~Object~
-    - periodicAction Consumer~Object~
-    - entry NetworkTableEntry
-    - value Object
-    - DashboardValue(String,Supplier,Object)
-    - DashboardValue(String,Object)
-    - DashboardValue(String,UnaryOperator,Object)
-    - DashboardValue(Sendable,Consumer)
-    + get() Object
-    + set(Object) void
-    - periodic() void
+    + clearFieldTrajectory() void
   }
 
   %% --- frc/robot/subsystems/DriveTrain.mmd ---
@@ -724,6 +754,18 @@ classDiagram
     + setAngle(double) void
   }
 
+  %% --- frc/robot/subsystems/Indexer.mmd ---
+  class Indexer {
+    - instance$ Indexer
+    - motor SparkMax
+    - controller SparkClosedLoopController
+    - Indexer()
+    + getInstance()$ Indexer
+    + start() void
+    + reverse() void
+    + stop() void
+  }
+
   %% --- frc/robot/subsystems/Kicker.mmd ---
   class Kicker {
     - motor SparkMax
@@ -747,6 +789,7 @@ classDiagram
     Aligning
     Aligned
     TooClose
+    HubActivating
     + value String
     - OperatorStates(String)
   }
@@ -821,22 +864,22 @@ classDiagram
 
   %% --- frc/robot/subsystems/Vision.mmd ---
   class Vision {
-    - frontCam PhotonCamera
+    - leftCamera PhotonCamera
     - backCam PhotonCamera
-    - frontCamPhotonEstimator PhotonPoseEstimator
+    - leftCamPhotonEstimator PhotonPoseEstimator
     - backCamPhotonEstimator PhotonPoseEstimator
-    - frontCurStdDevs Matrix~N3,N1~
+    - leftCurStdDevs Matrix~N3,N1~
     - backCurStdDevs Matrix~N3,N1~
-    - frontStdDevSetter Consumer
+    - leftStdDevSetter Consumer
     - backStdDevSetter Consumer
     - instance$ Vision
     - Vision()
     - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix,Consumer) Optional
     - updateEstimationStdDevs(PhotonPoseEstimator,Optional,List) Matrix
     + getInstance()$ Vision
-    + frontCamGetEstimatedGlobalPose() Optional
+    + leftCamGetEstimatedGlobalPose() Optional
     + backCamGetEstimatedGlobalPose() Optional
-    + getFrontEstimationStdDevs() Matrix
+    + getLeftEstimationStdDevs() Matrix
     + getBackEstimationStdDevs() Matrix
   }
 
@@ -865,6 +908,40 @@ classDiagram
     + telemeterize(SwerveDriveState state) void
   }
 
+  %% --- frc/robot/utils/dashboard/DashboardValue.mmd ---
+  class DashboardValue {
+    - allValues$ List~DashboardValue~
+    # name String
+    # entry NetworkTableEntry
+    # isSendable boolean
+    + DashboardValue(String,T)
+    + values()$ List~DashboardValue~
+    + get() T
+    + set(T) void
+    + periodic() void
+  }
+
+  %% --- frc/robot/utils/dashboard/EntryDashboardValue.mmd ---
+  class EntryDashboardValue {
+    - transformer UnaryOperator~T~
+    + EntryDashboardValue(String,UnaryOperator~T~,T)
+    + set(T) void
+  }
+
+  %% --- frc/robot/utils/dashboard/SendableDashboardValue.mmd ---
+  class SendableDashboardValue {
+    - consumer Consumer~T~
+    + SendableDashboardValue(String,Consumer~T~,T)
+    + periodic() void
+  }
+
+  %% --- frc/robot/utils/dashboard/SuppliedDashboardValue.mmd ---
+  class SuppliedDashboardValue {
+    - supplier Supplier~T~
+    + SuppliedDashboardValue(String,Supplier~T~,T)
+    + periodic() void
+  }
+
   %% --- frc/robot/utils/RectangleUtils.mmd ---
   class RectangleUtils {
     - RectangleUtils()
@@ -877,38 +954,107 @@ classDiagram
 
   Robot --|> TimedRobot
   XboxController1038 --|> CommandXboxController
-  PovPositions *-- XboxController1038
+  XboxController1038 *-- PovPositions
   DriverJoystick --|> XboxController1038
   OperatorJoystick --|> XboxController1038
-  ShooterModule *-- Shooter
-  Hood *-- ShooterHoods
-  DashboardValue *-- Dashboard
-  ShooterFormula *-- ShooterConstants
-  ShooterModuleConstants *-- ShooterConstants
-  AutonChoices *-- AutonSelector
-  Mode *-- AcquisitionRunCommand
-  RobotStates *-- SwagLights
-  OperatorStates *-- SwagLights
+  Shooter *-- ShooterModule
+  ShooterHoods *-- Hood
+  ShooterConstants *-- ShooterFormula
+  ShooterConstants *-- ShooterModuleConstants
+  AutonSelector *-- AutonChoices
+  AcquisitionCommand *-- Mode
+  IndexerCommand *-- Mode
+  AcquisitionPivotConstants *-- PivotSetpoint
+  SwagLights *-- RobotStates
+  SwagLights *-- OperatorStates
+  EntryDashboardValue --|> DashboardValue
+  SendableDashboardValue --|> DashboardValue
+  SuppliedDashboardValue --|> DashboardValue
 
   Auton --|> SequentialCommandGroup
   LeftAuto --|> Auton
   LeftAutoShoot --|> Auton
   MiddleAutoShoot --|> Auton
   RightAutoShoot --|> Auton
-  LeftAutoDepotShoot --|> Auton
+  MiddleAuto --|> Auton
+  MiddleSideDepotAuto --|> Auton
+  RightAuto --|> Auton
 
   ShootCommand --|> Command
   AlignCommand --|> Command
   AdjustHoodsCommand --|> Command
   RetractHoodsCommand --|> Command
-  AcquisitionRunCommand --|> Command
+  AcquisitionCommand --|> Command
   AcquisitionPivotCommand --|> Command
-  AcquisitionTrenchRetract --|> Command
+  AcquisitionPivotTrenchRetract --|> Command
+  IndexerCommand --|> Command
+  ObstacleAlignCommand --|> Command
+  HubActivationDetectionCommand --|> Command
 
   Main ..> Robot
   Robot *-- AutonSelector
   Robot *-- SwagLights
   Robot *-- DriveTrain
   Robot *-- Vision
+  Robot ..> Dashboard
+  Robot ..> DriverJoystick
+  Robot ..> OperatorJoystick
+  Robot ..> HubActivationDetectionCommand
   Robot ..> Auton
   AutonSelector ..> Dashboard
+  AutonSelector ..> LeftAuto
+  AutonSelector ..> MiddleAuto
+  AutonSelector ..> RightAuto
+  AutonSelector ..> LeftAutoShoot
+  AutonSelector ..> MiddleAutoShoot
+  AutonSelector ..> RightAutoShoot
+  AutonSelector ..> MiddleSideDepotAuto
+  Auton ..> DriveTrain
+  Auton ..> AutonSelector
+
+  DriverJoystick ..> DriveTrain
+  DriverJoystick ..> ShooterHoods
+  DriverJoystick ..> Dashboard
+  DriverJoystick ..> Telemetry
+  DriverJoystick ..> AlignCommand
+  DriverJoystick ..> ObstacleAlignCommand
+  DriverJoystick ..> AdjustHoodsCommand
+  DriverJoystick ..> RetractHoodsCommand
+
+  OperatorJoystick ..> Dashboard
+  OperatorJoystick ..> AcquisitionCommand
+  OperatorJoystick ..> AcquisitionPivotCommand
+  OperatorJoystick ..> ShootCommand
+
+  Dashboard ..> DriveTrain
+  Dashboard ..> AutonChoices
+  Dashboard ..> DashboardValue
+  Dashboard ..> EntryDashboardValue
+  Dashboard ..> SendableDashboardValue
+  Dashboard ..> SuppliedDashboardValue
+
+  AcquisitionCommand ..> Acquisition
+  AcquisitionPivotCommand ..> AcquisitionPivot
+  AcquisitionPivotTrenchRetract ..> AcquisitionPivot
+  RetractHoodsCommand ..> ShooterHoods
+  AdjustHoodsCommand ..> Dashboard
+  AdjustHoodsCommand ..> DriveTrain
+  AdjustHoodsCommand ..> Shooter
+  AdjustHoodsCommand ..> ShooterHoods
+  AlignCommand ..> Dashboard
+  AlignCommand ..> DriveTrain
+  AlignCommand ..> Shooter
+  AlignCommand ..> SwagLights
+  IndexerCommand ..> Indexer
+  IndexerCommand ..> Kicker
+  ObstacleAlignCommand ..> DriveTrain
+  ShootCommand ..> Dashboard
+  ShootCommand ..> DriveTrain
+  ShootCommand ..> Shooter
+  ShootCommand ..> SwagLights
+  ShootCommand ..> Acquisition
+  ShootCommand ..> AcquisitionPivot
+  ShootCommand ..> Indexer
+  ShootCommand ..> Kicker
+  HubActivationDetectionCommand ..> Dashboard
+  HubActivationDetectionCommand ..> SwagLights

@@ -7,14 +7,16 @@ import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionCommand.IntakeDirection;
 import frc.robot.commands.RetractHoodCommand;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
+import frc.robot.constants.ShooterConstants;
+import frc.robot.constants.ShooterHoodConstants;
 
 public class OperatorJoystick extends XboxController1038 {
     public static OperatorJoystick instance;
-    private final Dashboard dashboard = Dashboard.getInstance();
 
     public static OperatorJoystick getInstance() {
         if (instance == null) {
@@ -28,28 +30,43 @@ public class OperatorJoystick extends XboxController1038 {
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Up))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMForward));
+                        () -> Dashboard.MANUAL_SHOOTER_RPM.set(
+                                Dashboard.MANUAL_SHOOTER_RPM.get()
+                                        + ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Down))
                 .onTrue(new InstantCommand(
-                        dashboard::nudgeManualShooterRPMBackward));
+                        () -> Dashboard.MANUAL_SHOOTER_RPM.set(
+                                Dashboard.MANUAL_SHOOTER_RPM.get()
+                                        - ShooterConstants.MANUAL_SHOOTER_RPM_STEP)));
         new Trigger(() -> this.getPOV().equals(PovPositions.Left))
-                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleBackward));
+                .onTrue(new InstantCommand(
+                        () -> Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                                Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.get()
+                                        - ShooterHoodConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
 
         new Trigger(() -> this.getPOV().equals(PovPositions.Right))
-                .onTrue(new InstantCommand(dashboard::nudgeManualShooterHoodAngleForward));
+                .onTrue(new InstantCommand(
+                        () -> Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                                Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.get()
+                                        + ShooterHoodConstants.MANUAL_SHOOTER_ANGLE_INCREMENT)));
 
-        this.leftBumper().whileTrue(new AcquisitionCommand(IntakeDirection.INTAKE));
-        this.rightBumper().whileTrue(new AcquisitionCommand(IntakeDirection.DISPOSE));
+        this.leftBumper().whileTrue(new AcquisitionCommand(IntakeDirection.DISPOSE));
+        this.rightBumper().whileTrue(new AcquisitionCommand(IntakeDirection.INTAKE));
 
         this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.FORWARD));
         this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.BACKWARD));
         this.x().whileTrue(new RetractHoodCommand());
         this.start().onTrue(new InstantCommand(() -> {
-            dashboard.resetManualShooterRPM();
-            dashboard.resetManualShooterHoodAngle();
+            Dashboard.MANUAL_SHOOTER_RPM.set(ShooterConstants.MANUAL_SHOOTER_RPM);
+            Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(
+                    ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
         }));
 
         this.rightTrigger().whileTrue(new ShootCommand());
+
+        new Trigger(Dashboard.HUB_ALIGNING::get)
+                .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
+                .onFalse(new InstantCommand(() -> setRumble(0)));
     }
 }

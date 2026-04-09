@@ -4,11 +4,17 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkFlex;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.AcquisitionConstants;
 
 public class Acquisition extends SubsystemBase {

@@ -3,6 +3,8 @@ package frc.robot.constants;
 import java.util.List;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import frc.robot.utils.dashboard.DashboardValue;
 
 public final class ShooterConstants {
     public static final int SHOOTER_MOTOR_LEFT_TOP_CAN_ID = 5;
@@ -50,8 +52,8 @@ public final class ShooterConstants {
                     10000.0));
 
     public static final class ShooterFormula {
-        private double slope;
-        private double yIntercept;
+        private final DashboardValue<Double> slope;
+        private final DashboardValue<Double> yIntercept;
         private final double min;
         private final double max;
         private final double angle;
@@ -63,8 +65,8 @@ public final class ShooterConstants {
                 double min,
                 double max) {
             this.angle = angle;
-            this.slope = shooterSlope;
-            this.yIntercept = shooterYIntercept;
+            this.slope = new DashboardValue<>("Shooter Slope " + (int) angle, shooterSlope);
+            this.yIntercept = new DashboardValue<>("Shooter Y Intercept " + (int) angle, shooterYIntercept);
             this.min = min;
             this.max = max;
         }
@@ -82,23 +84,23 @@ public final class ShooterConstants {
         }
 
         public double getSlope() {
-            return slope;
+            return slope.get();
         }
 
         public void setSlope(double slope) {
-            this.slope = slope;
+            this.slope.set(slope);
         }
 
         public double getYIntercept() {
-            return yIntercept;
+            return yIntercept.get();
         }
 
         public void setYIntercept(double yIntercept) {
-            this.yIntercept = yIntercept;
+            this.yIntercept.set(yIntercept);
         }
 
         public double getShooterRPM(double distance) {
-            return slope * distance + yIntercept;
+            return getSlope() * distance + getYIntercept();
         }
     }
 }

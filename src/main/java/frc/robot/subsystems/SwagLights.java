@@ -19,9 +19,10 @@ public class SwagLights implements Subsystem {
 
     public enum OperatorStates {
         Default("X"),
-        Aligning("A"),
+        Aligning("P"),
         Aligned("S"),
-        TooClose("C");
+        TooClose("C"),
+        HubActivating("H");
 
         public final String value;
 
