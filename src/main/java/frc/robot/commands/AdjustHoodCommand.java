@@ -3,36 +3,34 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.constants.ShooterHoodConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterHoods;
+import frc.robot.subsystems.ShooterHood;
 
-public class AdjustHoodsCommand extends Command {
-    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
+public class AdjustHoodCommand extends Command {
+    private final ShooterHood shooterHood = ShooterHood.getInstance();
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
 
-    public AdjustHoodsCommand() {
-        addRequirements(shooterHoods);
+    public AdjustHoodCommand() {
+        addRequirements(shooterHood);
     }
 
     @Override
     public void execute() {
         if (Dashboard.MANUAL_MODE_ENABLED.get()) {
             double angle = Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.get();
-            shooterHoods.getNearHood().setAngle(angle);
-            shooterHoods.getFarHood().setAngle(angle);
+            shooterHood.setAngle(angle);
         } else {
             Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getFarShooter().getTargetDistance(robotPose);
+            double distance = shooter.getTargetDistance(robotPose);
 
             for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
                 if (formula.getMin() <= distance && formula.getMax() >= distance) {
                     double angle = formula.getAngle();
-                    shooterHoods.getFarHood().setAngle(angle);
-                    shooterHoods.getNearHood().setAngle(angle);
+                    shooterHood.setAngle(angle);
                     break;
                 }
             }
@@ -46,7 +44,6 @@ public class AdjustHoodsCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooterHoods.getNearHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
-        shooterHoods.getFarHood().setAngle(ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        shooterHood.setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
     }
 }

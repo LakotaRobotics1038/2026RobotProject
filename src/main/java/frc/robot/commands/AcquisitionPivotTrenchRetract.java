@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.AcquisitionPivotConstants;
-import frc.robot.subsystems.AcquisitionPivot;
 
 public class AcquisitionPivotTrenchRetract extends Command {
     private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();

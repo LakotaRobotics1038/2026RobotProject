@@ -6,23 +6,24 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AdjustHoodsCommand;
+import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ObstacleAlignCommand;
-import frc.robot.commands.RetractHoodsCommand;
+import frc.robot.commands.RetractHoodCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ShooterHoods;
+import frc.robot.subsystems.ShooterHood;
 import frc.robot.utils.RectangleUtils;
 
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final ShooterHoods shooterHoods = ShooterHoods.getInstance();
+    private final Dashboard dashboard = Dashboard.getInstance();
+    private final ShooterHood shooterHood = ShooterHood.getInstance();
 
     // Commands
     // NONE
@@ -77,7 +78,7 @@ public class DriverJoystick extends XboxController1038 {
             return driveTrain.drive(forward, -sideways, -rotate, true);
         }));
 
-        shooterHoods.setDefaultCommand(new RetractHoodsCommand());
+        shooterHood.setDefaultCommand(new RetractHoodCommand());
 
         this.driveTrain.registerTelemetry(logger::telemeterize);
 
@@ -90,8 +91,8 @@ public class DriverJoystick extends XboxController1038 {
         this.leftTrigger().and(() -> !Dashboard.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
                 this::getForwardValue,
                 this::getSidewaysValue));
-        this.leftTrigger().whileTrue(new AdjustHoodsCommand());
-        this.rightTrigger().whileTrue(new RetractHoodsCommand());
+        this.leftTrigger().whileTrue(new AdjustHoodCommand());
+        this.rightTrigger().whileTrue(new RetractHoodCommand());
 
         new Trigger(() -> Dashboard.HUB_ALIGNING.get())
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
