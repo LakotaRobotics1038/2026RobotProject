@@ -14,9 +14,7 @@ import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
     private static final double HOOD_SERVO_MOVE_TIME = 0.5;
-    private static final double ACQUISITION_TILT_TIME = 1 + HOOD_SERVO_MOVE_TIME;
 
-    private final AcquisitionPivot pivot = AcquisitionPivot.getInstance();
     private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
@@ -25,7 +23,7 @@ public class ShootCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
 
     public ShootCommand() {
-        addRequirements(pivot, kicker, shooter, indexer, acquisition);
+        addRequirements(kicker, shooter, indexer, acquisition);
     }
 
     @Override

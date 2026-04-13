@@ -22,7 +22,6 @@ import frc.robot.utils.RectangleUtils;
 public class DriverJoystick extends XboxController1038 {
     // Subsystem Dependencies
     private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final Dashboard dashboard = Dashboard.getInstance();
     private final ShooterHood shooterHood = ShooterHood.getInstance();
 
     // Commands
@@ -94,7 +93,7 @@ public class DriverJoystick extends XboxController1038 {
         this.leftTrigger().whileTrue(new AdjustHoodCommand());
         this.rightTrigger().whileTrue(new RetractHoodCommand());
 
-        new Trigger(() -> Dashboard.HUB_ALIGNING.get())
+        new Trigger(Dashboard.HUB_ALIGNING::get)
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
                 .onFalse(new InstantCommand(() -> setRumble(0)));
     }
