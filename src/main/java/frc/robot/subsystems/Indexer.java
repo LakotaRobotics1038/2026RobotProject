@@ -31,11 +31,11 @@ public class Indexer extends SubsystemBase {
         return instance;
     }
 
-    public void in() {
+    public void intake() {
         controller.setSetpoint(IndexerConstants.FORWARD_POWER, ControlType.kDutyCycle);
     }
 
-    public void out() {
+    public void dispose() {
         controller.setSetpoint(IndexerConstants.BACKWARD_POWER, ControlType.kDutyCycle);
     }
 

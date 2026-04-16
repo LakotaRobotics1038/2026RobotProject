@@ -13,8 +13,6 @@ import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
-    private static final double HOOD_SERVO_MOVE_TIME = 0.5;
-
     private final Indexer indexer = Indexer.getInstance();
     private final Kicker kicker = Kicker.getInstance();
     private final Shooter shooter = Shooter.getInstance();
@@ -59,7 +57,7 @@ public class ShootCommand extends Command {
 
         if (validPosition) {
             kicker.start();
-            indexer.in();
+            indexer.intake();
         } else {
             kicker.stop();
             indexer.stop();

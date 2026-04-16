@@ -16,10 +16,10 @@ public class IndexerCommand extends Command {
 
     @Override
     public void initialize() {
-        if (direction == IndexerDirection.IN) {
-            indexer.in();
+        if (direction == IndexerDirection.INTAKE) {
+            indexer.intake();
         } else {
-            indexer.out();
+            indexer.dispose();
         }
         kicker.reverse();
     }
@@ -36,7 +36,7 @@ public class IndexerCommand extends Command {
     }
 
     public enum IndexerDirection {
-        IN,
-        OUT
+        INTAKE,
+        DISPOSE
     }
 }
