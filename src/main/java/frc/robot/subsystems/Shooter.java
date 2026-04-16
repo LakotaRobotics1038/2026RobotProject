@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -13,7 +14,11 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.ShooterConstants;
@@ -29,7 +34,16 @@ public class Shooter extends SubsystemBase {
             SparkLowLevel.MotorType.kBrushless);
     private final SparkMax rightBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-
+    private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
+            new SysIdRoutine.Config(
+                    null,
+                    null,
+                    null,
+                    (state) -> SignalLogger.writeString("state", state.toString())),
+            new SysIdRoutine.Mechanism(
+                    (Voltage voltage) -> leftTop.setVoltage(voltage),
+                    null,
+                    this));
     private final SparkClosedLoopController controller = leftTop.getClosedLoopController();
     private final RelativeEncoder encoder = leftTop.getEncoder();
 
@@ -127,5 +141,13 @@ public class Shooter extends SubsystemBase {
                 .plus(ShooterConstants.SHOOTER_BARREL_CENTER.rotateBy(robotPose.getRotation()));
         Translation2d toTargetFromModule = targetPosition.minus(moduleFieldPosition);
         return toTargetFromModule.getAngle().getRadians();
+    }
+
+    public Command quasistaticSysId(Direction direction) {
+        return sysIdRoutine.quasistatic(direction);
+    }
+
+    public Command dynamicSysId(Direction direction) {
+        return sysIdRoutine.dynamic(direction);
     }
 }
