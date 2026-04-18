@@ -1,6 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.SignalLogger;
+import static edu.wpi.first.units.Units.Volts;
+import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
 import com.revrobotics.PersistMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
@@ -15,6 +18,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -34,18 +38,17 @@ public class Shooter extends SubsystemBase {
             SparkLowLevel.MotorType.kBrushless);
     private final SparkMax rightBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
-            new SysIdRoutine.Config(
-                    null,
-                    null,
-                    null,
-                    (state) -> SignalLogger.writeString("state", state.toString())),
-            new SysIdRoutine.Mechanism(
-                    (Voltage voltage) -> leftTop.setVoltage(voltage),
-                    null,
-                    this));
     private final SparkClosedLoopController controller = leftTop.getClosedLoopController();
     private final RelativeEncoder encoder = leftTop.getEncoder();
+    private final SysIdRoutine sysIdRoutine = new SysIdRoutine(
+            new SysIdRoutine.Config(),
+            new SysIdRoutine.Mechanism(
+                    (Voltage voltage) -> leftTop.setVoltage(voltage),
+                    log -> log.motor("shooter-left-top")
+                            .voltage(Volts.of(leftTop.getAppliedOutput() * RobotController.getBatteryVoltage()))
+                            .angularPosition(Rotations.of(encoder.getPosition()))
+                            .angularVelocity(RotationsPerSecond.of(encoder.getVelocity() / 60.0)),
+                    this));
 
     private Shooter() {
         SparkMaxConfig baseConfig = new SparkMaxConfig();

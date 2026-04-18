@@ -11,7 +11,6 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
 
@@ -20,7 +19,6 @@ public class AlignCommand extends Command {
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
 
-    private final Shooter shooter = Shooter.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
@@ -83,7 +81,8 @@ public class AlignCommand extends Command {
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
-        Translation2d toTarget = FieldConstants.targetPosition(robotPose.getTranslation()).minus(robotPose.getTranslation());
+        Translation2d toTarget = FieldConstants.targetPosition(robotPose.getTranslation())
+                .minus(robotPose.getTranslation());
         // Point the back of the robot at the target (180 degrees from front)
         return MathUtil.angleModulus(toTarget.getAngle().getRadians() + Math.PI);
     }
