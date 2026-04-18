@@ -11,7 +11,7 @@ public final class ShooterConstants {
     public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 6;
     public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 12;
     public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 13;
-    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(0, 0);
+    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(Units.inchesToMeters(5.202363), 0);
 
     public static final double OPERATING_TOLERANCE = 75;
 
