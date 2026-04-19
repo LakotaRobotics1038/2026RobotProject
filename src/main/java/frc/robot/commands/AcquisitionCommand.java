@@ -4,20 +4,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Acquisition;
 
 public class AcquisitionCommand extends Command {
-    private final Acquisition acquisition = Acquisition.getInstance();
-    private final Mode mode;
+    private final Acquisition intake = Acquisition.getInstance();
+    private final IntakeDirection direction;
 
-    public AcquisitionCommand(Mode mode) {
-        this.mode = mode;
-        addRequirements(acquisition);
+    public AcquisitionCommand(IntakeDirection direction) {
+        this.direction = direction;
+        addRequirements(intake);
     }
 
     @Override
     public void initialize() {
-        if (mode == Mode.INTAKE) {
-            acquisition.intake();
-        } else if (mode == Mode.DISPOSE) {
-            acquisition.dispose();
+        if (direction == IntakeDirection.INTAKE) {
+            intake.intake();
+        } else {
+            intake.dispose();
         }
     }
 
@@ -28,10 +28,10 @@ public class AcquisitionCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        acquisition.stop();
+        intake.stop();
     }
 
-    public enum Mode {
+    public enum IntakeDirection {
         INTAKE,
         DISPOSE
     }

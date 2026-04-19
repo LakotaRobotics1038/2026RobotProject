@@ -2,11 +2,11 @@ package frc.robot.autons;
 
 import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AdjustHoodsCommand;
+import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
+import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
 import org.json.simple.parser.ParseException;
 
@@ -18,9 +18,9 @@ public class RightPreloadAuto extends Auton {
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
-                followPathCommand(Paths.getRightShoot1Path()),
-                new AdjustHoodsCommand().raceWith(
+                new HopperExtensionCommand(ExtensionDirection.FORWARD),
+                followPathCommand(Paths.getRight1Path()),
+                new AdjustHoodCommand().raceWith(
                         new AlignCommand()
                                 .raceWith(new ShootCommand().withTimeout(5))));
     }

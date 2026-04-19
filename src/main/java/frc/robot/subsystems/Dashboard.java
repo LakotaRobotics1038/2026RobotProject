@@ -9,9 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
-import frc.robot.constants.AcquisitionPivotConstants;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.constants.ShooterHoodsConstants;
+import frc.robot.constants.ShooterHoodConstants;
 import frc.robot.utils.dashboard.DashboardValue;
 import frc.robot.utils.dashboard.EntryDashboardValue;
 import frc.robot.utils.dashboard.SendableDashboardValue;
@@ -51,12 +50,9 @@ public class Dashboard extends SubsystemBase {
     public static final EntryDashboardValue<Double> MANUAL_SHOOTER_HOOD_ANGLE = new EntryDashboardValue<>(
             "Manual Shooter Hood Angle",
             v -> MathUtil.clamp(v,
-                    ShooterHoodsConstants.SHOOTER_NO_RETRACTION_ANGLE,
-                    ShooterHoodsConstants.SHOOTER_FULL_RETRACTION_ANGLE),
-            ShooterHoodsConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
-    public static final DashboardValue<Double> ACQUISITION_TILT = new DashboardValue<>(
-            "Acquisition Tilt",
-            AcquisitionPivotConstants.TILT);
+                    ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
+                    ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE),
+            ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
     public static final SendableDashboardValue<Field2d> FIELD = new SendableDashboardValue<>(
             "Field",
             v -> v.setRobotPose(
