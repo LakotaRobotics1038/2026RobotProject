@@ -1,8 +1,7 @@
 package frc.robot.constants;
 
 public final class AcquisitionConstants {
-    public static final int LEFT_MOTOR_CAN_ID = 22;
-    public static final int RIGHT_MOTOR_CAN_ID = 23;
+    public static final int LEFT_MOTOR_CAN_ID = 17;
 
     public static final double P = 0.0;
     public static final double I = 0.0;

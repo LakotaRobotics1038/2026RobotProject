@@ -8,9 +8,9 @@ import frc.robot.utils.dashboard.DashboardValue;
 
 public final class ShooterConstants {
     public static final int SHOOTER_MOTOR_LEFT_TOP_CAN_ID = 5;
-    public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 6;
-    public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 12;
-    public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 13;
+    public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 3;
+    public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 16;
+    public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 15;
     public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(Units.inchesToMeters(5.202363), 0);
 
     public static final double OPERATING_TOLERANCE = 75;

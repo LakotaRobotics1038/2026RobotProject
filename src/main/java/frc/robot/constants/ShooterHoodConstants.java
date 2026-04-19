@@ -1,8 +1,8 @@
 package frc.robot.constants;
 
 public final class ShooterHoodConstants {
-    public static final int LEFT_MOTOR_CAN_ID = 20;
-    public static final int RIGHT_MOTOR_CAN_ID = 21;
+    public static final int LEFT_MOTOR_CAN_ID = 13;
+    public static final int RIGHT_MOTOR_CAN_ID = 12;
 
     public static final double P = 0;
     public static final double I = 0;
