@@ -26,10 +26,10 @@ classDiagram
     + applyRequest(Supplier~SwerveRequest~) Command
     + sysIdQuasistatic(SysIdRoutine.Direction) Command
     + sysIdDynamic(SysIdRoutine.Direction) Command
-    + addVisionMeasurement(Pose2d,double) void
-    + addVisionMeasurement(Pose2d,double,Matrix~N3,N1~) void
     + periodic() void
     - startSimThread() void
+    + addVisionMeasurement(Pose2d,double) void
+    + addVisionMeasurement(Pose2d,double,Matrix~N3,N1~) void
     + getX() double
     + getY() double
     + getRotation() double
