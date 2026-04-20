@@ -13,16 +13,16 @@ import frc.robot.constants.AcquisitionConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
-    private final SparkFlex leftMotor = new SparkFlex(AcquisitionConstants.LEFT_MOTOR_CAN_ID,
+    private final SparkFlex motor = new SparkFlex(AcquisitionConstants.MOTOR_CAN_ID,
             MotorType.kBrushless);
-    private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private Acquisition() {
         SparkFlexConfig config = new SparkFlexConfig();
         config.idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P, AcquisitionConstants.I,
                 AcquisitionConstants.D).feedForward
                 .sva(AcquisitionConstants.S, AcquisitionConstants.V, AcquisitionConstants.A);
-        leftMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Acquisition getInstance() {
@@ -41,10 +41,10 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void stop() {
-        leftMotor.stopMotor();
+        motor.stopMotor();
     }
 
     public double getRPM() {
-        return leftMotor.getEncoder().getVelocity();
+        return motor.getEncoder().getVelocity();
     }
 }
