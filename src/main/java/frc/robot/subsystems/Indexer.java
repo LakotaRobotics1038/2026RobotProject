@@ -11,6 +11,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.IndexerConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Indexer extends SubsystemBase {
     private static Indexer instance;
@@ -20,7 +21,7 @@ public class Indexer extends SubsystemBase {
 
     private Indexer() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.idleMode(IdleMode.kCoast);
+        config.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).idleMode(IdleMode.kCoast);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 

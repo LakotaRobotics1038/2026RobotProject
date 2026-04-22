@@ -10,6 +10,7 @@ import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
@@ -19,9 +20,10 @@ public class Acquisition extends SubsystemBase {
 
     private Acquisition() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P, AcquisitionConstants.I,
-                AcquisitionConstants.D).feedForward
-                .sva(AcquisitionConstants.S, AcquisitionConstants.V, AcquisitionConstants.A);
+        config.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT)
+                .idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P,
+                        AcquisitionConstants.I,
+                        AcquisitionConstants.D);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 

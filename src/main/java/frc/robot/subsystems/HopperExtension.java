@@ -13,6 +13,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.HopperExtensionConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class HopperExtension extends SubsystemBase {
     private static HopperExtension instance;
@@ -22,14 +23,13 @@ public class HopperExtension extends SubsystemBase {
 
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.idleMode(IdleMode.kBrake).limitSwitch
+        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kBrake).limitSwitch
                 .forwardLimitSwitchType(Type.kNormallyOpen)
                 .forwardLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition)
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
         config.closedLoop.pid(HopperExtensionConstants.P, HopperExtensionConstants.I,
-                HopperExtensionConstants.D).feedForward
-                .sva(HopperExtensionConstants.S, HopperExtensionConstants.V, HopperExtensionConstants.A);
+                HopperExtensionConstants.D);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -40,16 +40,16 @@ public class HopperExtension extends SubsystemBase {
         return instance;
     }
 
-    public void forward() {
+    public void out() {
         controller.setSetpoint(HopperExtensionConstants.FORWARD_RPM, ControlType.kVelocity);
     }
 
-    public void backward() {
+    public void in() {
         controller.setSetpoint(HopperExtensionConstants.BACKWARD_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
-        controller.setSetpoint(0, ControlType.kDutyCycle);
+        motor.stopMotor();
     }
 
     public boolean getForwardLimitSwitchPressed() {

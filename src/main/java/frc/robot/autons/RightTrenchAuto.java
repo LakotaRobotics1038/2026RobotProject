@@ -18,7 +18,7 @@ public class RightTrenchAuto extends Auton {
     public RightTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.BACKWARD),
+                new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT),
                 followPathCommand(Paths.getRight1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getRight2Path()),

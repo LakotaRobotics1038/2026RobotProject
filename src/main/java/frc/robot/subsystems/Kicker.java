@@ -23,13 +23,13 @@ public class Kicker extends SubsystemBase {
     private Kicker() {
         SparkFlexConfig kickerConfig = new SparkFlexConfig();
         kickerConfig.idleMode(IdleMode.kCoast).inverted(true)
-                .smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(KickerConstants.KICKER_P, KickerConstants.KICKER_I, KickerConstants.KICKER_D);
         kickerMotor.configure(kickerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         SparkFlexConfig feederConfig = new SparkFlexConfig();
         feederConfig.idleMode(IdleMode.kCoast).inverted(true)
-                .smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).closedLoop
+                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(KickerConstants.FEEDER_P, KickerConstants.FEEDER_I, KickerConstants.FEEDER_D);
         feederMotor.configure(feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }

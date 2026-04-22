@@ -14,16 +14,16 @@ public class HopperExtensionCommand extends Command {
 
     @Override
     public void initialize() {
-        if (direction == ExtensionDirection.FORWARD) {
-            extension.forward();
+        if (direction == ExtensionDirection.IN) {
+            extension.in();
         } else {
-            extension.backward();
+            extension.out();
         }
     }
 
     @Override
     public boolean isFinished() {
-        if (direction == ExtensionDirection.FORWARD) {
+        if (direction == ExtensionDirection.IN) {
             return extension.getForwardLimitSwitchPressed();
         } else {
             return extension.getReverseLimitSwitchPressed();
@@ -36,7 +36,7 @@ public class HopperExtensionCommand extends Command {
     }
 
     public enum ExtensionDirection {
-        FORWARD,
-        BACKWARD
+        IN,
+        OUT
     }
 }

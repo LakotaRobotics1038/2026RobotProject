@@ -8,7 +8,6 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
@@ -18,10 +17,8 @@ public class LeftPreloadAuto extends Auton {
     public LeftPreloadAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new HopperExtensionCommand(ExtensionDirection.FORWARD),
+                new HopperExtensionCommand(ExtensionDirection.OUT),
                 followPathCommand(Paths.getLeft1Path()),
-                new AdjustHoodCommand().raceWith(
-                        new AlignCommand()
-                                .raceWith(new AdjustHoodCommand().raceWith(new ShootCommand().withTimeout(5)))));
+                new AlignCommand().raceWith(new ShootCommand().withTimeout(5)));
     }
 }

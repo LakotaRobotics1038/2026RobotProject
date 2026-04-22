@@ -21,7 +21,6 @@ public class IndexerCommand extends Command {
         } else {
             indexer.dispose();
         }
-        kicker.reverse();
     }
 
     @Override

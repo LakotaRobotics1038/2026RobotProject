@@ -53,8 +53,8 @@ public class OperatorJoystick extends XboxController1038 {
         this.leftBumper().whileTrue(new AcquisitionCommand(IntakeDirection.DISPOSE));
         this.rightBumper().whileTrue(new AcquisitionCommand(IntakeDirection.INTAKE));
 
-        this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.FORWARD));
-        this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.BACKWARD));
+        this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.IN));
+        this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.OUT));
         this.start().onTrue(new InstantCommand(() -> {
             Dashboard.MANUAL_SHOOTER_RPM.set(ShooterConstants.MANUAL_SHOOTER_RPM);
             Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(

@@ -20,7 +20,7 @@ public class DepotAuto extends Auton {
         super(alliance);
         super.addCommands(
                 followPathCommand(Paths.getMiddleSideDepot1Path())
-                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.BACKWARD)),
+                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getMiddleSideDepot2Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getMiddleSideDepot3Path()),

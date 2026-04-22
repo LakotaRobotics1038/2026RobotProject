@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Indexer;
@@ -18,10 +17,9 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
-    private final Acquisition acquisition = Acquisition.getInstance();
 
     public ShootCommand() {
-        addRequirements(kicker, shooter, indexer, acquisition);
+        addRequirements(kicker, shooter, indexer);
     }
 
     @Override
