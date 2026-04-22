@@ -36,7 +36,7 @@ public class ShooterHood extends SubsystemBase {
                 .positionConversionFactor(ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
         leftMotorConfig.closedLoop.positionWrappingEnabled(true).positionWrappingInputRange(0,
                 ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR).feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
-                .allowedClosedLoopError(0.5, ClosedLoopSlot.kSlot0);
+                .allowedClosedLoopError(ShooterHoodConstants.ANGLE_TOLERANCE, ClosedLoopSlot.kSlot0);
 
         leftMotor.configure(leftMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 

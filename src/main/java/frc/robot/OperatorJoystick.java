@@ -6,7 +6,6 @@ import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionCommand.IntakeDirection;
-import frc.robot.commands.RetractHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.constants.IOConstants;
@@ -56,7 +55,6 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.FORWARD));
         this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.BACKWARD));
-        this.x().whileTrue(new RetractHoodCommand());
         this.start().onTrue(new InstantCommand(() -> {
             Dashboard.MANUAL_SHOOTER_RPM.set(ShooterConstants.MANUAL_SHOOTER_RPM);
             Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(
