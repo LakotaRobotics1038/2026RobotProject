@@ -24,9 +24,9 @@ public class HopperExtensionCommand extends Command {
     @Override
     public boolean isFinished() {
         if (direction == ExtensionDirection.IN) {
-            return extension.getForwardLimitSwitchPressed();
-        } else {
             return extension.getReverseLimitSwitchPressed();
+        } else {
+            return extension.isAtSetpoint();
         }
     }
 

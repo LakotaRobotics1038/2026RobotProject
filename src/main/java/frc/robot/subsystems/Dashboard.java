@@ -53,6 +53,10 @@ public class Dashboard extends SubsystemBase {
                     ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
                     ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE),
             ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
+    public static final SuppliedDashboardValue<Double> SHOOTER_HOOD_ANGLE = new SuppliedDashboardValue<>(
+            "Shooter Hood Angle",
+            () -> ShooterHood.getInstance().getAngle(),
+            0.0);
     public static final SendableDashboardValue<Field2d> FIELD = new SendableDashboardValue<>(
             "Field",
             v -> v.setRobotPose(

@@ -24,12 +24,12 @@ public class HopperExtension extends SubsystemBase {
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
         config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kBrake).limitSwitch
-                .forwardLimitSwitchType(Type.kNormallyOpen)
-                .forwardLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition)
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
         config.closedLoop.pid(HopperExtensionConstants.P, HopperExtensionConstants.I,
                 HopperExtensionConstants.D);
+        config.encoder.positionConversionFactor(1 / (HopperExtensionConstants.EXTENSION_TO_MOTOR_RATIO
+                * HopperExtensionConstants.EXTENSION_GEARBOX));
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -41,19 +41,16 @@ public class HopperExtension extends SubsystemBase {
     }
 
     public void out() {
-        controller.setSetpoint(HopperExtensionConstants.FORWARD_RPM, ControlType.kVelocity);
+        controller.setSetpoint(1, ControlType.kPosition);
     }
 
     public void in() {
-        controller.setSetpoint(HopperExtensionConstants.BACKWARD_RPM, ControlType.kVelocity);
+        controller.setSetpoint(HopperExtensionConstants.IN_DUTY_CYCLE, ControlType.kDutyCycle);
+        System.out.println("Hopper Extension In");
     }
 
     public void stop() {
         motor.stopMotor();
-    }
-
-    public boolean getForwardLimitSwitchPressed() {
-        return motor.getForwardLimitSwitch().isPressed();
     }
 
     public boolean getReverseLimitSwitchPressed() {
@@ -62,5 +59,9 @@ public class HopperExtension extends SubsystemBase {
 
     public double getPosition() {
         return motor.getEncoder().getPosition();
+    }
+
+    public boolean isAtSetpoint() {
+        return controller.isAtSetpoint();
     }
 }

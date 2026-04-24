@@ -34,6 +34,7 @@ public class AdjustHoodCommand extends Command {
                 }
             }
         }
+        shooterHood.update();
     }
 
     @Override
