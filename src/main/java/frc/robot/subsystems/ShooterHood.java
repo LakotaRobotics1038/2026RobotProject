@@ -5,7 +5,9 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
+import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -20,6 +22,7 @@ public class ShooterHood extends SubsystemBase {
 
     private final SparkMax leftMotor = new SparkMax(ShooterHoodConstants.LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
     private final SparkMax rightMotor = new SparkMax(ShooterHoodConstants.RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
     private final PIDController pidController = new PIDController(ShooterHoodConstants.P, ShooterHoodConstants.I,
             ShooterHoodConstants.D);
 
@@ -31,7 +34,10 @@ public class ShooterHood extends SubsystemBase {
 
         SparkMaxConfig baseConfig = new SparkMaxConfig();
         baseConfig.smartCurrentLimit(NeoMotorConstants.MAX_NEO_550_CURRENT)
-                .idleMode(SparkMaxConfig.IdleMode.kBrake);
+                .idleMode(SparkMaxConfig.IdleMode.kBrake).closedLoop
+                .pid(ShooterHoodConstants.P, ShooterHoodConstants.I, ShooterHoodConstants.D)
+                .positionWrappingEnabled(true)
+                .positionWrappingInputRange(0, ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
 
         SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
         leftMotorConfig.apply(baseConfig).inverted(true).absoluteEncoder.inverted(true)
@@ -48,7 +54,7 @@ public class ShooterHood extends SubsystemBase {
 
         pidController.enableContinuousInput(0, ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
 
-        setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        // setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
     }
 
     public static ShooterHood getInstance() {
@@ -63,17 +69,19 @@ public class ShooterHood extends SubsystemBase {
                 - MathUtil.clamp(angle, ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
                         ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
         targetAngle = encoderAngle;
-        pidController.setSetpoint(encoderAngle);
+        controller.setSetpoint(encoderAngle, ControlType.kPosition);
+        // pidController.setSetpoint(encoderAngle);
     }
 
     public void update() {
-        if (Math.abs(encoder.getPosition() - targetAngle) <= ShooterHoodConstants.ANGLE_TOLERANCE) {
-            leftMotor.stopMotor();
-        } else {
-            double output = pidController.calculate(encoder.getPosition());
-            System.out.println(output);
-            leftMotor.set(output);
-        }
+        // if (Math.abs(encoder.getPosition() - targetAngle) <=
+        // ShooterHoodConstants.ANGLE_TOLERANCE) {
+        // leftMotor.stopMotor();
+        // } else {
+        // double output = pidController.calculate(encoder.getPosition());
+        // System.out.println(output);
+        // leftMotor.set(output);
+        // }
     }
 
     public double getAngle() {

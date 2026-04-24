@@ -5,8 +5,8 @@ public final class ShooterHoodConstants {
     public static final int RIGHT_MOTOR_CAN_ID = 12;
 
     public static final double P = 0.015;
-    public static final double I = 0.002;
-    public static final double D = 0;
+    public static final double I = 0.0;
+    public static final double D = 0.0;
 
     public static final double SHOOTER_NO_RETRACTION_ANGLE = 50.0;
     public static final double SHOOTER_FULL_RETRACTION_ANGLE = 76.0;
@@ -17,5 +17,5 @@ public final class ShooterHoodConstants {
     public static final double MANUAL_SHOOTER_DEFAULT_ANGLE = 70;
     public static final double MANUAL_SHOOTER_ANGLE_INCREMENT = 2;
 
-    public static final double ANGLE_TOLERANCE = 0.25;
+    public static final double ANGLE_TOLERANCE = 0;
 }
