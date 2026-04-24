@@ -24,7 +24,7 @@ public class HopperExtension extends SubsystemBase {
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
         config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kBrake).limitSwitch
-                .reverseLimitSwitchType(Type.kNormallyClosed)
+                .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
         config.closedLoop.pid(HopperExtensionConstants.P, HopperExtensionConstants.I,
                 HopperExtensionConstants.D);
