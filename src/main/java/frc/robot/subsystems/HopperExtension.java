@@ -28,8 +28,7 @@ public class HopperExtension extends SubsystemBase {
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
         config.closedLoop.pid(HopperExtensionConstants.P, HopperExtensionConstants.I,
                 HopperExtensionConstants.D);
-        config.encoder.positionConversionFactor(1 / (HopperExtensionConstants.EXTENSION_TO_MOTOR_RATIO
-                * HopperExtensionConstants.EXTENSION_GEARBOX));
+        config.encoder.positionConversionFactor(HopperExtensionConstants.POSITION_CONVERSION_FACTOR);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -46,7 +45,10 @@ public class HopperExtension extends SubsystemBase {
 
     public void in() {
         controller.setSetpoint(HopperExtensionConstants.IN_DUTY_CYCLE, ControlType.kDutyCycle);
-        System.out.println("Hopper Extension In");
+    }
+
+    public void inWhileShooting() {
+        controller.setSetpoint(HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING, ControlType.kDutyCycle);
     }
 
     public void stop() {

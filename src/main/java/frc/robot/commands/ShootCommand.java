@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.HopperExtension;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
@@ -17,9 +18,10 @@ public class ShootCommand extends Command {
     private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
+    private final HopperExtension hopperExtension = HopperExtension.getInstance();
 
     public ShootCommand() {
-        addRequirements(kicker, shooter, indexer);
+        addRequirements(kicker, shooter, indexer, hopperExtension);
     }
 
     @Override
@@ -56,9 +58,11 @@ public class ShootCommand extends Command {
         if (validPosition) {
             kicker.start();
             indexer.intake();
+            hopperExtension.inWhileShooting();
         } else {
             kicker.stop();
             indexer.stop();
+            hopperExtension.stop();
         }
     }
 
