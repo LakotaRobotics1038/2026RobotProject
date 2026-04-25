@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.constants.FeederConstants;
+import frc.robot.constants.IndexerConstants;
+import frc.robot.constants.KickerConstants;
 import frc.robot.constants.ShooterConstants;
 import frc.robot.constants.ShooterHoodConstants;
 import frc.robot.utils.dashboard.DashboardValue;
@@ -47,6 +50,14 @@ public class Dashboard extends SubsystemBase {
                     ShooterConstants.MANUAL_SHOOTER_MIN_RPM,
                     ShooterConstants.MANUAL_SHOOTER_MAX_RPM),
             ShooterConstants.MANUAL_SHOOTER_RPM);
+    public static final SuppliedDashboardValue<Double> SHOOTER_RPM = new SuppliedDashboardValue<>(
+            "Shooter RPM",
+            () -> Shooter.getInstance().getRPM(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> SHOOTER_TARGET_RPM = new SuppliedDashboardValue<>(
+            "Shooter Target RPM",
+            () -> Shooter.getInstance().getTargetRPM(),
+            0.0);
     public static final EntryDashboardValue<Double> MANUAL_SHOOTER_HOOD_ANGLE = new EntryDashboardValue<>(
             "Manual Shooter Hood Angle",
             v -> MathUtil.clamp(v,
@@ -56,6 +67,47 @@ public class Dashboard extends SubsystemBase {
     public static final SuppliedDashboardValue<Double> SHOOTER_HOOD_ANGLE = new SuppliedDashboardValue<>(
             "Shooter Hood Angle",
             () -> ShooterHood.getInstance().getAngle(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> FEEDER_RPM = new SuppliedDashboardValue<>(
+            "Feeder RPM",
+            () -> Feeder.getInstance().getRPM(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> FEEDER_TARGET_RPM = new SuppliedDashboardValue<>(
+            "Feeder Target RPM",
+            () -> Feeder.getInstance().getTargetRPM(),
+            0.0);
+    public static final DashboardValue<Double> MANUAL_FEEDER_RPM = new DashboardValue<>(
+            "Manual Feeder RPM",
+            FeederConstants.FEEDER_SHOOT_RPM);
+    public static final SuppliedDashboardValue<Double> KICKER_RPM = new SuppliedDashboardValue<>(
+            "Kicker RPM",
+            () -> Kicker.getInstance().getRPM(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> KICKER_TARGET_RPM = new SuppliedDashboardValue<>(
+            "Kicker Target RPM",
+            () -> Kicker.getInstance().getTargetRPM(),
+            0.0);
+    public static final DashboardValue<Double> MANUAL_KICKER_RPM = new DashboardValue<>(
+            "Manual Kicker RPM",
+            KickerConstants.KICKER_SHOOT_RPM);
+    public static final SuppliedDashboardValue<Double> INDEXER_RPM = new SuppliedDashboardValue<>(
+            "Indexer RPM",
+            () -> Indexer.getInstance().getRPM(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> INDEXER_TARGET_RPM = new SuppliedDashboardValue<>(
+            "Indexer Target RPM",
+            () -> Indexer.getInstance().getTargetRPM(),
+            0.0);
+    public static final DashboardValue<Double> MANUAL_INDEXER_RPM = new DashboardValue<>(
+            "Manual Indexer RPM",
+            IndexerConstants.FORWARD_RPM);
+    public static final SuppliedDashboardValue<Double> INTAKE_RPM = new SuppliedDashboardValue<>(
+            "Acquisition RPM",
+            () -> Acquisition.getInstance().getRPM(),
+            0.0);
+    public static final SuppliedDashboardValue<Double> INTAKE_TARGET_RPM = new SuppliedDashboardValue<>(
+            "Acquisition Target RPM",
+            () -> Acquisition.getInstance().getTargetRPM(),
             0.0);
     public static final SendableDashboardValue<Field2d> FIELD = new SendableDashboardValue<>(
             "Field",

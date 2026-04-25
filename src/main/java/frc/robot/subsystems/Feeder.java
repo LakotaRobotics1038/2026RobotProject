@@ -2,45 +2,46 @@ package frc.robot.subsystems;
 
 import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkFlexConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.IndexerConstants;
+import frc.robot.constants.FeederConstants;
 import frc.robot.constants.NeoMotorConstants;
 
-public class Indexer extends SubsystemBase {
-    private static Indexer instance;
-
-    private final SparkFlex motor = new SparkFlex(IndexerConstants.MOTOR_CAN_ID, MotorType.kBrushless);
+public class Feeder extends SubsystemBase {
+    private static Feeder instance;
+    private final SparkFlex motor = new SparkFlex(FeederConstants.FEEDER_CAN_ID,
+            MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
-    private Indexer() {
+    private Feeder() {
         SparkFlexConfig config = new SparkFlexConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).idleMode(IdleMode.kCoast)
-                .inverted(true).closedLoop
-                .pid(IndexerConstants.P, IndexerConstants.I, IndexerConstants.D).feedForward
-                .kV(IndexerConstants.V);
+        config.idleMode(IdleMode.kCoast)
+                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
+                .pid(FeederConstants.FEEDER_P, FeederConstants.FEEDER_I, FeederConstants.FEEDER_D).feedForward
+                .kV(FeederConstants.FEEDER_V);
+        config.encoder.quadratureAverageDepth(5).quadratureMeasurementPeriod(10);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
-    public static Indexer getInstance() {
+    public static Feeder getInstance() {
         if (instance == null) {
-            instance = new Indexer();
+            instance = new Feeder();
         }
         return instance;
     }
 
-    public void intake() {
-        controller.setSetpoint(Dashboard.MANUAL_INDEXER_RPM.get(), ControlType.kVelocity);
+    public void start() {
+        controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kVelocity);
     }
 
-    public void dispose() {
-        controller.setSetpoint(IndexerConstants.BACKWARD_RPM, ControlType.kVelocity);
+    public void reverse() {
+        controller.setSetpoint(FeederConstants.FEEDER_REVERSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {

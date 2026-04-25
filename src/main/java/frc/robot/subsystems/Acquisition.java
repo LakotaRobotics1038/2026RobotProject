@@ -23,7 +23,8 @@ public class Acquisition extends SubsystemBase {
         config.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT)
                 .idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P,
                         AcquisitionConstants.I,
-                        AcquisitionConstants.D);
+                        AcquisitionConstants.D).feedForward
+                .kV(AcquisitionConstants.V);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -48,5 +49,9 @@ public class Acquisition extends SubsystemBase {
 
     public double getRPM() {
         return motor.getEncoder().getVelocity();
+    }
+
+    public double getTargetRPM() {
+        return controller.getSetpoint();
     }
 }

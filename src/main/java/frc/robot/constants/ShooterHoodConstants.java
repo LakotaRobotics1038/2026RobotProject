@@ -4,7 +4,7 @@ public final class ShooterHoodConstants {
     public static final int LEFT_MOTOR_CAN_ID = 13;
     public static final int RIGHT_MOTOR_CAN_ID = 12;
 
-    public static final double P = 0.015;
+    public static final double P = 0.05;
     public static final double I = 0.0;
     public static final double D = 0.0;
 

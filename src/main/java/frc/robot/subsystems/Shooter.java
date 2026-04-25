@@ -56,6 +56,7 @@ public class Shooter extends SubsystemBase {
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
                 .sva(ShooterConstants.S, ShooterConstants.V, ShooterConstants.A);
+        baseConfig.encoder.quadratureAverageDepth(5).quadratureMeasurementPeriod(10);
 
         leftTop.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
@@ -82,7 +83,7 @@ public class Shooter extends SubsystemBase {
      * @param rpm Target shooter speed in RPM.
      */
     public void start(double rpm) {
-        controller.setSetpoint(rpm, SparkBase.ControlType.kVelocity);
+        controller.setSetpoint(Math.min(rpm, ShooterConstants.MAX_SHOOTER_RPM), SparkBase.ControlType.kVelocity);
     }
 
     /**

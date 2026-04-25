@@ -7,11 +7,10 @@ import frc.robot.subsystems.Kicker;
 public class IndexerCommand extends Command {
     private final Indexer indexer = Indexer.getInstance();
     private final IndexerDirection direction;
-    private final Kicker kicker = Kicker.getInstance();
 
     public IndexerCommand(IndexerDirection direction) {
         this.direction = direction;
-        addRequirements(indexer, kicker);
+        addRequirements(indexer);
     }
 
     @Override
@@ -31,7 +30,6 @@ public class IndexerCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         indexer.stop();
-        kicker.stop();
     }
 
     public enum IndexerDirection {

@@ -14,24 +14,18 @@ import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
 
 public class Kicker extends SubsystemBase {
-    private final SparkFlex kickerMotor = new SparkFlex(KickerConstants.KICKER_CAN_ID, MotorType.kBrushless);
-    private final SparkFlex feederMotor = new SparkFlex(KickerConstants.FEEDER_CAN_ID, MotorType.kBrushless);
-    private final SparkClosedLoopController kickerController = kickerMotor.getClosedLoopController();
-    private final SparkClosedLoopController feederController = feederMotor.getClosedLoopController();
+    private final SparkFlex motor = new SparkFlex(KickerConstants.KICKER_CAN_ID, MotorType.kBrushless);
+    private final SparkClosedLoopController controller = motor.getClosedLoopController();
     private static Kicker instance;
 
     private Kicker() {
-        SparkFlexConfig kickerConfig = new SparkFlexConfig();
-        kickerConfig.idleMode(IdleMode.kCoast).inverted(true)
+        SparkFlexConfig config = new SparkFlexConfig();
+        config.idleMode(IdleMode.kCoast).inverted(true)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                .pid(KickerConstants.KICKER_P, KickerConstants.KICKER_I, KickerConstants.KICKER_D);
-        kickerMotor.configure(kickerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-
-        SparkFlexConfig feederConfig = new SparkFlexConfig();
-        feederConfig.idleMode(IdleMode.kCoast).inverted(true)
-                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                .pid(KickerConstants.FEEDER_P, KickerConstants.FEEDER_I, KickerConstants.FEEDER_D);
-        feederMotor.configure(feederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+                .pid(KickerConstants.KICKER_P, KickerConstants.KICKER_I, KickerConstants.KICKER_D).feedForward
+                .kV(KickerConstants.KICKER_V);
+        config.encoder.quadratureAverageDepth(5).quadratureMeasurementPeriod(10);
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Kicker getInstance() {
@@ -42,17 +36,22 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start() {
-        kickerController.setSetpoint(KickerConstants.KICKER_SHOOT_RPM, ControlType.kVelocity);
-        feederController.setSetpoint(KickerConstants.FEEDER_SHOOT_RPM, ControlType.kVelocity);
+        controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kVelocity);
     }
 
     public void reverse() {
-        kickerController.setSetpoint(KickerConstants.KICKER_REVERSE_RPM, ControlType.kVelocity);
-        feederController.setSetpoint(KickerConstants.FEEDER_REVERSE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(KickerConstants.KICKER_REVERSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {
-        kickerMotor.stopMotor();
-        feederMotor.stopMotor();
+        motor.stopMotor();
+    }
+
+    public double getRPM() {
+        return motor.getEncoder().getVelocity();
+    }
+
+    public double getTargetRPM() {
+        return controller.getSetpoint();
     }
 }

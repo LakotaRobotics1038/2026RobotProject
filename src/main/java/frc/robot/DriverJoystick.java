@@ -65,7 +65,7 @@ public class DriverJoystick extends XboxController1038 {
             return driveTrain.drive(forward, -sideways, -rotate, true);
         }));
 
-        // shooterHood.setDefaultCommand(new AdjustHoodCommand());
+        shooterHood.setDefaultCommand(new AdjustHoodCommand());
 
         this.driveTrain.registerTelemetry(logger::telemeterize);
 

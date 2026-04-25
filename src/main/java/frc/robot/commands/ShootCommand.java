@@ -21,7 +21,7 @@ public class ShootCommand extends Command {
     private final HopperExtension hopperExtension = HopperExtension.getInstance();
 
     public ShootCommand() {
-        addRequirements(kicker, shooter, indexer, hopperExtension);
+        addRequirements(shooter, hopperExtension);
     }
 
     @Override
@@ -56,13 +56,13 @@ public class ShootCommand extends Command {
         }
 
         if (validPosition) {
-            kicker.start();
-            indexer.intake();
-            hopperExtension.inWhileShooting();
+            // kicker.start();
+            // indexer.intake();
+            // hopperExtension.inWhileShooting();
         } else {
-            kicker.stop();
-            indexer.stop();
-            hopperExtension.stop();
+            // kicker.stop();
+            // indexer.stop();
+            // hopperExtension.stop();
         }
     }
 

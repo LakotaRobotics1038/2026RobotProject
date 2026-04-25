@@ -15,12 +15,12 @@ public final class ShooterConstants {
 
     public static final double OPERATING_TOLERANCE = 75;
 
-    public static final double P = 0.000175;
+    public static final double P = 0.0002;
     public static final double I = 0.0;
     public static final double D = 0.0;
 
     public static final double S = 0.0;
-    public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
+    public static final double V = 0.00187;
     public static final double A = 0.0;
 
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
@@ -30,6 +30,8 @@ public final class ShooterConstants {
     // Make sure there's a 0 at the end so manual mode goes by the shooter RPM step
     public static final double MANUAL_SHOOTER_MAX_RPM = (int) (NeoMotorConstants.VORTEX_FREE_SPEED_RPM
             / MANUAL_SHOOTER_RPM_STEP) * MANUAL_SHOOTER_RPM_STEP;
+
+    public static final double MAX_SHOOTER_RPM = 4000.0;
 
     /**
      * List of angles and their corresponding shooter formulas. The formula is used

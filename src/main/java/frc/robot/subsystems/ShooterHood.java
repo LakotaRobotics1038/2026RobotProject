@@ -40,7 +40,7 @@ public class ShooterHood extends SubsystemBase {
                 .positionWrappingInputRange(0, ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
 
         SparkMaxConfig leftMotorConfig = new SparkMaxConfig();
-        leftMotorConfig.apply(baseConfig).inverted(true).absoluteEncoder.inverted(true)
+        leftMotorConfig.apply(baseConfig).absoluteEncoder.inverted(true)
                 .positionConversionFactor(ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
         leftMotorConfig.closedLoop.positionWrappingEnabled(true).positionWrappingInputRange(0,
                 ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR).feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
@@ -54,7 +54,7 @@ public class ShooterHood extends SubsystemBase {
 
         pidController.enableContinuousInput(0, ShooterHoodConstants.HOOD_ENCODER_CONVERSION_FACTOR);
 
-        // setAngle(ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
+        setAngle(60);
     }
 
     public static ShooterHood getInstance() {
@@ -69,19 +69,18 @@ public class ShooterHood extends SubsystemBase {
                 - MathUtil.clamp(angle, ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
                         ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
         targetAngle = encoderAngle;
-        controller.setSetpoint(encoderAngle, ControlType.kPosition);
-        // pidController.setSetpoint(encoderAngle);
+        // controller.setSetpoint(encoderAngle, ControlType.kPosition);
+        pidController.setSetpoint(encoderAngle);
     }
 
     public void update() {
-        // if (Math.abs(encoder.getPosition() - targetAngle) <=
-        // ShooterHoodConstants.ANGLE_TOLERANCE) {
-        // leftMotor.stopMotor();
-        // } else {
-        // double output = pidController.calculate(encoder.getPosition());
-        // System.out.println(output);
-        // leftMotor.set(output);
-        // }
+        if (Math.abs(encoder.getPosition() - targetAngle) <= ShooterHoodConstants.ANGLE_TOLERANCE) {
+            leftMotor.stopMotor();
+        } else {
+            double output = pidController.calculate(encoder.getPosition());
+            System.out.println(output);
+            leftMotor.set(output);
+        }
     }
 
     public double getAngle() {
