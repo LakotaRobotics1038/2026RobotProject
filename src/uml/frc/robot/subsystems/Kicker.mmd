@@ -2,16 +2,14 @@ classDiagram
   direction LR
 
   class Kicker {
-    - motor SparkMax
-    - controller SparkClosedLoopController
-    - encoder RelativeEncoder
+    - kickerMotor SparkFlex
+    - feederMotor SparkFlex
+    - kickerController SparkClosedLoopController
+    - feederController SparkClosedLoopController
     - instance$ Kicker
     - Kicker()
     + getInstance()$ Kicker
     + start() void
     + reverse() void
     + stop() void
-    + getRPM() double
-    + getTargetRPM() double
-    + isAtTargetRPM() boolean
   }

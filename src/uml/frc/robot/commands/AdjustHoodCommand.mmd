@@ -1,11 +1,12 @@
 classDiagram
   direction LR
 
-  class AdjustHoodsCommand {
-    - shooterHoods ShooterHoods
+  class AdjustHoodCommand {
+    - shooterHood ShooterHood
     - shooter Shooter
     - driveTrain DriveTrain
-    + AdjustHoodsCommand()
+    + AdjustHoodCommand()
     + execute() void
     + isFinished() boolean
+    + end(boolean) void
   }

@@ -15,7 +15,8 @@ public class AutonSelector {
         LeftPreloadAuto,
         MiddlePreloadAuto,
         RightPreloadAuto,
-        DepotAuto
+        DepotAuto,
+        ShooterSysID
     }
 
     // Choosers
@@ -42,6 +43,7 @@ public class AutonSelector {
         this.autoChooser.addOption("Left Preload Only Auto", AutonChoices.LeftPreloadAuto);
         this.autoChooser.addOption("Middle Preload Only Auto", AutonChoices.MiddlePreloadAuto);
         this.autoChooser.addOption("Right Preload Only Auto", AutonChoices.RightPreloadAuto);
+        this.autoChooser.addOption("Shooter SysID", AutonChoices.ShooterSysID);
         this.autoChooser.setDefaultOption("Depot Auto", AutonChoices.DepotAuto);
 
         this.delayChooser = Dashboard.DELAY_CHOOSER.get();
@@ -69,6 +71,8 @@ public class AutonSelector {
                     return new RightPreloadAuto(alliance);
                 case DepotAuto:
                     return new DepotAuto(alliance);
+                case ShooterSysID:
+                    return new ShooterSysID(alliance);
                 default:
                     return null;
             }

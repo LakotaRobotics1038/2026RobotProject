@@ -1,0 +1,14 @@
+classDiagram
+  direction LR
+
+  class ShooterHood {
+    - instance$ ShooterHood
+    - leftMotor SparkMax
+    - rightMotor SparkMax
+    - controller SparkClosedLoopController
+    - encoder AbsoluteEncoder
+    - ShooterHood()
+    + getInstance()$ ShooterHood
+    + setAngle(double) void
+    + getAngle() double
+  }

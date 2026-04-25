@@ -7,32 +7,20 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.utils.dashboard.DashboardValue;
 
 public final class ShooterConstants {
-    public record ShooterModuleConstants(
-            int leftMotorCanId,
-            int rightMotorCanId,
-            Translation2d translation) {
-    }
-
-    public static final ShooterModuleConstants NEAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            5,
-            6,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(-7.826)));
-
-    public static final ShooterModuleConstants FAR_SHOOTER_MODULE_CONSTANTS = new ShooterModuleConstants(
-            12,
-            13,
-            new Translation2d(Units.inchesToMeters(-13.5), Units.inchesToMeters(8.635)));
+    public static final int SHOOTER_MOTOR_LEFT_TOP_CAN_ID = 5;
+    public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 3;
+    public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 16;
+    public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 15;
+    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(Units.inchesToMeters(5.202363), 0);
 
     public static final double OPERATING_TOLERANCE = 75;
 
-    public static final double NEAR_SHOOTER_PERCENTAGE = 0.95;
-
-    public static final double P = 0.000175;
+    public static final double P = 0.0002;
     public static final double I = 0.0;
     public static final double D = 0.0;
 
     public static final double S = 0.0;
-    public static final double V = NeoMotorConstants.BATTERY_VOLTAGE / NeoMotorConstants.VORTEX_FREE_SPEED_RPM;
+    public static final double V = 0.00187;
     public static final double A = 0.0;
 
     public static final double SHOOTER_DIRECTION_FROM_FORWARD_RAD = -Math.PI / 2.0;
@@ -42,6 +30,8 @@ public final class ShooterConstants {
     // Make sure there's a 0 at the end so manual mode goes by the shooter RPM step
     public static final double MANUAL_SHOOTER_MAX_RPM = (int) (NeoMotorConstants.VORTEX_FREE_SPEED_RPM
             / MANUAL_SHOOTER_RPM_STEP) * MANUAL_SHOOTER_RPM_STEP;
+
+    public static final double MAX_SHOOTER_RPM = 4000.0;
 
     /**
      * List of angles and their corresponding shooter formulas. The formula is used

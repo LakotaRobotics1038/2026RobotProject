@@ -6,24 +6,26 @@ import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkBaseConfig;
 import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.NeoMotorConstants;
 import frc.robot.constants.AcquisitionConstants;
+import frc.robot.constants.NeoMotorConstants;
 
 public class Acquisition extends SubsystemBase {
     private static Acquisition instance;
-
-    private final SparkFlex motor = new SparkFlex(AcquisitionConstants.MOTOR_CAN_ID, MotorType.kBrushless);
+    private final SparkFlex motor = new SparkFlex(AcquisitionConstants.MOTOR_CAN_ID,
+            MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
     private Acquisition() {
-        SparkFlexConfig baseConfig = new SparkFlexConfig();
-        baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast)
-                .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT);
-        motor.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        SparkFlexConfig config = new SparkFlexConfig();
+        config.smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT)
+                .idleMode(SparkFlexConfig.IdleMode.kCoast).closedLoop.pid(AcquisitionConstants.P,
+                        AcquisitionConstants.I,
+                        AcquisitionConstants.D).feedForward
+                .kV(AcquisitionConstants.V);
+        motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public static Acquisition getInstance() {
@@ -33,27 +35,23 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
-    /**
-     * Runs the acquisition motor forward at the power of
-     * {@link AcquisitionConstants#ACQUIRE_POWER}.
-     */
     public void intake() {
-        controller.setSetpoint(AcquisitionConstants.ACQUIRE_POWER, ControlType.kDutyCycle);
+        controller.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
     }
 
-    /**
-     * Runs the acquisition motor in reverse at the power of
-     * {@link AcquisitionConstants#DISPOSE_POWER}.
-     */
     public void dispose() {
-        controller.setSetpoint(AcquisitionConstants.DISPOSE_POWER, ControlType.kDutyCycle);
+        controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM, ControlType.kVelocity);
     }
 
-    /**
-     * Stops the acquisition.
-     */
     public void stop() {
         motor.stopMotor();
     }
 
+    public double getRPM() {
+        return motor.getEncoder().getVelocity();
+    }
+
+    public double getTargetRPM() {
+        return controller.getSetpoint();
+    }
 }

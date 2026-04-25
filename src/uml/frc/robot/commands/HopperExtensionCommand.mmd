@@ -1,0 +1,11 @@
+classDiagram
+  direction LR
+
+  class HopperExtensionCommand {
+    - extension HopperExtension
+    - direction ExtensionDirection
+    + HopperExtensionCommand(ExtensionDirection)
+    + initialize() void
+    + isFinished() boolean
+    + end(boolean) void
+  }
