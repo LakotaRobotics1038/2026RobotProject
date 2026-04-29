@@ -14,7 +14,7 @@ import frc.robot.constants.KickerConstants;
 import frc.robot.constants.NeoMotorConstants;
 
 public class Kicker extends SubsystemBase {
-    private final SparkFlex motor = new SparkFlex(KickerConstants.KICKER_CAN_ID, MotorType.kBrushless);
+    private final SparkFlex motor = new SparkFlex(KickerConstants.CAN_ID, MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
     private static Kicker instance;
 
@@ -22,8 +22,9 @@ public class Kicker extends SubsystemBase {
         SparkFlexConfig config = new SparkFlexConfig();
         config.idleMode(IdleMode.kCoast).inverted(true)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                .pid(KickerConstants.KICKER_P, KickerConstants.KICKER_I, KickerConstants.KICKER_D).feedForward
-                .kV(KickerConstants.KICKER_V);
+                .pid(KickerConstants.P, KickerConstants.I, KickerConstants.D).feedForward
+                .kV(KickerConstants.V);
+        config.closedLoop.maxMotion.maxAcceleration(KickerConstants.MAX_ACCELERATION);
         config.encoder.quadratureAverageDepth(5).quadratureMeasurementPeriod(10);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
@@ -36,11 +37,11 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start() {
-        controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kVelocity);
+        controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kMAXMotionVelocityControl);
     }
 
     public void reverse() {
-        controller.setSetpoint(KickerConstants.KICKER_REVERSE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(KickerConstants.REVERSE_RPM, ControlType.kMAXMotionVelocityControl);
     }
 
     public void stop() {

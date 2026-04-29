@@ -10,6 +10,8 @@ import frc.robot.subsystems.SwagLights;
 
 public class HubActivationDetectionCommand extends Command {
     public static final double SECONDS_BEFORE_HUB_ACTIVATION = 3;
+    private static final double TELEOP_DURATION_BEFORE_ENDGAME = 130;
+    private static final double HUB_SWITCH_INTERVAL = 25;
 
     private final SwagLights swagLights = SwagLights.getInstance();
     private Boolean enabledFirst = null;
@@ -39,8 +41,8 @@ public class HubActivationDetectionCommand extends Command {
             hubEnablingSoon = !currentlyEnabled && enabledSoon;
 
             if (hubEnablingSoon) {
-                double elapsed = 130 - matchTime;
-                double timeToActivation = elapsed % 25;
+                double elapsed = TELEOP_DURATION_BEFORE_ENDGAME - matchTime;
+                double timeToActivation = elapsed % HUB_SWITCH_INTERVAL;
                 double rumblePower = timeToActivation / SECONDS_BEFORE_HUB_ACTIVATION;
                 hubActivationFeedback.accept(rumblePower);
                 Dashboard.HUB_ACTIVATING.set(true);

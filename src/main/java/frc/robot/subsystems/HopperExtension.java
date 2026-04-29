@@ -23,12 +23,9 @@ public class HopperExtension extends SubsystemBase {
 
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kBrake).limitSwitch
+        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kCoast).limitSwitch
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
-        config.closedLoop.pid(HopperExtensionConstants.P, HopperExtensionConstants.I,
-                HopperExtensionConstants.D);
-        config.encoder.positionConversionFactor(HopperExtensionConstants.POSITION_CONVERSION_FACTOR);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
@@ -40,7 +37,7 @@ public class HopperExtension extends SubsystemBase {
     }
 
     public void out() {
-        controller.setSetpoint(1, ControlType.kPosition);
+        controller.setSetpoint(HopperExtensionConstants.OUT_DUTY_CYCLE, ControlType.kDutyCycle);
     }
 
     public void in() {

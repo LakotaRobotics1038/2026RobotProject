@@ -43,13 +43,15 @@ public class Dashboard extends SubsystemBase {
             false);
     public static final DashboardValue<Boolean> MANUAL_MODE_ENABLED = new DashboardValue<>(
             "Manual Mode",
-            false);
+            false,
+            true);
     public static final EntryDashboardValue<Double> MANUAL_SHOOTER_RPM = new EntryDashboardValue<>(
             "Manual Shoot RPM",
             v -> MathUtil.clamp(v,
                     ShooterConstants.MANUAL_SHOOTER_MIN_RPM,
                     ShooterConstants.MANUAL_SHOOTER_MAX_RPM),
-            ShooterConstants.MANUAL_SHOOTER_RPM);
+            ShooterConstants.MANUAL_SHOOTER_RPM,
+            true);
     public static final SuppliedDashboardValue<Double> SHOOTER_RPM = new SuppliedDashboardValue<>(
             "Shooter RPM",
             () -> Shooter.getInstance().getRPM(),
@@ -63,7 +65,8 @@ public class Dashboard extends SubsystemBase {
             v -> MathUtil.clamp(v,
                     ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
                     ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE),
-            ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
+            ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE,
+            true);
     public static final SuppliedDashboardValue<Double> SHOOTER_HOOD_ANGLE = new SuppliedDashboardValue<>(
             "Shooter Hood Angle",
             () -> ShooterHood.getInstance().getAngle(),
@@ -78,7 +81,8 @@ public class Dashboard extends SubsystemBase {
             0.0);
     public static final DashboardValue<Double> MANUAL_FEEDER_RPM = new DashboardValue<>(
             "Manual Feeder RPM",
-            FeederConstants.FEEDER_SHOOT_RPM);
+            FeederConstants.SHOOT_RPM,
+            true);
     public static final SuppliedDashboardValue<Double> KICKER_RPM = new SuppliedDashboardValue<>(
             "Kicker RPM",
             () -> Kicker.getInstance().getRPM(),
@@ -89,7 +93,8 @@ public class Dashboard extends SubsystemBase {
             0.0);
     public static final DashboardValue<Double> MANUAL_KICKER_RPM = new DashboardValue<>(
             "Manual Kicker RPM",
-            KickerConstants.KICKER_SHOOT_RPM);
+            KickerConstants.SHOOT_RPM,
+            true);
     public static final SuppliedDashboardValue<Double> INDEXER_RPM = new SuppliedDashboardValue<>(
             "Indexer RPM",
             () -> Indexer.getInstance().getRPM(),
@@ -100,7 +105,8 @@ public class Dashboard extends SubsystemBase {
             0.0);
     public static final DashboardValue<Double> MANUAL_INDEXER_RPM = new DashboardValue<>(
             "Manual Indexer RPM",
-            IndexerConstants.FORWARD_RPM);
+            IndexerConstants.FORWARD_RPM,
+            true);
     public static final SuppliedDashboardValue<Double> INTAKE_RPM = new SuppliedDashboardValue<>(
             "Acquisition RPM",
             () -> Acquisition.getInstance().getRPM(),
@@ -123,6 +129,10 @@ public class Dashboard extends SubsystemBase {
     public static final DashboardValue<Boolean> HUB_ACTIVATING = new DashboardValue<>(
             "Hub Activating",
             false);
+    public static final SuppliedDashboardValue<Double> DISTANCE_TO_HUB = new SuppliedDashboardValue<>(
+            "Distance to Hub",
+            () -> Shooter.getTargetDistance(DriveTrain.getInstance().getState().Pose),
+            0.0);
 
     public static Dashboard getInstance() {
         if (instance == null) {

@@ -15,7 +15,7 @@ import frc.robot.constants.NeoMotorConstants;
 
 public class Feeder extends SubsystemBase {
     private static Feeder instance;
-    private final SparkFlex motor = new SparkFlex(FeederConstants.FEEDER_CAN_ID,
+    private final SparkFlex motor = new SparkFlex(FeederConstants.CAN_ID,
             MotorType.kBrushless);
     private final SparkClosedLoopController controller = motor.getClosedLoopController();
 
@@ -23,8 +23,9 @@ public class Feeder extends SubsystemBase {
         SparkFlexConfig config = new SparkFlexConfig();
         config.idleMode(IdleMode.kCoast)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
-                .pid(FeederConstants.FEEDER_P, FeederConstants.FEEDER_I, FeederConstants.FEEDER_D).feedForward
-                .kV(FeederConstants.FEEDER_V);
+                .pid(FeederConstants.P, FeederConstants.I, FeederConstants.D).feedForward
+                .kV(FeederConstants.V);
+        config.closedLoop.maxMotion.maxAcceleration(FeederConstants.MAX_ACCELERATION);
         config.encoder.quadratureAverageDepth(5).quadratureMeasurementPeriod(10);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
@@ -37,11 +38,11 @@ public class Feeder extends SubsystemBase {
     }
 
     public void start() {
-        controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kVelocity);
+        controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kMAXMotionVelocityControl);
     }
 
     public void reverse() {
-        controller.setSetpoint(FeederConstants.FEEDER_REVERSE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(FeederConstants.REVERSE_RPM, ControlType.kMAXMotionVelocityControl);
     }
 
     public void stop() {
