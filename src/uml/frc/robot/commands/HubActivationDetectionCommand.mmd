@@ -2,9 +2,14 @@ classDiagram
   direction LR
 
   class HubActivationDetectionCommand {
-    + SECONDS_BEFORE_HUB_ACTIVATION : double
+    + SECONDS_BEFORE_HUB_ACTIVATION$ double
+    - swagLights SwagLights
+    - enabledFirst Boolean
+    - hubEnablingSoon boolean
+    - hubActivationFeedback DoubleConsumer
     + HubActivationDetectionCommand(DoubleConsumer)
-    + execute() : void
-    + end(boolean) : void
-    + isHubEnablingSoon() : boolean
+    + execute() void
+    + end(boolean) void
+    - isHubEnabledAt(double) boolean
+    + isHubEnablingSoon() boolean
   }

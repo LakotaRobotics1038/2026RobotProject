@@ -2,26 +2,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Kicker;
 
 public class IndexerCommand extends Command {
     private final Indexer indexer = Indexer.getInstance();
-    private final Kicker kicker = Kicker.getInstance();
-    private final Mode mode;
+    private final IndexerDirection direction;
 
-    public IndexerCommand(Mode mode) {
-        this.mode = mode;
-        addRequirements(indexer, kicker);
+    public IndexerCommand(IndexerDirection direction) {
+        this.direction = direction;
+        addRequirements(indexer);
     }
 
     @Override
     public void initialize() {
-        if (mode == Mode.INTAKE) {
-            indexer.start();
+        if (direction == IndexerDirection.INTAKE) {
+            indexer.intake();
         } else {
-            indexer.reverse();
+            indexer.dispose();
         }
-        kicker.reverse();
     }
 
     @Override
@@ -32,10 +29,9 @@ public class IndexerCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         indexer.stop();
-        kicker.stop();
     }
 
-    public enum Mode {
+    public enum IndexerDirection {
         INTAKE,
         DISPOSE
     }

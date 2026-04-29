@@ -15,20 +15,30 @@ public class DashboardValue<T> {
     protected final NetworkTableEntry entry;
     protected final boolean isSendable;
 
-    public DashboardValue(String name, T defaultValue) {
+    public DashboardValue(String name, T defaultValue, boolean persistent) {
         this.name = name;
         this.entry = SmartDashboard.getEntry(name);
         this.isSendable = defaultValue instanceof Sendable;
         if (isSendable) {
             SmartDashboard.putData(name, (Sendable) defaultValue);
+            if (persistent) {
+                SmartDashboard.setPersistent(name);
+            }
         } else {
             this.entry.setDefaultValue(defaultValue);
+            if (persistent) {
+                this.entry.setPersistent();
+            }
         }
         allValues.add(this);
     }
 
+    public DashboardValue(String name, T defaultValue) {
+        this(name, defaultValue, false);
+    }
+
     public static List<DashboardValue<?>> values() {
-        return Collections.unmodifiableList(allValues);
+        return new ArrayList<>(allValues);
     }
 
     @SuppressWarnings("unchecked")

@@ -8,20 +8,17 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import frc.robot.commands.AcquisitionPivotCommand;
-import frc.robot.commands.AdjustHoodsCommand;
 import frc.robot.commands.AlignCommand;
+import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.ShootCommand;
-import frc.robot.constants.AcquisitionPivotConstants.PivotSetpoint;
 
 public class LeftPreloadAuto extends Auton {
     public LeftPreloadAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new AcquisitionPivotCommand(PivotSetpoint.LOWERED),
-                followPathCommand(Paths.getLeftShoot1Path()),
-                new AdjustHoodsCommand().raceWith(
-                        new AlignCommand()
-                                .raceWith(new AdjustHoodsCommand().raceWith(new ShootCommand().withTimeout(5)))));
+                new HopperExtensionCommand(ExtensionDirection.OUT),
+                followPathCommand(Paths.getLeft1Path()),
+                new AlignCommand().raceWith(new ShootCommand().withTimeout(5)));
     }
 }
