@@ -9,9 +9,9 @@ import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionCommand;
-import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 
 public class DepotAuto extends Auton {
@@ -24,7 +24,8 @@ public class DepotAuto extends Auton {
                 followPathCommand(Paths.getMiddleSideDepot2Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getMiddleSideDepot3Path()),
-                new AlignCommand().raceWith(new AdjustHoodCommand().raceWith(
-                        new ShooterCommand().withTimeout(10))));
+                new AlignCommand().raceWith(
+                        new ShootCommand(),
+                        new ShooterCommand().withTimeout(10)));
     }
 }

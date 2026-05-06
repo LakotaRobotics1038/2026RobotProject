@@ -4,6 +4,7 @@ import com.pathplanner.lib.util.FileVersionException;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.ShooterCommand;
 
@@ -19,7 +20,8 @@ public class RightPreloadAuto extends Auton {
         super.addCommands(
                 new HopperExtensionCommand(ExtensionDirection.IN),
                 followPathCommand(Paths.getRight1Path()),
-                new AlignCommand()
-                        .raceWith(new ShooterCommand().withTimeout(5)));
+                new AlignCommand().raceWith(
+                        new ShootCommand(),
+                        new ShooterCommand().withTimeout(5)));
     }
 }

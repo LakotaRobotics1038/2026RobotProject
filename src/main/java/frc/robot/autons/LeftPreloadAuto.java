@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 
 public class LeftPreloadAuto extends Auton {
@@ -19,6 +20,8 @@ public class LeftPreloadAuto extends Auton {
         super.addCommands(
                 new HopperExtensionCommand(ExtensionDirection.OUT),
                 followPathCommand(Paths.getLeft1Path()),
-                new AlignCommand().raceWith(new ShooterCommand().withTimeout(5)));
+                new AlignCommand().raceWith(
+                        new ShootCommand(),
+                        new ShooterCommand().withTimeout(5)));
     }
 }

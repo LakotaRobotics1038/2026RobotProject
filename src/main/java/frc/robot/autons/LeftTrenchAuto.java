@@ -9,9 +9,9 @@ import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AcquisitionCommand;
-import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 
 public class LeftTrenchAuto extends Auton {
@@ -22,10 +22,13 @@ public class LeftTrenchAuto extends Auton {
                 followPathCommand(Paths.getLeft1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getLeft2Path()),
-                new AdjustHoodCommand().raceWith(new ShooterCommand().withTimeout(4)),
+                new ShooterCommand().withTimeout(4).raceWith(
+                        new ShootCommand()),
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getLeft4Path()),
-                new AlignCommand().raceWith(new AdjustHoodCommand().raceWith(new ShooterCommand().withTimeout(4))));
+                new AlignCommand().raceWith(
+                        new ShootCommand(),
+                        new ShooterCommand().withTimeout(4)));
     }
 }

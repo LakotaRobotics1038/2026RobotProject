@@ -35,7 +35,7 @@ public class ShootCommand extends Command {
 
     @Override
     public void execute() {
-        if (timer.hasElapsed(0.25)) {
+        if (timer.hasElapsed(0.5)) {
             acquisition.stop();
         }
         if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS)) {
