@@ -5,9 +5,7 @@ import com.revrobotics.PersistMode;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.FeedbackSensor;
-import com.revrobotics.spark.SparkClosedLoopController;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -22,7 +20,6 @@ public class ShooterHood extends SubsystemBase {
 
     private final SparkMax leftMotor = new SparkMax(ShooterHoodConstants.LEFT_MOTOR_CAN_ID, MotorType.kBrushless);
     private final SparkMax rightMotor = new SparkMax(ShooterHoodConstants.RIGHT_MOTOR_CAN_ID, MotorType.kBrushless);
-    private final SparkClosedLoopController controller = leftMotor.getClosedLoopController();
     private final PIDController pidController = new PIDController(ShooterHoodConstants.P, ShooterHoodConstants.I,
             ShooterHoodConstants.D);
 

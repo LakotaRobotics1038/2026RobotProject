@@ -1,7 +1,6 @@
 package frc.robot.utils.dashboard;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import edu.wpi.first.networktables.NetworkTableEntry;

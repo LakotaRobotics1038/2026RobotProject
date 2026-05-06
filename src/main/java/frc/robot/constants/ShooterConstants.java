@@ -1,13 +1,10 @@
 package frc.robot.constants;
 
-import java.util.List;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.util.Units;
-import frc.robot.utils.dashboard.DashboardValue;
 
 public final class ShooterConstants {
     public static final int SHOOTER_MOTOR_LEFT_TOP_CAN_ID = 5;
