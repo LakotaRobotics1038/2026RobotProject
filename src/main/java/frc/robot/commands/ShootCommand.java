@@ -1,68 +1,50 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.constants.ShooterConstants;
-import frc.robot.subsystems.Dashboard;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.constants.HopperExtensionConstants;
+import frc.robot.subsystems.Acquisition;
+import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.HopperExtension;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Kicker;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwagLights;
-import frc.robot.subsystems.SwagLights.OperatorStates;
 
 public class ShootCommand extends Command {
-    private final Indexer indexer = Indexer.getInstance();
+    private static final double IN_SLOW_INTERPOLATE_SECONDS = 0.5;
+
     private final Kicker kicker = Kicker.getInstance();
-    private final Shooter shooter = Shooter.getInstance();
-    private final DriveTrain driveTrain = DriveTrain.getInstance();
-    private final SwagLights swagLights = SwagLights.getInstance();
-    private final HopperExtension hopperExtension = HopperExtension.getInstance();
+    private final Indexer indexer = Indexer.getInstance();
+    private final Acquisition acquisition = Acquisition.getInstance();
+    private final HopperExtension extension = HopperExtension.getInstance();
+    private final Feeder feeder = Feeder.getInstance();
+    private final Timer timer = new Timer();
 
     public ShootCommand() {
-        addRequirements(shooter, hopperExtension);
+        addRequirements(kicker, indexer, acquisition, extension, feeder);
+    }
+
+    @Override
+    public void initialize() {
+        timer.restart();
+        kicker.start();
+        indexer.intake();
+        feeder.start();
+        acquisition.intake();
     }
 
     @Override
     public void execute() {
-        boolean validPosition = false;
-
-        if (Dashboard.MANUAL_MODE_ENABLED.get()) {
-            double targetRPM = Dashboard.MANUAL_SHOOTER_RPM.get();
-
-            shooter.start(targetRPM);
-            validPosition = true;
-            if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-                swagLights.setOperatorState(OperatorStates.Default);
-            }
-        } else {
-            Pose2d robotPose = driveTrain.getState().Pose;
-            double distance = shooter.getTargetDistance(robotPose);
-
-            for (ShooterConstants.ShooterFormula formula : ShooterConstants.SHOOTER_FORMULAS) {
-                if (formula.getMin() <= distance && formula.getMax() >= distance) {
-                    double targetRPM = formula.getShooterRPM(distance);
-                    shooter.start(targetRPM);
-                    validPosition = true;
-                    break;
-                }
-            }
-            if (!validPosition) {
-                swagLights.setOperatorState(OperatorStates.TooClose);
-            } else if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-                swagLights.setOperatorState(OperatorStates.Default);
-            }
+        if (timer.hasElapsed(0.25)) {
+            acquisition.stop();
         }
-
-        if (validPosition) {
-            // kicker.start();
-            // indexer.intake();
-            // hopperExtension.inWhileShooting();
-        } else {
-            // kicker.stop();
-            // indexer.stop();
-            // hopperExtension.stop();
+        if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS)) {
+            double elapsed = timer.get();
+            double interpolatedValue = MathUtil.interpolate(
+                    HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN,
+                    HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MAX,
+                    elapsed / IN_SLOW_INTERPOLATE_SECONDS);
+            extension.setSpeed(interpolatedValue);
         }
     }
 
@@ -73,11 +55,11 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.stop();
         kicker.stop();
         indexer.stop();
-        if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
-            swagLights.setOperatorState(OperatorStates.Default);
-        }
+        acquisition.stop();
+        extension.stop();
+        feeder.stop();
+        timer.stop();
     }
 }

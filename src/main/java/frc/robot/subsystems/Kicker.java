@@ -37,11 +37,11 @@ public class Kicker extends SubsystemBase {
     }
 
     public void start() {
-        controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kMAXMotionVelocityControl);
+        controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kVelocity);
     }
 
     public void reverse() {
-        controller.setSetpoint(KickerConstants.REVERSE_RPM, ControlType.kMAXMotionVelocityControl);
+        controller.setSetpoint(KickerConstants.REVERSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {

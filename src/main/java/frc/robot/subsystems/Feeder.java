@@ -38,11 +38,11 @@ public class Feeder extends SubsystemBase {
     }
 
     public void start() {
-        controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kMAXMotionVelocityControl);
+        controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kVelocity);
     }
 
     public void reverse() {
-        controller.setSetpoint(FeederConstants.REVERSE_RPM, ControlType.kMAXMotionVelocityControl);
+        controller.setSetpoint(FeederConstants.REVERSE_RPM, ControlType.kVelocity);
     }
 
     public void stop() {

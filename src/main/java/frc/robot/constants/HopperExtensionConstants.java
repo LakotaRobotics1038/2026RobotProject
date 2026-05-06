@@ -12,6 +12,7 @@ public final class HopperExtensionConstants {
     public static final double TEETH_PER_INCH = 3.18;
 
     public static final double IN_DUTY_CYCLE = -0.8;
-    public static final double IN_DUTY_CYCLE_WHILE_SHOOTING = -0.1;
+    public static final double IN_DUTY_CYCLE_WHILE_SHOOTING_MIN = -0.2;
+    public static final double IN_DUTY_CYCLE_WHILE_SHOOTING_MAX = -0.55;
     public static final double OUT_DUTY_CYCLE = 0.8;
 }

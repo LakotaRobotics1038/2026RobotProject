@@ -5,13 +5,14 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.IndexerCommand;
 import frc.robot.commands.KickerCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
 import frc.robot.commands.IndexerCommand.IndexerDirection;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AcquisitionCommand.IntakeDirection;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.FeederCommand;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.constants.IOConstants;
 import frc.robot.libraries.XboxController1038;
 import frc.robot.subsystems.Dashboard;
@@ -59,15 +60,17 @@ public class OperatorJoystick extends XboxController1038 {
 
         this.y().onTrue(new HopperExtensionCommand(ExtensionDirection.IN));
         this.a().onTrue(new HopperExtensionCommand(ExtensionDirection.OUT));
-        this.x().whileTrue(new KickerCommand());
-        this.b().whileTrue(new FeederCommand()).whileTrue(new IndexerCommand(IndexerDirection.INTAKE));
+        this.x().and(Dashboard.MANUAL_MODE_ENABLED::get).whileTrue(new KickerCommand());
+        this.b().and(Dashboard.MANUAL_MODE_ENABLED::get).whileTrue(new FeederCommand())
+                .whileTrue(new IndexerCommand(IndexerDirection.INTAKE));
         this.start().onTrue(new InstantCommand(() -> {
             Dashboard.MANUAL_SHOOTER_RPM.set(ShooterConstants.MANUAL_SHOOTER_RPM);
             Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.set(
                     ShooterHoodConstants.MANUAL_SHOOTER_DEFAULT_ANGLE);
         }));
 
-        this.rightTrigger().whileTrue(new ShootCommand());
+        this.rightTrigger().and(Dashboard.MANUAL_MODE_ENABLED::get).whileTrue(new ShooterCommand());
+        this.rightTrigger().and(() -> !Dashboard.MANUAL_MODE_ENABLED.get()).whileTrue(new ShootCommand());
 
         new Trigger(Dashboard.HUB_ALIGNING::get)
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))

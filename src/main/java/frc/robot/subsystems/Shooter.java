@@ -121,7 +121,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Gets the distance from this module to the hub.
+     * Gets the shooter distance from to the hub.
      *
      * @param robotPose Robot pose in field coordinates.
      * @return Distance from this module to the hub.
@@ -129,22 +129,20 @@ public class Shooter extends SubsystemBase {
     public static double getTargetDistance(Pose2d robotPose) {
         Translation2d targetPosition = FieldConstants.targetPosition(robotPose.getTranslation());
         Translation2d fieldPosition = robotPose.getTranslation()
-                .minus(ShooterConstants.SHOOTER_BARREL_CENTER.rotateBy(robotPose.getRotation()));
+                .plus(ShooterConstants.SHOOTER_BARREL_CENTER.rotateBy(robotPose.getRotation()));
         return fieldPosition.getDistance(targetPosition);
     }
 
     /**
-     * Calculates the angle from this module's location to the hub.
+     * Calculates the target heading to point the back of the robot at the hub.
      *
      * @param robotPose Current robot pose in field coordinates.
-     * @return Angle in radians from the module toward the hub.
+     * @return Angle in radians to point the back of the robot at the hub.
      */
     public static double getTargetAngle(Pose2d robotPose) {
         Translation2d targetPosition = FieldConstants.targetPosition(robotPose.getTranslation());
-        Translation2d moduleFieldPosition = robotPose.getTranslation()
-                .minus(ShooterConstants.SHOOTER_BARREL_CENTER.rotateBy(robotPose.getRotation()));
-        Translation2d toTargetFromModule = targetPosition.minus(moduleFieldPosition);
-        return toTargetFromModule.getAngle().getRadians();
+        Translation2d toTarget = targetPosition.minus(robotPose.getTranslation());
+        return MathUtil.angleModulus(toTarget.getAngle().getRadians() + Math.PI);
     }
 
     public Command quasistaticSysId(Direction direction) {

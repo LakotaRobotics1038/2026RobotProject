@@ -12,7 +12,7 @@ import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShooterCommand;
 
 public class LeftTrenchAuto extends Auton {
     public LeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
@@ -22,10 +22,10 @@ public class LeftTrenchAuto extends Auton {
                 followPathCommand(Paths.getLeft1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getLeft2Path()),
-                new AdjustHoodCommand().raceWith(new ShootCommand().withTimeout(4)),
+                new AdjustHoodCommand().raceWith(new ShooterCommand().withTimeout(4)),
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getLeft4Path()),
-                new AlignCommand().raceWith(new AdjustHoodCommand().raceWith(new ShootCommand().withTimeout(4))));
+                new AlignCommand().raceWith(new AdjustHoodCommand().raceWith(new ShooterCommand().withTimeout(4))));
     }
 }

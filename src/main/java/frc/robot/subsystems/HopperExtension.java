@@ -36,16 +36,20 @@ public class HopperExtension extends SubsystemBase {
         return instance;
     }
 
+    public void setSpeed(double dutyCycle) {
+        controller.setSetpoint(dutyCycle, ControlType.kDutyCycle);
+    }
+
     public void out() {
-        controller.setSetpoint(HopperExtensionConstants.OUT_DUTY_CYCLE, ControlType.kDutyCycle);
+        setSpeed(HopperExtensionConstants.OUT_DUTY_CYCLE);
     }
 
     public void in() {
-        controller.setSetpoint(HopperExtensionConstants.IN_DUTY_CYCLE, ControlType.kDutyCycle);
+        setSpeed(HopperExtensionConstants.IN_DUTY_CYCLE);
     }
 
-    public void inWhileShooting() {
-        controller.setSetpoint(HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING, ControlType.kDutyCycle);
+    public void inSlow() {
+        setSpeed(Dashboard.HOPPER_SLOW_SHOOT_DUTY_CYCLE.get());
     }
 
     public void stop() {

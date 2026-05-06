@@ -2,7 +2,10 @@ package frc.robot.constants;
 
 import java.util.List;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.util.Units;
 import frc.robot.utils.dashboard.DashboardValue;
 
@@ -11,9 +14,9 @@ public final class ShooterConstants {
     public static final int SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID = 3;
     public static final int SHOOTER_MOTOR_RIGHT_TOP_CAN_ID = 16;
     public static final int SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID = 15;
-    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(Units.inchesToMeters(5.202363), 0);
+    public static final Translation2d SHOOTER_BARREL_CENTER = new Translation2d(Units.inchesToMeters(-5.202363), 0);
 
-    public static final double OPERATING_TOLERANCE = 75;
+    public static final double OPERATING_TOLERANCE = 300;
 
     public static final double P = 0.0002;
     public static final double I = 0.0;
@@ -33,76 +36,31 @@ public final class ShooterConstants {
 
     public static final double MAX_SHOOTER_RPM = 4000.0;
 
-    /**
-     * List of angles and their corresponding shooter formulas. The formula is used
-     * to calculate the RPM of the shooter
-     * based on the distance to the target. The min and max values represent the
-     * range of that angle.
-     */
-    public static final List<ShooterConstants.ShooterFormula> SHOOTER_FORMULAS = List.of(
-            new ShooterConstants.ShooterFormula(
-                    68,
-                    393.7,
-                    2150,
-                    1.524,
-                    2.286),
-            new ShooterConstants.ShooterFormula(
-                    59,
-                    397.69,
-                    1949.3,
-                    2.286,
-                    10000.0));
+    public static final InterpolatingShooterMap SHOOTER_RPM_MAP = new InterpolatingShooterMap();
 
-    public static final class ShooterFormula {
-        private final DashboardValue<Double> slope;
-        private final DashboardValue<Double> yIntercept;
-        private final double min;
-        private final double max;
-        private final double angle;
+    static {
+        SHOOTER_RPM_MAP.put(Units.inchesToMeters(52), new ShooterValue(73, 2500));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(62), new ShooterValue(72, 2500));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(72), new ShooterValue(70, 2500));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(92), new ShooterValue(70, 2700));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(105), new ShooterValue(70, 2750));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(110), new ShooterValue(65, 2750));
+        SHOOTER_RPM_MAP.put(Units.inchesToMeters(120), new ShooterValue(65, 2800));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(130), new ShooterValue(65, 2900));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(140), new ShooterValue(65, 3000));
+        // SHOOTER_RPM_MAP.put(Units.inchesToMeters(158), new ShooterValue(60, 3100));
+        SHOOTER_RPM_MAP.put(Units.inchesToMeters(188), new ShooterValue(60, 3500));
+    }
 
-        public ShooterFormula(
-                double angle,
-                double shooterSlope,
-                double shooterYIntercept,
-                double min,
-                double max) {
-            this.angle = angle;
-            this.slope = new DashboardValue<>("Shooter Slope " + (int) angle, shooterSlope);
-            this.yIntercept = new DashboardValue<>("Shooter Y Intercept " + (int) angle, shooterYIntercept);
-            this.min = min;
-            this.max = max;
-        }
+    public record ShooterValue(double angle, double rpm) {
+    }
 
-        public double getAngle() {
-            return angle;
-        }
-
-        public double getMin() {
-            return min;
-        }
-
-        public double getMax() {
-            return max;
-        }
-
-        public double getSlope() {
-            return slope.get();
-        }
-
-        public void setSlope(double slope) {
-            this.slope.set(slope);
-        }
-
-        public double getYIntercept() {
-            return yIntercept.get();
-        }
-
-        public void setYIntercept(double yIntercept) {
-            this.yIntercept.set(yIntercept);
-        }
-
-        public double getShooterRPM(double distance) {
-            return getSlope() * distance + getYIntercept();
+    public static final class InterpolatingShooterMap extends InterpolatingTreeMap<Double, ShooterValue> {
+        public InterpolatingShooterMap() {
+            super(InverseInterpolator.forDouble(),
+                    (ShooterValue startValue, ShooterValue endValue, double t) -> new ShooterValue(
+                            MathUtil.interpolate(startValue.angle(), endValue.angle(), t),
+                            MathUtil.interpolate(startValue.rpm(), endValue.rpm(), t)));
         }
     }
 }

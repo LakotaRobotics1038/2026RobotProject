@@ -17,14 +17,15 @@ public class DashboardValue<T> {
 
     public DashboardValue(String name, T defaultValue, boolean persistent) {
         this.name = name;
-        this.entry = SmartDashboard.getEntry(name);
         this.isSendable = defaultValue instanceof Sendable;
         if (isSendable) {
+            this.entry = null;
             SmartDashboard.putData(name, (Sendable) defaultValue);
             if (persistent) {
                 SmartDashboard.setPersistent(name);
             }
         } else {
+            this.entry = SmartDashboard.getEntry(name);
             this.entry.setDefaultValue(defaultValue);
             if (persistent) {
                 this.entry.setPersistent();

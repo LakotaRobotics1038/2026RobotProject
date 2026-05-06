@@ -6,31 +6,41 @@ import frc.robot.constants.ShooterConstants.ShooterValue;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.ShooterHood;
+import frc.robot.subsystems.SwagLights;
+import frc.robot.subsystems.SwagLights.OperatorStates;
 
-public class AdjustHoodCommand extends Command {
-    private final ShooterHood shooterHood = ShooterHood.getInstance();
+public class ShooterCommand extends Command {
+    private final Shooter shooter = Shooter.getInstance();
     private final DriveTrain driveTrain = DriveTrain.getInstance();
+    private final SwagLights swagLights = SwagLights.getInstance();
 
-    public AdjustHoodCommand() {
-        addRequirements(shooterHood);
+    public ShooterCommand() {
+        addRequirements(shooter);
     }
 
     @Override
     public void execute() {
         if (Dashboard.MANUAL_MODE_ENABLED.get()) {
-            double angle = Dashboard.MANUAL_SHOOTER_HOOD_ANGLE.get();
-            shooterHood.setAngle(angle);
+            double targetRPM = Dashboard.MANUAL_SHOOTER_RPM.get();
+
+            shooter.start(targetRPM);
         } else {
             double distance = Shooter.getTargetDistance(driveTrain.getState().Pose);
             ShooterValue shooterValue = ShooterConstants.SHOOTER_RPM_MAP.get(distance);
-            shooterHood.setAngle(shooterValue.angle());
+            shooter.start(shooterValue.rpm());
         }
-        shooterHood.update();
     }
 
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        shooter.stop();
+        if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
+            swagLights.setOperatorState(OperatorStates.Default);
+        }
     }
 }

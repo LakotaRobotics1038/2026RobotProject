@@ -28,10 +28,10 @@ public class HopperExtensionCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (direction == ExtensionDirection.IN) {
-            return extension.getReverseLimitSwitchPressed();
-        } else {
+        if (direction == ExtensionDirection.OUT) {
             return timer.hasElapsed(OUT_DURATION_SECONDS);
+        } else {
+            return extension.getReverseLimitSwitchPressed();
         }
     }
 

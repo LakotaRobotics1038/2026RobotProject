@@ -69,7 +69,6 @@ public class ShooterHood extends SubsystemBase {
                 - MathUtil.clamp(angle, ShooterHoodConstants.SHOOTER_NO_RETRACTION_ANGLE,
                         ShooterHoodConstants.SHOOTER_FULL_RETRACTION_ANGLE);
         targetAngle = encoderAngle;
-        // controller.setSetpoint(encoderAngle, ControlType.kPosition);
         pidController.setSetpoint(encoderAngle);
     }
 
@@ -78,7 +77,6 @@ public class ShooterHood extends SubsystemBase {
             leftMotor.stopMotor();
         } else {
             double output = pidController.calculate(encoder.getPosition());
-            System.out.println(output);
             leftMotor.set(output);
         }
     }

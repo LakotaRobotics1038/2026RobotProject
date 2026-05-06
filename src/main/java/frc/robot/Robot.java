@@ -36,6 +36,9 @@ public class Robot extends TimedRobot {
 
     // Human Interface Devices
 
+    public Robot() {
+    }
+
     @Override
     public void robotInit() {
         // Singleton instances that need to be created but not referenced

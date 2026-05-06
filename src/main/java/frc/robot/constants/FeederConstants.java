@@ -8,8 +8,8 @@ public final class FeederConstants {
     public static final double D = 0.0;
     public static final double V = 0.00185;
 
-    public static final double MAX_ACCELERATION = 1000;
+    public static final double MAX_ACCELERATION = 3000;
 
-    public static final double SHOOT_RPM = 3000;
+    public static final double SHOOT_RPM = 4500;
     public static final double REVERSE_RPM = -2000;
 }

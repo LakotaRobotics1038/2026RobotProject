@@ -12,7 +12,7 @@ import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShooterCommand;
 
 public class DepotAuto extends Auton {
     public DepotAuto(Optional<Alliance> alliance)
@@ -25,6 +25,6 @@ public class DepotAuto extends Auton {
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getMiddleSideDepot3Path()),
                 new AlignCommand().raceWith(new AdjustHoodCommand().raceWith(
-                        new ShootCommand().withTimeout(10))));
+                        new ShooterCommand().withTimeout(10))));
     }
 }

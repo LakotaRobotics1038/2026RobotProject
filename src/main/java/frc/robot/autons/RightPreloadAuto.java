@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.HopperExtensionCommand.ExtensionDirection;
-import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShooterCommand;
 
 import org.json.simple.parser.ParseException;
 
@@ -20,6 +20,6 @@ public class RightPreloadAuto extends Auton {
                 new HopperExtensionCommand(ExtensionDirection.IN),
                 followPathCommand(Paths.getRight1Path()),
                 new AlignCommand()
-                        .raceWith(new ShootCommand().withTimeout(5)));
+                        .raceWith(new ShooterCommand().withTimeout(5)));
     }
 }

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
 import frc.robot.constants.FeederConstants;
+import frc.robot.constants.HopperExtensionConstants;
 import frc.robot.constants.IndexerConstants;
 import frc.robot.constants.KickerConstants;
 import frc.robot.constants.ShooterConstants;
@@ -115,6 +117,9 @@ public class Dashboard extends SubsystemBase {
             "Acquisition Target RPM",
             () -> Acquisition.getInstance().getTargetRPM(),
             0.0);
+    public static final DashboardValue<Double> HOPPER_SLOW_SHOOT_DUTY_CYCLE = new DashboardValue<>(
+            "Hopper Slow Shoot Duty Cycle",
+            HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN);
     public static final SendableDashboardValue<Field2d> FIELD = new SendableDashboardValue<>(
             "Field",
             v -> v.setRobotPose(
@@ -131,7 +136,7 @@ public class Dashboard extends SubsystemBase {
             false);
     public static final SuppliedDashboardValue<Double> DISTANCE_TO_HUB = new SuppliedDashboardValue<>(
             "Distance to Hub",
-            () -> Shooter.getTargetDistance(DriveTrain.getInstance().getState().Pose),
+            () -> Units.metersToInches(Shooter.getTargetDistance(DriveTrain.getInstance().getState().Pose)),
             0.0);
 
     public static Dashboard getInstance() {

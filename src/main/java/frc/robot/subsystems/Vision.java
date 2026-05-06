@@ -41,6 +41,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.VisionConstants;
+import frc.robot.utils.dashboard.SuppliedDashboardValue;
 
 public class Vision extends SubsystemBase {
     private final PhotonCamera leftCamera = new PhotonCamera(VisionConstants.ROBOT_TO_LEFT_CAM_NAME);
