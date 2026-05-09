@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import com.pathplanner.lib.util.FileVersionException;
 
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.AcquisitionCommand;
 import frc.robot.commands.AlignCommand;
 import frc.robot.commands.HopperExtensionCommand;
@@ -22,13 +23,13 @@ public class RightTrenchAuto extends Auton {
                 followPathCommand(Paths.getRight1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getRight2Path()),
-                new ShooterCommand().withTimeout(4).raceWith(
-                        new ShootCommand()),
+                new ShooterCommand().raceWith(new WaitCommand(3).andThen(new ShootCommand().withTimeout(10))),
                 followPathCommand(Paths.getRight3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
                 followPathCommand(Paths.getRight4Path()),
                 new AlignCommand().raceWith(
-                        new ShootCommand(),
-                        new ShooterCommand().withTimeout(4)));
+                        new ShooterCommand(),
+                        new WaitCommand(3).andThen(
+                                new ShootCommand().withTimeout(10))));
     }
 }
