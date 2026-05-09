@@ -138,6 +138,9 @@ public class Dashboard extends SubsystemBase {
             "Distance to Hub",
             () -> Units.metersToInches(Shooter.getTargetDistance(DriveTrain.getInstance().getState().Pose)),
             0.0);
+    public static final DashboardValue<Double> HOPPER_OUT_SECONDS = new DashboardValue<>(
+            "Hopper Out Seconds",
+            0.85);
 
     public static Dashboard getInstance() {
         if (instance == null) {

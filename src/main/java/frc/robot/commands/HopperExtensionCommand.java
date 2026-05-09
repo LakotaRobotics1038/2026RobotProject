@@ -2,11 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.HopperExtension;
 
 public class HopperExtensionCommand extends Command {
-    private static final double OUT_DURATION_SECONDS = 0.85;
-
     private final HopperExtension extension = HopperExtension.getInstance();
     private final ExtensionDirection direction;
     private final Timer timer = new Timer();
@@ -29,7 +28,7 @@ public class HopperExtensionCommand extends Command {
     @Override
     public boolean isFinished() {
         if (direction == ExtensionDirection.OUT) {
-            return timer.hasElapsed(OUT_DURATION_SECONDS);
+            return timer.hasElapsed(Dashboard.HOPPER_OUT_SECONDS.get());
         } else {
             return extension.getReverseLimitSwitchPressed();
         }
