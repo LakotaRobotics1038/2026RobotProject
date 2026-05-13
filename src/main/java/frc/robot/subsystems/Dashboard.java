@@ -140,7 +140,10 @@ public class Dashboard extends SubsystemBase {
             0.0);
     public static final DashboardValue<Double> HOPPER_OUT_SECONDS = new DashboardValue<>(
             "Hopper Out Seconds",
-            0.85);
+            0.44);
+    public static final DashboardValue<Boolean> UP_TO_SPEED = new DashboardValue<>(
+            "Up To Speed",
+            false);
 
     public static Dashboard getInstance() {
         if (instance == null) {

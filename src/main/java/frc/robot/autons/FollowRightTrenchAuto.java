@@ -15,10 +15,13 @@ import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 
-public class RightTrenchAuto extends Auton {
-    public RightTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class FollowRightTrenchAuto extends Auton {
+    public FollowRightTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
+                followPathCommand(Paths.getPreloadRight1Path()),
+                new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
+                followPathCommand(Paths.getPreloadRight2Path()),
                 followPathCommand(Paths.getRight1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
                         .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),

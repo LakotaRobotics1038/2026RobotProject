@@ -11,6 +11,8 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftTrenchAuto,
+        FollowLeftTrenchAuto,
+        FollowRightTrenchAuto,
         RightTrenchAuto,
         LeftPreloadAuto,
         MiddlePreloadAuto,
@@ -39,6 +41,8 @@ public class AutonSelector {
 
         this.autoChooser.addOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Trench Auto", AutonChoices.LeftTrenchAuto);
+        this.autoChooser.addOption("Follow Left Trench Auto", AutonChoices.FollowLeftTrenchAuto);
+        this.autoChooser.addOption("Follow Right Trench Auto", AutonChoices.FollowRightTrenchAuto);
         this.autoChooser.addOption("Right Trench Auto", AutonChoices.RightTrenchAuto);
         this.autoChooser.addOption("Left Preload Only Auto", AutonChoices.LeftPreloadAuto);
         this.autoChooser.addOption("Middle Preload Only Auto", AutonChoices.MiddlePreloadAuto);
@@ -61,6 +65,10 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftTrenchAuto:
                     return new LeftTrenchAuto(alliance);
+                case FollowLeftTrenchAuto:
+                    return new FollowLeftTrenchAuto(alliance);
+                case FollowRightTrenchAuto:
+                    return new FollowRightTrenchAuto(alliance);
                 case RightTrenchAuto:
                     return new RightTrenchAuto(alliance);
                 case LeftPreloadAuto:

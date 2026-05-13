@@ -10,6 +10,6 @@ public final class FeederConstants {
 
     public static final double MAX_ACCELERATION = 3000;
 
-    public static final double SHOOT_RPM = 4500;
+    public static final double SHOOT_RPM = 2000;
     public static final double REVERSE_RPM = -2000;
 }

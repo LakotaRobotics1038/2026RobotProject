@@ -8,12 +8,10 @@ import frc.robot.subsystems.Acquisition;
 import frc.robot.subsystems.Feeder;
 import frc.robot.subsystems.HopperExtension;
 import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Kicker;
 
 public class ShootCommand extends Command {
-    private static final double IN_SLOW_INTERPOLATE_SECONDS = 0.5;
+    private static final double IN_SLOW_INTERPOLATE_SECONDS = 1.0;
 
-    private final Kicker kicker = Kicker.getInstance();
     private final Indexer indexer = Indexer.getInstance();
     private final Acquisition acquisition = Acquisition.getInstance();
     private final HopperExtension extension = HopperExtension.getInstance();
@@ -21,13 +19,12 @@ public class ShootCommand extends Command {
     private final Timer timer = new Timer();
 
     public ShootCommand() {
-        addRequirements(kicker, indexer, acquisition, extension, feeder);
+        addRequirements(indexer, acquisition, extension, feeder);
     }
 
     @Override
     public void initialize() {
         timer.restart();
-        kicker.start();
         indexer.intake();
         feeder.start();
         acquisition.intake();
@@ -38,7 +35,7 @@ public class ShootCommand extends Command {
         if (timer.hasElapsed(0.5)) {
             acquisition.stop();
         }
-        if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS)) {
+        if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS) && !extension.getReverseLimitSwitchPressed()) {
             double elapsed = timer.get();
             double interpolatedValue = MathUtil.interpolate(
                     HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN,
@@ -55,7 +52,6 @@ public class ShootCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        kicker.stop();
         indexer.stop();
         acquisition.stop();
         extension.stop();

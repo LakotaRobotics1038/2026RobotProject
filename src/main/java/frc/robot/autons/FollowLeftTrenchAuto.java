@@ -15,19 +15,22 @@ import frc.robot.commands.HopperExtensionCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 
-public class RightTrenchAuto extends Auton {
-    public RightTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
+public class FollowLeftTrenchAuto extends Auton {
+    public FollowLeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getRight1Path())
-                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
-                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
-                followPathCommand(Paths.getRight2Path()),
+                followPathCommand(Paths.getPreloadLeft1Path()).alongWith(new ShooterCommand()),
                 new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
-                followPathCommand(Paths.getRight3Path())
+                followPathCommand(Paths.getPreloadLeft2Path()),
+                followPathCommand(Paths.getLeft1Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
                         .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
-                followPathCommand(Paths.getRight4Path()),
+                followPathCommand(Paths.getLeft2Path()),
+                new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
+                followPathCommand(Paths.getLeft3Path())
+                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
+                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
+                followPathCommand(Paths.getLeft4Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
                         new WaitCommand(2).andThen(

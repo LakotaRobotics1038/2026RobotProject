@@ -19,17 +19,19 @@ public class LeftTrenchAuto extends Auton {
     public LeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT),
                 followPathCommand(Paths.getLeft1Path())
-                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
+                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
+                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getLeft2Path()),
-                new ShooterCommand().raceWith(new WaitCommand(3).andThen(new ShootCommand().withTimeout(10))),
+                new ShooterCommand()
+                        .raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
                 followPathCommand(Paths.getLeft3Path())
-                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE)),
+                        .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
+                        .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getLeft4Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
-                        new WaitCommand(3).andThen(
-                                new ShootCommand().withTimeout(10))));
+                        new WaitCommand(2).andThen(
+                                new ShootCommand().withTimeout(2))));
     }
 }

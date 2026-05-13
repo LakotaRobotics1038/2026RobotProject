@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AdjustHoodCommand;
 import frc.robot.commands.AlignCommand;
-import frc.robot.commands.KickerCommand;
 import frc.robot.commands.ObstacleAlignCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.FieldConstants;
@@ -79,7 +79,13 @@ public class DriverJoystick extends XboxController1038 {
         this.leftBumper().whileTrue(new ObstacleAlignCommand(this::getForwardValue, this::getSidewaysValue));
         this.leftTrigger().and(() -> !Dashboard.MANUAL_MODE_ENABLED.get()).whileTrue(new AlignCommand(
                 this::getForwardValue,
-                this::getSidewaysValue)).whileTrue(new ShooterCommand()).whileTrue(new KickerCommand());
+                this::getSidewaysValue))
+                .whileTrue(new ShooterCommand());
+        this.leftTrigger()
+                .and(() -> (Dashboard.MANUAL_MODE_ENABLED.get() || Dashboard.HUB_ALIGNED.get())
+                        && Dashboard.UP_TO_SPEED.get())
+                .debounce(1.0)
+                .whileTrue(new ShootCommand());
 
         new Trigger(Dashboard.HUB_ALIGNING::get)
                 .onTrue(new InstantCommand(() -> setRumble(AlignCommand.HUB_ALIGNMENT_RUMBLE_INTENSITY)))
