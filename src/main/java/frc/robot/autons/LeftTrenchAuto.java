@@ -23,15 +23,13 @@ public class LeftTrenchAuto extends Auton {
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
                         .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getLeft2Path()),
-                new ShooterCommand()
-                        .raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
+                new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
                 followPathCommand(Paths.getLeft3Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
                         .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getLeft4Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
-                        new WaitCommand(2).andThen(
-                                new ShootCommand().withTimeout(2))));
+                        new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))));
     }
 }

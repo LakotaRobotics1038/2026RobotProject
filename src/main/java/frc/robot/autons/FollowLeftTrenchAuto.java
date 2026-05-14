@@ -21,8 +21,7 @@ public class FollowLeftTrenchAuto extends Auton {
         super.addCommands(
                 followPathCommand(Paths.getPreloadLeft1Path()).alongWith(new ShooterCommand()),
                 new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
-                followPathCommand(Paths.getPreloadLeft2Path()),
-                followPathCommand(Paths.getLeft1Path())
+                followPathCommand(Paths.getPreloadLeft2Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
                         .alongWith(new HopperExtensionCommand(HopperExtensionCommand.ExtensionDirection.OUT)),
                 followPathCommand(Paths.getLeft2Path()),
@@ -33,7 +32,6 @@ public class FollowLeftTrenchAuto extends Auton {
                 followPathCommand(Paths.getLeft4Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
-                        new WaitCommand(2).andThen(
-                                new ShootCommand().withTimeout(2))));
+                        new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))));
     }
 }

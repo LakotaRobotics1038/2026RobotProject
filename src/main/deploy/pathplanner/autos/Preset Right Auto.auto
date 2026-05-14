@@ -19,12 +19,6 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Right 1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "Right 2"
           }
         },

@@ -21,6 +21,11 @@ public class ShooterCommand extends Command {
     }
 
     @Override
+    public void initialize() {
+        kicker.start();
+    }
+
+    @Override
     public void execute() {
         if (Dashboard.MANUAL_MODE_ENABLED.get()) {
             double targetRPM = Dashboard.MANUAL_SHOOTER_RPM.get();
@@ -30,10 +35,6 @@ public class ShooterCommand extends Command {
             double distance = Shooter.getTargetDistance(driveTrain.getState().Pose);
             ShooterValue shooterValue = ShooterConstants.SHOOTER_RPM_MAP.get(distance);
             shooter.start(shooterValue.rpm());
-        }
-        kicker.start();
-        if (shooter.isAtTargetRPM() && kicker.isAtTargetRPM()) {
-            Dashboard.UP_TO_SPEED.set(true);
         }
     }
 
@@ -49,6 +50,5 @@ public class ShooterCommand extends Command {
         if (swagLights.getOperatorState() == SwagLights.OperatorStates.TooClose) {
             swagLights.setOperatorState(OperatorStates.Default);
         }
-        Dashboard.UP_TO_SPEED.set(false);
     }
 }

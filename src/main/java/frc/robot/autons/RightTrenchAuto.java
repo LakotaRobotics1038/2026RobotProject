@@ -30,7 +30,6 @@ public class RightTrenchAuto extends Auton {
                 followPathCommand(Paths.getRight4Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
-                        new WaitCommand(2).andThen(
-                                new ShootCommand().withTimeout(2))));
+                        new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))));
     }
 }
