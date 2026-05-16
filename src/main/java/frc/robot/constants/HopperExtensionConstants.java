@@ -15,4 +15,6 @@ public final class HopperExtensionConstants {
     public static final double IN_DUTY_CYCLE_WHILE_SHOOTING_MIN = -0.2;
     public static final double IN_DUTY_CYCLE_WHILE_SHOOTING_MAX = -0.55;
     public static final double OUT_DUTY_CYCLE = 0.8;
+
+    public static final int CURRENT_LIMIT = 50;
 }

@@ -36,7 +36,7 @@ public class Acquisition extends SubsystemBase {
     }
 
     public void intake() {
-        controller.setSetpoint(AcquisitionConstants.INTAKE_RPM, ControlType.kVelocity);
+        controller.setSetpoint(Dashboard.INTAKE_TARGET_RPM.get(), ControlType.kVelocity);
     }
 
     public void dispose() {

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.autons.AutonSelector.AutonChoices;
+import frc.robot.constants.AcquisitionConstants;
 import frc.robot.constants.FeederConstants;
 import frc.robot.constants.HopperExtensionConstants;
 import frc.robot.constants.IndexerConstants;
@@ -113,10 +114,10 @@ public class Dashboard extends SubsystemBase {
             "Acquisition RPM",
             () -> Acquisition.getInstance().getRPM(),
             0.0);
-    public static final SuppliedDashboardValue<Double> INTAKE_TARGET_RPM = new SuppliedDashboardValue<>(
+    public static final DashboardValue<Double> INTAKE_TARGET_RPM = new DashboardValue<>(
             "Acquisition Target RPM",
-            () -> Acquisition.getInstance().getTargetRPM(),
-            0.0);
+            AcquisitionConstants.INTAKE_RPM,
+            true);
     public static final DashboardValue<Double> HOPPER_SLOW_SHOOT_DUTY_CYCLE = new DashboardValue<>(
             "Hopper Slow Shoot Duty Cycle",
             HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN);
@@ -140,7 +141,7 @@ public class Dashboard extends SubsystemBase {
             0.0);
     public static final DashboardValue<Double> HOPPER_OUT_SECONDS = new DashboardValue<>(
             "Hopper Out Seconds",
-            0.44);
+            0.51);
 
     public static Dashboard getInstance() {
         if (instance == null) {

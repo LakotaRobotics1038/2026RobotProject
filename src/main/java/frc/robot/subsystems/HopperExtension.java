@@ -13,7 +13,6 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.HopperExtensionConstants;
-import frc.robot.constants.NeoMotorConstants;
 
 public class HopperExtension extends SubsystemBase {
     private static HopperExtension instance;
@@ -23,7 +22,7 @@ public class HopperExtension extends SubsystemBase {
 
     private HopperExtension() {
         SparkMaxConfig config = new SparkMaxConfig();
-        config.smartCurrentLimit(NeoMotorConstants.MAX_NEO_CURRENT).idleMode(IdleMode.kCoast).limitSwitch
+        config.smartCurrentLimit(HopperExtensionConstants.CURRENT_LIMIT).idleMode(IdleMode.kCoast).limitSwitch
                 .reverseLimitSwitchType(Type.kNormallyOpen)
                 .reverseLimitSwitchTriggerBehavior(Behavior.kStopMovingMotorAndSetPosition);
         motor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
