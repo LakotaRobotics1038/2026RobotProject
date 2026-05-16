@@ -2,9 +2,9 @@ classDiagram
   direction LR
 
   class AcquisitionCommand {
-    - acquisition Acquisition
-    - mode Mode
-    + AcquisitionCommand(Mode)
+    - intake Acquisition
+    - direction IntakeDirection
+    + AcquisitionCommand(IntakeDirection)
     + initialize() void
     + isFinished() boolean
     + end(boolean) void
