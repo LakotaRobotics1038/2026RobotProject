@@ -10,7 +10,7 @@ import frc.robot.subsystems.HopperExtension;
 import frc.robot.subsystems.Indexer;
 
 public class ShootCommand extends Command {
-    private static final double IN_SLOW_INTERPOLATE_SECONDS = 2.0;
+    private static final double IN_SLOW_INTERPOLATE_SECONDS = 1.0;
 
     private final Indexer indexer = Indexer.getInstance();
     private final Acquisition acquisition = Acquisition.getInstance();
@@ -35,13 +35,15 @@ public class ShootCommand extends Command {
         if (timer.hasElapsed(0.5)) {
             acquisition.stop();
         }
-        if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS) && !extension.getReverseLimitSwitchPressed()) {
-            double elapsed = timer.get();
-            double interpolatedValue = MathUtil.interpolate(
-                    HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN,
-                    HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MAX,
-                    elapsed / IN_SLOW_INTERPOLATE_SECONDS);
-            extension.setSpeed(interpolatedValue);
+        if (timer.hasElapsed(0.25)) {
+            if (!timer.hasElapsed(IN_SLOW_INTERPOLATE_SECONDS + 0.25) && !extension.getReverseLimitSwitchPressed()) {
+                double elapsed = timer.get();
+                double interpolatedValue = MathUtil.interpolate(
+                        HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MIN,
+                        HopperExtensionConstants.IN_DUTY_CYCLE_WHILE_SHOOTING_MAX,
+                        elapsed / IN_SLOW_INTERPOLATE_SECONDS);
+                extension.setSpeed(interpolatedValue);
+            }
         }
     }
 
