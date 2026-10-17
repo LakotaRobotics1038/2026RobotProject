@@ -9,10 +9,12 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkBase;
 import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.config.SparkBaseConfig;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
+import com.revrobotics.spark.config.SparkFlexConfig;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,13 +32,13 @@ import frc.robot.constants.ShooterConstants;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
 
-    private final SparkMax leftTop = new SparkMax(ShooterConstants.SHOOTER_MOTOR_LEFT_TOP_CAN_ID,
+    private final SparkFlex leftTop = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_LEFT_TOP_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax leftBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID,
+    private final SparkFlex leftBottom = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax rightTop = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_TOP_CAN_ID,
+    private final SparkFlex rightTop = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_RIGHT_TOP_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
-    private final SparkMax rightBottom = new SparkMax(ShooterConstants.SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID,
+    private final SparkFlex rightBottom = new SparkFlex(ShooterConstants.SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID,
             SparkLowLevel.MotorType.kBrushless);
     private final SparkClosedLoopController controller = leftTop.getClosedLoopController();
     private final RelativeEncoder encoder = leftTop.getEncoder();
@@ -51,7 +53,7 @@ public class Shooter extends SubsystemBase {
                     this));
 
     private Shooter() {
-        SparkMaxConfig baseConfig = new SparkMaxConfig();
+        SparkFlexConfig baseConfig = new SparkFlexConfig();
         baseConfig.idleMode(SparkBaseConfig.IdleMode.kCoast).inverted(true)
                 .smartCurrentLimit(NeoMotorConstants.MAX_VORTEX_CURRENT).closedLoop
                 .pid(ShooterConstants.P, ShooterConstants.I, ShooterConstants.D).feedForward
@@ -60,9 +62,9 @@ public class Shooter extends SubsystemBase {
 
         leftTop.configure(baseConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-        SparkMaxConfig leftFollowerConfig = new SparkMaxConfig();
+        SparkFlexConfig leftFollowerConfig = new SparkFlexConfig();
         leftFollowerConfig.apply(baseConfig).follow(leftTop);
-        SparkMaxConfig rightFollowerConfig = new SparkMaxConfig();
+        SparkFlexConfig rightFollowerConfig = new SparkFlexConfig();
         rightFollowerConfig.apply(baseConfig).follow(leftTop, true);
 
         leftBottom.configure(leftFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
