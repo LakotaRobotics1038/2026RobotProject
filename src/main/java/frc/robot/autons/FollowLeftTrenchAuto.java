@@ -19,7 +19,7 @@ public class FollowLeftTrenchAuto extends Auton {
     public FollowLeftTrenchAuto(Optional<Alliance> alliance) throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getPreloadLeft1Path()).alongWith(new ShooterCommand()),
+                followPathCommand(Paths.getPreloadLeft1Path()).raceWith(new ShooterCommand()),
                 new ShooterCommand().raceWith(new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))),
                 followPathCommand(Paths.getPreloadLeft2Path())
                         .raceWith(new AcquisitionCommand(AcquisitionCommand.IntakeDirection.INTAKE))
