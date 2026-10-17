@@ -11,11 +11,14 @@ public class AutonSelector {
     public enum AutonChoices {
         NoAuto,
         LeftTrenchAuto,
+        FollowLeftTrenchAuto,
+        FollowRightTrenchAuto,
         RightTrenchAuto,
         LeftPreloadAuto,
         MiddlePreloadAuto,
         RightPreloadAuto,
-        DepotAuto
+        DepotAuto,
+        ShooterSysID
     }
 
     // Choosers
@@ -38,10 +41,13 @@ public class AutonSelector {
 
         this.autoChooser.addOption("No Auto", AutonChoices.NoAuto);
         this.autoChooser.addOption("Left Trench Auto", AutonChoices.LeftTrenchAuto);
+        this.autoChooser.addOption("Follow Left Trench Auto", AutonChoices.FollowLeftTrenchAuto);
+        this.autoChooser.addOption("Follow Right Trench Auto", AutonChoices.FollowRightTrenchAuto);
         this.autoChooser.addOption("Right Trench Auto", AutonChoices.RightTrenchAuto);
         this.autoChooser.addOption("Left Preload Only Auto", AutonChoices.LeftPreloadAuto);
         this.autoChooser.addOption("Middle Preload Only Auto", AutonChoices.MiddlePreloadAuto);
         this.autoChooser.addOption("Right Preload Only Auto", AutonChoices.RightPreloadAuto);
+        this.autoChooser.addOption("Shooter SysID", AutonChoices.ShooterSysID);
         this.autoChooser.setDefaultOption("Depot Auto", AutonChoices.DepotAuto);
 
         this.delayChooser = Dashboard.DELAY_CHOOSER.get();
@@ -59,6 +65,10 @@ public class AutonSelector {
             switch (this.autoChooser.getSelected()) {
                 case LeftTrenchAuto:
                     return new LeftTrenchAuto(alliance);
+                case FollowLeftTrenchAuto:
+                    return new FollowLeftTrenchAuto(alliance);
+                case FollowRightTrenchAuto:
+                    return new FollowRightTrenchAuto(alliance);
                 case RightTrenchAuto:
                     return new RightTrenchAuto(alliance);
                 case LeftPreloadAuto:
@@ -69,6 +79,8 @@ public class AutonSelector {
                     return new RightPreloadAuto(alliance);
                 case DepotAuto:
                     return new DepotAuto(alliance);
+                case ShooterSysID:
+                    return new ShooterSysID(alliance);
                 default:
                     return null;
             }

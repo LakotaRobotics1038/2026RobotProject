@@ -36,6 +36,9 @@ public class Robot extends TimedRobot {
 
     // Human Interface Devices
 
+    public Robot() {
+    }
+
     @Override
     public void robotInit() {
         // Singleton instances that need to be created but not referenced
@@ -57,10 +60,10 @@ public class Robot extends TimedRobot {
                         estimatedPose.timestampSeconds,
                         vision.getLeftEstimationStdDevs()));
 
-        vision.backCamGetEstimatedGlobalPose()
+        vision.rightCamGetEstimatedGlobalPose()
                 .ifPresent(estimatedPose -> driveTrain.addVisionMeasurement(estimatedPose.estimatedPose.toPose2d(),
                         estimatedPose.timestampSeconds,
-                        vision.getBackEstimationStdDevs()));
+                        vision.getRightEstimationStdDevs()));
     }
 
     @Override

@@ -2,11 +2,12 @@ classDiagram
   direction LR
 
   class ShooterConstants {
-    <<final>>
-    + NEAR_SHOOTER_MODULE_CONSTANTS$ ShooterModuleConstants
-    + FAR_SHOOTER_MODULE_CONSTANTS$ ShooterModuleConstants
+    + SHOOTER_MOTOR_LEFT_TOP_CAN_ID$ int
+    + SHOOTER_MOTOR_LEFT_BOTTOM_CAN_ID$ int
+    + SHOOTER_MOTOR_RIGHT_TOP_CAN_ID$ int
+    + SHOOTER_MOTOR_RIGHT_BOTTOM_CAN_ID$ int
+    + SHOOTER_BARREL_CENTER$ Translation2d
     + OPERATING_TOLERANCE$ double
-    + NEAR_SHOOTER_PERCENTAGE$ double
     + P$ double
     + I$ double
     + D$ double
@@ -18,5 +19,5 @@ classDiagram
     + MANUAL_SHOOTER_RPM_STEP$ double
     + MANUAL_SHOOTER_MIN_RPM$ double
     + MANUAL_SHOOTER_MAX_RPM$ double
-    + SHOOTER_FORMULAS$ List~ShooterFormula~
+    + SHOOTER_FORMULAS$ List~ShooterConstants.ShooterFormula~
   }

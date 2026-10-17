@@ -3,9 +3,9 @@ classDiagram
 
   class IndexerCommand {
     - indexer Indexer
+    - direction IndexerDirection
     - kicker Kicker
-    - mode Mode
-    + IndexerCommand(Mode)
+    + IndexerCommand(IndexerDirection)
     + initialize() void
     + isFinished() boolean
     + end(boolean) void

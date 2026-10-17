@@ -107,4 +107,24 @@ public class Paths {
             throws IOException, ParseException, FileVersionException {
         return PathPlannerPath.fromPathFile("Middle Side Depot 3");
     }
+
+    public static PathPlannerPath getPreloadLeft1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Left Preload 1");
+    }
+
+    public static PathPlannerPath getPreloadLeft2Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Left Preload 2");
+    }
+
+    public static PathPlannerPath getPreloadRight1Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Right Preload 1");
+    }
+
+    public static PathPlannerPath getPreloadRight2Path()
+            throws IOException, ParseException, FileVersionException {
+        return PathPlannerPath.fromPathFile("Right Preload 2");
+    }
 }

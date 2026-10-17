@@ -1,0 +1,16 @@
+classDiagram
+  direction LR
+
+  class HopperExtension {
+    - instance$ HopperExtension
+    - motor SparkMax
+    - controller SparkClosedLoopController
+    - HopperExtension()
+    + getInstance()$ HopperExtension
+    + forward() void
+    + backward() void
+    + stop() void
+    + getForwardLimitSwitchPressed() boolean
+    + getReverseLimitSwitchPressed() boolean
+    + getPosition() double
+  }

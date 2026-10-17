@@ -3,10 +3,22 @@ classDiagram
 
   class Shooter {
     - instance$ Shooter
-    - nearShooter ShooterModule
-    - farShooter ShooterModule
+    - leftTop SparkMax
+    - leftBottom SparkMax
+    - rightTop SparkMax
+    - rightBottom SparkMax
+    - controller SparkClosedLoopController
+    - encoder RelativeEncoder
+    - sysIdRoutine SysIdRoutine
     - Shooter()
     + getInstance()$ Shooter
-    + getNearShooter() ShooterModule
-    + getFarShooter() ShooterModule
+    + start(double) void
+    + stop() void
+    + getRPM() double
+    + getTargetRPM() double
+    + isAtTargetRPM() boolean
+    + getTargetDistance(Pose2d) double
+    + getTargetAngle(Pose2d) double
+    + quasistaticSysId(Direction) Command
+    + dynamicSysId(Direction) Command
   }
