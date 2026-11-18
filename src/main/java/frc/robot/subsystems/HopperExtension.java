@@ -35,34 +35,69 @@ public class HopperExtension extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the extension motor at a duty cycle. Positive values extend the
+     * hopper and negative values retract it.
+     *
+     * @param dutyCycle Duty cycle from -1 to 1.
+     */
     public void setSpeed(double dutyCycle) {
         controller.setSetpoint(dutyCycle, ControlType.kDutyCycle);
     }
 
+    /**
+     * Extends the hopper at {@link HopperExtensionConstants#OUT_DUTY_CYCLE}.
+     */
     public void out() {
         setSpeed(HopperExtensionConstants.OUT_DUTY_CYCLE);
     }
 
+    /**
+     * Retracts the hopper at {@link HopperExtensionConstants#IN_DUTY_CYCLE}.
+     */
     public void in() {
         setSpeed(HopperExtensionConstants.IN_DUTY_CYCLE);
     }
 
+    /**
+     * Retracts the hopper at the duty cycle in
+     * {@link Dashboard#HOPPER_SLOW_SHOOT_DUTY_CYCLE}.
+     */
     public void inSlow() {
         setSpeed(Dashboard.HOPPER_SLOW_SHOOT_DUTY_CYCLE.get());
     }
 
+    /**
+     * Stops the extension motor.
+     */
     public void stop() {
         motor.stopMotor();
     }
 
+    /**
+     * Indicates whether the reverse limit switch is pressed, meaning the
+     * hopper is fully retracted.
+     *
+     * @return Whether the reverse limit switch is pressed.
+     */
     public boolean getReverseLimitSwitchPressed() {
         return motor.getReverseLimitSwitch().isPressed();
     }
 
+    /**
+     * Returns the extension motor's encoder position.
+     *
+     * @return Encoder position in motor rotations.
+     */
     public double getPosition() {
         return motor.getEncoder().getPosition();
     }
 
+    /**
+     * Indicates whether the closed loop controller is at its setpoint.
+     *
+     * @return Whether the extension motor is at its setpoint.
+     */
     public boolean isAtSetpoint() {
         return controller.isAtSetpoint();
     }

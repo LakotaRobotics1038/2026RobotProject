@@ -37,22 +37,43 @@ public class Feeder extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the feeder motor forward at the RPM in
+     * {@link Dashboard#MANUAL_FEEDER_RPM}.
+     */
     public void start() {
         controller.setSetpoint(Dashboard.MANUAL_FEEDER_RPM.get(), ControlType.kVelocity);
     }
 
+    /**
+     * Runs the feeder motor in reverse at the RPM in
+     * {@link FeederConstants#REVERSE_RPM}.
+     */
     public void reverse() {
         controller.setSetpoint(FeederConstants.REVERSE_RPM, ControlType.kVelocity);
     }
 
+    /**
+     * Stops the feeder.
+     */
     public void stop() {
         motor.stopMotor();
     }
 
+    /**
+     * Returns the current feeder speed.
+     *
+     * @return Current feeder speed in RPM.
+     */
     public double getRPM() {
         return motor.getEncoder().getVelocity();
     }
 
+    /**
+     * Returns the target feeder speed.
+     *
+     * @return Target feeder speed in RPM.
+     */
     public double getTargetRPM() {
         return controller.getSetpoint();
     }

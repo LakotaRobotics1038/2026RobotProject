@@ -35,22 +35,43 @@ public class Indexer extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the indexer motor forward at the RPM in
+     * {@link Dashboard#MANUAL_INDEXER_RPM}.
+     */
     public void intake() {
         controller.setSetpoint(Dashboard.MANUAL_INDEXER_RPM.get(), ControlType.kVelocity);
     }
 
+    /**
+     * Runs the indexer motor in reverse at the RPM in
+     * {@link IndexerConstants#BACKWARD_RPM}.
+     */
     public void dispose() {
         controller.setSetpoint(IndexerConstants.BACKWARD_RPM, ControlType.kVelocity);
     }
 
+    /**
+     * Stops the indexer.
+     */
     public void stop() {
         motor.stopMotor();
     }
 
+    /**
+     * Returns the current indexer speed.
+     *
+     * @return Current indexer speed in RPM.
+     */
     public double getRPM() {
         return motor.getEncoder().getVelocity();
     }
 
+    /**
+     * Returns the target indexer speed.
+     *
+     * @return Target indexer speed in RPM.
+     */
     public double getTargetRPM() {
         return controller.getSetpoint();
     }

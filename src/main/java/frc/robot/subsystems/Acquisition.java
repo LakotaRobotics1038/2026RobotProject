@@ -35,22 +35,43 @@ public class Acquisition extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the acquisition motor forward at the RPM in
+     * {@link Dashboard#INTAKE_TARGET_RPM}.
+     */
     public void intake() {
         controller.setSetpoint(Dashboard.INTAKE_TARGET_RPM.get(), ControlType.kVelocity);
     }
 
+    /**
+     * Runs the acquisition motor in reverse at the RPM in
+     * {@link AcquisitionConstants#DISPOSE_RPM}.
+     */
     public void dispose() {
         controller.setSetpoint(AcquisitionConstants.DISPOSE_RPM, ControlType.kVelocity);
     }
 
+    /**
+     * Stops the acquisition.
+     */
     public void stop() {
         motor.stopMotor();
     }
 
+    /**
+     * Returns the current acquisition speed.
+     *
+     * @return Current acquisition speed in RPM.
+     */
     public double getRPM() {
         return motor.getEncoder().getVelocity();
     }
 
+    /**
+     * Returns the target acquisition speed.
+     *
+     * @return Target acquisition speed in RPM.
+     */
     public double getTargetRPM() {
         return controller.getSetpoint();
     }

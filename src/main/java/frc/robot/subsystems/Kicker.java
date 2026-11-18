@@ -37,26 +37,53 @@ public class Kicker extends SubsystemBase {
         return instance;
     }
 
+    /**
+     * Runs the kicker motor forward at the RPM in
+     * {@link Dashboard#MANUAL_KICKER_RPM}.
+     */
     public void start() {
         controller.setSetpoint(Dashboard.MANUAL_KICKER_RPM.get(), ControlType.kVelocity);
     }
 
+    /**
+     * Runs the kicker motor in reverse at the RPM in
+     * {@link KickerConstants#REVERSE_RPM}.
+     */
     public void reverse() {
         controller.setSetpoint(KickerConstants.REVERSE_RPM, ControlType.kVelocity);
     }
 
+    /**
+     * Stops the kicker.
+     */
     public void stop() {
         motor.stopMotor();
     }
 
+    /**
+     * Returns the current kicker speed.
+     *
+     * @return Current kicker speed in RPM.
+     */
     public double getRPM() {
         return motor.getEncoder().getVelocity();
     }
 
+    /**
+     * Returns the target kicker speed.
+     *
+     * @return Target kicker speed in RPM.
+     */
     public double getTargetRPM() {
         return controller.getSetpoint();
     }
 
+    /**
+     * Indicates whether the kicker is within
+     * {@link KickerConstants#RPM_TOLERANCE} of the target RPM.
+     *
+     * @return Whether the kicker is at the target RPM.
+     */
     public boolean isAtTargetRPM() {
         return MathUtil.isNear(getRPM(), getTargetRPM(), KickerConstants.RPM_TOLERANCE);
     }
