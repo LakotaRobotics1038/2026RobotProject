@@ -2,7 +2,6 @@ classDiagram
   direction LR
 
   class FieldConstants {
-    <<final>>
     - HUB_EDGE_DISTANCE_FROM_DRIVER_STATION$ double
     - HUB_LENGTH$ double
     - HUB_CENTER_X$ double
@@ -34,7 +33,7 @@ classDiagram
     - BLUE_RIGHT_OBSTACLES$ Rectangle2d
     - RED_LEFT_ALLIANCE$ Rectangle2d
     - RED_RIGHT_OBSTACLES$ Rectangle2d
-    + targetPosition()$ Translation2d
+    + targetPosition(Translation2d)$ Translation2d
     + flipX(double)$ double
     + flipY(double)$ double
   }

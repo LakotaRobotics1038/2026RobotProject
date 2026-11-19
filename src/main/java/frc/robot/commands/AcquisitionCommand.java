@@ -5,18 +5,18 @@ import frc.robot.subsystems.Acquisition;
 
 public class AcquisitionCommand extends Command {
     private final Acquisition acquisition = Acquisition.getInstance();
-    private final Mode mode;
+    private final IntakeDirection direction;
 
-    public AcquisitionCommand(Mode mode) {
-        this.mode = mode;
+    public AcquisitionCommand(IntakeDirection direction) {
+        this.direction = direction;
         addRequirements(acquisition);
     }
 
     @Override
     public void initialize() {
-        if (mode == Mode.INTAKE) {
+        if (direction == IntakeDirection.INTAKE) {
             acquisition.intake();
-        } else if (mode == Mode.DISPOSE) {
+        } else {
             acquisition.dispose();
         }
     }
@@ -31,7 +31,7 @@ public class AcquisitionCommand extends Command {
         acquisition.stop();
     }
 
-    public enum Mode {
+    public enum IntakeDirection {
         INTAKE,
         DISPOSE
     }

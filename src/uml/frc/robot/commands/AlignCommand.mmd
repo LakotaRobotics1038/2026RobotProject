@@ -4,15 +4,14 @@ classDiagram
   class AlignCommand {
     + HUB_ALIGNMENT_RUMBLE_INTENSITY$ double
     - driveTrain DriveTrain
-    - shooter Shooter
     - swagLights SwagLights
     - forwardSpeedSupplier DoubleSupplier
     - sidewaysSpeedSupplier DoubleSupplier
-    - alignmentStateConsumer BooleanConsumer
     - rotationController PIDController
     - alignedToHub Boolean
-    + AlignCommand(DoubleSupplier,DoubleSupplier,BooleanConsumer)
+    + AlignCommand(DoubleSupplier,DoubleSupplier)
     + AlignCommand()
+    + initialize() void
     + execute() void
     + isFinished() boolean
     + end(boolean) void

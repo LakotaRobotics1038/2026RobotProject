@@ -2,8 +2,8 @@ classDiagram
   direction LR
 
   class AutonSelector {
-    SendableChooser~AutonChoices~ autoChooser
-    SendableChooser~Double~ delayChooser
+    ~ autoChooser SendableChooser~AutonChoices~
+    ~ delayChooser SendableChooser~Double~
     - instance$ AutonSelector
     - AutonSelector()
     + getInstance()$ AutonSelector
