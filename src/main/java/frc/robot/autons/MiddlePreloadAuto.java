@@ -19,7 +19,7 @@ public class MiddlePreloadAuto extends Auton {
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                followPathCommand(Paths.getMiddle1Path()),
+                followPathCommand(Paths.getMiddleShoot1Path()),
                 new HopperExtensionCommand(ExtensionDirection.OUT),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),

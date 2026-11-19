@@ -20,7 +20,7 @@ public class LeftPreloadAuto extends Auton {
         super(alliance);
         super.addCommands(
                 new HopperExtensionCommand(ExtensionDirection.OUT),
-                followPathCommand(Paths.getLeft1Path()),
+                followPathCommand(Paths.getLeftShoot1Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
                         new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))));

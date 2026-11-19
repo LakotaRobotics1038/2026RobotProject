@@ -28,29 +28,9 @@ public class Paths {
         return PathPlannerPath.fromPathFile("Left 4");
     }
 
-    public static PathPlannerPath getMiddle1Path()
+    public static PathPlannerPath getMiddleShoot1Path()
             throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Middle 1");
-    }
-
-    public static PathPlannerPath getMiddle2Path()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Middle 2");
-    }
-
-    public static PathPlannerPath getMiddle3Path()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Middle 3");
-    }
-
-    public static PathPlannerPath getMiddle4Path()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Middle 4");
-    }
-
-    public static PathPlannerPath getMiddle5Path()
-            throws IOException, ParseException, FileVersionException {
-        return PathPlannerPath.fromPathFile("Middle 5");
+        return PathPlannerPath.fromPathFile("Middle Shoot 1");
     }
 
     public static PathPlannerPath getRight1Path()

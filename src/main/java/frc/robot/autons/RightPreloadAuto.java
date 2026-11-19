@@ -19,8 +19,8 @@ public class RightPreloadAuto extends Auton {
             throws FileVersionException, IOException, ParseException {
         super(alliance);
         super.addCommands(
-                new HopperExtensionCommand(ExtensionDirection.IN),
-                followPathCommand(Paths.getRight1Path()),
+                new HopperExtensionCommand(ExtensionDirection.OUT),
+                followPathCommand(Paths.getRightShoot1Path()),
                 new AlignCommand().raceWith(
                         new ShooterCommand(),
                         new WaitCommand(2).andThen(new ShootCommand().withTimeout(2))));
