@@ -2,12 +2,12 @@ classDiagram
   direction LR
 
   class DashboardValue {
-    - allValues$ List~DashboardValue~
+    - allValues$ List~DashboardValue~?~~
     # name String
     # entry NetworkTableEntry
     # isSendable boolean
     + DashboardValue(String,T)
-    + values()$ List~DashboardValue~
+    + values()$ List~DashboardValue~?~~
     + get() T
     + set(T) void
     + periodic() void

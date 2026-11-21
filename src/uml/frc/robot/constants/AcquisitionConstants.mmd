@@ -2,8 +2,13 @@ classDiagram
   direction LR
 
   class AcquisitionConstants {
-    <<final>>
     + MOTOR_CAN_ID$ int
-    + ACQUIRE_POWER$ double
-    + DISPOSE_POWER$ double
+    + P$ double
+    + I$ double
+    + D$ double
+    + S$ double
+    + V$ double
+    + A$ double
+    + INTAKE_RPM$ double
+    + DISPOSE_RPM$ double
   }

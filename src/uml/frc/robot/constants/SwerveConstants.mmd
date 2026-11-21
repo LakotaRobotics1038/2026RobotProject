@@ -2,7 +2,6 @@ classDiagram
   direction LR
 
   class SwerveConstants {
-    <<final>>
     - STEER_GAINS$ Slot0Configs
     - DRIVE_GAINS$ Slot0Configs
     + AUTON_DRIVING_MOTOR_NEUTRAL_MODE$ NeutralModeValue
@@ -31,7 +30,7 @@ classDiagram
     - STEER_FRICTION_VOLTAGE$ Voltage
     - DRIVE_FRICTION_VOLTAGE$ Voltage
     + DRIVETRAIN_CONSTANTS$ SwerveDrivetrainConstants
-    - CONSTANT_CREATOR$ SwerveModuleConstantsFactory
+    - CONSTANT_CREATOR$ SwerveModuleConstantsFactory~TalonFXConfiguration,TalonFXConfiguration,CANcoderConfiguration~
     - FRONT_LEFT_DRIVE_MOTOR_ID$ int
     - FRONT_LEFT_STEER_MOTOR_ID$ int
     - FRONT_LEFT_ENCODER_ID$ int
@@ -64,8 +63,8 @@ classDiagram
     - BACK_RIGHT_ENCODER_INVERTED$ boolean
     - BACK_RIGHT_X_POS$ Distance
     - BACK_RIGHT_Y_POS$ Distance
-    + FRONT_LEFT$ SwerveModuleConstants
-    + FRONT_RIGHT$ SwerveModuleConstants
-    + BACK_LEFT$ SwerveModuleConstants
-    + BACK_RIGHT$ SwerveModuleConstants
+    + FRONT_LEFT$ SwerveModuleConstants~TalonFXConfiguration,TalonFXConfiguration,CANcoderConfiguration~
+    + FRONT_RIGHT$ SwerveModuleConstants~TalonFXConfiguration,TalonFXConfiguration,CANcoderConfiguration~
+    + BACK_LEFT$ SwerveModuleConstants~TalonFXConfiguration,TalonFXConfiguration,CANcoderConfiguration~
+    + BACK_RIGHT$ SwerveModuleConstants~TalonFXConfiguration,TalonFXConfiguration,CANcoderConfiguration~
   }

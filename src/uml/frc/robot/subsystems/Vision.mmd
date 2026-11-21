@@ -3,20 +3,20 @@ classDiagram
 
   class Vision {
     - leftCamera PhotonCamera
-    - backCam PhotonCamera
+    - rightCam PhotonCamera
     - leftCamPhotonEstimator PhotonPoseEstimator
-    - backCamPhotonEstimator PhotonPoseEstimator
+    - rightCamPhotonEstimator PhotonPoseEstimator
     - leftCurStdDevs Matrix~N3,N1~
-    - backCurStdDevs Matrix~N3,N1~
-    - leftStdDevSetter Consumer
-    - backStdDevSetter Consumer
+    - rightCurStdDevs Matrix~N3,N1~
+    - leftStdDevSetter Consumer~Matrix~N3,N1~~
+    - rightStdDevSetter Consumer~Matrix~N3,N1~~
     - instance$ Vision
     - Vision()
-    - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix,Consumer) Optional
-    - updateEstimationStdDevs(PhotonPoseEstimator,Optional,List) Matrix
     + getInstance()$ Vision
-    + leftCamGetEstimatedGlobalPose() Optional
-    + backCamGetEstimatedGlobalPose() Optional
-    + getLeftEstimationStdDevs() Matrix
-    + getBackEstimationStdDevs() Matrix
+    - estimateCameraPose(PhotonCamera,PhotonPoseEstimator,Matrix~N3,N1~,Consumer~Matrix~N3,N1~~) Optional~EstimatedRobotPose~
+    + leftCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
+    + rightCamGetEstimatedGlobalPose() Optional~EstimatedRobotPose~
+    - updateEstimationStdDevs(PhotonPoseEstimator,Optional~EstimatedRobotPose~,List~PhotonTrackedTarget~) Matrix~N3,N1~
+    + getLeftEstimationStdDevs() Matrix~N3,N1~
+    + getRightEstimationStdDevs() Matrix~N3,N1~
   }

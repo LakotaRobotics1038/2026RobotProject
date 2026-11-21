@@ -5,12 +5,12 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.constants.DriveConstants;
-import frc.robot.constants.ShooterConstants;
+import frc.robot.constants.FieldConstants;
 import frc.robot.subsystems.Dashboard;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwagLights;
 import frc.robot.subsystems.SwagLights.OperatorStates;
 
@@ -19,7 +19,6 @@ public class AlignCommand extends Command {
 
     private final DriveTrain driveTrain = DriveTrain.getInstance();
 
-    private final Shooter shooter = Shooter.getInstance();
     private final SwagLights swagLights = SwagLights.getInstance();
     private final DoubleSupplier forwardSpeedSupplier;
     private final DoubleSupplier sidewaysSpeedSupplier;
@@ -82,16 +81,10 @@ public class AlignCommand extends Command {
     }
 
     private double getAlignedTargetHeading(Pose2d robotPose) {
-        double nearShooterTargetAngle = shooter.getNearShooter().getTargetAngle(robotPose);
-        double farShooterTargetAngle = shooter.getFarShooter().getTargetAngle(robotPose);
-
-        // Converts both aim angles into vectors, add them, and turns the result back
-        // into an angle. This gives the bisector between the near and far shooter
-        // headings without breaking when the angles wrap around -pi and pi.
-        double targetAngleRad = Math.atan2(
-                Math.sin(nearShooterTargetAngle) + Math.sin(farShooterTargetAngle),
-                Math.cos(nearShooterTargetAngle) + Math.cos(farShooterTargetAngle));
-        return MathUtil.angleModulus(targetAngleRad + ShooterConstants.SHOOTER_DIRECTION_FROM_FORWARD_RAD);
+        Translation2d toTarget = FieldConstants.targetPosition(robotPose.getTranslation())
+                .minus(robotPose.getTranslation());
+        // Point the back of the robot at the target (180 degrees from front)
+        return MathUtil.angleModulus(toTarget.getAngle().getRadians() + Math.PI);
     }
 
     private void updateAlignmentState(boolean isAligned) {
